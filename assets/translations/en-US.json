@@ -1,0 +1,188 @@
+{
+    "tab_bar": {
+        "overview" : "Overview",
+        "food_bank" : "Food Bank",
+        "historical": "Historical",
+        "profile": "Profile"
+    },
+    "overview_page": {
+        "title": "Overview",
+        "intake": "Calory intake",
+        "intake_info": {
+            "kcal": "kcal.",
+            "remaining": "Remaining:",
+            "exceeding": "Exceeding by:"
+        },
+        "healthy": "Healthy Nutrients",
+        "unhealthy": "Unhealthy Nutrients",
+        "nutrients": {
+            "protein": "Proteins",
+            "fiber": "Diatery Fiber",
+            "sugars": "Sugars",
+            "saturated": "Saturated Fats",
+            "salt": "Salt (mg)"
+        }
+    },
+    "consumption_page": {
+        "title": "Consumption:",
+        "top_action_bar": {
+            "title" : "Consumption",
+            "reset_values": "Reset Values",
+            "save_changes": "Save Changes",
+            "search_hint": "Search Ingredient by name"
+        },
+        
+        "metrics": {
+            "grams": "Grams:"
+        },
+        "bottom_action_bar": {
+            "all_foods": "All Foods",
+            "consumed": "Consumed"
+        },
+        "empty_page": {
+            "title": "This page is empty.",
+            "subTitle": "You haven't eaten anything yet."
+        },
+        "tin_panagia_sou": {
+            "title": "Confirmation Required",
+            "body": "Are you sure you wish to reset today's food consumption?",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+        }
+
+    },
+    "activities_page": {
+        "title": "Activities: ",
+        "metrics": {
+            "distance": "kilometers"
+        },
+        "bottom_action_bar": {
+            "reset_values": "Reset Values",
+            "save_changes": "Save Changes"
+        },
+        "reset_values_dialog": {
+            "title": "Confirmation Required",
+            "body": "Are you sure you wish to reset today's activity volumes?",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+        }
+        
+    },
+    "foods_page": {
+        "title": "Foods",
+        "top_action_bar": {
+            "sort": "Sort by:",
+            "search_hint": "Search Food by name"
+        },
+        "empty_page": {
+            "title_no_results": "No items found matching your search criteria",
+            "title_no_items": "No items included in your list yet",
+            "subTitle": "No items included in your list yet"
+        }
+    },
+    "ingredients_page": {
+        "titles": {
+            "add": "Add Ingredient",
+            "edit": "Edit Ingredient"
+        },
+        "hints": {
+            "0": "Reference quantity for metrics",
+            "1": "Name of the ingredient",
+            "2": "Name of category",
+            "3": "Total amount of Calories (Kcal.)",
+            "4": "Total amount of Fats (gr.)",
+            "5": "Specific amount of saturated/trans Fats (gr.)",
+            "6": "Total amount of Carbohydrates (gr.)",
+            "7": "Specific amount of Simple Carbs/Sugars (gr.)",
+            "8": "Total amount of Dietary Fiber (gr.)",
+            "9": "Total amount of Protein (gr.)",
+            "10": "Total amount of salt (mg.)"
+        },
+        "labels": {
+            "0":"Reference Quantity",
+            "1": "Ingrident Name",
+            "2": "Ingredient Category",
+            "3": "Calories",
+            "4": "Total Fat",
+            "5": "Saturated/Trans Fat",
+            "6": "Total Carbohydrates",
+            "7": "Sugars",
+            "8": "Dietary Fiber",
+            "9": "Protein",
+            "10": "Salt"
+        },
+        "bottom_side_actions": {
+            "save_button": "Save"
+        }
+    },
+    "ingredient_details": {
+        "title": "Ingredient Details:",
+        "info_board": "Nutritional Facts Per: ",
+        "nutrients": {
+            "calories": "Calories",
+            "fat": "Total Fat",
+            "saturated": "Saturated/Trans Fat",
+            "carbs": "Total Carbohydrates",
+            "sugars": "Sugars",
+            "fiber": "Dietary Fiber",
+            "protein": "Protein",
+            "salt": "Salt"
+        },
+        "nutrient_descriptions":{
+            "unit": "This metric is the reference quantity for which all of the nutritional facts mentioned is this list are based on. You can customise the different quantity options per food item on the settings page",
+            "calories": "Calories are a unit of measurement used to quantify the amount of energy that a particular food source provides when consumed and metabolized by the body. They represent the energy content of a food source and are used to estimate the potential impact of that food on an individual's energy balance and overall nutritional intake. In simple terms, consuming less, exact or more calories than the threshold required to sustain one's metabolic activity, will result in weight loss, sustain or increase respectively (primarily in the form of fat mass being stored or consumed in the body)",
+            "protein": "Proteins are essential macromolecules composed of amino acids. They play a crucial role in the structure, function, and regulation of cells and tissues in the body. Proteins are involved in various biological processes, including building and repairing tissues, supporting the immune system, acting as enzymes to facilitate chemical reactions, and serving as transporters for molecules within the body. Dietary sources of protein include meat, poultry, fish, dairy products, legumes, nuts, and certain grains.",
+            "carbs": "Carbohydrates, often referred to as carbs, are one of the three primary macronutrients found in food, along with proteins and fats. Carbohydrates are organic compounds composed of carbon, hydrogen, and oxygen atoms. They serve as a primary source of energy for the body, particularly for the brain and muscles. ",
+            "sugars": "Sugars are simple carbohydrates that are naturally occurring or added to foods and beverages. They are composed of small molecules, such as glucose, fructose, and sucrose. Sugars are a source of quick energy for the body and are often naturally present in fruits, vegetables, and dairy products. However, when consumed in excessive amounts, added sugars from sources like sugary drinks, sweets, and processed foods can contribute to excess calorie intake and potentially negative health effects. It's important to limit sugar consumption (especially from products that contain added sugar) According to W.H.O sugar consumption should be limited to 10% of our daily calory intake.",
+            "fat": "Fats, also known as lipids, are essential macronutrients that serve as a concentrated source of energy for the body. They play a crucial role in various physiological functions, including providing insulation, cushioning organs, and aiding in the absorption of fat-soluble vitamins (A, D, E, and K). Fats can be categorized into different types: saturated fats, unsaturated fats (monounsaturated and polyunsaturated), and trans fats. Unsaturated fats, found in foods like nuts, seeds, avocados, and certain oils, are generally considered healthier options compared to saturated fats and especially trans fats. While fats are necessary for a balanced diet, moderation is key, as excessive consumption of unhealthy fats can contribute to weight gain and various health issues.",
+            "saturated": "Saturated fats are a type of dietary fat that are typically solid at room temperature. They are found primarily in animal-based foods and certain plant oils. Saturated fats and especially Trans fats have been associated with raising levels of LDL (low-density lipoprotein) cholesterol in the blood, which is often referred to as 'bad' cholesterol. Elevated levels of LDL cholesterol are a risk factor for cardiovascular diseases. According to W.H.O. it is recommended to minimize saturated/trans fat consumption to no more than 6% of your total daily calory intake",
+            "fiber": "Dietary fiber is a type of carbohydrate that the body cannot fully digest or absorb. It's found in plant-based foods such as whole grains, fruits, vegetables, legumes, nuts, and seeds. It helps lower cholesterol levels and stabilize blood sugar levels by slowing down the digestion and absorption of carbohydrates. It promotes regular bowel movements and contributes in maintaining gut health. It also potentially reduces the risk of various chronic deceases. It's important to include a variety of fiber-rich foods in your diet to support the health benefits it provides",
+            "salt": "Salt, chemically known as sodium chloride, is a mineral that is commonly used as a seasoning to enhance the flavor of food. While salt adds taste to dishes, excessive consumption of sodium, a component of salt, can have negative effects on health. It's recommended to limit sodium intake by reducing the consumption of high-sodium processed foods (like packaged snacks, canned soups, and fast food) and using salt in moderation while cooking and at the table. Opting for herbs, spices, and other flavoring alternatives can help reduce reliance on salt for flavor enhancement."
+        },
+        "button_side_actions": {
+            "delete_button": "Delete",
+            "edit_button": "Edit"
+        },
+        "delete_dialog": {
+            "title": "Confirmation Required",
+            "body": "Are you sure you wish to delete this ingredient?",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+        }
+
+    },
+    "historical_page": {
+        "title": "Historical Analysis"
+    },
+    "profile_page": {
+        "title": "Profile",
+        "hints": {
+            "0": "Your corresponding BMR Calories",
+            "1": "Your targeted daily protein consumption",
+            "2": "Your targeted daily diatery fiber consumption",
+            "3": "Your targeted daily sugars limit",
+            "4": "Your targeted daily saturated/trans fats limit",
+            "5": "Your targeted daily salt limit",
+            "6": "Your current weight (kg.)",
+            "7": "Your current height (cm.)"
+        },
+        "labels": {
+            "0": "BMR Calories",
+            "1": "Protein Target (gr.)",
+            "2": "Diatery Fiber Targer (gr.)",
+            "3": "Sugars Limit (%)",
+            "4": "Saturated/Trans Limit (%)",
+            "5": "Salt Limit (mg.)",
+            "6": "Weight (kg.)",
+            "7": "Height (cm.)"
+        },
+        "button_side_actions": {
+            "save_button": "Save"
+        }
+
+    },
+    "settings_page": {
+        "title": "Settings"
+    }
+    
+}
