@@ -1,0 +1,22 @@
+name: Deploy App to GitHub Pages
+
+on: [workflow_dispatch]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - name: Flutter Doctor
+      run: flutter doctor
+      working-directory: ./
+    - name: Build and Deploy 🚀
+      uses: bluefireteam/flutter-gh-pages@v7
+      with:
+        baseHref: /macro_cal_public/
+        webRenderer: canvaskit
+        targetBranch: gh-pages 
+        workingDir: example
