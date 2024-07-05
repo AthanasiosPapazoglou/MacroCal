@@ -4,12 +4,12 @@
 
 ## Features
 
-- **Custom Profiles:** Create your biological profile to benefit from .
+- **Custom Profiles:** Create your biological profile to get a fully customized experience for yourself.
 - **Food Logging:** Register the food products you consume on a regular or occasional basis.
 - **Caloric and Nutritional Tracking:** Monitor your daily intake of calories, proteins, dietary fiber, sugars, saturated fats, and salt.
-- **Exercise Logging:** Record your exercise activities to adjust your caloric requirements.
-- **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives.
-- **Detailed Insights:** View detailed reports on your daily, weekly, and monthly intake.
+- **Exercise Logging:** Record your exercise activities to adjust your caloric requirements and macronutrient thresholds.
+- **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives. (In Progress)
+- **Detailed Insights:** View detailed reports on your daily, weekly, and monthly intake. (In Progress)
 
 ## Getting Started
 
@@ -31,15 +31,56 @@ Follow these instructions to get a copy of MacroCal up and running on your local
 
 2. **Install Dependencies:**
     ```bash
-    npm install
+    flutter pub get
     ```
 
 3. **Run the Application:**
     ```bash
-    npm start
+    flutter run
     ```
 
-    This will start the Expo development server. Follow the instructions in the terminal to run the app on an emulator or a physical device.
+    This will compile and run the app on an emulator or a physical device.
+
+### Additional Setup for iOS (macOS only)
+
+If you are developing on macOS, you need to set up additional tools for iOS development.
+
+1. **Install Xcode:**
+    - Download and install Xcode from the Mac App Store.
+    - Open Xcode and agree to the license agreement.
+    - Ensure you have the latest version of Xcode command-line tools:
+      ```bash
+      xcode-select --install
+      ```
+
+2. **Set Up CocoaPods:**
+    - CocoaPods is used to manage iOS dependencies.
+      ```bash
+      sudo gem install cocoapods
+      cd ios
+      pod install
+      cd ..
+      ```
+
+3. **Run the Application on iOS:**
+    ```bash
+    flutter run
+    ```
+
+### Additional Setup for Android
+
+1. **Install Android Studio:**
+    - Download and install Android Studio from [here](https://developer.android.com/studio).
+    - Set up the Android emulator or connect a physical device.
+
+2. **Configure Android Device:**
+    - Ensure USB debugging is enabled on your device.
+    - Connect your device via USB or start the Android emulator from Android Studio.
+
+3. **Run the Application on Android:**
+    ```bash
+    flutter run
+    ```
 
 ## Usage
 
@@ -52,8 +93,8 @@ Follow these instructions to get a copy of MacroCal up and running on your local
 3. **Track Exercise:**
     - Record your daily exercise activities to adjust your caloric requirements.
 
-4. **View Insights:**
-    - Access detailed reports on your daily, weekly, and monthly nutritional intake to help you meet your health goals.
+4. **View Insights:** (In Progress)
+    - Access detailed reports on your daily, weekly, and monthly nutritional intake to help you meet your health goals. 
 
 ## Contributing
 
