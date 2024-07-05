@@ -17,6 +17,5 @@ jobs:
       uses: bluefireteam/flutter-gh-pages@v7
       with:
         baseHref: /macro_cal_public/
-        webRenderer: canvaskit
         targetBranch: gh-pages 
         workingDir: ./
