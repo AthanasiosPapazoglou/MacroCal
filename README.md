@@ -125,7 +125,7 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
     - Enter your personal information such as gender, weight, height, age, and activity level.
   
 2. **Log Food:**
-    - Add food items to your log by selecting from a database of common foods or entering custom foods.
+    - Add food items to your Food Bank by selecting from a database of common foods or entering custom foods.
   
 3. **Track Exercise:**
     - Record your daily exercise activities to adjust your caloric requirements.
@@ -168,4 +168,4 @@ By using MacroCal, you agree to the terms of this legal disclaimer. If you do no
 
 ## Contact
 
-If you have any questions, feel free to contact us at support@macrocal.com.
+If you have any questions, feel free to contact us 
