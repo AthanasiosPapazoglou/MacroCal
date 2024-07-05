@@ -16,6 +16,6 @@ jobs:
     - name: Build and Deploy 🚀
       uses: bluefireteam/flutter-gh-pages@v7
       with:
-        baseHref: /macro_cal_public/
+        baseHref: /MacroCal/
         targetBranch: gh-pages 
         workingDir: ./
