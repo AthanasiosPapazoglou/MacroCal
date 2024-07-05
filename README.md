@@ -17,9 +17,46 @@ Follow these instructions to get a copy of MacroCal up and running on your local
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/)
-- [React Native](https://reactnative.dev/)
-- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+To develop and run the MacroCal application using Flutter, you need to set up your development environment. Below are the steps and tools required:
+
+1. **Flutter SDK:**
+   - Download and install the Flutter SDK from the official [Flutter website](https://flutter.dev/docs/get-started/install).
+   - Follow the installation instructions for your operating system (Windows, macOS, or Linux).
+   - After installation, add Flutter to your system path.
+
+2. **Dart SDK:**
+   - The Dart SDK is bundled with Flutter, so you don't need to install it separately.
+
+3. **Android Studio:**
+   - Download and install Android Studio from the [Android Studio website](https://developer.android.com/studio).
+   - During installation, make sure to include the Android SDK and Android Virtual Device (AVD).
+   - Set up an Android emulator or connect a physical Android device for testing.
+
+4. **Xcode (macOS only):**
+   - Download and install Xcode from the Mac App Store.
+   - Open Xcode and agree to the license agreement.
+   - Ensure you have the latest version of Xcode command-line tools:
+     ```bash
+     xcode-select --install
+     ```
+
+5. **CocoaPods (macOS only):**
+   - CocoaPods is used for managing iOS dependencies.
+     ```bash
+     sudo gem install cocoapods
+     ```
+
+6. **Visual Studio Code (Optional):**
+   - Download and install Visual Studio Code from the [VS Code website](https://code.visualstudio.com/).
+   - Install the Flutter and Dart plugins for VS Code for a better development experience.
+
+7. **Git:**
+   - Ensure Git is installed on your machine to clone the repository.
+   - Download Git from the official [Git website](https://git-scm.com/).
+
+8. **Device Setup:**
+   - **Android:** Enable USB debugging on your Android device or set up an Android emulator.
+   - **iOS (macOS only):** Set up a physical iOS device or an iOS simulator.
 
 ### Installation
 
