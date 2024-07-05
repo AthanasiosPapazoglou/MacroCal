@@ -11,7 +11,6 @@ jobs:
       with:
         channel: 'stable'
     - name: Flutter Doctor
-      run: pwd
       run: flutter doctor
       working-directory: ./
     - name: Build and Deploy 🚀
@@ -20,3 +19,4 @@ jobs:
         baseHref: /macro_cal_public/
         webRenderer: canvaskit
         targetBranch: gh-pages 
+        workingDir: ./
