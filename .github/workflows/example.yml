@@ -11,6 +11,7 @@ jobs:
       with:
         channel: 'stable'
     - name: Flutter Doctor
+      run: pwd
       run: flutter doctor
       working-directory: ./
     - name: Build and Deploy 🚀
