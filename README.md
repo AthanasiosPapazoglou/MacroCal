@@ -1,10 +1,10 @@
 # MacroCal
 
-**MacroCal** is a cross-platform application that enables users to track their daily calorie and nutritional intake. The app helps users manage their dietary habits by registering the food products they consume and providing insights based on their personal biological profiles.
+**MacroCal** is a cross-platform application that enables users to track their daily calory and nutritional intake. The app helps users manage their dietary habits by registering the quantities of the food products they consume on a daily basis and providing insights based on their personal biological profiles.
 
 ## Features
 
-- **Custom Profiles:** Create a profile with your gender, weight, height, age, and activity level.
+- **Custom Profiles:** Create your biological profile to benefit from .
 - **Food Logging:** Register the food products you consume on a regular or occasional basis.
 - **Caloric and Nutritional Tracking:** Monitor your daily intake of calories, proteins, dietary fiber, sugars, saturated fats, and salt.
 - **Exercise Logging:** Record your exercise activities to adjust your caloric requirements.
@@ -68,6 +68,25 @@ We welcome contributions from the community! If you'd like to contribute, please
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Legal Disclaimer
+
+**MacroCal** is intended solely for informational and educational purposes and is not intended to be a substitute for professional medical advice, diagnosis, or treatment. The content provided by MacroCal, including but not limited to text, graphics, images, and other material, is for informational purposes only and should not be considered medical advice.
+
+**Important Points:**
+- Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
+- Never disregard professional medical advice or delay in seeking it because of something you have read or accessed through MacroCal.
+- If you think you may have a medical emergency, call your doctor, go to the emergency department, or call emergency services immediately.
+- Reliance on any information provided by MacroCal is solely at your own risk.
+
+**No Liability:**
+- Under no circumstances shall the developers, contributors, or any parties involved in the creation, production, or delivery of MacroCal be liable for any direct, indirect, incidental, special, or consequential damages that result from the use of, or the inability to use, the app, including but not limited to, your reliance on any information obtained from MacroCal that results in mistakes, omissions, interruptions, deletion or corruption of files, viruses, delays in operation or transmission, or any failure of performance.
+- You expressly acknowledge and agree that MacroCal and its developers are not responsible for the results of your decisions resulting from the use of the app, including but not limited to your choosing to seek or not seek professional medical care, or from choosing or not choosing specific treatment based on the app’s content.
+
+**User Responsibility:**
+- You agree to indemnify, defend, and hold harmless the developers, contributors, and any parties involved in the creation, production, or delivery of MacroCal from and against any and all claims, damages, costs, and expenses, including attorneys' fees, arising from or related to your use or misuse of the app.
+
+By using MacroCal, you agree to the terms of this legal disclaimer. If you do not agree to these terms, please do not use the app.
 
 ## Contact
 
