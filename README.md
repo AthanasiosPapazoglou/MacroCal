@@ -2,6 +2,8 @@
 
 **MacroCal** is a cross-platform application that enables users to track their daily calory and nutritional intake. The app helps users manage their dietary habits by registering the quantities of the food products they consume on a daily basis and providing insights based on their personal biological profiles.
 
+# [MacroCal Web](https://athanasiospapazoglou.github.io/MacroCal/)
+
 ## Features
 
 - **Custom Profiles:** Create your biological profile to get a fully customized experience for yourself.
