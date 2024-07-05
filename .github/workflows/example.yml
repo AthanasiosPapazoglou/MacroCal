@@ -19,4 +19,3 @@ jobs:
         baseHref: /macro_cal_public/
         webRenderer: canvaskit
         targetBranch: gh-pages 
-        workingDir: /
