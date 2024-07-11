@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-// import 'package:empty_widget/empty_widget.dart';
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
@@ -24,23 +24,23 @@ class _HistoricalPageState extends State<HistoricalPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: const Center(child: Text('Empty')
-                // EmptyWidget(
-                //   image: historicalImagePath,
-                //   title: 'Page not available yet',
-                //   subTitle: 'Coming Soon!',
-                //   titleTextStyle: TextStyle(
-                //     fontSize: 22,
-                //     color: AppThemes.darkTheme.primaryColor,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                //   subtitleTextStyle: TextStyle(
-                //     fontSize: 18,
-                //     color: AppThemes.darkTheme.primaryColor,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
+            child: Center(
+              child: EmptyWidget(
+                image: historicalImagePath,
+                title: 'Page not available yet',
+                subTitle: 'Coming Soon!',
+                titleTextStyle: TextStyle(
+                  fontSize: 22,
+                  color: AppThemes.darkTheme.primaryColor,
+                  fontWeight: FontWeight.w500,
                 ),
+                subtitleTextStyle: TextStyle(
+                  fontSize: 18,
+                  color: AppThemes.darkTheme.primaryColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
           Positioned(
             right: 24,
@@ -60,92 +60,6 @@ class _HistoricalPageState extends State<HistoricalPage> {
                   onPressed: () {}, child: const Text('Generate New'))),
         ],
       ),
-      // SingleChildScrollView(
-      //   child: Column(
-      //     children: [
-      //       Padding(
-      //         padding: const EdgeInsets.all(16.0),
-      //         child: Container(
-      //           padding: EdgeInsetsDirectional.all(16),
-      //           width: double.maxFinite,
-      //           height: 300,
-      //           decoration: BoxDecoration(
-      //               borderRadius: BorderRadius.circular(16),
-      //               border: Border.all(
-      //                   width: 3, color: AppThemes.darkTheme.primaryColor)),
-      //           child: Column(
-      //             children: [
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [Text('Start Date'), Text('8/1/2023')],
-      //               ),
-      //               SizedBox(
-      //                 height: 4,
-      //               ),
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [Text('End Date'), Text('30/1/2024')],
-      //               ),
-      //               Divider(
-      //                 color: AppThemes.darkTheme.primaryColor,
-      //               ),
-      //               SizedBox(
-      //                 height: 6,
-      //               ),
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [
-      //                   Text('Macronutrients'),
-      //                   Row(
-      //                     children: [
-      //                       Padding(
-      //                           padding: EdgeInsets.symmetric(horizontal: 10),
-      //                           child: Text('AVG')),
-      //                       Padding(
-      //                           padding: EdgeInsets.symmetric(horizontal: 10),
-      //                           child: Text('Limit')),
-      //                       Padding(
-      //                           padding: EdgeInsets.symmetric(horizontal: 10),
-      //                           child: Text('%')),
-      //                     ],
-      //                   )
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 16,
-      //               ),
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [
-      //                   Text('Protein'),
-      //                   Row(
-      //                     children: [
-      //                       Padding(
-      //                         padding:
-      //                             const EdgeInsets.symmetric(horizontal: 20.0),
-      //                         child: Text('80'),
-      //                       ),
-      //                       Padding(
-      //                         padding:
-      //                             const EdgeInsets.symmetric(horizontal: 8.0),
-      //                         child: Text('>100'),
-      //                       ),
-      //                       Padding(
-      //                         padding:
-      //                             const EdgeInsets.symmetric(horizontal: 8.0),
-      //                         child: Text('80'),
-      //                       ),
-      //                     ],
-      //                   ),
-      //                 ],
-      //               )
-      //             ],
-      //           ),
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }

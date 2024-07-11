@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:easy_localization/easy_localization.dart';
-// import 'package:empty_widget/empty_widget.dart';
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -213,18 +213,19 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
   Expanded FoodList() {
     return Expanded(
       child: shouldDisplayEmptyWidget()
-          ? const Text('Empty')
-          // EmptyWidget(
-          //     packageImage: PackageImage.Image_2,
-          //     title: isActiveFilter
-          //         ? tr('foods_page.empty_page.title_no_results')
-          //         : tr('foods_page.empty_page.title_no_items'),
-          //     titleTextStyle: TextStyle(
-          //       fontSize: 22,
-          //       color: AppThemes.darkTheme.primaryColor,
-          //       fontWeight: FontWeight.w500,
-          //     ),
-          //   )
+          ?
+          // const Text('Empty')
+          EmptyWidget(
+              packageImage: PackageImage.Image_2,
+              title: isActiveFilter
+                  ? tr('foods_page.empty_page.title_no_results')
+                  : tr('foods_page.empty_page.title_no_items'),
+              titleTextStyle: TextStyle(
+                fontSize: 22,
+                color: AppThemes.darkTheme.primaryColor,
+                fontWeight: FontWeight.w500,
+              ),
+            )
           : isListView
               ? ListView.builder(
                   itemCount: isActiveFilter
