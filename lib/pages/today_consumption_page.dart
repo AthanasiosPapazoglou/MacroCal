@@ -7,7 +7,7 @@ import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-// import 'package:empty_widget/empty_widget.dart';
+import 'package:empty_widget/empty_widget.dart';
 
 class TodayConsumption extends StatefulWidget {
   const TodayConsumption({super.key});
@@ -291,18 +291,17 @@ class _TodayConsumptionState extends State<TodayConsumption>
   ///List view after being filtered by search bar
   Widget ingredientItemsView(bool isUnconsumedList, bool isActiveFilter) {
     return shouldDisplayEmptyWidget()
-        ? const Text('Empty')
-        // EmptyWidget(
-        //     packageImage: PackageImage.Image_2,
-        //     title: isActiveFilter
-        //         ? 'No items found matching your search criteria'
-        //         : 'No items included in your list yet',
-        //     titleTextStyle: TextStyle(
-        //       fontSize: 22,
-        //       color: AppThemes.darkTheme.primaryColor,
-        //       fontWeight: FontWeight.w500,
-        //     ),
-        //   )
+        ? EmptyWidget(
+            packageImage: PackageImage.Image_2,
+            title: isActiveFilter
+                ? 'No items found matching your search criteria'
+                : 'No items included in your list yet',
+            titleTextStyle: TextStyle(
+              fontSize: 22,
+              color: AppThemes.darkTheme.primaryColor,
+              fontWeight: FontWeight.w500,
+            ),
+          )
         : ListView.builder(
             itemCount: isUnconsumedList
                 ? isActiveFilter

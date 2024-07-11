@@ -81,6 +81,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  empty_widget:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "66cf9e1080abc3a006cde6ff4b6727e7b2d7e869"
+      url: "https://github.com/Pana-g/empty_widget"
+    source: git
+    version: "0.0.5"
   enum_to_string:
     dependency: transitive
     description:
