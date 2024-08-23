@@ -180,6 +180,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             },
             child: Text(
               tr('activities_page.bottom_action_bar.save_changes'),
+              style: const TextStyle(color: AppColors.confirmationButtonsColor),
             )),
       ],
     );
@@ -200,7 +201,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
               },
               child: Text(
                 tr('activities_page.reset_values_dialog.cancel'),
-                style: const TextStyle(color: AppColors.redAccent),
               ),
             ),
             TextButton(
@@ -218,7 +218,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                   ),
                 );
               },
-              child: Text(tr('activities_page.reset_values_dialog.confirm')),
+              child: Text(tr('activities_page.reset_values_dialog.confirm'), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),
           ],
         );

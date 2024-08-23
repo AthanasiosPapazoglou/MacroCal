@@ -139,7 +139,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                   },
                   child: Text(
                     tr('consumption_page.top_action_bar.reset_values'),
-                    style: const TextStyle(color: AppColors.orange),
+                    // style: const TextStyle(color: AppColors.confirmationButtonsColor),
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -151,6 +151,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                   },
                   child: Text(
                     tr('consumption_page.top_action_bar.save_changes'),
+                    style: const TextStyle(color: AppColors.confirmationButtonsColor),
                   )),
               ElevatedButton(
                 style: ButtonStyle(
@@ -428,7 +429,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
               },
               child: Text(
                 tr('consumption_page.reset_values_dialog.cancel'),
-                style: const TextStyle(color: AppColors.redAccent),
               ),
             ),
             TextButton(
@@ -447,7 +447,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                   ),
                 );
               },
-              child: Text(tr('consumption_page.reset_values_dialog.confirm')),
+              child: Text(tr('consumption_page.reset_values_dialog.confirm'), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),
           ],
         );

@@ -45,6 +45,8 @@ class AppColors {
   static const Color neutral6 = Color(0xFFF1F2F9);
   static const Color neutral3 = Color(0xFFADAFC5);
 
+  static const Color confirmationButtonsColor = Color(0xFF19B21D);
+
   static LinearGradient buttonGradient(context, {Color? color}) =>
       LinearGradient(
           begin: Alignment.topLeft,
