@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,13 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     } else {
       return (dataController.ingredientsList.isEmpty) ? true : false;
     }
+  }
+
+  int getNumberOfGridChildren (){
+    double screenWidth = MediaQuery.of(context).size.width;
+    
+      return (screenWidth/120.floor()).toInt();
+    
   }
 
   stateManipulationCallback() {
@@ -240,8 +249,8 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                   itemCount: isActiveFilter
                       ? indexesOfFiltered.length
                       : dataController.ingredientsList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: getNumberOfGridChildren() as int,
                     childAspectRatio: 1,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,
