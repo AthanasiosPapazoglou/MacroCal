@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/pages/food_bank_page.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
+import 'package:macro_cal_public/pages/assistant_page.dart';
 import 'package:macro_cal_public/pages/profile_page.dart';
 import 'package:macro_cal_public/pages/historical_page.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
@@ -39,6 +40,14 @@ class _MainPageState extends State<MainPage> {
             ),
             Tab(
               icon: Image.asset(
+                assistantImagePath,
+                width: navTabsImageSize,
+                height: navTabsImageSize,
+              ),
+              text: tr('tab_bar.assistant'),
+            ),
+            Tab(
+              icon: Image.asset(
                 historicalImagePath,
                 width: navTabsImageSize,
                 height: navTabsImageSize,
@@ -61,6 +70,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           TodaysPage(),
           FoodBankPage(),
+          AssistantPage(),
           HistoricalPage(),
           ProfilePage(),
         ],

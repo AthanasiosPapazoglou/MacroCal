@@ -5,14 +5,9 @@ import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
-class HistoricalPage extends StatefulWidget {
-  const HistoricalPage({super.key});
+class AssistantPage extends StatelessWidget {
+  const AssistantPage({super.key});
 
-  @override
-  State<HistoricalPage> createState() => _HistoricalPageState();
-}
-
-class _HistoricalPageState extends State<HistoricalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +21,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Center(
               child: EmptyWidget(
-                image: historicalImagePath,
+                image: assistantImagePath,
                 title: 'Page not available yet',
                 subTitle: 'Coming Soon!',
                 titleTextStyle: TextStyle(

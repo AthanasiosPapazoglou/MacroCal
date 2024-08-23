@@ -1,7 +1,8 @@
 {
     "tab_bar": {
-        "overview" : "Overview",
-        "food_bank" : "Food Bank",
+        "overview": "Overview",
+        "assistant": "Assistant",
+        "food_bank": "Food Bank",
         "historical": "Historical",
         "profile": "Profile"
     },
@@ -26,12 +27,11 @@
     "consumption_page": {
         "title": "Consumption:",
         "top_action_bar": {
-            "title" : "Consumption",
+            "title": "Consumption",
             "reset_values": "Reset Values",
             "save_changes": "Save Changes",
             "search_hint": "Search Ingredient by name"
         },
-        
         "metrics": {
             "grams": "Grams:"
         },
@@ -49,7 +49,6 @@
             "cancel": "Cancel",
             "confirm": "Confirm"
         }
-
     },
     "activities_page": {
         "title": "Activities: ",
@@ -66,7 +65,6 @@
             "cancel": "Cancel",
             "confirm": "Confirm"
         }
-        
     },
     "foods_page": {
         "title": "Foods",
@@ -99,7 +97,7 @@
             "10": "Total amount of salt (mg.)"
         },
         "labels": {
-            "0":"Reference Quantity",
+            "0": "Reference Quantity",
             "1": "Ingrident Name",
             "2": "Ingredient Category",
             "3": "Calories",
@@ -128,7 +126,7 @@
             "protein": "Protein",
             "salt": "Salt"
         },
-        "nutrient_descriptions":{
+        "nutrient_descriptions": {
             "unit": "This metric is the reference quantity for which all of the nutritional facts mentioned is this list are based on. You can customise the different quantity options per food item on the settings page",
             "calories": "Calories are a unit of measurement used to quantify the amount of energy that a particular food source provides when consumed and metabolized by the body. They represent the energy content of a food source and are used to estimate the potential impact of that food on an individual's energy balance and overall nutritional intake. In simple terms, consuming less, exact or more calories than the threshold required to sustain one's metabolic activity, will result in weight loss, sustain or increase respectively (primarily in the form of fat mass being stored or consumed in the body)",
             "protein": "Proteins are essential macromolecules composed of amino acids. They play a crucial role in the structure, function, and regulation of cells and tissues in the body. Proteins are involved in various biological processes, including building and repairing tissues, supporting the immune system, acting as enzymes to facilitate chemical reactions, and serving as transporters for molecules within the body. Dietary sources of protein include meat, poultry, fish, dairy products, legumes, nuts, and certain grains.",
@@ -149,7 +147,6 @@
             "cancel": "Cancel",
             "confirm": "Confirm"
         }
-
     },
     "historical_page": {
         "title": "Historical Analysis"
@@ -179,10 +176,8 @@
         "button_side_actions": {
             "save_button": "Save"
         }
-
     },
     "settings_page": {
         "title": "Settings"
     }
-    
 }

@@ -25,3 +25,4 @@ String categoryImagePath = 'assets/images/category.png';
 String slidersImagePath = 'assets/images/sliders.png';
 String googleButtonImagePath = 'assets/images/google.png';
 String appleButtonImagePath = 'assets/images/apple.png';
+String assistantImagePath = 'assets/images/assistant.png';
