@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
+
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
@@ -87,7 +86,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                     children: [
                       topSideActionBar(),
                       if (isSearchActivated) filterSearchBar(),
-                      FoodList(),
+                      foodList(),
                     ],
                   ),
                 ),
@@ -219,7 +218,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     );
   }
 
-  Expanded FoodList() {
+  Expanded foodList() {
     return Expanded(
       child: shouldDisplayEmptyWidget()
           ? EmptyWidget(
@@ -250,7 +249,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                       ? indexesOfFiltered.length
                       : dataController.ingredientsList.length,
                   gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: getNumberOfGridChildren() as int,
+                    crossAxisCount: getNumberOfGridChildren(),
                     childAspectRatio: 1,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,

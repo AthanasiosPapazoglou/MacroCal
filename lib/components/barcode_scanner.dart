@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 /// Scan mode which is either QR code or BARCODE
-enum ScanMode { QR, BARCODE, DEFAULT }
+enum ScanMode { qr, barcode, defaultType }
 
 /// Provides access to the barcode scanner.
 ///

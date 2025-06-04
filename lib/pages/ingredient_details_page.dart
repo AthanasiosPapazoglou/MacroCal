@@ -37,7 +37,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
 
   /// returns the specific Ingredient that matches the given index and is used within the argument passing
   /// of MacroDisplayItem to distinguish the value of a specific macro of that ingredient
-  Ingredient IngredientOfGivenIndex() =>
+  Ingredient ingredientOfGivenIndex() =>
       dataController.ingredientsList[widget.ingredientIndex];
 
   @override
@@ -55,66 +55,66 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              IngredientNamingBorder(
-                IngredientOfGivenIndex().ingridientName ?? '',
-                IngredientOfGivenIndex().category ?? '',
-                IngredientOfGivenIndex().referenceQuantity ?? 100.0,
+              ingredientNamingBorder(
+                ingredientOfGivenIndex().ingridientName ?? '',
+                ingredientOfGivenIndex().category ?? '',
+                ingredientOfGivenIndex().referenceQuantity ?? 100.0,
               ),
               Expanded(
                 child: ListView(children: [
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     caloriesSvgPath,
-                    IngredientOfGivenIndex().calories,
+                    ingredientOfGivenIndex().calories,
                     tr('ingredient_details.nutrients.calories'),
                     tr('ingredient_details.nutrient_descriptions.calories'),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     oliveSvgPath,
-                    IngredientOfGivenIndex().fats,
+                    ingredientOfGivenIndex().fats,
                     tr('ingredient_details.nutrients.fat'),
                     tr('ingredient_details.nutrient_descriptions.fat'),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saturatedSvgPath,
-                      IngredientOfGivenIndex().saturated,
+                      ingredientOfGivenIndex().saturated,
                       tr('ingredient_details.nutrients.saturated'),
                       tr('ingredient_details.nutrient_descriptions.saturated'),
                       healthEffect: HealthEffects.hazardous),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     carbsSvgPath,
-                    IngredientOfGivenIndex().carbohydrates,
+                    ingredientOfGivenIndex().carbohydrates,
                     tr('ingredient_details.nutrients.carbs'),
                     tr('ingredient_details.nutrient_descriptions.carbs'),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       sugarSvgPath,
-                      IngredientOfGivenIndex().sugars,
+                      ingredientOfGivenIndex().sugars,
                       tr('ingredient_details.nutrients.sugars'),
                       tr('ingredient_details.nutrient_descriptions.sugars'),
                       healthEffect: HealthEffects.hazardous),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saladSvgPath,
-                      IngredientOfGivenIndex().fiber,
+                      ingredientOfGivenIndex().fiber,
                       tr('ingredient_details.nutrients.fiber'),
                       tr('ingredient_details.nutrient_descriptions.fiber'),
                       healthEffect: HealthEffects.benefitial),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       proteinSvgPath,
-                      IngredientOfGivenIndex().proteins,
+                      ingredientOfGivenIndex().proteins,
                       tr('ingredient_details.nutrients.protein'),
                       tr('ingredient_details.nutrient_descriptions.protein'),
                       healthEffect: HealthEffects.benefitial),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saltSvgPath,
-                      IngredientOfGivenIndex().salt,
+                      ingredientOfGivenIndex().salt,
                       tr('ingredient_details.nutrients.salt'),
                       tr('ingredient_details.nutrient_descriptions.salt'),
                       healthEffect: HealthEffects.hazardous),
@@ -122,7 +122,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: BottomSideActionBar(context),
+                child: bottomSideActionBar(context),
               )
             ],
           ),
@@ -131,7 +131,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     );
   }
 
-  Padding IngredientNamingBorder(
+  Padding ingredientNamingBorder(
     String ingredientName,
     String categoryName,
     double referenceQuantity,
@@ -149,13 +149,11 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             heightSpacer(10),
-            Container(
-              child: Text(
+            Text(
                 ingredientName,
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-            ),
             heightSpacer(10),
             Text(
               '${tr('ingredient_details.info_board')} ${referenceQuantity.toInt()} gr.',
@@ -171,7 +169,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     );
   }
 
-  Column MacroDisplayItem(BuildContext context, String svgPath,
+  Column macroDisplayItem(BuildContext context, String svgPath,
       dynamic displayValue, String metricName, String metricDescription,
       {HealthEffects healthEffect = HealthEffects.neutral}) {
     return Column(
@@ -190,8 +188,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               ),
             );
           },
-          child: Container(
-            child: Row(
+          child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
@@ -237,13 +234,13 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               ],
             ),
           ),
-        ),
+
         heightSpacer(12),
       ],
     );
   }
 
-  Row BottomSideActionBar(BuildContext context) {
+  Row bottomSideActionBar(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

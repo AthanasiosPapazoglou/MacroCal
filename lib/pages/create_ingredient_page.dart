@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -50,8 +51,10 @@ class _CreateOrEditIngredientPageState
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
+          '#ff6666', 'Cancel', true, ScanMode.barcode);
+      if (kDebugMode) {
+    print(barcodeScanRes); // This will only print in debug mode
+  }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -254,29 +257,29 @@ class _CreateOrEditIngredientPageState
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            MacronutrientScrollableForm(),
-            SaveButton(dataController, context)
+            macronutrientScrollableForm(),
+            saveButton(dataController, context)
           ],
         ),
       ),
     );
   }
 
-  Expanded MacronutrientScrollableForm() {
+  Expanded macronutrientScrollableForm() {
     return Expanded(
       child: Form(
         key: _formKey,
         child: ListView.builder(
           itemCount: 11,
           itemBuilder: (context, index) {
-            return TextfieldItem(index);
+            return textfieldItem(index);
           },
         ),
       ),
     );
   }
 
-  Widget TextfieldItem(int index) {
+  Widget textfieldItem(int index) {
     return Column(
       children: [
         heightSpacer(12),
@@ -303,7 +306,7 @@ class _CreateOrEditIngredientPageState
     );
   }
 
-  Padding SaveButton(DataController dataController, BuildContext context) {
+  Padding saveButton(DataController dataController, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(

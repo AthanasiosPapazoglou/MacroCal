@@ -70,8 +70,8 @@ class _TodayExcerciseState extends State<TodayExcercise> {
       ),
       body: Column(
         children: [
-          ActivitiesList(),
-          BottomSideActionButtons(context),
+          activitiesList(),
+          bottomSideActionButtons(context),
           const SizedBox(
             height: 32,
           )
@@ -81,18 +81,18 @@ class _TodayExcerciseState extends State<TodayExcercise> {
   }
 
   ///Scrollable list of available activies to be registered by volume of excercise
-  Expanded ActivitiesList() {
+  Expanded activitiesList() {
     return Expanded(
       child: ListView.builder(
           itemCount: totalExcerciseActivities(),
           itemBuilder: (BuildContext ctx, int index) {
-            return ActivityItem(index);
+            return activityItem(index);
           }),
     );
   }
 
   ///Graphical element representing a specific activity entity, these are rendered within the ActivitiesList
-  Padding ActivityItem(int index) {
+  Padding activityItem(int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
       child: Container(
@@ -155,7 +155,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
   }
 
   /// Action buttons row at the bottom side of the page Reset/Save values
-  Row BottomSideActionButtons(BuildContext context) {
+  Row bottomSideActionButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -218,7 +218,11 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                   ),
                 );
               },
-              child: Text(tr('activities_page.reset_values_dialog.confirm'), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
+              child: Text(
+                tr('activities_page.reset_values_dialog.confirm'),
+                style:
+                    const TextStyle(color: AppColors.confirmationButtonsColor),
+              ),
             ),
           ],
         );

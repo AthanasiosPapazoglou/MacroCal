@@ -87,9 +87,9 @@ class _TodaysPageState extends State<TodaysPage> {
             child: Obx(
               () => ListView(
                 children: [
-                  SectionHeader(tr('overview_page.intake')),
-                  CaloriesOverview(),
-                  SectionHeader(tr('overview_page.healthy')),
+                  sectionHeader(tr('overview_page.intake')),
+                  caloriesOverview(),
+                  sectionHeader(tr('overview_page.healthy')),
                   horizontalMetricOverview(
                       tr('overview_page.nutrients.protein'),
                       dataController.dailyProteins.value,
@@ -100,7 +100,7 @@ class _TodaysPageState extends State<TodaysPage> {
                       dataController.dailyFiber.value,
                       dataController.fiberConsumed.value,
                       true),
-                  SectionHeader(tr('overview_page.unhealthy')),
+                  sectionHeader(tr('overview_page.unhealthy')),
                   horizontalMetricOverview(
                       tr('overview_page.nutrients.sugars'),
                       calculateMacroFromPercentile(unitCalories: 4),
@@ -177,7 +177,7 @@ class _TodaysPageState extends State<TodaysPage> {
     );
   }
 
-  Column SectionHeader(String title) {
+  Column sectionHeader(String title) {
     return Column(
       children: [
         heightSpacer(title == 'Calory Intake' ? 32 : 48),
@@ -192,7 +192,7 @@ class _TodaysPageState extends State<TodaysPage> {
     );
   }
 
-  Column CaloriesOverview() {
+  Column caloriesOverview() {
     return Column(
       children: [
         heightSpacer(16),
@@ -201,7 +201,7 @@ class _TodaysPageState extends State<TodaysPage> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: AppThemes.darkTheme.hintColor.withOpacity(.2),
+              color: AppThemes.darkTheme.hintColor.withValues(alpha: .2),
             ),
             child: CircularPercentIndicator(
               animation: true,
@@ -257,7 +257,7 @@ class _TodaysPageState extends State<TodaysPage> {
                   dataController.adjustedCalories.value,
                   dataController.consumedCalories.value,
                   true),
-              backgroundColor: Colors.black.withOpacity(.3),
+              backgroundColor: Colors.black.withValues(alpha: .3),
             ),
           ),
         ),
@@ -310,7 +310,7 @@ class _TodaysPageState extends State<TodaysPage> {
                     ? Colors.green
                     : assignItemColor(max, current, isMacro)
                 : assignItemColor(max, current, isMacro),
-            backgroundColor: Colors.black.withOpacity(.3),
+            backgroundColor: Colors.black.withValues(alpha: .3),
             barRadius: const Radius.circular(20),
           ),
         ),

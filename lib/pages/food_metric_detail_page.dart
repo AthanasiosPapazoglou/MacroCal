@@ -5,15 +5,22 @@ import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:macro_cal_public/wrappers/dismiss_page.dart';
 
 class FoodMetricDetailsPage extends StatelessWidget {
-  const FoodMetricDetailsPage(
-      {super.key,
-      required this.title,
-      required this.svgPath,
-      required this.metricDescription});
+  const FoodMetricDetailsPage({
+    super.key,
+    required this.title,
+    required this.svgPath,
+    required this.metricDescription,
+    this.valuePerGram = "",
+    this.richInText = "",
+    this.poorInText = "",
+  });
 
   final String title;
   final String svgPath;
   final String metricDescription;
+  final String valuePerGram;
+  final String richInText;
+  final String poorInText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +37,35 @@ class FoodMetricDetailsPage extends StatelessWidget {
           padding: const EdgeInsetsDirectional.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 32,
               ),
-              Hero(
-                tag: 'ICON$svgPath',
-                child: SvgPicture.asset(
-                  svgPath,
-                  width: 250,
-                  height: 250,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: 'ICON$svgPath',
+                    child: SvgPicture.asset(
+                      svgPath,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                  if (valuePerGram != "")
+                    const Column(
+                      children: [
+                        Text("Calorical Value per gram: "),
+                        Text("Calorical rich foods:"),
+                        Text("Calorical poor foods:"),
+                      ],
+                    )
+                ],
               ),
               const SizedBox(
-                height: 64,
+                height: 32,
               ),
               Text(
                 metricDescription,

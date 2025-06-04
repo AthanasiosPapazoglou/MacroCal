@@ -1,11 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
-ScrollbarThemeData _scrollbarThemeData = const ScrollbarThemeData(
-  radius: Radius.circular(10),
-);
+// ScrollbarThemeData _scrollbarThemeData = const ScrollbarThemeData(
+//   radius: Radius.circular(10),
+// );
 
 class AppThemes {
   AppThemes._();
