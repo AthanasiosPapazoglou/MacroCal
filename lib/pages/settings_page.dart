@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:macro_cal_public/components/language_switch.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -12,7 +13,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          tr('settings_page.title'),
+          LocaleConsts.settingsPageTitle.tr(),
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,

@@ -1,5 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
@@ -9,6 +11,7 @@ import 'package:macro_cal_public/pages/today_excercise_page.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 final DataController dataController = Get.find<DataController>();
 
@@ -67,19 +70,173 @@ class TodaysPage extends StatefulWidget {
   State<TodaysPage> createState() => _TodaysPageState();
 }
 
-class _TodaysPageState extends State<TodaysPage> {
+class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateMixin {
+  bool _fabExpanded = false;
+  OverlayEntry? _overlayEntry;
+  final GlobalKey _fabKey = GlobalKey();
+  late final AnimationController _animController;
+  late final Animation<double> _fadeAnim;
+  late final Animation<Offset> _slideAnim;
+
   @override
   void initState() {
-    calculateAdjustedCalories();
     super.initState();
+    calculateAdjustedCalories();
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+    _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
+    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+  }
+
+  @override
+  void dispose() {
+    _removeOverlay();
+    _animController.dispose();
+    super.dispose();
+  }
+
+  void _toggleFab() {
+    if (_fabExpanded) {
+      _collapseFab();
+    } else {
+      setState(() => _fabExpanded = true);
+      _animController.forward();
+      _showOverlay();
+    }
+  }
+
+  void _collapseFab() {
+    _animController.reverse().then((_) {
+      if (mounted) {
+        setState(() => _fabExpanded = false);
+        _removeOverlay();
+      }
+    });
+  }
+
+  void _showOverlay() {
+    final RenderBox renderBox = _fabKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset fabGlobal = renderBox.localToGlobal(Offset.zero);
+    final Size fabSize = renderBox.size;
+
+    _overlayEntry = OverlayEntry(
+      builder: (ctx) {
+        final screenSize = MediaQuery.of(ctx).size;
+        final double fabBottom = screenSize.height - fabGlobal.dy - fabSize.height;
+        final double fabRight = screenSize.width - fabGlobal.dx - fabSize.width;
+
+        return AnimatedBuilder(
+          animation: _animController,
+          builder: (_, __) => Stack(
+            children: [
+              // Blur + dim backdrop — tappable to collapse
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: _animController.value * 3.5,
+                    sigmaY: _animController.value * 3.5,
+                  ),
+                  child: GestureDetector(
+                    onTap: _collapseFab,
+                    child: Container(
+                      color: Colors.black.withOpacity(0.25 * _animController.value),
+                    ),
+                  ),
+                ),
+              ),
+              // FAB buttons — above the blur, anchored at exact FAB position
+              Positioned(
+                right: fabRight,
+                bottom: fabBottom,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FadeTransition(
+                      opacity: _fadeAnim,
+                      child: SlideTransition(
+                        position: _slideAnim,
+                        child: IconButton(
+                          onPressed: () {
+                            _collapseFab();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const TodayConsumption()));
+                          },
+                          icon: const Icon(Icons.restaurant_rounded),
+                          style: IconButton.styleFrom(
+                            backgroundColor: AppThemes.darkTheme.primaryColor,
+                            fixedSize: const Size(50, 50),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    FadeTransition(
+                      opacity: _fadeAnim,
+                      child: SlideTransition(
+                        position: _slideAnim,
+                        child: IconButton(
+                          onPressed: () {
+                            _collapseFab();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const TodayExcercise()));
+                          },
+                          icon: const Icon(Icons.sports_gymnastics_rounded),
+                          style: IconButton.styleFrom(
+                            backgroundColor: AppThemes.darkTheme.primaryColor,
+                            fixedSize: const Size(50, 50),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Main FAB — same size and position as the collapsed one
+                    SizedBox(
+                      width: fabSize.width,
+                      height: fabSize.height,
+                      child: IconButton(
+                        onPressed: _toggleFab,
+                        icon: AnimatedRotation(
+                          turns: _animController.value * 0.125,
+                          duration: Duration.zero,
+                          child: const Icon(Icons.add_rounded),
+                        ),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppThemes.darkTheme.primaryColor,
+                          fixedSize: fabSize,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: '${tr('overview_page.title')}:  $formatedDate',
+        title: '${LocaleConsts.overviewPageTitle.tr()}:  $formatedDate',
       ),
+      endDrawer: const SettingsDrawer(),
       body: Stack(
         children: [
           Container(
@@ -87,32 +244,32 @@ class _TodaysPageState extends State<TodaysPage> {
             child: Obx(
               () => ListView(
                 children: [
-                  SectionHeader(tr('overview_page.intake')),
+                  SectionHeader(LocaleConsts.overviewPageIntake.tr()),
                   CaloriesOverview(),
-                  SectionHeader(tr('overview_page.healthy')),
+                  SectionHeader(LocaleConsts.overviewPageHealthy.tr()),
                   horizontalMetricOverview(
-                      tr('overview_page.nutrients.protein'),
+                      LocaleConsts.overviewPageNutrientsProtein.tr(),
                       dataController.dailyProteins.value,
                       dataController.proteinConsumed.value,
                       true),
                   horizontalMetricOverview(
-                      tr('overview_page.nutrients.fiber'),
+                      LocaleConsts.overviewPageNutrientsFiber.tr(),
                       dataController.dailyFiber.value,
                       dataController.fiberConsumed.value,
                       true),
-                  SectionHeader(tr('overview_page.unhealthy')),
+                  SectionHeader(LocaleConsts.overviewPageUnhealthy.tr()),
                   horizontalMetricOverview(
-                      tr('overview_page.nutrients.sugars'),
+                      LocaleConsts.overviewPageNutrientsSugars.tr(),
                       calculateMacroFromPercentile(unitCalories: 4),
                       dataController.sugarsConsumed.value,
                       false),
                   horizontalMetricOverview(
-                      tr('overview_page.nutrients.saturated'),
+                      LocaleConsts.overviewPageNutrientsSaturated.tr(),
                       calculateMacroFromPercentile(unitCalories: 9),
                       dataController.saturatedConsumed.value,
                       false),
                   horizontalMetricOverview(
-                      tr('overview_page.nutrients.salt'),
+                      LocaleConsts.overviewPageNutrientsSalt.tr(),
                       dataController.sodiumLimit.value,
                       dataController.sodiumConsumed.value,
                       false),
@@ -135,43 +292,20 @@ class _TodaysPageState extends State<TodaysPage> {
               ),
             ),
           ),
-          Positioned(
-            right: 16,
-            bottom: 4,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TodayConsumption()));
-                  },
-                  icon: const Icon(Icons.restaurant_rounded),
-                  style: IconButton.styleFrom(
-                    backgroundColor: AppThemes.darkTheme.primaryColor,
-                    fixedSize: const Size(50, 50),
-                  ),
+          if (!_fabExpanded)
+            Positioned(
+              right: 16,
+              bottom: 4,
+              child: IconButton(
+                key: _fabKey,
+                onPressed: _toggleFab,
+                icon: const Icon(Icons.add_rounded),
+                style: IconButton.styleFrom(
+                  backgroundColor: AppThemes.darkTheme.primaryColor,
+                  fixedSize: const Size(56, 56),
                 ),
-                const SizedBox(
-                  width: 12,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TodayExcercise()));
-                  },
-                  icon: const Icon(Icons.sports_gymnastics_rounded),
-                  style: IconButton.styleFrom(
-                    backgroundColor: AppThemes.darkTheme.primaryColor,
-                    fixedSize: const Size(50, 50),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -219,7 +353,7 @@ class _TodaysPageState extends State<TodaysPage> {
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   Text(
-                    tr('overview_page.intake_info.kcal'),
+                    LocaleConsts.overviewPageIntakeInfoKcal.tr(),
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 14),
                   ),
@@ -229,8 +363,8 @@ class _TodaysPageState extends State<TodaysPage> {
                       children: [
                         Text(
                           (caloryCirclePercentile() == 1.0)
-                              ? tr('overview_page.intake_info.exceeding')
-                              : tr('overview_page.intake_info.remaining'),
+                              ? LocaleConsts.overviewPageIntakeInfoExceeding.tr()
+                              : LocaleConsts.overviewPageIntakeInfoRemaining.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: assignItemColor(
@@ -284,8 +418,8 @@ class _TodaysPageState extends State<TodaysPage> {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isLimitSurpassed(max, current)
-                    ? (title == tr('overview_page.nutrients.protein') ||
-                            title == tr('overview_page.nutrients.fiber'))
+                    ? (title == LocaleConsts.overviewPageNutrientsProtein.tr() ||
+                            title == LocaleConsts.overviewPageNutrientsFiber.tr())
                         ? Colors.green
                         : assignItemColor(max, current, isMacro)
                     : Colors.white),
@@ -305,8 +439,8 @@ class _TodaysPageState extends State<TodaysPage> {
             ),
             animationDuration: 1000,
             progressColor: isLimitSurpassed(max, current)
-                ? (title == tr('overview_page.nutrients.protein') ||
-                        title == tr('overview_page.nutrients.fiber'))
+                ? (title == LocaleConsts.overviewPageNutrientsProtein.tr() ||
+                        title == LocaleConsts.overviewPageNutrientsFiber.tr())
                     ? Colors.green
                     : assignItemColor(max, current, isMacro)
                 : assignItemColor(max, current, isMacro),

@@ -3,15 +3,17 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/models/ingredient.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
+import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:http/http.dart' as http;
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class CreateOrEditIngredientPage extends StatefulWidget {
   const CreateOrEditIngredientPage(
@@ -231,8 +233,8 @@ class _CreateOrEditIngredientPageState
       appBar: AppBar(
         title: Text(
           widget.isEdit
-              ? tr('ingredients_page.titles.edit')
-              : tr('ingredients_page.titles.add'),
+              ? LocaleConsts.ingredientsPageTitlesEdit.tr()
+              : LocaleConsts.ingredientsPageTitlesAdd.tr(),
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -277,6 +279,37 @@ class _CreateOrEditIngredientPageState
   }
 
   Widget TextfieldItem(int index) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
+
+    const textfieldLabels = [
+      LocaleConsts.ingredientsPageLabels0,
+      LocaleConsts.ingredientsPageLabels1,
+      LocaleConsts.ingredientsPageLabels2,
+      LocaleConsts.ingredientsPageLabels3,
+      LocaleConsts.ingredientsPageLabels4,
+      LocaleConsts.ingredientsPageLabels5,
+      LocaleConsts.ingredientsPageLabels6,
+      LocaleConsts.ingredientsPageLabels7,
+      LocaleConsts.ingredientsPageLabels8,
+      LocaleConsts.ingredientsPageLabels9,
+      LocaleConsts.ingredientsPageLabels10,
+    ];
+
+    const textfieldHints = [
+      LocaleConsts.ingredientsPageHints0,
+      LocaleConsts.ingredientsPageHints1,
+      LocaleConsts.ingredientsPageHints2,
+      LocaleConsts.ingredientsPageHints3,
+      LocaleConsts.ingredientsPageHints4,
+      LocaleConsts.ingredientsPageHints5,
+      LocaleConsts.ingredientsPageHints6,
+      LocaleConsts.ingredientsPageHints7,
+      LocaleConsts.ingredientsPageHints8,
+      LocaleConsts.ingredientsPageHints9,
+      LocaleConsts.ingredientsPageHints10,
+    ];
+
     return Column(
       children: [
         heightSpacer(12),
@@ -294,8 +327,20 @@ class _CreateOrEditIngredientPageState
           },
           decoration: InputDecoration(
             floatingLabelAlignment: FloatingLabelAlignment.center,
-            labelText: tr('ingredients_page.labels.$index'),
-            hintText: tr('ingredients_page.hints.$index'),
+            labelText: textfieldLabels[index].tr(),
+            hintText: textfieldHints[index].tr(),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: borderRadius,
+              borderSide: borderSide,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: borderRadius,
+              borderSide: borderSide.copyWith(width: 2.5),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: borderRadius,
+              borderSide: borderSide,
+            ),
           ),
         ),
         heightSpacer(12),
@@ -316,7 +361,7 @@ class _CreateOrEditIngredientPageState
           storage.globalDataSave();
           Navigator.pop(context);
         },
-        child: Text(tr('ingredients_page.bottom_side_actions.save_button')),
+        child: Text(LocaleConsts.ingredientsPageBottomSideActionsSaveButton.tr()),
       ),
     );
   }

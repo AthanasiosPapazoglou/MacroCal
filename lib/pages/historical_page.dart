@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class HistoricalPage extends StatefulWidget {
   const HistoricalPage({super.key});
@@ -17,8 +18,9 @@ class _HistoricalPageState extends State<HistoricalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: tr('historical_page.title'),
+        title: LocaleConsts.historicalPageTitle.tr(),
       ),
+      endDrawer: const SettingsDrawer(),
       body: Stack(
         alignment: Alignment.center,
         children: [

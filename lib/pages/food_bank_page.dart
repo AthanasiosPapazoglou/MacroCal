@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -12,6 +12,7 @@ import 'package:macro_cal_public/pages/create_ingredient_page.dart';
 import 'package:macro_cal_public/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class FoodBankPage extends StatefulWidget {
   const FoodBankPage({
@@ -73,8 +74,9 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: tr('foods_page.title'),
+        title: LocaleConsts.foodsPageTitle.tr(),
       ),
+      endDrawer: const SettingsDrawer(),
       body: Stack(
         children: [
           Container(
@@ -132,7 +134,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
             children: [
               const Icon(Icons.sort_rounded),
               const SizedBox(width: 4),
-              Text(tr('foods_page.top_action_bar.sort'))
+              Text(LocaleConsts.foodsPageTopActionBarSort.tr())
             ],
           ),
           ElevatedButton(
@@ -187,7 +189,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
             decoration: InputDecoration(
               fillColor: AppThemes.darkTheme.canvasColor,
               border: InputBorder.none,
-              hintText: tr('foods_page.top_action_bar.search_hint'),
+              hintText: LocaleConsts.foodsPageTopActionBarSearchHint.tr(),
               hintStyle: const TextStyle(
                 color: AppColors.kPrimaryColor,
                 fontSize: 15,
@@ -225,8 +227,8 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
           ? EmptyWidget(
               packageImage: PackageImage.Image_2,
               title: isActiveFilter
-                  ? tr('foods_page.empty_page.title_no_results')
-                  : tr('foods_page.empty_page.title_no_items'),
+                  ? LocaleConsts.foodsPageEmptyPageTitleNoResults.tr()
+                  : LocaleConsts.foodsPageEmptyPageTitleNoItems.tr(),
               titleTextStyle: TextStyle(
                 fontSize: 22,
                 color: AppThemes.darkTheme.primaryColor,
@@ -270,37 +272,38 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     required Function stateManipulationCallback,
   }) {
     final DataController dataController = Get.find();
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => IngredientDetailsPage(
-                ingredientIndex: ingredientIndex,
-                stateManipulationCallback: stateManipulationCallback),
-          ),
-        );
-      },
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(vertical: 8, horizontal: isListView ? 0 : 8),
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          // width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-              color: AppThemes.darkTheme.primaryColor,
-              borderRadius: BorderRadius.circular(12)),
-          child: Center(
-            child: Text(
-              dataController.ingredientsList[ingredientIndex].ingridientName ??
-                  '',
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(vertical: 8, horizontal: isListView ? 0 : 8),
+      child: Material(
+        color: AppThemes.darkTheme.primaryColor,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => IngredientDetailsPage(
+                    ingredientIndex: ingredientIndex,
+                    stateManipulationCallback: stateManipulationCallback),
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            height: 48,
+            child: Center(
+              child: Text(
+                dataController.ingredientsList[ingredientIndex].ingridientName ??
+                    '',
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
             ),
           ),
         ),

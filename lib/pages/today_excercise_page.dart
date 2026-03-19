@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class TodayExcercise extends StatefulWidget {
   const TodayExcercise({super.key});
@@ -63,7 +64,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          tr('activities_page.title'),
+          LocaleConsts.activitiesPageTitle.tr(),
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -164,7 +165,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             _showPopupDialog();
           },
           child: Text(
-            tr('activities_page.bottom_action_bar.reset_values'),
+            LocaleConsts.activitiesPageBottomActionBarResetValues.tr(),
             style: const TextStyle(color: AppColors.orange),
           ),
         ),
@@ -179,7 +180,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
               Navigator.pop(context);
             },
             child: Text(
-              tr('activities_page.bottom_action_bar.save_changes'),
+              LocaleConsts.activitiesPageBottomActionBarSaveChanges.tr(),
               style: const TextStyle(color: AppColors.confirmationButtonsColor),
             )),
       ],
@@ -192,15 +193,15 @@ class _TodayExcerciseState extends State<TodayExcercise> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(tr('activities_page.reset_values_dialog.title')),
-          content: Text(tr('activities_page.reset_values_dialog.body')),
+          title: Text(LocaleConsts.activitiesPageResetValuesDialogTitle.tr()),
+          content: Text(LocaleConsts.activitiesPageResetValuesDialogBody.tr()),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
-                tr('activities_page.reset_values_dialog.cancel'),
+                LocaleConsts.activitiesPageResetValuesDialogCancel.tr(),
               ),
             ),
             TextButton(
@@ -218,7 +219,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                   ),
                 );
               },
-              child: Text(tr('activities_page.reset_values_dialog.confirm'), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
+              child: Text(LocaleConsts.activitiesPageResetValuesDialogConfirm.tr(), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),
           ],
         );

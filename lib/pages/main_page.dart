@@ -6,6 +6,7 @@ import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/pages/profile_page.dart';
 import 'package:macro_cal_public/pages/historical_page.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -27,7 +28,7 @@ class _MainPageState extends State<MainPage> {
                 width: navTabsImageSize,
                 height: navTabsImageSize,
               ),
-              text: tr('tab_bar.overview'),
+              text: LocaleConsts.tabBarOverview.tr(),
             ),
             Tab(
               icon: Image.asset(
@@ -35,7 +36,7 @@ class _MainPageState extends State<MainPage> {
                 width: navTabsImageSize,
                 height: navTabsImageSize,
               ),
-              text: tr('tab_bar.food_bank'),
+              text: LocaleConsts.tabBarFoodBank.tr(),
             ),
             Tab(
               icon: Image.asset(
@@ -43,7 +44,7 @@ class _MainPageState extends State<MainPage> {
                 width: navTabsImageSize,
                 height: navTabsImageSize,
               ),
-              text: tr('tab_bar.historical'),
+              text: LocaleConsts.tabBarHistorical.tr(),
             ),
             Tab(
               icon: Image.asset(
@@ -51,7 +52,7 @@ class _MainPageState extends State<MainPage> {
                 width: navTabsImageSize,
                 height: navTabsImageSize,
               ),
-              text: tr('tab_bar.profile'),
+              text: LocaleConsts.tabBarProfile.tr(),
             ),
           ],
         ),

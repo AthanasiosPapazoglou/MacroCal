@@ -32,11 +32,11 @@ class AppThemes {
 );
 
   static final ThemeData darkTheme = FlexThemeData.dark(
-  scheme: FlexScheme.orangeM3,
+  scheme: FlexScheme.greenM3,
   surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
   blendLevel: 13,
   scaffoldBackground: Colors.blueGrey.shade800,
-  primary: Colors.orange.shade400,
+  primary: Colors.green.shade500,
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 20,
     useTextTheme: true,

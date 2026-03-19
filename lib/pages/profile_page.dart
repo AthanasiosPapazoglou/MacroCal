@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
+import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -74,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: const MajorPageAppBar(
         title: 'Profile',
       ),
+      endDrawer: const SettingsDrawer(),
       backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -88,12 +91,25 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Expanded ProfileScrollableForm() {
+    const textfieldLabels = [
+      LocaleConsts.profilePageLabels0,
+      LocaleConsts.profilePageLabels1,
+      LocaleConsts.profilePageLabels2,
+      LocaleConsts.profilePageLabels3,
+      LocaleConsts.profilePageLabels4,
+      LocaleConsts.profilePageLabels5,
+      LocaleConsts.profilePageLabels6,
+      LocaleConsts.profilePageLabels7,
+    ];
+
     return Expanded(
       child: Form(
         key: _formKey,
         child: ListView.builder(
           itemCount: 8,
           itemBuilder: (context, index) {
+            const borderRadius = BorderRadius.all(Radius.circular(12));
+            final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
             return Column(
               children: [
                 heightSpacer(12),
@@ -109,8 +125,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   decoration: InputDecoration(
                     floatingLabelAlignment: FloatingLabelAlignment.center,
-                    labelText: tr('profile_page.labels.$index'),
-                    hintText: tr('profile_page.hints.$index'),
+                    labelText: textfieldLabels[index].tr(),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: borderRadius,
+                      borderSide: borderSide,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: borderRadius,
+                      borderSide: borderSide.copyWith(width: 2.5),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: borderRadius,
+                      borderSide: borderSide,
+                    ),
                   ),
                 ),
                 heightSpacer(12),
@@ -133,7 +160,8 @@ class _ProfilePageState extends State<ProfilePage> {
             storage.globalDataSave();
             tabController.animateTo(0);
           },
-          child: Text(tr('profile_page.button_side_actions.save_button'))),
+          child:
+              Text(LocaleConsts.profilePageButtonSideActionsSaveButton.tr())),
     );
   }
 }
