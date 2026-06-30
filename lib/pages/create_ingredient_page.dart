@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
