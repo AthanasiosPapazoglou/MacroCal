@@ -14,6 +14,7 @@ import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:http/http.dart' as http;
 import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class CreateOrEditIngredientPage extends StatefulWidget {
   const CreateOrEditIngredientPage(
@@ -44,35 +45,27 @@ class _CreateOrEditIngredientPageState
           11, (index) => TextEditingController());
 
   //-- Barcode Variables
+  Barcode? _barcode;
   String _scanBarcode = '';
   Map<String, dynamic> resultData = {};
 
-  /// Opens Scan page and performs scanning progress
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+  void _handleBarcode(BarcodeCapture barcodes) {
+    if (mounted) {
+      setState(() {
+        _barcode = barcodes.barcodes.firstOrNull;
+      });
     }
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
   }
 
   /// Fetches json data from OpenFoodFacts API, corresponding to the product code
   Future<Map<String, dynamic>> fetchProductData(
       BuildContext pageContext, String barcode) async {
     final response = await http.get(
-      Uri.parse('https://world.openfoodfacts.org/api/v2/search?code=$barcode'),
+      Uri.parse('https://world.openfoodfacts.org/api/v2/product/$barcode'),
     );
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
-      (data['products'].length != 0)
+      (data['status_verbose'] == "product found")
           ? showSuccessSnackBar(pageContext)
           : showErrorSnackBar(pageContext);
       return data;
@@ -99,10 +92,10 @@ class _CreateOrEditIngredientPageState
 
   /// Returns specific field value from the fetched json data
   String getValueOfMetric(String metricJsonKey) =>
-      '${(resultData['products'][0]['nutriments'][metricJsonKey] == null) ? '0.0' : resultData['products'][0]['nutriments'][metricJsonKey]}';
+      '${(resultData['product']['nutriments'][metricJsonKey] == null) ? '0.0' : resultData['product']['nutriments'][metricJsonKey]}';
 
   /// Returns the name of the product that was fetched from the scan
-  String getProductName() => '${(resultData['products'][0]['product_name'])}';
+  String getProductName() => '${(resultData['product']['product_name'])}';
 
   /// If the user is editing a product, it populates the textfields with the values that are assigned to the product.
   /// If the user is creating a product, it does nothing
@@ -244,9 +237,29 @@ class _CreateOrEditIngredientPageState
               padding: const EdgeInsets.only(right: 12),
               child: ElevatedButton(
                   onPressed: () async {
-                    await scanBarcodeNormal();
-                    resultData = await fetchProductData(context, _scanBarcode);
-                    assignDataFromScan();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MobileScanner(
+                          onDetect: (result) async {
+                            final Barcode barcode = result.barcodes.first;
+
+                            final String barcodeNumber = barcode.rawValue ?? '';
+
+                            print("Scanned barcode: $barcodeNumber");
+
+                            resultData =
+                                await fetchProductData(context, barcodeNumber);
+
+                            assignDataFromScan();
+                          },
+                        ),
+                      ),
+                    );
+                    // await scanBarcodeNormal();
+                    // resultData = await fetchProductData(context, _scanBarcode);
+                    // assignDataFromScan();
+                    print("Barcode Scan button pressed");
                   },
                   child: const Icon(Icons.qr_code_scanner_rounded)),
             )
@@ -361,7 +374,8 @@ class _CreateOrEditIngredientPageState
           storage.globalDataSave();
           Navigator.pop(context);
         },
-        child: Text(LocaleConsts.ingredientsPageBottomSideActionsSaveButton.tr()),
+        child:
+            Text(LocaleConsts.ingredientsPageBottomSideActionsSaveButton.tr()),
       ),
     );
   }
