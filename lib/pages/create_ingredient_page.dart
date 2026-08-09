@@ -48,6 +48,7 @@ class _CreateOrEditIngredientPageState
   Barcode? _barcode;
   String _scanBarcode = '';
   Map<String, dynamic> resultData = {};
+  late bool isPrcoessingBarcode;
 
   void _handleBarcode(BarcodeCapture barcodes) {
     if (mounted) {
@@ -204,6 +205,7 @@ class _CreateOrEditIngredientPageState
   void initState() {
     _textControllers[0].text = '100';
     _textControllers[2].text = 'Uncategorised';
+    isPrcoessingBarcode = false;
     prePopulateTextfields();
     super.initState();
   }
@@ -240,19 +242,46 @@ class _CreateOrEditIngredientPageState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MobileScanner(
-                          onDetect: (result) async {
-                            final Barcode barcode = result.barcodes.first;
+                        builder: (context) => Scaffold(
+                          body: Column(
+                            children: [
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    MobileScanner(
+                                      onDetect: (result) async {
+                                        if (isPrcoessingBarcode)
+                                          return; // ignore subsequent detections
+                                        isPrcoessingBarcode = true;
 
-                            final String barcodeNumber = barcode.rawValue ?? '';
+                                        final Barcode barcode =
+                                            result.barcodes.first;
 
-                            print("Scanned barcode: $barcodeNumber");
+                                        final String barcodeNumber =
+                                            barcode.rawValue ?? '';
 
-                            resultData =
-                                await fetchProductData(context, barcodeNumber);
+                                        print(
+                                            "Scanned barcode: $barcodeNumber");
 
-                            assignDataFromScan();
-                          },
+                                        resultData = await fetchProductData(
+                                            context, barcodeNumber);
+
+                                        assignDataFromScan();
+
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Close Scanner'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
