@@ -19,12 +19,9 @@ class TodayConsumption extends StatefulWidget {
 
 class _TodayConsumptionState extends State<TodayConsumption>
     with SingleTickerProviderStateMixin {
-  late int maxLength;
   late List<TextEditingController> _controllers;
   late TabController _tabController;
   late TextEditingController _searchBarController;
-  int ingredientListIndex = 0;
-  int ingredientListNestedIndex = 0;
   late bool isSearchActivated;
   bool isActiveFilter = false;
 
@@ -77,7 +74,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     _tabController.addListener(() {
       if (_tabController.index == 1) setState(getConsumedIngredientList);
     });
-    maxLength = totalIngredients();
     _controllers =
         List.generate(totalIngredients(), (_) => TextEditingController());
     for (int i = 0; i < _controllers.length; i++) {

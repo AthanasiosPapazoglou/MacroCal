@@ -358,7 +358,7 @@ class _TodaysPageState extends State<TodaysPage>
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: AppThemes.darkTheme.hintColor.withOpacity(.2),
+              color: AppThemes.darkTheme.hintColor.withValues(alpha: .2),
             ),
             child: CircularPercentIndicator(
               animation: true,
@@ -416,7 +416,7 @@ class _TodaysPageState extends State<TodaysPage>
                   dataController.adjustedCalories.value,
                   dataController.consumedCalories.value,
                   true),
-              backgroundColor: Colors.black.withOpacity(.3),
+              backgroundColor: Colors.black.withValues(alpha: .3),
             ),
           ),
         ),
@@ -466,7 +466,7 @@ class _TodaysPageState extends State<TodaysPage>
             progressColor: isLimitSurpassed(max, current) && isMacro
                 ? Colors.green
                 : assignItemColor(max, current, isMacro),
-            backgroundColor: Colors.black.withOpacity(.3),
+            backgroundColor: Colors.black.withValues(alpha: .3),
             barRadius: const Radius.circular(20),
           ),
         ),

@@ -18,7 +18,6 @@ class AppThemes {
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 10,
     blendOnColors: false,
-    useTextTheme: true,
     useM2StyleDividerInM3: true,
     alignedDropdown: true,
     useInputDecoratorThemeInDialogs: true,
@@ -36,7 +35,6 @@ class AppThemes {
   primary: Colors.green.shade500,
   subThemesData: const FlexSubThemesData(
     blendOnLevel: 20,
-    useTextTheme: true,
     useM2StyleDividerInM3: true,
     alignedDropdown: true,
     useInputDecoratorThemeInDialogs: true,

@@ -16,23 +16,13 @@ class TodayExcercise extends StatefulWidget {
 }
 
 class _TodayExcerciseState extends State<TodayExcercise> {
-  late int maxLength;
   late List<TextEditingController> _controllers;
-  int ingredientListIndex = 0;
-  int ingredientListNestedIndex = 0;
 
-  int totalExcerciseActivities() {
-    int total = 0;
-    for (var element in dataController.activitiesList) {
-      total++;
-    }
-    return total;
-  }
+  int totalExcerciseActivities() => dataController.activitiesList.length;
 
   @override
   void initState() {
     super.initState();
-    maxLength = totalExcerciseActivities();
     _controllers = List.generate(
         totalExcerciseActivities(), (_) => TextEditingController());
     for (int i = 0; i < _controllers.length; i++) {
