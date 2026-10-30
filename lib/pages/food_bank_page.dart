@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -68,6 +67,12 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     _searchBarController = TextEditingController();
     isSearchActivated = false;
     isListView = false;
+  }
+
+  @override
+  void dispose() {
+    _searchBarController.dispose();
+    super.dispose();
   }
 
   @override
@@ -169,7 +174,6 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     );
   }
 
-  ///Search bar that appears if the search button is pressed
   Column filterSearchBar() {
     return Column(
       children: [
