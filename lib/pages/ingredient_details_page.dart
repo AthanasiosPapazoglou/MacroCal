@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/miscellaneous/enums.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -30,7 +29,6 @@ class IngredientDetailsPage extends StatefulWidget {
 }
 
 class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
-  final DataController dataController = Get.find();
 
   void rebuildPageCallback() {
     setState(() {});

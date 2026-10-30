@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -23,7 +22,6 @@ class FoodBankPage extends StatefulWidget {
 }
 
 class _IngredientsPageViewState extends State<FoodBankPage> {
-  final DataController dataController = Get.find();
   bool isSelected = false;
   bool isActiveFilter = false;
   List<int> indexesOfFiltered = [];
@@ -274,7 +272,6 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     required int ingredientIndex,
     required Function stateManipulationCallback,
   }) {
-    final DataController dataController = Get.find();
     return Padding(
       padding:
           EdgeInsets.symmetric(vertical: 8, horizontal: isListView ? 0 : 8),

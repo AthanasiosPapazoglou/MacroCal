@@ -2,7 +2,6 @@ import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
@@ -19,7 +18,6 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final DataController dataController = Get.find();
     final bool isDatePopulated = measurementIndexForDate(selectedDate) != -1;
     return AlertDialog(
       title: const Text(

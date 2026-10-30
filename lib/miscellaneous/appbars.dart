@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:macro_cal_public/components/language_switch.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
 class MajorPageAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -21,7 +19,6 @@ class MajorPageAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MajorPageAppBarState extends State<MajorPageAppBar> {
-  final DataController dataController = Get.find();
   @override
   Widget build(BuildContext context) {
     return AppBar(

@@ -44,3 +44,5 @@ class DataController extends GetxController {
   RxDouble bodyWeight = 94.0.obs;
   RxDouble bodyHeight = 184.0.obs;
 }
+
+final DataController dataController = Get.find();

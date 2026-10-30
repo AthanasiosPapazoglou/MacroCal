@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -213,7 +212,6 @@ class _CreateOrEditIngredientPageState
 
   @override
   Widget build(BuildContext context) {
-    final DataController dataController = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -238,7 +236,7 @@ class _CreateOrEditIngredientPageState
         child: Column(
           children: [
             MacronutrientScrollableForm(),
-            SaveButton(dataController, context)
+            SaveButton(context)
           ],
         ),
       ),
@@ -329,7 +327,7 @@ class _CreateOrEditIngredientPageState
     );
   }
 
-  Padding SaveButton(DataController dataController, BuildContext context) {
+  Padding SaveButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(

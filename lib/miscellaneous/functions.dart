@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import '../controllers/data_controller.dart';
 
@@ -21,8 +20,6 @@ SizedBox heightSpacer(double space) {
 
 TextStyle appBarStyle() =>
     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
-
-final DataController dataController = Get.find();
 
 resetActivityVolumesList() {
   for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {

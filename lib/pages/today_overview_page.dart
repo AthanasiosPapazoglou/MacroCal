@@ -13,8 +13,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
-final DataController dataController = Get.find<DataController>();
-
 List<Color> colorCodingList = [
   Colors.red,
   Colors.orange,

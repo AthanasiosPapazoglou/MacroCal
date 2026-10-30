@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
@@ -22,7 +21,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     with SingleTickerProviderStateMixin {
   late int maxLength;
   late List<TextEditingController> _controllers;
-  final DataController dataController = Get.find();
   late TabController _tabController;
   late TextEditingController _searchBarController;
   int ingredientListIndex = 0;

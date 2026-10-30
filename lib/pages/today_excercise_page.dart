@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
@@ -19,7 +18,6 @@ class TodayExcercise extends StatefulWidget {
 class _TodayExcerciseState extends State<TodayExcercise> {
   late int maxLength;
   late List<TextEditingController> _controllers;
-  final DataController dataController = Get.find();
   int ingredientListIndex = 0;
   int ingredientListNestedIndex = 0;
 
