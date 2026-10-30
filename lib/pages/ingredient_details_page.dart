@@ -29,14 +29,13 @@ class IngredientDetailsPage extends StatefulWidget {
 }
 
 class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
-
   void rebuildPageCallback() {
     setState(() {});
   }
 
   /// returns the specific Ingredient that matches the given index and is used within the argument passing
-  /// of MacroDisplayItem to distinguish the value of a specific macro of that ingredient
-  Ingredient IngredientOfGivenIndex() =>
+  /// of macroDisplayItem to distinguish the value of a specific macro of that ingredient
+  Ingredient ingredientOfGivenIndex() =>
       dataController.ingredientsList[widget.ingredientIndex];
 
   @override
@@ -54,74 +53,82 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              IngredientNamingBorder(
-                IngredientOfGivenIndex().ingridientName ?? '',
-                IngredientOfGivenIndex().category ?? '',
-                IngredientOfGivenIndex().referenceQuantity ?? 100.0,
+              ingredientNamingBorder(
+                ingredientOfGivenIndex().ingridientName ?? '',
+                ingredientOfGivenIndex().category ?? '',
+                ingredientOfGivenIndex().referenceQuantity ?? 100.0,
               ),
               Expanded(
                 child: ListView(children: [
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     caloriesSvgPath,
-                    IngredientOfGivenIndex().calories,
+                    ingredientOfGivenIndex().calories,
                     LocaleConsts.ingredientDetailsNutrientsCalories.tr(),
-                    LocaleConsts.ingredientDetailsNutrientDescriptionsCalories.tr(),
+                    LocaleConsts.ingredientDetailsNutrientDescriptionsCalories
+                        .tr(),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     oliveSvgPath,
-                    IngredientOfGivenIndex().fats,
+                    ingredientOfGivenIndex().fats,
                     LocaleConsts.ingredientDetailsNutrientsFat.tr(),
                     LocaleConsts.ingredientDetailsNutrientDescriptionsFat.tr(),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saturatedSvgPath,
-                      IngredientOfGivenIndex().saturated,
+                      ingredientOfGivenIndex().saturated,
                       LocaleConsts.ingredientDetailsNutrientsSaturated.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsSaturated.tr(),
+                      LocaleConsts
+                          .ingredientDetailsNutrientDescriptionsSaturated
+                          .tr(),
                       healthEffect: HealthEffects.hazardous),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                     context,
                     carbsSvgPath,
-                    IngredientOfGivenIndex().carbohydrates,
+                    ingredientOfGivenIndex().carbohydrates,
                     LocaleConsts.ingredientDetailsNutrientsCarbs.tr(),
-                    LocaleConsts.ingredientDetailsNutrientDescriptionsCarbs.tr(),
+                    LocaleConsts.ingredientDetailsNutrientDescriptionsCarbs
+                        .tr(),
                   ),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       sugarSvgPath,
-                      IngredientOfGivenIndex().sugars,
+                      ingredientOfGivenIndex().sugars,
                       LocaleConsts.ingredientDetailsNutrientsSugars.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsSugars.tr(),
+                      LocaleConsts.ingredientDetailsNutrientDescriptionsSugars
+                          .tr(),
                       healthEffect: HealthEffects.hazardous),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saladSvgPath,
-                      IngredientOfGivenIndex().fiber,
+                      ingredientOfGivenIndex().fiber,
                       LocaleConsts.ingredientDetailsNutrientsFiber.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsFiber.tr(),
+                      LocaleConsts.ingredientDetailsNutrientDescriptionsFiber
+                          .tr(),
                       healthEffect: HealthEffects.benefitial),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       proteinSvgPath,
-                      IngredientOfGivenIndex().proteins,
+                      ingredientOfGivenIndex().proteins,
                       LocaleConsts.ingredientDetailsNutrientsProtein.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsProtein.tr(),
+                      LocaleConsts.ingredientDetailsNutrientDescriptionsProtein
+                          .tr(),
                       healthEffect: HealthEffects.benefitial),
-                  MacroDisplayItem(
+                  macroDisplayItem(
                       context,
                       saltSvgPath,
-                      IngredientOfGivenIndex().salt,
+                      ingredientOfGivenIndex().salt,
                       LocaleConsts.ingredientDetailsNutrientsSalt.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsSalt.tr(),
+                      LocaleConsts.ingredientDetailsNutrientDescriptionsSalt
+                          .tr(),
                       healthEffect: HealthEffects.hazardous),
                 ]),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: BottomSideActionBar(context),
+                child: bottomSideActionBar(context),
               )
             ],
           ),
@@ -130,7 +137,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     );
   }
 
-  Padding IngredientNamingBorder(
+  Padding ingredientNamingBorder(
     String ingredientName,
     String categoryName,
     double referenceQuantity,
@@ -148,12 +155,9 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             heightSpacer(10),
-            Container(
-              child: Text(
-                ingredientName,
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+            Text(
+              ingredientName,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             heightSpacer(10),
             Text(
@@ -170,7 +174,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     );
   }
 
-  Column MacroDisplayItem(BuildContext context, String svgPath,
+  Column macroDisplayItem(BuildContext context, String svgPath,
       dynamic displayValue, String metricName, String metricDescription,
       {HealthEffects healthEffect = HealthEffects.neutral}) {
     return Column(
@@ -189,52 +193,50 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               ),
             );
           },
-          child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Hero(
-                      tag: 'ICON$svgPath',
-                      child: SvgPicture.asset(
-                        svgPath,
-                        width: 40,
-                        height: 40,
-                      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Hero(
+                    tag: 'ICON$svgPath',
+                    child: SvgPicture.asset(
+                      svgPath,
+                      width: 40,
+                      height: 40,
                     ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      metricName,
-                      style: TextStyle(
-                          color: healthEffect == HealthEffects.hazardous
-                              ? Colors.red.shade300
-                              : ((healthEffect == HealthEffects.benefitial)
-                                  ? Colors.green.shade300
-                                  : null),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Text(
-                  (((displayValue ?? '') is String)
-                      ? (displayValue ?? '')
-                      : (displayValue as double).toString()),
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: healthEffect == HealthEffects.hazardous
-                        ? Colors.red.shade300
-                        : ((healthEffect == HealthEffects.benefitial)
-                            ? Colors.green.shade300
-                            : null),
                   ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    metricName,
+                    style: TextStyle(
+                        color: healthEffect == HealthEffects.hazardous
+                            ? Colors.red.shade300
+                            : ((healthEffect == HealthEffects.benefitial)
+                                ? Colors.green.shade300
+                                : null),
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Text(
+                (((displayValue ?? '') is String)
+                    ? (displayValue ?? '')
+                    : (displayValue as double).toString()),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: healthEffect == HealthEffects.hazardous
+                      ? Colors.red.shade300
+                      : ((healthEffect == HealthEffects.benefitial)
+                          ? Colors.green.shade300
+                          : null),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         heightSpacer(12),
@@ -242,7 +244,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     );
   }
 
-  Row BottomSideActionBar(BuildContext context) {
+  Row bottomSideActionBar(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

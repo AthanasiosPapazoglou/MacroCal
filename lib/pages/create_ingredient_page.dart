@@ -241,29 +241,29 @@ class _CreateOrEditIngredientPageState
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            MacronutrientScrollableForm(),
-            SaveButton(context)
+            macronutrientScrollableForm(),
+            saveButton(context)
           ],
         ),
       ),
     );
   }
 
-  Expanded MacronutrientScrollableForm() {
+  Expanded macronutrientScrollableForm() {
     return Expanded(
       child: Form(
         key: _formKey,
         child: ListView.builder(
           itemCount: 11,
           itemBuilder: (context, index) {
-            return TextfieldItem(index);
+            return textfieldItem(index);
           },
         ),
       ),
     );
   }
 
-  Widget TextfieldItem(int index) {
+  Widget textfieldItem(int index) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
 
@@ -333,7 +333,7 @@ class _CreateOrEditIngredientPageState
     );
   }
 
-  Padding SaveButton(BuildContext context) {
+  Padding saveButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(

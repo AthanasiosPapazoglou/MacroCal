@@ -83,15 +83,15 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            ProfileScrollableForm(),
-            SaveButton(context),
+            profileScrollableForm(),
+            saveButton(context),
           ],
         ),
       ),
     );
   }
 
-  Expanded ProfileScrollableForm() {
+  Expanded profileScrollableForm() {
     const textfieldLabels = [
       LocaleConsts.profilePageLabels0,
       LocaleConsts.profilePageLabels1,
@@ -157,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Padding SaveButton(BuildContext context) {
+  Padding saveButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(

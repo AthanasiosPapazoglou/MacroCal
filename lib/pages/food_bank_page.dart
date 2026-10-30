@@ -91,7 +91,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                     children: [
                       topSideActionBar(),
                       if (isSearchActivated) filterSearchBar(),
-                      FoodList(),
+                      foodList(),
                     ],
                   ),
                 ),
@@ -222,7 +222,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     );
   }
 
-  Expanded FoodList() {
+  Expanded foodList() {
     return Expanded(
       child: shouldDisplayEmptyWidget()
           ? EmptyWidget(

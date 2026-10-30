@@ -107,7 +107,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
       ),
       body: Column(
         children: [
-          TopSideActionBar(context),
+          topSideActionBar(context),
           if (isSearchActivated && isUnconsumedTabSelected()) filterSearchBar(),
           scrollableFoodList(),
         ],
@@ -116,7 +116,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  Column TopSideActionBar(BuildContext context) {
+  Column topSideActionBar(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -236,7 +236,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
         children: [
           ingredientItemsView(true, isActiveFilter),
           (indexesOfConsumed.isEmpty)
-              ? EmptyConsumedPage()
+              ? emptyConsumedPage()
               : ingredientItemsView(false, isActiveFilter)
         ],
       ),
@@ -379,7 +379,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
             });
   }
 
-  Widget EmptyConsumedPage() {
+  Widget emptyConsumedPage() {
     return EmptyWidget(
       image: addFoodImagePath,
       title: LocaleConsts.consumptionPageEmptyPageTitle.tr(),

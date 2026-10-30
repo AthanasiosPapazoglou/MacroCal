@@ -265,9 +265,9 @@ class _TodaysPageState extends State<TodaysPage>
             child: Obx(
               () => ListView(
                 children: [
-                  SectionHeader(LocaleConsts.overviewPageIntake.tr()),
-                  CaloriesOverview(),
-                  SectionHeader(LocaleConsts.overviewPageHealthy.tr()),
+                  sectionHeader(LocaleConsts.overviewPageIntake.tr()),
+                  caloriesOverview(),
+                  sectionHeader(LocaleConsts.overviewPageHealthy.tr()),
                   horizontalMetricOverview(
                       LocaleConsts.overviewPageNutrientsProtein.tr(),
                       dataController.dailyProteins.value,
@@ -278,7 +278,7 @@ class _TodaysPageState extends State<TodaysPage>
                       dataController.dailyFiber.value,
                       dataController.fiberConsumed.value,
                       true),
-                  SectionHeader(LocaleConsts.overviewPageUnhealthy.tr()),
+                  sectionHeader(LocaleConsts.overviewPageUnhealthy.tr()),
                   horizontalMetricOverview(
                       LocaleConsts.overviewPageNutrientsSugars.tr(),
                       calculateMacroFromPercentile(
@@ -337,7 +337,7 @@ class _TodaysPageState extends State<TodaysPage>
     );
   }
 
-  Column SectionHeader(String title) {
+  Column sectionHeader(String title) {
     return Column(
       children: [
         heightSpacer(48),
@@ -352,7 +352,7 @@ class _TodaysPageState extends State<TodaysPage>
     );
   }
 
-  Column CaloriesOverview() {
+  Column caloriesOverview() {
     return Column(
       children: [
         heightSpacer(16),
