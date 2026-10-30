@@ -161,7 +161,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
             ),
             heightSpacer(10),
             Text(
-              '${LocaleConsts.ingredientDetailsInfoBoard.tr()} ${referenceQuantity.toInt()} gr.',
+              '${LocaleConsts.ingredientDetailsInfoBoard.tr()} ${referenceQuantity.toInt()} ${LocaleConsts.unitGramsShort.tr()}',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

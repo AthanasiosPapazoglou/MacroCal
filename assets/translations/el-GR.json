@@ -20,7 +20,7 @@
     "consumptionPageTopActionBarResetValues": "Επαναφορά",
     "consumptionPageTopActionBarSaveChanges": "Αποθήκευση",
     "consumptionPageTopActionBarSearchHint": "Αναζήτηση ονόματος τροφίμου",
-    "consumptionPageMetricsGrams": "grams:",
+    "consumptionPageMetricsGrams": "Γραμμάρια:",
     "consumptionPageBottomActionBarAllFoods": "Όλα τα Τρόφιμα",
     "consumptionPageBottomActionBarConsumed": "Μόνο Καταναλωμένα",
     "consumptionPageEmptyPageTitle": "Αυτή η σελίδα είναι κενή.",
@@ -127,5 +127,10 @@
     "snackbarProductNotFound": "Δεν βρέθηκε προϊόν ή υπήρξε σφάλμα σύνδεσης",
     "snackbarClose": "Κλείσιμο",
     "settingsPageLanguage": "Γλώσσα",
-    "profilePageInvalidNumber": "Εισάγετε έναν αριθμό από 0 και πάνω"
+    "profilePageInvalidNumber": "Εισάγετε έναν αριθμό από 0 και πάνω",
+    "unitGramsShort": "γρ.",
+    "activityWalking": "Περπάτημα",
+    "activityKilometers": "Χιλιόμετρα",
+    "ingredientsPageUncategorised": "Χωρίς κατηγορία",
+    "ingredientsPageNameRequired": "Εισάγετε όνομα προϊόντος"
 }

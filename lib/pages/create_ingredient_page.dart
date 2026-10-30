@@ -103,8 +103,8 @@ class _CreateOrEditIngredientPageState
           .toString();
       _textControllers[1].text =
           dataController.ingredientsList[widget.itemIndex!].ingridientName!;
-      _textControllers[2].text =
-          dataController.ingredientsList[widget.itemIndex!].category!;
+      _textControllers[2].text = translateDefaultText(
+          dataController.ingredientsList[widget.itemIndex!].category!);
       _textControllers[3].text =
           dataController.ingredientsList[widget.itemIndex!].calories.toString();
       _textControllers[4].text =
@@ -139,12 +139,9 @@ class _CreateOrEditIngredientPageState
                   1000)
           : 0.0;
     } else {
-      if (controllerIndex == 1 &&
-          (_textControllers[controllerIndex].text == '')) {
-        return 'ERROR UNAMED PRODUCT';
-      } else if (controllerIndex == 2 &&
+      if (controllerIndex == 2 &&
           _textControllers[controllerIndex].text == '') {
-        return 'Uncategorised';
+        return LocaleConsts.ingredientsPageUncategorised.tr();
       } else {
         return _textControllers[controllerIndex].text;
       }
@@ -198,7 +195,7 @@ class _CreateOrEditIngredientPageState
   @override
   void initState() {
     _textControllers[0].text = '100';
-    _textControllers[2].text = 'Uncategorised';
+    _textControllers[2].text = LocaleConsts.ingredientsPageUncategorised.tr();
     prePopulateTextfields();
     super.initState();
   }
@@ -240,10 +237,7 @@ class _CreateOrEditIngredientPageState
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          children: [
-            macronutrientScrollableForm(),
-            saveButton(context)
-          ],
+          children: [macronutrientScrollableForm(), saveButton(context)],
         ),
       ),
     );
@@ -253,11 +247,8 @@ class _CreateOrEditIngredientPageState
     return Expanded(
       child: Form(
         key: _formKey,
-        child: ListView.builder(
-          itemCount: 11,
-          itemBuilder: (context, index) {
-            return textfieldItem(index);
-          },
+        child: SingleChildScrollView(
+          child: Column(children: List.generate(11, textfieldItem)),
         ),
       ),
     );
@@ -301,6 +292,9 @@ class _CreateOrEditIngredientPageState
         TextFormField(
           keyboardType:
               (index != 1 && index != 2) ? TextInputType.number : null,
+          validator: (value) => index == 1 && (value ?? '').trim().isEmpty
+              ? LocaleConsts.ingredientsPageNameRequired.tr()
+              : null,
           controller: _textControllers[index],
           focusNode: _focusNodes[index],
           onFieldSubmitted: (value) {
@@ -338,6 +332,7 @@ class _CreateOrEditIngredientPageState
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(
         onPressed: () {
+          if (!_formKey.currentState!.validate()) return;
           saveIngredientChanges();
           widget.rebuildIngredientsPage();
           widget.rebuildIngredientsDetailsPage();

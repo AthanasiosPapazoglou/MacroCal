@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import '../controllers/data_controller.dart';
 
@@ -20,6 +22,13 @@ SizedBox heightSpacer(double space) {
 
 TextStyle appBarStyle() =>
     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+
+String translateDefaultText(String text) => switch (text) {
+      'Walking' => LocaleConsts.activityWalking.tr(),
+      'Kilometers' => LocaleConsts.activityKilometers.tr(),
+      'Uncategorised' => LocaleConsts.ingredientsPageUncategorised.tr(),
+      _ => text,
+    };
 
 resetActivityVolumesList() {
   for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {

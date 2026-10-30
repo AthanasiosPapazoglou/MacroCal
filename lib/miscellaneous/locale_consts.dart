@@ -128,4 +128,9 @@ class LocaleConsts {
   static const String snackbarClose = 'snackbarClose';
   static const String settingsPageLanguage = 'settingsPageLanguage';
   static const String profilePageInvalidNumber = 'profilePageInvalidNumber';
+  static const String unitGramsShort = 'unitGramsShort';
+  static const String activityWalking = 'activityWalking';
+  static const String activityKilometers = 'activityKilometers';
+  static const String ingredientsPageUncategorised = 'ingredientsPageUncategorised';
+  static const String ingredientsPageNameRequired = 'ingredientsPageNameRequired';
 }

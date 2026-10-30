@@ -86,7 +86,8 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             Padding(
               padding: const EdgeInsets.only(left: 12),
               child: Text(
-                dataController.activitiesList[index].activityName ?? '',
+                translateDefaultText(
+                    dataController.activitiesList[index].activityName ?? ''),
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
@@ -94,7 +95,9 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             Row(
               children: [
                 Text(
-                  dataController.activitiesList[index].metricDescription ?? '',
+                  translateDefaultText(
+                      dataController.activitiesList[index].metricDescription ??
+                          ''),
                   style: const TextStyle(
                       fontSize: 12, fontWeight: FontWeight.bold),
                 ),
@@ -194,7 +197,11 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                 }
                 Navigator.of(context).pop();
               },
-              child: Text(LocaleConsts.activitiesPageResetValuesDialogConfirm.tr(), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
+              child: Text(
+                LocaleConsts.activitiesPageResetValuesDialogConfirm.tr(),
+                style:
+                    const TextStyle(color: AppColors.confirmationButtonsColor),
+              ),
             ),
           ],
         );
