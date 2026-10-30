@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import '../controllers/data_controller.dart';
 
-//! Spacing/Responsiveness
 double navTabsImageSize = 30;
 
 SizedBox heightSpacer(double space) {
@@ -17,99 +16,55 @@ TextStyle appBarStyle() =>
 
 final DataController dataController = Get.find();
 
-//! Excercise Functionalities
-/// Resets the values of excercise volume for all Activities
 resetActivityVolumesList() {
   for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {
     dataController.activitiyVolumesList[i] = 0;
   }
 }
 
-///helper function for calculateAdjustedCalories()
-equilibriateCalories() =>
-    dataController.adjustedCalories.value = dataController.dailyCalories.value;
-
-/// Increases the burned calories for the day based on the volume of excercise been done for they day.
 calculateAdjustedCalories() {
-  equilibriateCalories();
+  double adjustedCalories = dataController.dailyCalories.value;
   for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {
-    dataController.adjustedCalories.value =
-        dataController.adjustedCalories.value +
-            (dataController.activitiesList[i].caloryConsumptionPerUnit! *
-                dataController.activitiyVolumesList[i]);
+    adjustedCalories = adjustedCalories +
+        (dataController.activitiesList[i].caloryConsumptionPerUnit! *
+            dataController.activitiyVolumesList[i]);
   }
+  dataController.adjustedCalories.value = adjustedCalories;
 }
 
-//! Consumption Functionalities
-/// Resets the values of quantity consumption for all Ingredients
 resetIngredientQuantitiesList() {
   for (int i = 0; i < dataController.ingredientQuantitiesList.length; i++) {
     dataController.ingredientQuantitiesList[i] = 0;
   }
 }
 
-/// Helper function for populateConsumptionVariables()
-resetConsumptionVariables() {
-  dataController.consumedCalories.value = 0;
-  dataController.proteinConsumed.value = 0;
-  dataController.carbsConsumed.value = 0;
-  dataController.sugarsConsumed.value = 0;
-  dataController.fatsConsumed.value = 0;
-  dataController.saturatedConsumed.value = 0;
-  dataController.fiberConsumed.value = 0;
-  dataController.sodiumConsumed.value = 0;
-}
-
-/// Calculates and assigns the total consumption per macro metric (total calories/fat/carbs ... salt consumed)
 populateConsumptionVariables() {
-  resetConsumptionVariables();
+  double calories = 0, carbs = 0, proteins = 0, fats = 0;
+  double fiber = 0, sugars = 0, saturated = 0, sodium = 0;
   for (int i = 0; i < dataController.ingredientQuantitiesList.length; i++) {
-    dataController.consumedCalories.value =
-        (dataController.consumedCalories.value +
-            dataController.ingredientsList[i].calories! *
-                dataController.ingredientQuantitiesList[i] *
-                0.01);
-    dataController.carbsConsumed.value = (dataController.carbsConsumed.value +
-        dataController.ingredientsList[i].carbohydrates! *
-            dataController.ingredientQuantitiesList[i] *
-            0.01);
-    dataController.proteinConsumed.value =
-        (dataController.proteinConsumed.value +
-            dataController.ingredientsList[i].proteins! *
-                dataController.ingredientQuantitiesList[i] *
-                0.01);
-    dataController.fatsConsumed.value = (dataController.fatsConsumed.value +
-        dataController.ingredientsList[i].fats! *
-            dataController.ingredientQuantitiesList[i] *
-            0.01);
-    dataController.fiberConsumed.value = (dataController.fiberConsumed.value +
-        dataController.ingredientsList[i].fiber! *
-            dataController.ingredientQuantitiesList[i] *
-            0.01);
-    dataController.sugarsConsumed.value = (dataController.sugarsConsumed.value +
-        dataController.ingredientsList[i].sugars! *
-            dataController.ingredientQuantitiesList[i] *
-            0.01);
-    dataController.saturatedConsumed.value =
-        (dataController.saturatedConsumed.value +
-            dataController.ingredientsList[i].saturated! *
-                dataController.ingredientQuantitiesList[i] *
-                0.01);
-    dataController.sodiumConsumed.value = (dataController.sodiumConsumed.value +
-        dataController.ingredientsList[i].salt! *
-            dataController.ingredientQuantitiesList[i] *
-            0.01);
+    final ingredient = dataController.ingredientsList[i];
+    final int quantity = dataController.ingredientQuantitiesList[i];
+    calories += ingredient.calories! * quantity * 0.01;
+    carbs += ingredient.carbohydrates! * quantity * 0.01;
+    proteins += ingredient.proteins! * quantity * 0.01;
+    fats += ingredient.fats! * quantity * 0.01;
+    fiber += ingredient.fiber! * quantity * 0.01;
+    sugars += ingredient.sugars! * quantity * 0.01;
+    saturated += ingredient.saturated! * quantity * 0.01;
+    sodium += ingredient.salt! * quantity * 0.01;
   }
+  dataController.consumedCalories.value = calories;
+  dataController.carbsConsumed.value = carbs;
+  dataController.proteinConsumed.value = proteins;
+  dataController.fatsConsumed.value = fats;
+  dataController.fiberConsumed.value = fiber;
+  dataController.sugarsConsumed.value = sugars;
+  dataController.saturatedConsumed.value = saturated;
+  dataController.sodiumConsumed.value = sodium;
 }
 
-//! Historical Measurements Functionalities
-
-///Checks if the selected date is populated, returns a map with two key-value pairs: "isPopulated" key has a boolean value expressing if
-///the selected date is populated by a historical measurement, "index" key has an int value expressing the index where the historical measurement populating
-///populating the selected date is located in the historicalMeasurementsList
 Map<String, dynamic> isSelectedDatepopulatedChecker(DateTime? selectedDate) {
   for (int i = 0; i < dataController.historicalMeasurementsList.length; i++) {
-    //TODO replicate error (open dateselector for archive and cancel without selecting a date) FIX IT!
     if (dataController.historicalMeasurementsList[i].measurementDate!.year ==
             selectedDate?.year &&
         dataController.historicalMeasurementsList[i].measurementDate!.month ==
