@@ -47,8 +47,9 @@ Color assignItemColor(double max, double current, bool isMacro) {
   }
 }
 
-double calculateMacroFromPercentile({required double unitCalories}) =>
-    (dataController.sugarsLimit.value *
+double calculateMacroFromPercentile(
+        {required double limitPercentage, required double unitCalories}) =>
+    (limitPercentage *
             0.01 *
             dataController.adjustedCalories.value /
             unitCalories)
@@ -260,12 +261,16 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
                   SectionHeader(LocaleConsts.overviewPageUnhealthy.tr()),
                   horizontalMetricOverview(
                       LocaleConsts.overviewPageNutrientsSugars.tr(),
-                      calculateMacroFromPercentile(unitCalories: 4),
+                      calculateMacroFromPercentile(
+                          limitPercentage: dataController.sugarsLimit.value,
+                          unitCalories: 4),
                       dataController.sugarsConsumed.value,
                       false),
                   horizontalMetricOverview(
                       LocaleConsts.overviewPageNutrientsSaturated.tr(),
-                      calculateMacroFromPercentile(unitCalories: 9),
+                      calculateMacroFromPercentile(
+                          limitPercentage: dataController.saturatedLimit.value,
+                          unitCalories: 9),
                       dataController.saturatedConsumed.value,
                       false),
                   horizontalMetricOverview(
