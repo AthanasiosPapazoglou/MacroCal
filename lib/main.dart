@@ -9,6 +9,8 @@ import 'package:easy_localization/easy_localization.dart';
 
 // late List<CameraDescription> cameras;
 
+//key test
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
