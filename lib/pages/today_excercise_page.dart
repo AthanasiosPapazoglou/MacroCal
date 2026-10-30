@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -38,16 +39,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
         totalExcerciseActivities(), (_) => TextEditingController());
     for (int i = 0; i < _controllers.length; i++) {
       _controllers[i].text = dataController.activitiyVolumesList[i].toString();
-    }
-    for (var controller in _controllers) {
-      controller.addListener(() {
-        if (controller.text.length > 4) {
-          controller.text = controller.text.substring(0, 4);
-          controller.selection = TextSelection.fromPosition(
-            TextPosition(offset: controller.text.length),
-          );
-        }
-      });
     }
   }
 
@@ -135,6 +126,10 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                         },
                         controller: _controllers[index],
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(4),
+                        ],
                         textAlign: TextAlign.center,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
