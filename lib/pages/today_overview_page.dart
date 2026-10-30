@@ -22,10 +22,16 @@ List<Color> colorCodingList = [
   Colors.green
 ];
 
-bool isLimitSurpassed(double max, double current) => current / max > 1;
+bool isLimitSurpassed(double max, double current) => current > max;
 
-int surpassedPercentage(double max, double current) =>
-    (((current / max) - 1) * 100).floor();
+double progressPercent(double max, double current) {
+  if (max <= 0) return current > max ? 1.0 : 0.0;
+  return (current / max).clamp(0.0, 1.0);
+}
+
+String surpassedTitle(String title, double max, double current) => max > 0
+    ? "Surpassed $title (${(((current / max) - 1) * 100).floor()}%)"
+    : "Surpassed $title";
 
 Color assignItemColor(double max, double current, bool isMacro) {
   if (current / max < .3) {
@@ -54,11 +60,9 @@ double calculateMacroFromPercentile(
         .floor()
         .toDouble();
 
-caloryCirclePercentile() => (dataController.consumedCalories /
-            dataController.adjustedCalories.value <=
-        1)
-    ? dataController.consumedCalories / dataController.adjustedCalories.value
-    : 1.0;
+double caloryCirclePercentile() => progressPercent(
+    dataController.adjustedCalories.value,
+    dataController.consumedCalories.value);
 
 class TodaysPage extends StatefulWidget {
   const TodaysPage({
@@ -423,7 +427,7 @@ class _TodaysPageState extends State<TodaysPage>
           padding: const EdgeInsets.only(left: 12),
           child: Text(
             isLimitSurpassed(max, current)
-                ? "Surpassed $title (${surpassedPercentage(max, current)}%)"
+                ? surpassedTitle(title, max, current)
                 : title,
             style: TextStyle(
                 fontSize: 18,
@@ -441,7 +445,7 @@ class _TodaysPageState extends State<TodaysPage>
             lineHeight: 35,
             animation: true,
             animateFromLastPercent: true,
-            percent: isLimitSurpassed(max, current) ? 1 : current / max,
+            percent: progressPercent(max, current),
             center: Text(
               showDecimals
                   ? "${(current * 10).truncateToDouble() / 10} / ${max.toInt()}"
