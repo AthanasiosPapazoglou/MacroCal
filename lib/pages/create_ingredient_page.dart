@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/components/barcode_scanner.dart';
+import 'package:macro_cal_public/components/loader.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -40,6 +41,7 @@ class _CreateOrEditIngredientPageState
           11, (index) => TextEditingController());
 
   Map<String, dynamic> resultData = {};
+  bool _isLookingUpProduct = false;
 
   Future<Map<String, dynamic>?> fetchProductData(String barcode) async {
     try {
@@ -62,8 +64,10 @@ class _CreateOrEditIngredientPageState
     );
     if (barcode == null || !mounted) return;
 
+    setState(() => _isLookingUpProduct = true);
     final Map<String, dynamic>? data = await fetchProductData(barcode);
     if (!mounted) return;
+    setState(() => _isLookingUpProduct = false);
     if (data == null) {
       showErrorSnackBar(context);
       return;
@@ -226,8 +230,10 @@ class _CreateOrEditIngredientPageState
             Padding(
               padding: const EdgeInsets.only(right: 12),
               child: ElevatedButton(
-                  onPressed: scanProduct,
-                  child: const Icon(Icons.qr_code_scanner_rounded)),
+                  onPressed: _isLookingUpProduct ? null : scanProduct,
+                  child: _isLookingUpProduct
+                      ? const MacroCalLoader(width: 24, height: 24, size: 24)
+                      : const Icon(Icons.qr_code_scanner_rounded)),
             )
         ],
       ),
