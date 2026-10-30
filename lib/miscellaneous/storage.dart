@@ -173,12 +173,24 @@ void loadProfileData() {
   _loadDouble('bodyHeight', dataController.bodyHeight);
 }
 
+void _matchLength(RxList<int> values, int length) {
+  if (values.length > length) {
+    values.removeRange(length, values.length);
+  } else if (values.length < length) {
+    values.addAll(List.filled(length - values.length, 0));
+  }
+}
+
 globalDataLoad() {
   loadHistoricalMeasurementsList();
   loadIngredientsList();
   loadIngredientsQuantitiesList();
   loadActivitiesList();
   loadActivitiyVolumesList();
+  _matchLength(dataController.ingredientQuantitiesList,
+      dataController.ingredientsList.length);
+  _matchLength(dataController.activitiyVolumesList,
+      dataController.activitiesList.length);
   loadOverviewData();
   loadProfileData();
 }
