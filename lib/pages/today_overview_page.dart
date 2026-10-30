@@ -15,8 +15,6 @@ import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
 final DataController dataController = Get.find<DataController>();
 
-String formatedDate = DateFormat('dd/MM/yy').format(DateTime.now());
-
 List<Color> colorCodingList = [
   Colors.red,
   Colors.orange,
@@ -71,7 +69,8 @@ class TodaysPage extends StatefulWidget {
   State<TodaysPage> createState() => _TodaysPageState();
 }
 
-class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateMixin {
+class _TodaysPageState extends State<TodaysPage>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   bool _fabExpanded = false;
   OverlayEntry? _overlayEntry;
   final GlobalKey _fabKey = GlobalKey();
@@ -82,6 +81,7 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     calculateAdjustedCalories();
     _animController = AnimationController(
       vsync: this,
@@ -94,9 +94,17 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _removeOverlay();
     _animController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // rebuild so the date in the title is current if the day changed while
+    // the app was in the background
+    if (state == AppLifecycleState.resumed) setState(() {});
   }
 
   void _toggleFab() {
@@ -233,9 +241,10 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final String formattedDate = DateFormat('dd/MM/yy').format(DateTime.now());
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: '${LocaleConsts.overviewPageTitle.tr()}:  $formatedDate',
+        title: '${LocaleConsts.overviewPageTitle.tr()}:  $formattedDate',
       ),
       endDrawer: const SettingsDrawer(),
       body: Stack(
