@@ -102,8 +102,6 @@ class _TodaysPageState extends State<TodaysPage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // rebuild so the date in the title is current if the day changed while
-    // the app was in the background
     if (state == AppLifecycleState.resumed) setState(() {});
   }
 
@@ -141,7 +139,6 @@ class _TodaysPageState extends State<TodaysPage>
           animation: _animController,
           builder: (_, __) => Stack(
             children: [
-              // Blur + dim backdrop — tappable to collapse
               Positioned.fill(
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
@@ -156,7 +153,6 @@ class _TodaysPageState extends State<TodaysPage>
                   ),
                 ),
               ),
-              // FAB buttons — above the blur, anchored at exact FAB position
               Positioned(
                 right: fabRight,
                 bottom: fabBottom,
@@ -206,7 +202,6 @@ class _TodaysPageState extends State<TodaysPage>
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // Main FAB — same size and position as the collapsed one
                     SizedBox(
                       width: fabSize.width,
                       height: fabSize.height,

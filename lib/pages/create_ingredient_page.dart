@@ -34,7 +34,6 @@ class CreateOrEditIngredientPage extends StatefulWidget {
 
 class _CreateOrEditIngredientPageState
     extends State<CreateOrEditIngredientPage> {
-  //-- Textfield Variables
   final _formKey = GlobalKey<FormState>();
   final List<FocusNode> _focusNodes =
       List<FocusNode>.generate(11, (index) => FocusNode());
@@ -42,11 +41,8 @@ class _CreateOrEditIngredientPageState
       List<TextEditingController>.generate(
           11, (index) => TextEditingController());
 
-  //-- Barcode Variables
   Map<String, dynamic> resultData = {};
 
-  /// Fetches json data from OpenFoodFacts API, corresponding to the product code.
-  /// Returns null if the product was not found or the request failed
   Future<Map<String, dynamic>?> fetchProductData(String barcode) async {
     try {
       final response = await http.get(
@@ -61,7 +57,6 @@ class _CreateOrEditIngredientPageState
     }
   }
 
-  /// Opens the scanner and populates the textfields with the scanned product's data
   Future<void> scanProduct() async {
     final String? barcode = await Navigator.push<String>(
       context,
@@ -80,7 +75,6 @@ class _CreateOrEditIngredientPageState
     showSuccessSnackBar(context);
   }
 
-  /// Populates textfields with the data fetched from the barcode scan (if product exists in the database and was fetched successfully)
   void assignDataFromScan() {
     setState(() {
       _textControllers[1].text = getProductName();
@@ -95,15 +89,11 @@ class _CreateOrEditIngredientPageState
     });
   }
 
-  /// Returns specific field value from the fetched json data
   String getValueOfMetric(String metricJsonKey) =>
       '${resultData['product']['nutriments']?[metricJsonKey] ?? '0.0'}';
 
-  /// Returns the name of the product that was fetched from the scan
   String getProductName() => '${resultData['product']['product_name'] ?? ''}';
 
-  /// If the user is editing a product, it populates the textfields with the values that are assigned to the product.
-  /// If the user is creating a product, it does nothing
   void prePopulateTextfields() {
     if (widget.isEdit) {
       _textControllers[0].text = dataController
@@ -135,7 +125,6 @@ class _CreateOrEditIngredientPageState
     }
   }
 
-  /// Validates User's textfield entry, filters and returns the result
   dynamic textfieldValidatedValue(bool isNumeric, int controllerIndex) {
     RegExp numericRegex = RegExp(r'^[0-9]*(\.[0-9]*)?$');
 
@@ -160,7 +149,6 @@ class _CreateOrEditIngredientPageState
     }
   }
 
-  /// Saves Data when the save button is pressed
   void saveIngredientChanges() {
     if (widget.isEdit) {
       dataController.ingredientsList[widget.itemIndex!].referenceQuantity =
