@@ -46,12 +46,15 @@ class _TodayConsumptionState extends State<TodayConsumption>
 
   void getFilteredIngredientList(String val) {
     indexesOfFiltered.clear();
-    dataController.ingredientsList.asMap().forEach((index, value) {
-      if (value.ingridientName!.toLowerCase().contains(val.toLowerCase()) &&
-          val != '') {
-        indexesOfFiltered.add(index);
+    final String query = val.toLowerCase();
+    if (query.isEmpty) return;
+    for (int i = 0; i < dataController.ingredientsList.length; i++) {
+      if (dataController.ingredientsList[i].ingridientName!
+          .toLowerCase()
+          .contains(query)) {
+        indexesOfFiltered.add(i);
       }
-    });
+    }
   }
 
   bool shouldDisplayEmptyWidget() {
@@ -73,6 +76,9 @@ class _TodayConsumptionState extends State<TodayConsumption>
       length: 2,
       vsync: this,
     );
+    _tabController.addListener(() {
+      if (_tabController.index == 1) setState(getConsumedIngredientList);
+    });
     maxLength = totalIngredients();
     _controllers =
         List.generate(totalIngredients(), (_) => TextEditingController());
