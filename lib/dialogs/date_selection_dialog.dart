@@ -20,7 +20,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    DataController dataController = Get.put(DataController());
+    final DataController dataController = Get.find();
     return AlertDialog(
       title: const Text(
         'Archive Day\'s Intake',

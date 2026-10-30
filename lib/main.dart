@@ -11,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await GetStorage.init();
+  Get.put(DataController());
   await loadDefaultIngredients();
 
   Intl.defaultLocale = 'en_US';
@@ -67,9 +68,6 @@ class _MacroCalState extends State<MacroCal> with WidgetsBindingObserver {
         animationDuration: Duration(milliseconds: 300),
         child: MainPage(),
       ),
-      initialBinding: BindingsBuilder(() {
-        Get.put<DataController>(DataController());
-      }),
     );
   }
 }

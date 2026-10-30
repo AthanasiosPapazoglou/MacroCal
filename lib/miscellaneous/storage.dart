@@ -8,7 +8,7 @@ import 'package:macro_cal_public/models/activity.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import 'package:macro_cal_public/models/ingredient.dart';
 
-final DataController dataController = Get.put(DataController());
+final DataController dataController = Get.find();
 
 void saveHistoricalMeasurementsList() {
   final dataAsString = jsonEncode(HistoricalMeasurement.listToJson(
