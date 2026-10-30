@@ -81,7 +81,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     );
   }
 
-  ///Scrollable list of available activies to be registered by volume of excercise
   Expanded ActivitiesList() {
     return Expanded(
       child: ListView.builder(
@@ -92,7 +91,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     );
   }
 
-  ///Graphical element representing a specific activity entity, these are rendered within the ActivitiesList
   Padding ActivityItem(int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
@@ -155,7 +153,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     );
   }
 
-  /// Action buttons row at the bottom side of the page Reset/Save values
   Row BottomSideActionButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +184,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     );
   }
 
-  ///Popup dialog used as confirmation for reseting the volumes of all activities
   void _showPopupDialog() {
     showDialog(
       context: context,
@@ -210,14 +206,10 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                 calculateAdjustedCalories();
                 dataController.update();
                 storage.globalDataSave();
+                for (final controller in _controllers) {
+                  controller.text = '0';
+                }
                 Navigator.of(context).pop();
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TodayExcercise(),
-                  ),
-                );
               },
               child: Text(LocaleConsts.activitiesPageResetValuesDialogConfirm.tr(), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),

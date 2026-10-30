@@ -69,7 +69,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 2, // Number of tabs
+      length: 2,
       vsync: this,
     );
     maxLength = totalIngredients();
@@ -125,7 +125,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  ///Reset/Save/Search action button row in the upper part of the page
   Column TopSideActionBar(BuildContext context) {
     return Column(
       children: [
@@ -140,7 +139,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
                   },
                   child: Text(
                     LocaleConsts.consumptionPageTopActionBarResetValues.tr(),
-                    // style: const TextStyle(color: AppColors.confirmationButtonsColor),
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -189,7 +187,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  ///Search bar that appears if the search button is pressed
   Column filterSearchBar() {
     return Column(
       children: [
@@ -241,7 +238,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  ///list of food products available to register consumption values
   Expanded scrollableFoodList() {
     return Expanded(
       child: TabBarView(
@@ -256,7 +252,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  ///Bottom tab bar that changes between all/filtered list of products
   TabBar bottomSideNavbar() {
     return TabBar(
         controller: _tabController,
@@ -290,7 +285,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
         ]);
   }
 
-  ///List view after being filtered by search bar
   Widget ingredientItemsView(bool isUnconsumedList, bool isActiveFilter) {
     return shouldDisplayEmptyWidget()
         ? EmptyWidget(
@@ -415,7 +409,6 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  ///Pop up dialog to reset consumption
   void _showResetValuesPopupDialog() {
     showDialog(
       context: context,
@@ -439,14 +432,11 @@ class _TodayConsumptionState extends State<TodayConsumption>
                 dataController.update();
                 storage.globalDataSave();
                 getConsumedIngredientList();
+                for (final controller in _controllers) {
+                  controller.text = '0';
+                }
+                setState(() {});
                 Navigator.of(context).pop();
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TodayConsumption(),
-                  ),
-                );
               },
               child: Text(LocaleConsts.consumptionPageResetValuesDialogConfirm.tr(), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),
