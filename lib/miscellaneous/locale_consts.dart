@@ -113,4 +113,18 @@ class LocaleConsts {
   static const String profilePageLabels7 = 'profilePageLabels7';
   static const String profilePageButtonSideActionsSaveButton = 'profilePageButtonSideActionsSaveButton';
   static const String settingsPageTitle = 'settingsPageTitle';
+  static const String overviewPageSurpassed = 'overviewPageSurpassed';
+  static const String scannerPageClose = 'scannerPageClose';
+  static const String archiveDialogTitle = 'archiveDialogTitle';
+  static const String archiveDialogBody = 'archiveDialogBody';
+  static const String archiveDialogSelectedDate = 'archiveDialogSelectedDate';
+  static const String archiveDialogArchiveFor = 'archiveDialogArchiveFor';
+  static const String archiveDialogDateTaken = 'archiveDialogDateTaken';
+  static const String archiveDialogDateFree = 'archiveDialogDateFree';
+  static const String archiveDialogCancel = 'archiveDialogCancel';
+  static const String archiveDialogComplete = 'archiveDialogComplete';
+  static const String snackbarProductFound = 'snackbarProductFound';
+  static const String snackbarProductNotFound = 'snackbarProductNotFound';
+  static const String snackbarClose = 'snackbarClose';
+  static const String settingsPageLanguage = 'settingsPageLanguage';
 }

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/components/language_switch.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
 class MajorPageAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -45,8 +46,7 @@ class SettingsDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = EasyLocalization.of(context)!.currentLocale;
-    final label = locale == const Locale('en', 'US') ? 'Language' : 'Γλώσσα';
+    final label = LocaleConsts.settingsPageLanguage.tr();
 
     return Drawer(
       backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,

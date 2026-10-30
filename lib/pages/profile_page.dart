@@ -73,8 +73,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MajorPageAppBar(
-        title: 'Profile',
+      appBar: MajorPageAppBar(
+        title: LocaleConsts.profilePageTitle.tr(),
       ),
       endDrawer: const SettingsDrawer(),
       backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,

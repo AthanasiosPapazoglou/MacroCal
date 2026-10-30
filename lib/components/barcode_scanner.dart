@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
@@ -29,7 +31,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Close Scanner'),
+                child: Text(LocaleConsts.scannerPageClose.tr()),
               ),
             ),
           ),

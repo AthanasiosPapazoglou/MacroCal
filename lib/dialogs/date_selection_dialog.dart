@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
+import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
@@ -20,16 +21,14 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
   Widget build(BuildContext context) {
     final bool isDatePopulated = measurementIndexForDate(selectedDate) != -1;
     return AlertDialog(
-      title: const Text(
-        'Archive Day\'s Intake',
-      ),
+      title: Text(LocaleConsts.archiveDialogTitle.tr()),
       content: SizedBox(
         height: 260,
         width: double.maxFinite,
         child: Column(
           children: [
-            const Text(
-              'Select the date that you wish your current intake to be registered to. Today\'s date is preselected by default. Press complete to finalise the registration process.',
+            Text(
+              LocaleConsts.archiveDialogBody.tr(),
               textAlign: TextAlign.start,
             ),
             const SizedBox(
@@ -37,9 +36,9 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
             ),
             Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text('Selected Date'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(LocaleConsts.archiveDialogSelectedDate.tr()),
                 ),
                 InkWell(
                   onTap: () async {
@@ -65,7 +64,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                         Row(
                           children: [
                             Text(
-                              'Archive For:',
+                              LocaleConsts.archiveDialogArchiveFor.tr(),
                               style: TextStyle(
                                   color: AppThemes.darkTheme.primaryColor),
                             ),
@@ -107,8 +106,8 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                       width: 240,
                       child: Text(
                         isDatePopulated
-                            ? 'Measurement already exists for the selected date. \'Complete\' will overwrite it.'
-                            : 'Selected Date has no previous Measurement assigned.',
+                            ? LocaleConsts.archiveDialogDateTaken.tr()
+                            : LocaleConsts.archiveDialogDateFree.tr(),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
@@ -130,9 +129,9 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: AppColors.redAccent),
+          child: Text(
+            LocaleConsts.archiveDialogCancel.tr(),
+            style: const TextStyle(color: AppColors.redAccent),
           ),
         ),
         TextButton(
@@ -147,7 +146,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
             Navigator.of(context).pop();
           },
           child: Text(
-            'Complete',
+            LocaleConsts.archiveDialogComplete.tr(),
             style: TextStyle(color: AppThemes.darkTheme.primaryColor),
           ),
         ),

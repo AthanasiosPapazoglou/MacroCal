@@ -27,9 +27,12 @@ double progressPercent(double max, double current) {
   return (current / max).clamp(0.0, 1.0);
 }
 
-String surpassedTitle(String title, double max, double current) => max > 0
-    ? "Surpassed $title (${(((current / max) - 1) * 100).floor()}%)"
-    : "Surpassed $title";
+String surpassedTitle(String title, double max, double current) {
+  final String surpassed = LocaleConsts.overviewPageSurpassed.tr(args: [title]);
+  return max > 0
+      ? "$surpassed (${(((current / max) - 1) * 100).floor()}%)"
+      : surpassed;
+}
 
 Color assignItemColor(double max, double current, bool isMacro) {
   if (current / max < .3) {

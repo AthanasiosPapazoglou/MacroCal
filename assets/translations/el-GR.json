@@ -112,5 +112,19 @@
     "profilePageLabels6": "Βάρος (kg)",
     "profilePageLabels7": "Ύψος (cm)",
     "profilePageButtonSideActionsSaveButton": "Αποθήκευση",
-    "settingsPageTitle": "Ρυθμίσεις"
+    "settingsPageTitle": "Ρυθμίσεις",
+    "overviewPageSurpassed": "Υπέρβαση: {}",
+    "scannerPageClose": "Κλείσιμο σαρωτή",
+    "archiveDialogTitle": "Αρχειοθέτηση ημερήσιας κατανάλωσης",
+    "archiveDialogBody": "Επιλέξτε την ημερομηνία στην οποία θέλετε να καταχωρηθεί η τρέχουσα κατανάλωσή σας. Η σημερινή ημερομηνία είναι προεπιλεγμένη. Πατήστε Ολοκλήρωση για να ολοκληρωθεί η καταχώρηση.",
+    "archiveDialogSelectedDate": "Επιλεγμένη ημερομηνία",
+    "archiveDialogArchiveFor": "Αρχειοθέτηση για:",
+    "archiveDialogDateTaken": "Υπάρχει ήδη μέτρηση για την επιλεγμένη ημερομηνία. Η Ολοκλήρωση θα την αντικαταστήσει.",
+    "archiveDialogDateFree": "Δεν υπάρχει προηγούμενη μέτρηση για την επιλεγμένη ημερομηνία.",
+    "archiveDialogCancel": "Ακύρωση",
+    "archiveDialogComplete": "Ολοκλήρωση",
+    "snackbarProductFound": "Το προϊόν βρέθηκε και οι τιμές του συμπληρώθηκαν",
+    "snackbarProductNotFound": "Δεν βρέθηκε προϊόν ή υπήρξε σφάλμα σύνδεσης",
+    "snackbarClose": "Κλείσιμο",
+    "settingsPageLanguage": "Γλώσσα"
 }

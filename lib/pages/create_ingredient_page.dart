@@ -347,12 +347,12 @@ class _CreateOrEditIngredientPageState
   }
 
   void showSuccessSnackBar(BuildContext context) {
-    final snackBar = kProductFoundSnackbar;
+    final snackBar = productFoundSnackbar();
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void showErrorSnackBar(BuildContext context) {
-    final snackBar = kNoProductFoundSnackbar;
+    final snackBar = noProductFoundSnackbar();
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

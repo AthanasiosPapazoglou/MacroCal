@@ -273,8 +273,8 @@ class _TodayConsumptionState extends State<TodayConsumption>
         ? EmptyWidget(
             packageImage: PackageImage.Image_2,
             title: isActiveFilter
-                ? 'No items found matching your search criteria'
-                : 'No items included in your list yet',
+                ? LocaleConsts.foodsPageEmptyPageTitleNoResults.tr()
+                : LocaleConsts.foodsPageEmptyPageTitleNoItems.tr(),
             titleTextStyle: TextStyle(
               fontSize: 22,
               color: AppThemes.darkTheme.primaryColor,

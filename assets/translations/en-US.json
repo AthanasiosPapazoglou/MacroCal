@@ -112,5 +112,19 @@
     "profilePageLabels6": "Weight (kg.)",
     "profilePageLabels7": "Height (cm.)",
     "profilePageButtonSideActionsSaveButton": "Save",
-    "settingsPageTitle": "Settings"
+    "settingsPageTitle": "Settings",
+    "overviewPageSurpassed": "Surpassed {}",
+    "scannerPageClose": "Close Scanner",
+    "archiveDialogTitle": "Archive Day's Intake",
+    "archiveDialogBody": "Select the date that you wish your current intake to be registered to. Today's date is preselected by default. Press complete to finalise the registration process.",
+    "archiveDialogSelectedDate": "Selected Date",
+    "archiveDialogArchiveFor": "Archive For:",
+    "archiveDialogDateTaken": "Measurement already exists for the selected date. 'Complete' will overwrite it.",
+    "archiveDialogDateFree": "Selected Date has no previous Measurement assigned.",
+    "archiveDialogCancel": "Cancel",
+    "archiveDialogComplete": "Complete",
+    "snackbarProductFound": "Product found, its values have been filled in",
+    "snackbarProductNotFound": "No product found or there has been an error in the connection",
+    "snackbarClose": "Close",
+    "settingsPageLanguage": "Language"
 }
