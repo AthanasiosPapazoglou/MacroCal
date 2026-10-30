@@ -81,6 +81,7 @@ class _TodaysPageState extends State<TodaysPage>
   late final AnimationController _animController;
   late final Animation<double> _fadeAnim;
   late final Animation<Offset> _slideAnim;
+  late final Animation<double> _rotationAnim;
 
   @override
   void initState() {
@@ -91,9 +92,13 @@ class _TodaysPageState extends State<TodaysPage>
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-    _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
+    _fadeAnim =
+        CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
     _slideAnim = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+        .animate(
+            CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _rotationAnim =
+        Tween<double>(begin: 0, end: 0.125).animate(_animController);
   }
 
   @override
@@ -129,104 +134,110 @@ class _TodaysPageState extends State<TodaysPage>
   }
 
   void _showOverlay() {
-    final RenderBox renderBox = _fabKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _fabKey.currentContext!.findRenderObject() as RenderBox;
     final Offset fabGlobal = renderBox.localToGlobal(Offset.zero);
     final Size fabSize = renderBox.size;
 
     _overlayEntry = OverlayEntry(
       builder: (ctx) {
         final screenSize = MediaQuery.of(ctx).size;
-        final double fabBottom = screenSize.height - fabGlobal.dy - fabSize.height;
+        final double fabBottom =
+            screenSize.height - fabGlobal.dy - fabSize.height;
         final double fabRight = screenSize.width - fabGlobal.dx - fabSize.width;
 
-        return AnimatedBuilder(
-          animation: _animController,
-          builder: (_, __) => Stack(
-            children: [
-              Positioned.fill(
-                child: BackdropFilter(
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: _animController,
+                builder: (_, child) => BackdropFilter(
                   filter: ImageFilter.blur(
                     sigmaX: _animController.value * 3.5,
                     sigmaY: _animController.value * 3.5,
                   ),
-                  child: GestureDetector(
-                    onTap: _collapseFab,
-                    child: Container(
-                      color: Colors.black.withOpacity(0.25 * _animController.value),
-                    ),
+                  child: child,
+                ),
+                child: GestureDetector(
+                  onTap: _collapseFab,
+                  child: FadeTransition(
+                    opacity: _animController,
+                    child:
+                        ColoredBox(color: Colors.black.withValues(alpha: 0.25)),
                   ),
                 ),
               ),
-              Positioned(
-                right: fabRight,
-                bottom: fabBottom,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: SlideTransition(
-                        position: _slideAnim,
-                        child: IconButton(
-                          onPressed: () {
-                            _collapseFab();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TodayConsumption()));
-                          },
-                          icon: const Icon(Icons.restaurant_rounded),
-                          style: IconButton.styleFrom(
-                            backgroundColor: AppThemes.darkTheme.primaryColor,
-                            fixedSize: const Size(50, 50),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: SlideTransition(
-                        position: _slideAnim,
-                        child: IconButton(
-                          onPressed: () {
-                            _collapseFab();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TodayExcercise()));
-                          },
-                          icon: const Icon(Icons.sports_gymnastics_rounded),
-                          style: IconButton.styleFrom(
-                            backgroundColor: AppThemes.darkTheme.primaryColor,
-                            fixedSize: const Size(50, 50),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: fabSize.width,
-                      height: fabSize.height,
+            ),
+            Positioned(
+              right: fabRight,
+              bottom: fabBottom,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FadeTransition(
+                    opacity: _fadeAnim,
+                    child: SlideTransition(
+                      position: _slideAnim,
                       child: IconButton(
-                        onPressed: _toggleFab,
-                        icon: AnimatedRotation(
-                          turns: _animController.value * 0.125,
-                          duration: Duration.zero,
-                          child: const Icon(Icons.add_rounded),
-                        ),
+                        onPressed: () {
+                          _collapseFab();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TodayConsumption()));
+                        },
+                        icon: const Icon(Icons.restaurant_rounded),
                         style: IconButton.styleFrom(
                           backgroundColor: AppThemes.darkTheme.primaryColor,
-                          fixedSize: fabSize,
+                          fixedSize: const Size(50, 50),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 12),
+                  FadeTransition(
+                    opacity: _fadeAnim,
+                    child: SlideTransition(
+                      position: _slideAnim,
+                      child: IconButton(
+                        onPressed: () {
+                          _collapseFab();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TodayExcercise()));
+                        },
+                        icon: const Icon(Icons.sports_gymnastics_rounded),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppThemes.darkTheme.primaryColor,
+                          fixedSize: const Size(50, 50),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: fabSize.width,
+                    height: fabSize.height,
+                    child: IconButton(
+                      onPressed: _toggleFab,
+                      icon: RotationTransition(
+                        turns: _rotationAnim,
+                        child: const Icon(Icons.add_rounded),
+                      ),
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppThemes.darkTheme.primaryColor,
+                        fixedSize: fabSize,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -377,8 +388,10 @@ class _TodaysPageState extends State<TodaysPage>
                       children: [
                         Text(
                           (caloryCirclePercentile() == 1.0)
-                              ? LocaleConsts.overviewPageIntakeInfoExceeding.tr()
-                              : LocaleConsts.overviewPageIntakeInfoRemaining.tr(),
+                              ? LocaleConsts.overviewPageIntakeInfoExceeding
+                                  .tr()
+                              : LocaleConsts.overviewPageIntakeInfoRemaining
+                                  .tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: assignItemColor(
