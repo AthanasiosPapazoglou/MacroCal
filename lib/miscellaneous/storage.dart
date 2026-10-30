@@ -59,12 +59,6 @@ void saveOverviewData() {
 }
 
 void saveProfileData() {
-  GetStorage().write('adjustedCalories', dataController.adjustedCalories.value);
-  GetStorage().write('dailyCalories', dataController.dailyCalories.value);
-  GetStorage().write('dailyProteins', dataController.dailyProteins.value);
-  GetStorage().write('sugarsLimit', dataController.sugarsLimit.value);
-  GetStorage().write('saturatedLimit', dataController.saturatedLimit.value);
-  GetStorage().write('sodiumLimit', dataController.sodiumLimit.value);
   GetStorage().write('bodyWeight', dataController.bodyWeight.value);
   GetStorage().write('bodyHeight', dataController.bodyHeight.value);
 }
@@ -162,12 +156,6 @@ void loadOverviewData() {
 }
 
 void loadProfileData() {
-  _loadDouble('adjustedCalories', dataController.adjustedCalories);
-  _loadDouble('dailyCalories', dataController.dailyCalories);
-  _loadDouble('dailyProteins', dataController.dailyProteins);
-  _loadDouble('sugarsLimit', dataController.sugarsLimit);
-  _loadDouble('saturatedLimit', dataController.saturatedLimit);
-  _loadDouble('sodiumLimit', dataController.sodiumLimit);
   _loadDouble('bodyWeight', dataController.bodyWeight);
   _loadDouble('bodyHeight', dataController.bodyHeight);
 }
