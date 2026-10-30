@@ -259,19 +259,11 @@ class _TodayConsumptionState extends State<TodayConsumption>
         tabs: [
           Tab(
             text: LocaleConsts.consumptionPageBottomActionBarAllFoods.tr(),
-            icon: Image.asset(
-              pantryImagePath,
-              width: 30,
-              height: 30,
-            ),
+            icon: tabIcon(context, pantryImagePath),
           ),
           Tab(
             text: LocaleConsts.consumptionPageBottomActionBarConsumed.tr(),
-            icon: Image.asset(
-              consumptionImagePath,
-              width: 30,
-              height: 30,
-            ),
+            icon: tabIcon(context, consumptionImagePath),
           ),
         ]);
   }

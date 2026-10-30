@@ -18,7 +18,7 @@ class _CreateRecipePageState extends State<CreateRecipePage>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 2, // Number of tabs
+      length: 2,
       vsync: this,
     );
   }
@@ -72,24 +72,15 @@ class _CreateRecipePageState extends State<CreateRecipePage>
     );
   }
 
-  ///Bottom tab bar that changes between all/filtered list of products
   TabBar bottomSideNavbar() {
     return TabBar(controller: _tabController, tabs: [
       Tab(
         text: 'Ingredients',
-        icon: Image.asset(
-          pantryImagePath,
-          width: 30,
-          height: 30,
-        ),
+        icon: tabIcon(context, pantryImagePath),
       ),
       Tab(
         text: 'Additional Data',
-        icon: Image.asset(
-          consumptionImagePath,
-          width: 30,
-          height: 30,
-        ),
+        icon: tabIcon(context, consumptionImagePath),
       ),
     ]);
   }

@@ -5,6 +5,14 @@ import '../controllers/data_controller.dart';
 
 double navTabsImageSize = 30;
 
+Image tabIcon(BuildContext context, String path) => Image.asset(
+      path,
+      width: navTabsImageSize,
+      height: navTabsImageSize,
+      cacheWidth:
+          (navTabsImageSize * MediaQuery.devicePixelRatioOf(context)).round(),
+    );
+
 SizedBox heightSpacer(double space) {
   return SizedBox(
     height: space,

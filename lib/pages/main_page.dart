@@ -23,35 +23,19 @@ class _MainPageState extends State<MainPage> {
         child: TabBar(
           tabs: [
             Tab(
-              icon: Image.asset(
-                todayImagePath,
-                width: navTabsImageSize,
-                height: navTabsImageSize,
-              ),
+              icon: tabIcon(context, todayImagePath),
               text: LocaleConsts.tabBarOverview.tr(),
             ),
             Tab(
-              icon: Image.asset(
-                foodsImagePath,
-                width: navTabsImageSize,
-                height: navTabsImageSize,
-              ),
+              icon: tabIcon(context, foodsImagePath),
               text: LocaleConsts.tabBarFoodBank.tr(),
             ),
             Tab(
-              icon: Image.asset(
-                historicalImagePath,
-                width: navTabsImageSize,
-                height: navTabsImageSize,
-              ),
+              icon: tabIcon(context, historicalImagePath),
               text: LocaleConsts.tabBarHistorical.tr(),
             ),
             Tab(
-              icon: Image.asset(
-                profileImagePath,
-                width: navTabsImageSize,
-                height: navTabsImageSize,
-              ),
+              icon: tabIcon(context, profileImagePath),
               text: LocaleConsts.tabBarProfile.tr(),
             ),
           ],
