@@ -16,7 +16,7 @@ class DateSelectionDialog extends StatefulWidget {
 }
 
 class _DateSelectionDialogState extends State<DateSelectionDialog> {
-  DateTime? selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +45,13 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                 ),
                 InkWell(
                   onTap: () async {
-                    selectedDate = await showDatePicker(
+                    final DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime.fromMillisecondsSinceEpoch(0),
                         lastDate: DateTime.now());
-                    setState(() {});
+                    if (pickedDate == null || !mounted) return;
+                    setState(() => selectedDate = pickedDate);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -80,8 +81,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                           ],
                         ),
                         Text(
-                          DateFormat('dd/MM/yyyy')
-                              .format(selectedDate ?? DateTime.now()),
+                          DateFormat('dd/MM/yyyy').format(selectedDate),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: AppThemes.darkTheme.primaryColor),
