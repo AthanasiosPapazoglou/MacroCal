@@ -83,7 +83,7 @@ class _CreateOrEditIngredientPageState
       _textControllers[7].text = getValueOfMetric('sugars_100g');
       _textControllers[8].text = getValueOfMetric('fiber_100g');
       _textControllers[9].text = getValueOfMetric('proteins_100g');
-      _textControllers[10].text = getValueOfMetric('sodium_100g');
+      _textControllers[10].text = getValueOfMetric('salt_100g');
     });
   }
 
