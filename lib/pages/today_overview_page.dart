@@ -433,8 +433,7 @@ class _TodaysPageState extends State<TodaysPage>
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isLimitSurpassed(max, current)
-                    ? (title == LocaleConsts.overviewPageNutrientsProtein.tr() ||
-                            title == LocaleConsts.overviewPageNutrientsFiber.tr())
+                    ? isMacro
                         ? Colors.green
                         : assignItemColor(max, current, isMacro)
                     : Colors.white),
@@ -453,11 +452,8 @@ class _TodaysPageState extends State<TodaysPage>
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             animationDuration: 1000,
-            progressColor: isLimitSurpassed(max, current)
-                ? (title == LocaleConsts.overviewPageNutrientsProtein.tr() ||
-                        title == LocaleConsts.overviewPageNutrientsFiber.tr())
-                    ? Colors.green
-                    : assignItemColor(max, current, isMacro)
+            progressColor: isLimitSurpassed(max, current) && isMacro
+                ? Colors.green
                 : assignItemColor(max, current, isMacro),
             backgroundColor: Colors.black.withOpacity(.3),
             barRadius: const Radius.circular(20),
