@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
@@ -53,12 +53,8 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     }
   }
 
-  int getNumberOfGridChildren (){
-    double screenWidth = MediaQuery.of(context).size.width;
-    
-      return (screenWidth/120.floor()).toInt();
-    
-  }
+  int getNumberOfGridChildren() =>
+      max(1, MediaQuery.sizeOf(context).width ~/ 120);
 
   stateManipulationCallback() {
     setState(() {});
@@ -259,7 +255,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                       ? indexesOfFiltered.length
                       : dataController.ingredientsList.length,
                   gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: getNumberOfGridChildren() as int,
+                    crossAxisCount: getNumberOfGridChildren(),
                     childAspectRatio: 1,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,

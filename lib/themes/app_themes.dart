@@ -1,7 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
 
 ScrollbarThemeData _scrollbarThemeData = const ScrollbarThemeData(
   radius: Radius.circular(10),
@@ -27,8 +26,6 @@ class AppThemes {
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
-  // To use the Playground font, add GoogleFonts package and uncomment
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
 
   static final ThemeData darkTheme = FlexThemeData.dark(
@@ -47,7 +44,5 @@ class AppThemes {
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
-  // To use the Playground font, add GoogleFonts package and uncomment
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
 }

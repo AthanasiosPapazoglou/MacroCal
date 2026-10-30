@@ -9,7 +9,6 @@ import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/models/ingredient.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
-import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:http/http.dart' as http;
 import 'package:macro_cal_public/miscellaneous/locale_consts.dart';

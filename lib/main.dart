@@ -26,7 +26,7 @@ void main() async {
   );
 }
 
-class MacroCal extends StatefulWidget with WidgetsBindingObserver {
+class MacroCal extends StatefulWidget {
   const MacroCal({super.key});
 
   @override
@@ -43,8 +43,8 @@ class _MacroCalState extends State<MacroCal> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override

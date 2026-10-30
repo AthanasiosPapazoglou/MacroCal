@@ -1,4 +1,3 @@
-import 'package:get_storage/get_storage.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;

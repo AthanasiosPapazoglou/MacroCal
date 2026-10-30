@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
-import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
 
