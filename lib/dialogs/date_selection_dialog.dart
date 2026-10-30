@@ -21,6 +21,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
   @override
   Widget build(BuildContext context) {
     final DataController dataController = Get.find();
+    final bool isDatePopulated = measurementIndexForDate(selectedDate) != -1;
     return AlertDialog(
       title: const Text(
         'Archive Day\'s Intake',
@@ -96,14 +97,11 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                 Row(
                   children: [
                     Icon(
-                      (isSelectedDatepopulatedChecker(
-                              selectedDate)['isPopulated'])
+                      isDatePopulated
                           ? Icons.warning_amber_rounded
                           : Icons.check_circle_outline_rounded,
-                      color: (isSelectedDatepopulatedChecker(
-                              selectedDate)['isPopulated'])
-                          ? AppColors.orange
-                          : AppColors.green,
+                      color:
+                          isDatePopulated ? AppColors.orange : AppColors.green,
                     ),
                     const SizedBox(
                       width: 4,
@@ -111,16 +109,14 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                     SizedBox(
                       width: 240,
                       child: Text(
-                        (isSelectedDatepopulatedChecker(
-                                selectedDate)['isPopulated'])
+                        isDatePopulated
                             ? 'Measurement already exists for the selected date. \'Complete\' will overwrite it.'
                             : 'Selected Date has no previous Measurement assigned.',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
                             fontSize: 11,
-                            color: (isSelectedDatepopulatedChecker(
-                                    selectedDate)['isPopulated'])
+                            color: isDatePopulated
                                 ? AppColors.orange
                                 : AppColors.green),
                       ),

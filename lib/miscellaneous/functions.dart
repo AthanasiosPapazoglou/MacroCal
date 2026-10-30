@@ -63,21 +63,11 @@ populateConsumptionVariables() {
   dataController.sodiumConsumed.value = sodium;
 }
 
-Map<String, dynamic> isSelectedDatepopulatedChecker(DateTime? selectedDate) {
-  for (int i = 0; i < dataController.historicalMeasurementsList.length; i++) {
-    if (dataController.historicalMeasurementsList[i].measurementDate!.year ==
-            selectedDate?.year &&
-        dataController.historicalMeasurementsList[i].measurementDate!.month ==
-            selectedDate?.month &&
-        dataController.historicalMeasurementsList[i].measurementDate!.day ==
-            selectedDate?.day) {
-      return {"isPopulated": true, "index": i};
-    }
-  }
-  return {"isPopulated": false, "index": -1};
-}
+int measurementIndexForDate(DateTime date) =>
+    dataController.historicalMeasurementsList.indexWhere((measurement) =>
+        DateUtils.isSameDay(measurement.measurementDate, date));
 
-registerHistoricalMeasurement(DateTime? selectedDate) {
+registerHistoricalMeasurement(DateTime selectedDate) {
   HistoricalMeasurement newMeasurement = HistoricalMeasurement(
       measurementDate: selectedDate,
       historicalMeasurementNutritionalData:
@@ -96,9 +86,10 @@ registerHistoricalMeasurement(DateTime? selectedDate) {
         sodiumConsumed: dataController.sodiumConsumed.value,
       ));
 
-  (isSelectedDatepopulatedChecker(selectedDate)['isPopulated'])
-      ? dataController.historicalMeasurementsList[
-              isSelectedDatepopulatedChecker(selectedDate)['index']] =
-          newMeasurement
-      : dataController.historicalMeasurementsList.add(newMeasurement);
+  final int index = measurementIndexForDate(selectedDate);
+  if (index == -1) {
+    dataController.historicalMeasurementsList.add(newMeasurement);
+  } else {
+    dataController.historicalMeasurementsList[index] = newMeasurement;
+  }
 }
