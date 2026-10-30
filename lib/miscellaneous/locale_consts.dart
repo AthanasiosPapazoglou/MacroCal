@@ -127,4 +127,5 @@ class LocaleConsts {
   static const String snackbarProductNotFound = 'snackbarProductNotFound';
   static const String snackbarClose = 'snackbarClose';
   static const String settingsPageLanguage = 'settingsPageLanguage';
+  static const String profilePageInvalidNumber = 'profilePageInvalidNumber';
 }

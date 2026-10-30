@@ -33,23 +33,24 @@ class _ProfilePageState extends State<ProfilePage> {
     _textControllers[7].text = dataController.bodyHeight.value.toString();
   }
 
+  double? parseProfileValue(String text) {
+    final double? value = double.tryParse(text.trim().replaceAll(',', '.'));
+    return (value == null || !value.isFinite || value < 0) ? null : value;
+  }
+
   saveProfileData() {
-    dataController.dailyCalories.value =
-        double.tryParse(_textControllers[0].text) ?? 0.0;
-    dataController.dailyProteins.value =
-        double.tryParse(_textControllers[1].text) ?? 0.0;
-    dataController.dailyFiber.value =
-        double.tryParse(_textControllers[2].text) ?? 0.0;
-    dataController.sugarsLimit.value =
-        double.tryParse(_textControllers[3].text) ?? 0.0;
-    dataController.saturatedLimit.value =
-        double.tryParse(_textControllers[4].text) ?? 0.0;
-    dataController.sodiumLimit.value =
-        double.tryParse(_textControllers[5].text) ?? 0.0;
-    dataController.bodyWeight.value =
-        double.tryParse(_textControllers[6].text) ?? 0.0;
-    dataController.bodyHeight.value =
-        double.tryParse(_textControllers[7].text) ?? 0.0;
+    final List<double> values = [
+      for (final controller in _textControllers)
+        parseProfileValue(controller.text)!
+    ];
+    dataController.dailyCalories.value = values[0];
+    dataController.dailyProteins.value = values[1];
+    dataController.dailyFiber.value = values[2];
+    dataController.sugarsLimit.value = values[3];
+    dataController.saturatedLimit.value = values[4];
+    dataController.sodiumLimit.value = values[5];
+    dataController.bodyWeight.value = values[6];
+    dataController.bodyHeight.value = values[7];
     calculateAdjustedCalories();
   }
 
@@ -105,45 +106,52 @@ class _ProfilePageState extends State<ProfilePage> {
     return Expanded(
       child: Form(
         key: _formKey,
-        child: ListView.builder(
-          itemCount: 8,
-          itemBuilder: (context, index) {
-            const borderRadius = BorderRadius.all(Radius.circular(12));
-            final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
-            return Column(
-              children: [
-                heightSpacer(12),
-                TextFormField(
-                  controller: _textControllers[index],
-                  focusNode: _focusNodes[index],
-                  onFieldSubmitted: (value) {
-                    if (index < _focusNodes.length - 1) {
-                      _focusNodes[index + 1].requestFocus();
-                    } else {
-                      _formKey.currentState!.validate();
-                    }
-                  },
-                  decoration: InputDecoration(
-                    floatingLabelAlignment: FloatingLabelAlignment.center,
-                    labelText: textfieldLabels[index].tr(),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius,
-                      borderSide: borderSide,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: borderRadius,
-                      borderSide: borderSide.copyWith(width: 2.5),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: borderRadius,
-                      borderSide: borderSide,
+        child: SingleChildScrollView(
+          child: Column(
+            children: List.generate(8, (index) {
+              const borderRadius = BorderRadius.all(Radius.circular(12));
+              final borderSide =
+                  BorderSide(color: Colors.green.shade500, width: 1.5);
+              return Column(
+                children: [
+                  heightSpacer(12),
+                  TextFormField(
+                    controller: _textControllers[index],
+                    focusNode: _focusNodes[index],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    validator: (value) => parseProfileValue(value ?? '') == null
+                        ? LocaleConsts.profilePageInvalidNumber.tr()
+                        : null,
+                    onFieldSubmitted: (value) {
+                      if (index < _focusNodes.length - 1) {
+                        _focusNodes[index + 1].requestFocus();
+                      } else {
+                        _formKey.currentState!.validate();
+                      }
+                    },
+                    decoration: InputDecoration(
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
+                      labelText: textfieldLabels[index].tr(),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: borderRadius,
+                        borderSide: borderSide,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: borderRadius,
+                        borderSide: borderSide.copyWith(width: 2.5),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: borderRadius,
+                        borderSide: borderSide,
+                      ),
                     ),
                   ),
-                ),
-                heightSpacer(12),
-              ],
-            );
-          },
+                  heightSpacer(12),
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -154,6 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: ElevatedButton(
           onPressed: () {
+            if (!_formKey.currentState!.validate()) return;
             final tabController = DefaultTabController.of(context);
             saveProfileData();
             dataController.update();

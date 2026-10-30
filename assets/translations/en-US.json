@@ -126,5 +126,6 @@
     "snackbarProductFound": "Product found, its values have been filled in",
     "snackbarProductNotFound": "No product found or there has been an error in the connection",
     "snackbarClose": "Close",
-    "settingsPageLanguage": "Language"
+    "settingsPageLanguage": "Language",
+    "profilePageInvalidNumber": "Enter a number of 0 or more"
 }

@@ -126,5 +126,6 @@
     "snackbarProductFound": "Το προϊόν βρέθηκε και οι τιμές του συμπληρώθηκαν",
     "snackbarProductNotFound": "Δεν βρέθηκε προϊόν ή υπήρξε σφάλμα σύνδεσης",
     "snackbarClose": "Κλείσιμο",
-    "settingsPageLanguage": "Γλώσσα"
+    "settingsPageLanguage": "Γλώσσα",
+    "profilePageInvalidNumber": "Εισάγετε έναν αριθμό από 0 και πάνω"
 }
