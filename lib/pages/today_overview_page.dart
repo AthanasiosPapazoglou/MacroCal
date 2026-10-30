@@ -277,7 +277,8 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
                       LocaleConsts.overviewPageNutrientsSalt.tr(),
                       dataController.sodiumLimit.value,
                       dataController.sodiumConsumed.value,
-                      false),
+                      false,
+                      showDecimals: false),
                   heightSpacer(48),
                 ],
               ),
@@ -319,7 +320,7 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
   Column SectionHeader(String title) {
     return Column(
       children: [
-        heightSpacer(title == 'Calory Intake' ? 32 : 48),
+        heightSpacer(48),
         Center(
           child: Text(
             title,
@@ -408,8 +409,9 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
     String title,
     double max,
     double current,
-    bool isMacro,
-  ) {
+    bool isMacro, {
+    bool showDecimals = true,
+  }) {
     return Column(
       children: [
         heightSpacer(8),
@@ -437,9 +439,9 @@ class _TodaysPageState extends State<TodaysPage> with SingleTickerProviderStateM
             animateFromLastPercent: true,
             percent: isLimitSurpassed(max, current) ? 1 : current / max,
             center: Text(
-              (title == 'Salt (mg)')
-                  ? "${current.toInt()} / ${max.toInt()}"
-                  : "${(current * 10).truncateToDouble() / 10} / ${max.toInt()}",
+              showDecimals
+                  ? "${(current * 10).truncateToDouble() / 10} / ${max.toInt()}"
+                  : "${current.toInt()} / ${max.toInt()}",
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             animationDuration: 1000,
