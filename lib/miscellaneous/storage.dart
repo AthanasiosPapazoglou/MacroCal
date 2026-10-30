@@ -9,43 +9,35 @@ import 'package:macro_cal_public/models/ingredient.dart';
 
 final DataController dataController = Get.put(DataController());
 
-//! --------- SAVING DATA -------------------
-
-/// Saves the list of Historical Measurements to the local storage
 void saveHistoricalMeasurementsList() {
   final dataAsString = jsonEncode(HistoricalMeasurement.listToJson(
       dataController.historicalMeasurementsList));
   GetStorage().write('historicalMeasurementList', dataAsString);
 }
 
-/// Saves the list of Ingredients to the local storage
 void saveIngredientsList() {
   final dataAsString =
       jsonEncode(Ingredient.listToJson(dataController.ingredientsList));
   GetStorage().write('ingredientList', dataAsString);
 }
 
-/// Saves the list of Ingredient Quantities to the local storage
 void saveIngredientQuantitiesList() {
   final dataAsString =
       dataController.ingredientQuantitiesList.toList().toString();
   GetStorage().write('ingredientQuantitiesList', dataAsString);
 }
 
-/// Saves the list of Activities to the local storage
 void saveActivitiesList() {
   final dataAsString =
       jsonEncode(Activity.listToJson(dataController.activitiesList));
   GetStorage().write('activityList', dataAsString);
 }
 
-/// Saves the list of Ingredient Quantities to the local storage
 void saveActivityVolumesList() {
   final dataAsString = dataController.activitiyVolumesList.toList().toString();
   GetStorage().write('activitiyVolumesList', dataAsString);
 }
 
-/// Saves all data that appears in the Overview Page to the local storage
 void saveOverviewData() {
   GetStorage().write('adjustedCalories', dataController.adjustedCalories.value);
   GetStorage().write('dailyCalories', dataController.dailyCalories.value);
@@ -67,7 +59,6 @@ void saveOverviewData() {
   GetStorage().write('sodiumConsumed', dataController.sodiumConsumed.value);
 }
 
-/// Saves all data that appears in the Profile Page to the local storage
 void saveProfileData() {
   GetStorage().write('adjustedCalories', dataController.adjustedCalories.value);
   GetStorage().write('dailyCalories', dataController.dailyCalories.value);
@@ -79,7 +70,6 @@ void saveProfileData() {
   GetStorage().write('bodyHeight', dataController.bodyHeight.value);
 }
 
-/// Saves the state of all data across the App
 void globalDataSave() {
   saveHistoricalMeasurementsList();
   saveIngredientsList();
@@ -90,9 +80,6 @@ void globalDataSave() {
   saveProfileData();
 }
 
-//! --------- LOADING DATA -----------------
-
-/// Loads the list of Historical Measurements from the local storage and populates it to the corresponding GetX List
 void loadHistoricalMeasurementsList() {
   final dataAsString = GetStorage().read('historicalMeasurementList');
   if (dataAsString == null) {
@@ -106,7 +93,6 @@ void loadHistoricalMeasurementsList() {
   }
 }
 
-/// Loads the list of Ingredients from the local storage and populates it to the corresponding GetX List
 void loadIngredientsList() {
   final dataAsString = GetStorage().read('ingredientList');
   if (dataAsString == null) {
@@ -118,7 +104,6 @@ void loadIngredientsList() {
   }
 }
 
-/// Loads the list of Ingredient Quantities from the local storage and populates it to the corresponding GetX List
 void loadIngredientsQuantitiesList() {
   final dataAsString = GetStorage().read('ingredientQuantitiesList');
   if (dataAsString == null) {
@@ -130,7 +115,6 @@ void loadIngredientsQuantitiesList() {
   }
 }
 
-/// Loads the list of Activities from the local storage and populates it to the corresponding GetX List
 void loadActivitiesList() {
   final dataAsString = GetStorage().read('activityList');
   if (dataAsString == null) {
@@ -142,7 +126,6 @@ void loadActivitiesList() {
   }
 }
 
-/// Loads the list of Activity Volumes from the local storage and populates it to the corresponding GetX List
 void loadActivitiyVolumesList() {
   final dataAsString = GetStorage().read('activitiyVolumesList');
   if (dataAsString == null) {
@@ -154,41 +137,42 @@ void loadActivitiyVolumesList() {
   }
 }
 
-/// Loads all data that appears in the Overview Page and populates it to the corresponding GetX variables
+void _loadDouble(String key, RxDouble target) {
+  final value = GetStorage().read(key);
+  if (value is num) target.value = value.toDouble();
+}
+
 void loadOverviewData() {
-  dataController.adjustedCalories.value = GetStorage().read('adjustedCalories');
-  dataController.dailyCalories.value = GetStorage().read('dailyCalories');
-  dataController.dailyProteins.value = GetStorage().read('dailyProteins');
-  dataController.dailyCarbs.value = GetStorage().read('dailyCarbs');
-  dataController.dailyFats.value = GetStorage().read('dailyFats');
-  dataController.dailyFiber.value = GetStorage().read('dailyFiber');
-  dataController.sugarsLimit.value = GetStorage().read('sugarsLimit');
-  dataController.saturatedLimit.value = GetStorage().read('saturatedLimit');
-  dataController.sodiumLimit.value = GetStorage().read('sodiumLimit');
-  dataController.consumedCalories.value = GetStorage().read('consumedCalories');
-  dataController.proteinConsumed.value = GetStorage().read('proteinConsumed');
-  dataController.carbsConsumed.value = GetStorage().read('carbsConsumed');
-  dataController.fiberConsumed.value = GetStorage().read('fiberConsumed');
-  dataController.fatsConsumed.value = GetStorage().read('fatsConsumed');
-  dataController.sugarsConsumed.value = GetStorage().read('sugarsConsumed');
-  dataController.saturatedConsumed.value =
-      GetStorage().read('saturatedConsumed');
-  dataController.sodiumConsumed.value = GetStorage().read('sodiumConsumed');
+  _loadDouble('adjustedCalories', dataController.adjustedCalories);
+  _loadDouble('dailyCalories', dataController.dailyCalories);
+  _loadDouble('dailyProteins', dataController.dailyProteins);
+  _loadDouble('dailyCarbs', dataController.dailyCarbs);
+  _loadDouble('dailyFats', dataController.dailyFats);
+  _loadDouble('dailyFiber', dataController.dailyFiber);
+  _loadDouble('sugarsLimit', dataController.sugarsLimit);
+  _loadDouble('saturatedLimit', dataController.saturatedLimit);
+  _loadDouble('sodiumLimit', dataController.sodiumLimit);
+  _loadDouble('consumedCalories', dataController.consumedCalories);
+  _loadDouble('proteinConsumed', dataController.proteinConsumed);
+  _loadDouble('carbsConsumed', dataController.carbsConsumed);
+  _loadDouble('fiberConsumed', dataController.fiberConsumed);
+  _loadDouble('fatsConsumed', dataController.fatsConsumed);
+  _loadDouble('sugarsConsumed', dataController.sugarsConsumed);
+  _loadDouble('saturatedConsumed', dataController.saturatedConsumed);
+  _loadDouble('sodiumConsumed', dataController.sodiumConsumed);
 }
 
-/// Loads all data that appears in the Profile Page and populates it to the corresponding GetX variables
 void loadProfileData() {
-  dataController.adjustedCalories.value = GetStorage().read('adjustedCalories');
-  dataController.dailyCalories.value = GetStorage().read('dailyCalories');
-  dataController.dailyProteins.value = GetStorage().read('dailyProteins');
-  dataController.sugarsLimit.value = GetStorage().read('sugarsLimit');
-  dataController.saturatedLimit.value = GetStorage().read('saturatedLimit');
-  dataController.sodiumLimit.value = GetStorage().read('sodiumLimit');
-  dataController.bodyWeight.value = GetStorage().read('bodyWeight');
-  dataController.bodyHeight.value = GetStorage().read('bodyHeight');
+  _loadDouble('adjustedCalories', dataController.adjustedCalories);
+  _loadDouble('dailyCalories', dataController.dailyCalories);
+  _loadDouble('dailyProteins', dataController.dailyProteins);
+  _loadDouble('sugarsLimit', dataController.sugarsLimit);
+  _loadDouble('saturatedLimit', dataController.saturatedLimit);
+  _loadDouble('sodiumLimit', dataController.sodiumLimit);
+  _loadDouble('bodyWeight', dataController.bodyWeight);
+  _loadDouble('bodyHeight', dataController.bodyHeight);
 }
 
-/// Loads the state of all saved data across the App from the local Storage and populates all corresponding GetX Variables
 globalDataLoad() {
   loadHistoricalMeasurementsList();
   loadIngredientsList();
@@ -198,8 +182,6 @@ globalDataLoad() {
   loadOverviewData();
   loadProfileData();
 }
-
-//! -------------- First Time Storage Loading -----------------
 
 firstOrLaterGlobalLoad() {
   if (GetStorage().read('ingredientList') != null &&
