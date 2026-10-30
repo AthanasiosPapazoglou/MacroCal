@@ -7,16 +7,13 @@ import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-// late List<CameraDescription> cameras;
-
-//key test
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await GetStorage.init();
+  await loadDefaultIngredients();
 
-  Intl.defaultLocale = /*'el_GR';*/ 'en_US';
+  Intl.defaultLocale = 'en_US';
 
   runApp(
     EasyLocalization(
@@ -24,7 +21,6 @@ void main() async {
         path: 'assets/translations',
         startLocale: const Locale('en', 'US'),
         fallbackLocale: const Locale('en', 'US'),
-        /*Locale('el', 'GR'),*/
         child: const MacroCal()),
   );
 }

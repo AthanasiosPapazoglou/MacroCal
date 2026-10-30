@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -195,9 +196,21 @@ globalDataLoad() {
   loadProfileData();
 }
 
+bool _hasSavedData() =>
+    GetStorage().read('ingredientList') != null &&
+    GetStorage().read('activityList') != null;
+
+Future<void> loadDefaultIngredients() async {
+  if (_hasSavedData()) return;
+  final List<dynamic> dataList = jsonDecode(
+      await rootBundle.loadString('assets/data/default_ingredients.json'));
+  dataController.ingredientsList =
+      RxList<Ingredient>.from(Ingredient.listFromJson(dataList));
+  dataController.ingredientQuantitiesList = RxList<int>.filled(
+      dataController.ingredientsList.length, 0,
+      growable: true);
+}
+
 firstOrLaterGlobalLoad() {
-  if (GetStorage().read('ingredientList') != null &&
-      GetStorage().read('activityList') != null) {
-    globalDataLoad();
-  }
+  if (_hasSavedData()) globalDataLoad();
 }
