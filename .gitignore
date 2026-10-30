@@ -43,3 +43,20 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Apple signing files
+*.p12
+*.cer
+*.mobileprovision
+
+# Xcode
+**/xcuserdata/
+**/*.xcuserstate
+
+# Test
+/lib/ignore_test/ignore_test.dart
