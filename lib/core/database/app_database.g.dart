@@ -2379,6 +2379,1118 @@ class FoodEntriesTableCompanion extends UpdateCompanion<FoodEntryRow> {
   }
 }
 
+class $DayLogsTableTable extends DayLogsTable
+    with TableInfo<$DayLogsTableTable, DayLogRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DayLogsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _dayMeta = const VerificationMeta('day');
+  @override
+  late final GeneratedColumn<String> day = GeneratedColumn<String>(
+    'day',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _dailyKcalMeta = const VerificationMeta(
+    'dailyKcal',
+  );
+  @override
+  late final GeneratedColumn<double> dailyKcal = GeneratedColumn<double>(
+    'daily_kcal',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _proteinGoalGMeta = const VerificationMeta(
+    'proteinGoalG',
+  );
+  @override
+  late final GeneratedColumn<double> proteinGoalG = GeneratedColumn<double>(
+    'protein_goal_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fiberGoalGMeta = const VerificationMeta(
+    'fiberGoalG',
+  );
+  @override
+  late final GeneratedColumn<double> fiberGoalG = GeneratedColumn<double>(
+    'fiber_goal_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sugarLimitPctMeta = const VerificationMeta(
+    'sugarLimitPct',
+  );
+  @override
+  late final GeneratedColumn<double> sugarLimitPct = GeneratedColumn<double>(
+    'sugar_limit_pct',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saturatedLimitPctMeta = const VerificationMeta(
+    'saturatedLimitPct',
+  );
+  @override
+  late final GeneratedColumn<double> saturatedLimitPct =
+      GeneratedColumn<double>(
+        'saturated_limit_pct',
+        aliasedName,
+        false,
+        type: DriftSqlType.double,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _saltLimitMgMeta = const VerificationMeta(
+    'saltLimitMg',
+  );
+  @override
+  late final GeneratedColumn<double> saltLimitMg = GeneratedColumn<double>(
+    'salt_limit_mg',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _burnedKcalMeta = const VerificationMeta(
+    'burnedKcal',
+  );
+  @override
+  late final GeneratedColumn<double> burnedKcal = GeneratedColumn<double>(
+    'burned_kcal',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _adjustedKcalMeta = const VerificationMeta(
+    'adjustedKcal',
+  );
+  @override
+  late final GeneratedColumn<double> adjustedKcal = GeneratedColumn<double>(
+    'adjusted_kcal',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sugarLimitGMeta = const VerificationMeta(
+    'sugarLimitG',
+  );
+  @override
+  late final GeneratedColumn<double> sugarLimitG = GeneratedColumn<double>(
+    'sugar_limit_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saturatedLimitGMeta = const VerificationMeta(
+    'saturatedLimitG',
+  );
+  @override
+  late final GeneratedColumn<double> saturatedLimitG = GeneratedColumn<double>(
+    'saturated_limit_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kcalMeta = const VerificationMeta('kcal');
+  @override
+  late final GeneratedColumn<double> kcal = GeneratedColumn<double>(
+    'kcal',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _proteinGMeta = const VerificationMeta(
+    'proteinG',
+  );
+  @override
+  late final GeneratedColumn<double> proteinG = GeneratedColumn<double>(
+    'protein_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _carbsGMeta = const VerificationMeta('carbsG');
+  @override
+  late final GeneratedColumn<double> carbsG = GeneratedColumn<double>(
+    'carbs_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sugarsGMeta = const VerificationMeta(
+    'sugarsG',
+  );
+  @override
+  late final GeneratedColumn<double> sugarsG = GeneratedColumn<double>(
+    'sugars_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fatGMeta = const VerificationMeta('fatG');
+  @override
+  late final GeneratedColumn<double> fatG = GeneratedColumn<double>(
+    'fat_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saturatedGMeta = const VerificationMeta(
+    'saturatedG',
+  );
+  @override
+  late final GeneratedColumn<double> saturatedG = GeneratedColumn<double>(
+    'saturated_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fiberGMeta = const VerificationMeta('fiberG');
+  @override
+  late final GeneratedColumn<double> fiberG = GeneratedColumn<double>(
+    'fiber_g',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saltMgMeta = const VerificationMeta('saltMg');
+  @override
+  late final GeneratedColumn<double> saltMg = GeneratedColumn<double>(
+    'salt_mg',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    day,
+    dailyKcal,
+    proteinGoalG,
+    fiberGoalG,
+    sugarLimitPct,
+    saturatedLimitPct,
+    saltLimitMg,
+    burnedKcal,
+    adjustedKcal,
+    sugarLimitG,
+    saturatedLimitG,
+    kcal,
+    proteinG,
+    carbsG,
+    sugarsG,
+    fatG,
+    saturatedG,
+    fiberG,
+    saltMg,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'day_logs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DayLogRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('day')) {
+      context.handle(
+        _dayMeta,
+        day.isAcceptableOrUnknown(data['day']!, _dayMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dayMeta);
+    }
+    if (data.containsKey('daily_kcal')) {
+      context.handle(
+        _dailyKcalMeta,
+        dailyKcal.isAcceptableOrUnknown(data['daily_kcal']!, _dailyKcalMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dailyKcalMeta);
+    }
+    if (data.containsKey('protein_goal_g')) {
+      context.handle(
+        _proteinGoalGMeta,
+        proteinGoalG.isAcceptableOrUnknown(
+          data['protein_goal_g']!,
+          _proteinGoalGMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_proteinGoalGMeta);
+    }
+    if (data.containsKey('fiber_goal_g')) {
+      context.handle(
+        _fiberGoalGMeta,
+        fiberGoalG.isAcceptableOrUnknown(
+          data['fiber_goal_g']!,
+          _fiberGoalGMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_fiberGoalGMeta);
+    }
+    if (data.containsKey('sugar_limit_pct')) {
+      context.handle(
+        _sugarLimitPctMeta,
+        sugarLimitPct.isAcceptableOrUnknown(
+          data['sugar_limit_pct']!,
+          _sugarLimitPctMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sugarLimitPctMeta);
+    }
+    if (data.containsKey('saturated_limit_pct')) {
+      context.handle(
+        _saturatedLimitPctMeta,
+        saturatedLimitPct.isAcceptableOrUnknown(
+          data['saturated_limit_pct']!,
+          _saturatedLimitPctMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saturatedLimitPctMeta);
+    }
+    if (data.containsKey('salt_limit_mg')) {
+      context.handle(
+        _saltLimitMgMeta,
+        saltLimitMg.isAcceptableOrUnknown(
+          data['salt_limit_mg']!,
+          _saltLimitMgMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saltLimitMgMeta);
+    }
+    if (data.containsKey('burned_kcal')) {
+      context.handle(
+        _burnedKcalMeta,
+        burnedKcal.isAcceptableOrUnknown(data['burned_kcal']!, _burnedKcalMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_burnedKcalMeta);
+    }
+    if (data.containsKey('adjusted_kcal')) {
+      context.handle(
+        _adjustedKcalMeta,
+        adjustedKcal.isAcceptableOrUnknown(
+          data['adjusted_kcal']!,
+          _adjustedKcalMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_adjustedKcalMeta);
+    }
+    if (data.containsKey('sugar_limit_g')) {
+      context.handle(
+        _sugarLimitGMeta,
+        sugarLimitG.isAcceptableOrUnknown(
+          data['sugar_limit_g']!,
+          _sugarLimitGMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sugarLimitGMeta);
+    }
+    if (data.containsKey('saturated_limit_g')) {
+      context.handle(
+        _saturatedLimitGMeta,
+        saturatedLimitG.isAcceptableOrUnknown(
+          data['saturated_limit_g']!,
+          _saturatedLimitGMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saturatedLimitGMeta);
+    }
+    if (data.containsKey('kcal')) {
+      context.handle(
+        _kcalMeta,
+        kcal.isAcceptableOrUnknown(data['kcal']!, _kcalMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kcalMeta);
+    }
+    if (data.containsKey('protein_g')) {
+      context.handle(
+        _proteinGMeta,
+        proteinG.isAcceptableOrUnknown(data['protein_g']!, _proteinGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_proteinGMeta);
+    }
+    if (data.containsKey('carbs_g')) {
+      context.handle(
+        _carbsGMeta,
+        carbsG.isAcceptableOrUnknown(data['carbs_g']!, _carbsGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_carbsGMeta);
+    }
+    if (data.containsKey('sugars_g')) {
+      context.handle(
+        _sugarsGMeta,
+        sugarsG.isAcceptableOrUnknown(data['sugars_g']!, _sugarsGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sugarsGMeta);
+    }
+    if (data.containsKey('fat_g')) {
+      context.handle(
+        _fatGMeta,
+        fatG.isAcceptableOrUnknown(data['fat_g']!, _fatGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fatGMeta);
+    }
+    if (data.containsKey('saturated_g')) {
+      context.handle(
+        _saturatedGMeta,
+        saturatedG.isAcceptableOrUnknown(data['saturated_g']!, _saturatedGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_saturatedGMeta);
+    }
+    if (data.containsKey('fiber_g')) {
+      context.handle(
+        _fiberGMeta,
+        fiberG.isAcceptableOrUnknown(data['fiber_g']!, _fiberGMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fiberGMeta);
+    }
+    if (data.containsKey('salt_mg')) {
+      context.handle(
+        _saltMgMeta,
+        saltMg.isAcceptableOrUnknown(data['salt_mg']!, _saltMgMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_saltMgMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DayLogRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DayLogRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      day: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}day'],
+      )!,
+      dailyKcal: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}daily_kcal'],
+      )!,
+      proteinGoalG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}protein_goal_g'],
+      )!,
+      fiberGoalG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fiber_goal_g'],
+      )!,
+      sugarLimitPct: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}sugar_limit_pct'],
+      )!,
+      saturatedLimitPct: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}saturated_limit_pct'],
+      )!,
+      saltLimitMg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}salt_limit_mg'],
+      )!,
+      burnedKcal: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}burned_kcal'],
+      )!,
+      adjustedKcal: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}adjusted_kcal'],
+      )!,
+      sugarLimitG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}sugar_limit_g'],
+      )!,
+      saturatedLimitG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}saturated_limit_g'],
+      )!,
+      kcal: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}kcal'],
+      )!,
+      proteinG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}protein_g'],
+      )!,
+      carbsG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}carbs_g'],
+      )!,
+      sugarsG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}sugars_g'],
+      )!,
+      fatG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fat_g'],
+      )!,
+      saturatedG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}saturated_g'],
+      )!,
+      fiberG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fiber_g'],
+      )!,
+      saltMg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}salt_mg'],
+      )!,
+    );
+  }
+
+  @override
+  $DayLogsTableTable createAlias(String alias) {
+    return $DayLogsTableTable(attachedDatabase, alias);
+  }
+}
+
+class DayLogRow extends DataClass implements Insertable<DayLogRow> {
+  final int id;
+  final String day;
+  final double dailyKcal;
+  final double proteinGoalG;
+  final double fiberGoalG;
+  final double sugarLimitPct;
+  final double saturatedLimitPct;
+  final double saltLimitMg;
+  final double burnedKcal;
+  final double adjustedKcal;
+  final double sugarLimitG;
+  final double saturatedLimitG;
+  final double kcal;
+  final double proteinG;
+  final double carbsG;
+  final double sugarsG;
+  final double fatG;
+  final double saturatedG;
+  final double fiberG;
+  final double saltMg;
+  const DayLogRow({
+    required this.id,
+    required this.day,
+    required this.dailyKcal,
+    required this.proteinGoalG,
+    required this.fiberGoalG,
+    required this.sugarLimitPct,
+    required this.saturatedLimitPct,
+    required this.saltLimitMg,
+    required this.burnedKcal,
+    required this.adjustedKcal,
+    required this.sugarLimitG,
+    required this.saturatedLimitG,
+    required this.kcal,
+    required this.proteinG,
+    required this.carbsG,
+    required this.sugarsG,
+    required this.fatG,
+    required this.saturatedG,
+    required this.fiberG,
+    required this.saltMg,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['day'] = Variable<String>(day);
+    map['daily_kcal'] = Variable<double>(dailyKcal);
+    map['protein_goal_g'] = Variable<double>(proteinGoalG);
+    map['fiber_goal_g'] = Variable<double>(fiberGoalG);
+    map['sugar_limit_pct'] = Variable<double>(sugarLimitPct);
+    map['saturated_limit_pct'] = Variable<double>(saturatedLimitPct);
+    map['salt_limit_mg'] = Variable<double>(saltLimitMg);
+    map['burned_kcal'] = Variable<double>(burnedKcal);
+    map['adjusted_kcal'] = Variable<double>(adjustedKcal);
+    map['sugar_limit_g'] = Variable<double>(sugarLimitG);
+    map['saturated_limit_g'] = Variable<double>(saturatedLimitG);
+    map['kcal'] = Variable<double>(kcal);
+    map['protein_g'] = Variable<double>(proteinG);
+    map['carbs_g'] = Variable<double>(carbsG);
+    map['sugars_g'] = Variable<double>(sugarsG);
+    map['fat_g'] = Variable<double>(fatG);
+    map['saturated_g'] = Variable<double>(saturatedG);
+    map['fiber_g'] = Variable<double>(fiberG);
+    map['salt_mg'] = Variable<double>(saltMg);
+    return map;
+  }
+
+  DayLogsTableCompanion toCompanion(bool nullToAbsent) {
+    return DayLogsTableCompanion(
+      id: Value(id),
+      day: Value(day),
+      dailyKcal: Value(dailyKcal),
+      proteinGoalG: Value(proteinGoalG),
+      fiberGoalG: Value(fiberGoalG),
+      sugarLimitPct: Value(sugarLimitPct),
+      saturatedLimitPct: Value(saturatedLimitPct),
+      saltLimitMg: Value(saltLimitMg),
+      burnedKcal: Value(burnedKcal),
+      adjustedKcal: Value(adjustedKcal),
+      sugarLimitG: Value(sugarLimitG),
+      saturatedLimitG: Value(saturatedLimitG),
+      kcal: Value(kcal),
+      proteinG: Value(proteinG),
+      carbsG: Value(carbsG),
+      sugarsG: Value(sugarsG),
+      fatG: Value(fatG),
+      saturatedG: Value(saturatedG),
+      fiberG: Value(fiberG),
+      saltMg: Value(saltMg),
+    );
+  }
+
+  factory DayLogRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DayLogRow(
+      id: serializer.fromJson<int>(json['id']),
+      day: serializer.fromJson<String>(json['day']),
+      dailyKcal: serializer.fromJson<double>(json['dailyKcal']),
+      proteinGoalG: serializer.fromJson<double>(json['proteinGoalG']),
+      fiberGoalG: serializer.fromJson<double>(json['fiberGoalG']),
+      sugarLimitPct: serializer.fromJson<double>(json['sugarLimitPct']),
+      saturatedLimitPct: serializer.fromJson<double>(json['saturatedLimitPct']),
+      saltLimitMg: serializer.fromJson<double>(json['saltLimitMg']),
+      burnedKcal: serializer.fromJson<double>(json['burnedKcal']),
+      adjustedKcal: serializer.fromJson<double>(json['adjustedKcal']),
+      sugarLimitG: serializer.fromJson<double>(json['sugarLimitG']),
+      saturatedLimitG: serializer.fromJson<double>(json['saturatedLimitG']),
+      kcal: serializer.fromJson<double>(json['kcal']),
+      proteinG: serializer.fromJson<double>(json['proteinG']),
+      carbsG: serializer.fromJson<double>(json['carbsG']),
+      sugarsG: serializer.fromJson<double>(json['sugarsG']),
+      fatG: serializer.fromJson<double>(json['fatG']),
+      saturatedG: serializer.fromJson<double>(json['saturatedG']),
+      fiberG: serializer.fromJson<double>(json['fiberG']),
+      saltMg: serializer.fromJson<double>(json['saltMg']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'day': serializer.toJson<String>(day),
+      'dailyKcal': serializer.toJson<double>(dailyKcal),
+      'proteinGoalG': serializer.toJson<double>(proteinGoalG),
+      'fiberGoalG': serializer.toJson<double>(fiberGoalG),
+      'sugarLimitPct': serializer.toJson<double>(sugarLimitPct),
+      'saturatedLimitPct': serializer.toJson<double>(saturatedLimitPct),
+      'saltLimitMg': serializer.toJson<double>(saltLimitMg),
+      'burnedKcal': serializer.toJson<double>(burnedKcal),
+      'adjustedKcal': serializer.toJson<double>(adjustedKcal),
+      'sugarLimitG': serializer.toJson<double>(sugarLimitG),
+      'saturatedLimitG': serializer.toJson<double>(saturatedLimitG),
+      'kcal': serializer.toJson<double>(kcal),
+      'proteinG': serializer.toJson<double>(proteinG),
+      'carbsG': serializer.toJson<double>(carbsG),
+      'sugarsG': serializer.toJson<double>(sugarsG),
+      'fatG': serializer.toJson<double>(fatG),
+      'saturatedG': serializer.toJson<double>(saturatedG),
+      'fiberG': serializer.toJson<double>(fiberG),
+      'saltMg': serializer.toJson<double>(saltMg),
+    };
+  }
+
+  DayLogRow copyWith({
+    int? id,
+    String? day,
+    double? dailyKcal,
+    double? proteinGoalG,
+    double? fiberGoalG,
+    double? sugarLimitPct,
+    double? saturatedLimitPct,
+    double? saltLimitMg,
+    double? burnedKcal,
+    double? adjustedKcal,
+    double? sugarLimitG,
+    double? saturatedLimitG,
+    double? kcal,
+    double? proteinG,
+    double? carbsG,
+    double? sugarsG,
+    double? fatG,
+    double? saturatedG,
+    double? fiberG,
+    double? saltMg,
+  }) => DayLogRow(
+    id: id ?? this.id,
+    day: day ?? this.day,
+    dailyKcal: dailyKcal ?? this.dailyKcal,
+    proteinGoalG: proteinGoalG ?? this.proteinGoalG,
+    fiberGoalG: fiberGoalG ?? this.fiberGoalG,
+    sugarLimitPct: sugarLimitPct ?? this.sugarLimitPct,
+    saturatedLimitPct: saturatedLimitPct ?? this.saturatedLimitPct,
+    saltLimitMg: saltLimitMg ?? this.saltLimitMg,
+    burnedKcal: burnedKcal ?? this.burnedKcal,
+    adjustedKcal: adjustedKcal ?? this.adjustedKcal,
+    sugarLimitG: sugarLimitG ?? this.sugarLimitG,
+    saturatedLimitG: saturatedLimitG ?? this.saturatedLimitG,
+    kcal: kcal ?? this.kcal,
+    proteinG: proteinG ?? this.proteinG,
+    carbsG: carbsG ?? this.carbsG,
+    sugarsG: sugarsG ?? this.sugarsG,
+    fatG: fatG ?? this.fatG,
+    saturatedG: saturatedG ?? this.saturatedG,
+    fiberG: fiberG ?? this.fiberG,
+    saltMg: saltMg ?? this.saltMg,
+  );
+  DayLogRow copyWithCompanion(DayLogsTableCompanion data) {
+    return DayLogRow(
+      id: data.id.present ? data.id.value : this.id,
+      day: data.day.present ? data.day.value : this.day,
+      dailyKcal: data.dailyKcal.present ? data.dailyKcal.value : this.dailyKcal,
+      proteinGoalG: data.proteinGoalG.present
+          ? data.proteinGoalG.value
+          : this.proteinGoalG,
+      fiberGoalG: data.fiberGoalG.present
+          ? data.fiberGoalG.value
+          : this.fiberGoalG,
+      sugarLimitPct: data.sugarLimitPct.present
+          ? data.sugarLimitPct.value
+          : this.sugarLimitPct,
+      saturatedLimitPct: data.saturatedLimitPct.present
+          ? data.saturatedLimitPct.value
+          : this.saturatedLimitPct,
+      saltLimitMg: data.saltLimitMg.present
+          ? data.saltLimitMg.value
+          : this.saltLimitMg,
+      burnedKcal: data.burnedKcal.present
+          ? data.burnedKcal.value
+          : this.burnedKcal,
+      adjustedKcal: data.adjustedKcal.present
+          ? data.adjustedKcal.value
+          : this.adjustedKcal,
+      sugarLimitG: data.sugarLimitG.present
+          ? data.sugarLimitG.value
+          : this.sugarLimitG,
+      saturatedLimitG: data.saturatedLimitG.present
+          ? data.saturatedLimitG.value
+          : this.saturatedLimitG,
+      kcal: data.kcal.present ? data.kcal.value : this.kcal,
+      proteinG: data.proteinG.present ? data.proteinG.value : this.proteinG,
+      carbsG: data.carbsG.present ? data.carbsG.value : this.carbsG,
+      sugarsG: data.sugarsG.present ? data.sugarsG.value : this.sugarsG,
+      fatG: data.fatG.present ? data.fatG.value : this.fatG,
+      saturatedG: data.saturatedG.present
+          ? data.saturatedG.value
+          : this.saturatedG,
+      fiberG: data.fiberG.present ? data.fiberG.value : this.fiberG,
+      saltMg: data.saltMg.present ? data.saltMg.value : this.saltMg,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DayLogRow(')
+          ..write('id: $id, ')
+          ..write('day: $day, ')
+          ..write('dailyKcal: $dailyKcal, ')
+          ..write('proteinGoalG: $proteinGoalG, ')
+          ..write('fiberGoalG: $fiberGoalG, ')
+          ..write('sugarLimitPct: $sugarLimitPct, ')
+          ..write('saturatedLimitPct: $saturatedLimitPct, ')
+          ..write('saltLimitMg: $saltLimitMg, ')
+          ..write('burnedKcal: $burnedKcal, ')
+          ..write('adjustedKcal: $adjustedKcal, ')
+          ..write('sugarLimitG: $sugarLimitG, ')
+          ..write('saturatedLimitG: $saturatedLimitG, ')
+          ..write('kcal: $kcal, ')
+          ..write('proteinG: $proteinG, ')
+          ..write('carbsG: $carbsG, ')
+          ..write('sugarsG: $sugarsG, ')
+          ..write('fatG: $fatG, ')
+          ..write('saturatedG: $saturatedG, ')
+          ..write('fiberG: $fiberG, ')
+          ..write('saltMg: $saltMg')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    day,
+    dailyKcal,
+    proteinGoalG,
+    fiberGoalG,
+    sugarLimitPct,
+    saturatedLimitPct,
+    saltLimitMg,
+    burnedKcal,
+    adjustedKcal,
+    sugarLimitG,
+    saturatedLimitG,
+    kcal,
+    proteinG,
+    carbsG,
+    sugarsG,
+    fatG,
+    saturatedG,
+    fiberG,
+    saltMg,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DayLogRow &&
+          other.id == this.id &&
+          other.day == this.day &&
+          other.dailyKcal == this.dailyKcal &&
+          other.proteinGoalG == this.proteinGoalG &&
+          other.fiberGoalG == this.fiberGoalG &&
+          other.sugarLimitPct == this.sugarLimitPct &&
+          other.saturatedLimitPct == this.saturatedLimitPct &&
+          other.saltLimitMg == this.saltLimitMg &&
+          other.burnedKcal == this.burnedKcal &&
+          other.adjustedKcal == this.adjustedKcal &&
+          other.sugarLimitG == this.sugarLimitG &&
+          other.saturatedLimitG == this.saturatedLimitG &&
+          other.kcal == this.kcal &&
+          other.proteinG == this.proteinG &&
+          other.carbsG == this.carbsG &&
+          other.sugarsG == this.sugarsG &&
+          other.fatG == this.fatG &&
+          other.saturatedG == this.saturatedG &&
+          other.fiberG == this.fiberG &&
+          other.saltMg == this.saltMg);
+}
+
+class DayLogsTableCompanion extends UpdateCompanion<DayLogRow> {
+  final Value<int> id;
+  final Value<String> day;
+  final Value<double> dailyKcal;
+  final Value<double> proteinGoalG;
+  final Value<double> fiberGoalG;
+  final Value<double> sugarLimitPct;
+  final Value<double> saturatedLimitPct;
+  final Value<double> saltLimitMg;
+  final Value<double> burnedKcal;
+  final Value<double> adjustedKcal;
+  final Value<double> sugarLimitG;
+  final Value<double> saturatedLimitG;
+  final Value<double> kcal;
+  final Value<double> proteinG;
+  final Value<double> carbsG;
+  final Value<double> sugarsG;
+  final Value<double> fatG;
+  final Value<double> saturatedG;
+  final Value<double> fiberG;
+  final Value<double> saltMg;
+  const DayLogsTableCompanion({
+    this.id = const Value.absent(),
+    this.day = const Value.absent(),
+    this.dailyKcal = const Value.absent(),
+    this.proteinGoalG = const Value.absent(),
+    this.fiberGoalG = const Value.absent(),
+    this.sugarLimitPct = const Value.absent(),
+    this.saturatedLimitPct = const Value.absent(),
+    this.saltLimitMg = const Value.absent(),
+    this.burnedKcal = const Value.absent(),
+    this.adjustedKcal = const Value.absent(),
+    this.sugarLimitG = const Value.absent(),
+    this.saturatedLimitG = const Value.absent(),
+    this.kcal = const Value.absent(),
+    this.proteinG = const Value.absent(),
+    this.carbsG = const Value.absent(),
+    this.sugarsG = const Value.absent(),
+    this.fatG = const Value.absent(),
+    this.saturatedG = const Value.absent(),
+    this.fiberG = const Value.absent(),
+    this.saltMg = const Value.absent(),
+  });
+  DayLogsTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String day,
+    required double dailyKcal,
+    required double proteinGoalG,
+    required double fiberGoalG,
+    required double sugarLimitPct,
+    required double saturatedLimitPct,
+    required double saltLimitMg,
+    required double burnedKcal,
+    required double adjustedKcal,
+    required double sugarLimitG,
+    required double saturatedLimitG,
+    required double kcal,
+    required double proteinG,
+    required double carbsG,
+    required double sugarsG,
+    required double fatG,
+    required double saturatedG,
+    required double fiberG,
+    required double saltMg,
+  }) : day = Value(day),
+       dailyKcal = Value(dailyKcal),
+       proteinGoalG = Value(proteinGoalG),
+       fiberGoalG = Value(fiberGoalG),
+       sugarLimitPct = Value(sugarLimitPct),
+       saturatedLimitPct = Value(saturatedLimitPct),
+       saltLimitMg = Value(saltLimitMg),
+       burnedKcal = Value(burnedKcal),
+       adjustedKcal = Value(adjustedKcal),
+       sugarLimitG = Value(sugarLimitG),
+       saturatedLimitG = Value(saturatedLimitG),
+       kcal = Value(kcal),
+       proteinG = Value(proteinG),
+       carbsG = Value(carbsG),
+       sugarsG = Value(sugarsG),
+       fatG = Value(fatG),
+       saturatedG = Value(saturatedG),
+       fiberG = Value(fiberG),
+       saltMg = Value(saltMg);
+  static Insertable<DayLogRow> custom({
+    Expression<int>? id,
+    Expression<String>? day,
+    Expression<double>? dailyKcal,
+    Expression<double>? proteinGoalG,
+    Expression<double>? fiberGoalG,
+    Expression<double>? sugarLimitPct,
+    Expression<double>? saturatedLimitPct,
+    Expression<double>? saltLimitMg,
+    Expression<double>? burnedKcal,
+    Expression<double>? adjustedKcal,
+    Expression<double>? sugarLimitG,
+    Expression<double>? saturatedLimitG,
+    Expression<double>? kcal,
+    Expression<double>? proteinG,
+    Expression<double>? carbsG,
+    Expression<double>? sugarsG,
+    Expression<double>? fatG,
+    Expression<double>? saturatedG,
+    Expression<double>? fiberG,
+    Expression<double>? saltMg,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (day != null) 'day': day,
+      if (dailyKcal != null) 'daily_kcal': dailyKcal,
+      if (proteinGoalG != null) 'protein_goal_g': proteinGoalG,
+      if (fiberGoalG != null) 'fiber_goal_g': fiberGoalG,
+      if (sugarLimitPct != null) 'sugar_limit_pct': sugarLimitPct,
+      if (saturatedLimitPct != null) 'saturated_limit_pct': saturatedLimitPct,
+      if (saltLimitMg != null) 'salt_limit_mg': saltLimitMg,
+      if (burnedKcal != null) 'burned_kcal': burnedKcal,
+      if (adjustedKcal != null) 'adjusted_kcal': adjustedKcal,
+      if (sugarLimitG != null) 'sugar_limit_g': sugarLimitG,
+      if (saturatedLimitG != null) 'saturated_limit_g': saturatedLimitG,
+      if (kcal != null) 'kcal': kcal,
+      if (proteinG != null) 'protein_g': proteinG,
+      if (carbsG != null) 'carbs_g': carbsG,
+      if (sugarsG != null) 'sugars_g': sugarsG,
+      if (fatG != null) 'fat_g': fatG,
+      if (saturatedG != null) 'saturated_g': saturatedG,
+      if (fiberG != null) 'fiber_g': fiberG,
+      if (saltMg != null) 'salt_mg': saltMg,
+    });
+  }
+
+  DayLogsTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? day,
+    Value<double>? dailyKcal,
+    Value<double>? proteinGoalG,
+    Value<double>? fiberGoalG,
+    Value<double>? sugarLimitPct,
+    Value<double>? saturatedLimitPct,
+    Value<double>? saltLimitMg,
+    Value<double>? burnedKcal,
+    Value<double>? adjustedKcal,
+    Value<double>? sugarLimitG,
+    Value<double>? saturatedLimitG,
+    Value<double>? kcal,
+    Value<double>? proteinG,
+    Value<double>? carbsG,
+    Value<double>? sugarsG,
+    Value<double>? fatG,
+    Value<double>? saturatedG,
+    Value<double>? fiberG,
+    Value<double>? saltMg,
+  }) {
+    return DayLogsTableCompanion(
+      id: id ?? this.id,
+      day: day ?? this.day,
+      dailyKcal: dailyKcal ?? this.dailyKcal,
+      proteinGoalG: proteinGoalG ?? this.proteinGoalG,
+      fiberGoalG: fiberGoalG ?? this.fiberGoalG,
+      sugarLimitPct: sugarLimitPct ?? this.sugarLimitPct,
+      saturatedLimitPct: saturatedLimitPct ?? this.saturatedLimitPct,
+      saltLimitMg: saltLimitMg ?? this.saltLimitMg,
+      burnedKcal: burnedKcal ?? this.burnedKcal,
+      adjustedKcal: adjustedKcal ?? this.adjustedKcal,
+      sugarLimitG: sugarLimitG ?? this.sugarLimitG,
+      saturatedLimitG: saturatedLimitG ?? this.saturatedLimitG,
+      kcal: kcal ?? this.kcal,
+      proteinG: proteinG ?? this.proteinG,
+      carbsG: carbsG ?? this.carbsG,
+      sugarsG: sugarsG ?? this.sugarsG,
+      fatG: fatG ?? this.fatG,
+      saturatedG: saturatedG ?? this.saturatedG,
+      fiberG: fiberG ?? this.fiberG,
+      saltMg: saltMg ?? this.saltMg,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (day.present) {
+      map['day'] = Variable<String>(day.value);
+    }
+    if (dailyKcal.present) {
+      map['daily_kcal'] = Variable<double>(dailyKcal.value);
+    }
+    if (proteinGoalG.present) {
+      map['protein_goal_g'] = Variable<double>(proteinGoalG.value);
+    }
+    if (fiberGoalG.present) {
+      map['fiber_goal_g'] = Variable<double>(fiberGoalG.value);
+    }
+    if (sugarLimitPct.present) {
+      map['sugar_limit_pct'] = Variable<double>(sugarLimitPct.value);
+    }
+    if (saturatedLimitPct.present) {
+      map['saturated_limit_pct'] = Variable<double>(saturatedLimitPct.value);
+    }
+    if (saltLimitMg.present) {
+      map['salt_limit_mg'] = Variable<double>(saltLimitMg.value);
+    }
+    if (burnedKcal.present) {
+      map['burned_kcal'] = Variable<double>(burnedKcal.value);
+    }
+    if (adjustedKcal.present) {
+      map['adjusted_kcal'] = Variable<double>(adjustedKcal.value);
+    }
+    if (sugarLimitG.present) {
+      map['sugar_limit_g'] = Variable<double>(sugarLimitG.value);
+    }
+    if (saturatedLimitG.present) {
+      map['saturated_limit_g'] = Variable<double>(saturatedLimitG.value);
+    }
+    if (kcal.present) {
+      map['kcal'] = Variable<double>(kcal.value);
+    }
+    if (proteinG.present) {
+      map['protein_g'] = Variable<double>(proteinG.value);
+    }
+    if (carbsG.present) {
+      map['carbs_g'] = Variable<double>(carbsG.value);
+    }
+    if (sugarsG.present) {
+      map['sugars_g'] = Variable<double>(sugarsG.value);
+    }
+    if (fatG.present) {
+      map['fat_g'] = Variable<double>(fatG.value);
+    }
+    if (saturatedG.present) {
+      map['saturated_g'] = Variable<double>(saturatedG.value);
+    }
+    if (fiberG.present) {
+      map['fiber_g'] = Variable<double>(fiberG.value);
+    }
+    if (saltMg.present) {
+      map['salt_mg'] = Variable<double>(saltMg.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DayLogsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('day: $day, ')
+          ..write('dailyKcal: $dailyKcal, ')
+          ..write('proteinGoalG: $proteinGoalG, ')
+          ..write('fiberGoalG: $fiberGoalG, ')
+          ..write('sugarLimitPct: $sugarLimitPct, ')
+          ..write('saturatedLimitPct: $saturatedLimitPct, ')
+          ..write('saltLimitMg: $saltLimitMg, ')
+          ..write('burnedKcal: $burnedKcal, ')
+          ..write('adjustedKcal: $adjustedKcal, ')
+          ..write('sugarLimitG: $sugarLimitG, ')
+          ..write('saturatedLimitG: $saturatedLimitG, ')
+          ..write('kcal: $kcal, ')
+          ..write('proteinG: $proteinG, ')
+          ..write('carbsG: $carbsG, ')
+          ..write('sugarsG: $sugarsG, ')
+          ..write('fatG: $fatG, ')
+          ..write('saturatedG: $saturatedG, ')
+          ..write('fiberG: $fiberG, ')
+          ..write('saltMg: $saltMg')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2395,6 +3507,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $FoodEntriesTableTable foodEntriesTable = $FoodEntriesTableTable(
     this,
   );
+  late final $DayLogsTableTable dayLogsTable = $DayLogsTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2406,6 +3519,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     activityEntriesTable,
     ingredientsTable,
     foodEntriesTable,
+    dayLogsTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -4192,6 +5306,511 @@ typedef $$FoodEntriesTableTableProcessedTableManager =
       FoodEntryRow,
       PrefetchHooks Function({bool ingredientId})
     >;
+typedef $$DayLogsTableTableCreateCompanionBuilder =
+    DayLogsTableCompanion Function({
+      Value<int> id,
+      required String day,
+      required double dailyKcal,
+      required double proteinGoalG,
+      required double fiberGoalG,
+      required double sugarLimitPct,
+      required double saturatedLimitPct,
+      required double saltLimitMg,
+      required double burnedKcal,
+      required double adjustedKcal,
+      required double sugarLimitG,
+      required double saturatedLimitG,
+      required double kcal,
+      required double proteinG,
+      required double carbsG,
+      required double sugarsG,
+      required double fatG,
+      required double saturatedG,
+      required double fiberG,
+      required double saltMg,
+    });
+typedef $$DayLogsTableTableUpdateCompanionBuilder =
+    DayLogsTableCompanion Function({
+      Value<int> id,
+      Value<String> day,
+      Value<double> dailyKcal,
+      Value<double> proteinGoalG,
+      Value<double> fiberGoalG,
+      Value<double> sugarLimitPct,
+      Value<double> saturatedLimitPct,
+      Value<double> saltLimitMg,
+      Value<double> burnedKcal,
+      Value<double> adjustedKcal,
+      Value<double> sugarLimitG,
+      Value<double> saturatedLimitG,
+      Value<double> kcal,
+      Value<double> proteinG,
+      Value<double> carbsG,
+      Value<double> sugarsG,
+      Value<double> fatG,
+      Value<double> saturatedG,
+      Value<double> fiberG,
+      Value<double> saltMg,
+    });
+
+class $$DayLogsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $DayLogsTableTable> {
+  $$DayLogsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get day => $composableBuilder(
+    column: $table.day,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get dailyKcal => $composableBuilder(
+    column: $table.dailyKcal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get proteinGoalG => $composableBuilder(
+    column: $table.proteinGoalG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fiberGoalG => $composableBuilder(
+    column: $table.fiberGoalG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get sugarLimitPct => $composableBuilder(
+    column: $table.sugarLimitPct,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get saturatedLimitPct => $composableBuilder(
+    column: $table.saturatedLimitPct,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get saltLimitMg => $composableBuilder(
+    column: $table.saltLimitMg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get burnedKcal => $composableBuilder(
+    column: $table.burnedKcal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get adjustedKcal => $composableBuilder(
+    column: $table.adjustedKcal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get sugarLimitG => $composableBuilder(
+    column: $table.sugarLimitG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get saturatedLimitG => $composableBuilder(
+    column: $table.saturatedLimitG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get kcal => $composableBuilder(
+    column: $table.kcal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get proteinG => $composableBuilder(
+    column: $table.proteinG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get carbsG => $composableBuilder(
+    column: $table.carbsG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get sugarsG => $composableBuilder(
+    column: $table.sugarsG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fatG => $composableBuilder(
+    column: $table.fatG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get saturatedG => $composableBuilder(
+    column: $table.saturatedG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fiberG => $composableBuilder(
+    column: $table.fiberG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get saltMg => $composableBuilder(
+    column: $table.saltMg,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DayLogsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $DayLogsTableTable> {
+  $$DayLogsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get day => $composableBuilder(
+    column: $table.day,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get dailyKcal => $composableBuilder(
+    column: $table.dailyKcal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get proteinGoalG => $composableBuilder(
+    column: $table.proteinGoalG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fiberGoalG => $composableBuilder(
+    column: $table.fiberGoalG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get sugarLimitPct => $composableBuilder(
+    column: $table.sugarLimitPct,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get saturatedLimitPct => $composableBuilder(
+    column: $table.saturatedLimitPct,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get saltLimitMg => $composableBuilder(
+    column: $table.saltLimitMg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get burnedKcal => $composableBuilder(
+    column: $table.burnedKcal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get adjustedKcal => $composableBuilder(
+    column: $table.adjustedKcal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get sugarLimitG => $composableBuilder(
+    column: $table.sugarLimitG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get saturatedLimitG => $composableBuilder(
+    column: $table.saturatedLimitG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get kcal => $composableBuilder(
+    column: $table.kcal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get proteinG => $composableBuilder(
+    column: $table.proteinG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get carbsG => $composableBuilder(
+    column: $table.carbsG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get sugarsG => $composableBuilder(
+    column: $table.sugarsG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fatG => $composableBuilder(
+    column: $table.fatG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get saturatedG => $composableBuilder(
+    column: $table.saturatedG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fiberG => $composableBuilder(
+    column: $table.fiberG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get saltMg => $composableBuilder(
+    column: $table.saltMg,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DayLogsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DayLogsTableTable> {
+  $$DayLogsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get day =>
+      $composableBuilder(column: $table.day, builder: (column) => column);
+
+  GeneratedColumn<double> get dailyKcal =>
+      $composableBuilder(column: $table.dailyKcal, builder: (column) => column);
+
+  GeneratedColumn<double> get proteinGoalG => $composableBuilder(
+    column: $table.proteinGoalG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get fiberGoalG => $composableBuilder(
+    column: $table.fiberGoalG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get sugarLimitPct => $composableBuilder(
+    column: $table.sugarLimitPct,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get saturatedLimitPct => $composableBuilder(
+    column: $table.saturatedLimitPct,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get saltLimitMg => $composableBuilder(
+    column: $table.saltLimitMg,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get burnedKcal => $composableBuilder(
+    column: $table.burnedKcal,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get adjustedKcal => $composableBuilder(
+    column: $table.adjustedKcal,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get sugarLimitG => $composableBuilder(
+    column: $table.sugarLimitG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get saturatedLimitG => $composableBuilder(
+    column: $table.saturatedLimitG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get kcal =>
+      $composableBuilder(column: $table.kcal, builder: (column) => column);
+
+  GeneratedColumn<double> get proteinG =>
+      $composableBuilder(column: $table.proteinG, builder: (column) => column);
+
+  GeneratedColumn<double> get carbsG =>
+      $composableBuilder(column: $table.carbsG, builder: (column) => column);
+
+  GeneratedColumn<double> get sugarsG =>
+      $composableBuilder(column: $table.sugarsG, builder: (column) => column);
+
+  GeneratedColumn<double> get fatG =>
+      $composableBuilder(column: $table.fatG, builder: (column) => column);
+
+  GeneratedColumn<double> get saturatedG => $composableBuilder(
+    column: $table.saturatedG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get fiberG =>
+      $composableBuilder(column: $table.fiberG, builder: (column) => column);
+
+  GeneratedColumn<double> get saltMg =>
+      $composableBuilder(column: $table.saltMg, builder: (column) => column);
+}
+
+class $$DayLogsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DayLogsTableTable,
+          DayLogRow,
+          $$DayLogsTableTableFilterComposer,
+          $$DayLogsTableTableOrderingComposer,
+          $$DayLogsTableTableAnnotationComposer,
+          $$DayLogsTableTableCreateCompanionBuilder,
+          $$DayLogsTableTableUpdateCompanionBuilder,
+          (
+            DayLogRow,
+            BaseReferences<_$AppDatabase, $DayLogsTableTable, DayLogRow>,
+          ),
+          DayLogRow,
+          PrefetchHooks Function()
+        > {
+  $$DayLogsTableTableTableManager(_$AppDatabase db, $DayLogsTableTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DayLogsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DayLogsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DayLogsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> day = const Value.absent(),
+                Value<double> dailyKcal = const Value.absent(),
+                Value<double> proteinGoalG = const Value.absent(),
+                Value<double> fiberGoalG = const Value.absent(),
+                Value<double> sugarLimitPct = const Value.absent(),
+                Value<double> saturatedLimitPct = const Value.absent(),
+                Value<double> saltLimitMg = const Value.absent(),
+                Value<double> burnedKcal = const Value.absent(),
+                Value<double> adjustedKcal = const Value.absent(),
+                Value<double> sugarLimitG = const Value.absent(),
+                Value<double> saturatedLimitG = const Value.absent(),
+                Value<double> kcal = const Value.absent(),
+                Value<double> proteinG = const Value.absent(),
+                Value<double> carbsG = const Value.absent(),
+                Value<double> sugarsG = const Value.absent(),
+                Value<double> fatG = const Value.absent(),
+                Value<double> saturatedG = const Value.absent(),
+                Value<double> fiberG = const Value.absent(),
+                Value<double> saltMg = const Value.absent(),
+              }) => DayLogsTableCompanion(
+                id: id,
+                day: day,
+                dailyKcal: dailyKcal,
+                proteinGoalG: proteinGoalG,
+                fiberGoalG: fiberGoalG,
+                sugarLimitPct: sugarLimitPct,
+                saturatedLimitPct: saturatedLimitPct,
+                saltLimitMg: saltLimitMg,
+                burnedKcal: burnedKcal,
+                adjustedKcal: adjustedKcal,
+                sugarLimitG: sugarLimitG,
+                saturatedLimitG: saturatedLimitG,
+                kcal: kcal,
+                proteinG: proteinG,
+                carbsG: carbsG,
+                sugarsG: sugarsG,
+                fatG: fatG,
+                saturatedG: saturatedG,
+                fiberG: fiberG,
+                saltMg: saltMg,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String day,
+                required double dailyKcal,
+                required double proteinGoalG,
+                required double fiberGoalG,
+                required double sugarLimitPct,
+                required double saturatedLimitPct,
+                required double saltLimitMg,
+                required double burnedKcal,
+                required double adjustedKcal,
+                required double sugarLimitG,
+                required double saturatedLimitG,
+                required double kcal,
+                required double proteinG,
+                required double carbsG,
+                required double sugarsG,
+                required double fatG,
+                required double saturatedG,
+                required double fiberG,
+                required double saltMg,
+              }) => DayLogsTableCompanion.insert(
+                id: id,
+                day: day,
+                dailyKcal: dailyKcal,
+                proteinGoalG: proteinGoalG,
+                fiberGoalG: fiberGoalG,
+                sugarLimitPct: sugarLimitPct,
+                saturatedLimitPct: saturatedLimitPct,
+                saltLimitMg: saltLimitMg,
+                burnedKcal: burnedKcal,
+                adjustedKcal: adjustedKcal,
+                sugarLimitG: sugarLimitG,
+                saturatedLimitG: saturatedLimitG,
+                kcal: kcal,
+                proteinG: proteinG,
+                carbsG: carbsG,
+                sugarsG: sugarsG,
+                fatG: fatG,
+                saturatedG: saturatedG,
+                fiberG: fiberG,
+                saltMg: saltMg,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DayLogsTableTable, DayLogRow>(table),
+                  BaseReferences<_$AppDatabase, $DayLogsTableTable, DayLogRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DayLogsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DayLogsTableTable,
+      DayLogRow,
+      $$DayLogsTableTableFilterComposer,
+      $$DayLogsTableTableOrderingComposer,
+      $$DayLogsTableTableAnnotationComposer,
+      $$DayLogsTableTableCreateCompanionBuilder,
+      $$DayLogsTableTableUpdateCompanionBuilder,
+      (DayLogRow, BaseReferences<_$AppDatabase, $DayLogsTableTable, DayLogRow>),
+      DayLogRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4208,4 +5827,6 @@ class $AppDatabaseManager {
       $$IngredientsTableTableTableManager(_db, _db.ingredientsTable);
   $$FoodEntriesTableTableTableManager get foodEntriesTable =>
       $$FoodEntriesTableTableTableManager(_db, _db.foodEntriesTable);
+  $$DayLogsTableTableTableManager get dayLogsTable =>
+      $$DayLogsTableTableTableManager(_db, _db.dayLogsTable);
 }

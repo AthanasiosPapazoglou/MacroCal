@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
+import 'package:macro_cal_public/features/today/domain/services/nutrition_calculator.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -21,11 +22,6 @@ List<Color> colorCodingList = [
 ];
 
 bool isLimitSurpassed(double max, double current) => current > max;
-
-double progressPercent(double max, double current) {
-  if (max <= 0) return current > max ? 1.0 : 0.0;
-  return (current / max).clamp(0.0, 1.0);
-}
 
 String surpassedTitle(AppLocalizations l10n, String title, double max, double current) {
   final String surpassed = l10n.overviewPageSurpassed(title);
@@ -63,6 +59,7 @@ class TodaysPage extends StatefulWidget {
 
 class _TodaysPageState extends State<TodaysPage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  static const _calculator = NutritionCalculator();
   bool _fabExpanded = false;
   OverlayEntry? _overlayEntry;
   final GlobalKey _fabKey = GlobalKey();
@@ -336,7 +333,7 @@ class _TodaysPageState extends State<TodaysPage>
 
   Column caloriesOverview(double adjustedKcal, double consumedKcal) {
     final double ringPercent =
-        progressPercent(adjustedKcal, consumedKcal);
+        _calculator.progress(goal: adjustedKcal, consumed: consumedKcal);
     return Column(
       children: [
         heightSpacer(16),
@@ -440,7 +437,7 @@ class _TodaysPageState extends State<TodaysPage>
             lineHeight: 35,
             animation: true,
             animateFromLastPercent: true,
-            percent: progressPercent(max, current),
+            percent: _calculator.progress(goal: max, consumed: current),
             center: Text(
               showDecimals
                   ? "${(current * 10).truncateToDouble() / 10} / ${max.toInt()}"

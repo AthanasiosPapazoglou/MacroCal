@@ -9,6 +9,7 @@ import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
 import 'generated/schema_v3.dart' as v3;
 import 'generated/schema_v4.dart' as v4;
+import 'generated/schema_v5.dart' as v5;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -117,6 +118,60 @@ void main() {
           ('Bread', null),
         ]);
         expect(await newDb.select(newDb.foodEntries).get(), isEmpty);
+      },
+    );
+  });
+
+  test('v4 to v5 keeps the food log and adds empty day logs', () async {
+    const ingredient = (
+      id: 1,
+      name: 'Milk 1.5%',
+      category: 'Dairy',
+      referenceG: 100.0,
+      kcal: 45.0,
+      proteinG: 3.2,
+      carbsG: 4.5,
+      sugarsG: 4.5,
+      fatG: 1.5,
+      saturatedG: 1.0,
+      fiberG: 0.0,
+      saltMg: 50.0,
+    );
+    await verifier.testWithDataIntegrity(
+      oldVersion: 4,
+      newVersion: 5,
+      createOld: v4.DatabaseAtV4.new,
+      createNew: v5.DatabaseAtV5.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch
+          ..insert(
+            oldDb.ingredients,
+            v4.IngredientsData(
+              id: ingredient.id,
+              name: ingredient.name,
+              category: ingredient.category,
+              referenceG: ingredient.referenceG,
+              kcal: ingredient.kcal,
+              proteinG: ingredient.proteinG,
+              carbsG: ingredient.carbsG,
+              sugarsG: ingredient.sugarsG,
+              fatG: ingredient.fatG,
+              saturatedG: ingredient.saturatedG,
+              fiberG: ingredient.fiberG,
+              saltMg: ingredient.saltMg,
+            ),
+          )
+          ..insert(
+            oldDb.foodEntries,
+            const v4.FoodEntriesData(id: 1, ingredientId: 1, grams: 200),
+          );
+      },
+      validateItems: (newDb) async {
+        expect(await newDb.select(newDb.foodEntries).get(), const [
+          v5.FoodEntriesData(id: 1, ingredientId: 1, grams: 200),
+        ]);
+        expect(await newDb.select(newDb.dayLogs).get(), isEmpty);
       },
     );
   });

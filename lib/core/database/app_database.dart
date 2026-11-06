@@ -5,6 +5,7 @@ import 'package:macro_cal_public/core/database/seed/default_activities.dart';
 import 'package:macro_cal_public/core/database/seed/ingredient_seed.dart';
 import 'package:macro_cal_public/core/database/tables/activities_table.dart';
 import 'package:macro_cal_public/core/database/tables/activity_entries_table.dart';
+import 'package:macro_cal_public/core/database/tables/day_logs_table.dart';
 import 'package:macro_cal_public/core/database/tables/food_entries_table.dart';
 import 'package:macro_cal_public/core/database/tables/ingredients_table.dart';
 import 'package:macro_cal_public/core/database/tables/profile_table.dart';
@@ -20,6 +21,7 @@ part 'app_database.g.dart';
     ActivityEntriesTable,
     IngredientsTable,
     FoodEntriesTable,
+    DayLogsTable,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -29,7 +31,7 @@ class AppDatabase extends _$AppDatabase {
   final IngredientSeedLoader? _loadIngredientSeeds;
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -50,6 +52,7 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(schema.foodEntries);
         await _seedIngredients(schema.ingredients);
       },
+      from4To5: (m, schema) => m.createTable(schema.dayLogs),
     ),
     beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),
   );
