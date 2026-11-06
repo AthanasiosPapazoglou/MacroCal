@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:macro_cal_public/components/language_switch.dart';
+import 'package:macro_cal_public/features/settings/presentation/widgets/language_switch.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
