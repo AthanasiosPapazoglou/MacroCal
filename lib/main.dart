@@ -28,7 +28,7 @@ void main() async {
 }
 
 class MacroCal extends StatefulWidget {
-  const MacroCal({super.key});
+  const new({super.key});
 
   @override
   State<MacroCal> createState() => _MacroCalState();
