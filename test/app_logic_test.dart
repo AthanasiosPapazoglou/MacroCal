@@ -71,8 +71,9 @@ void main() {
 
   test('calculateAdjustedCalories adds calories burned by exercise', () {
     dataController.dailyCalories.value = 2000;
-    dataController.activitiesList
-        .assignAll([Activity(caloryConsumptionPerUnit: 50)]);
+    dataController.activitiesList.assignAll([
+      Activity(caloryConsumptionPerUnit: 50),
+    ]);
     dataController.activitiyVolumesList.assignAll([3]);
 
     calculateAdjustedCalories();
@@ -81,9 +82,9 @@ void main() {
   });
 
   test('measurementIndexForDate matches the same day only', () {
-    dataController.historicalMeasurementsList.assignAll(
-      [HistoricalMeasurement(measurementDate: DateTime(2026, 10, 30, 9))],
-    );
+    dataController.historicalMeasurementsList.assignAll([
+      HistoricalMeasurement(measurementDate: DateTime(2026, 10, 30, 9)),
+    ]);
 
     expect(measurementIndexForDate(DateTime(2026, 10, 30, 21)), 0);
     expect(measurementIndexForDate(DateTime(2026, 10, 31)), -1);
