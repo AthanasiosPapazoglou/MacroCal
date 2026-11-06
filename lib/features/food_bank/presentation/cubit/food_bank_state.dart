@@ -24,7 +24,4 @@ abstract class FoodBankState with _$FoodBankState {
               ingredient,
         ]
       : ingredients;
-
-  Ingredient? ingredientById(int id) =>
-      ingredients.where((ingredient) => ingredient.id == id).firstOrNull;
 }

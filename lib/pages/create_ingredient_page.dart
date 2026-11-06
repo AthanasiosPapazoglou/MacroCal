@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/components/loader.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
@@ -11,6 +10,8 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredien
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 
 class CreateOrEditIngredientPage extends StatelessWidget {
   const CreateOrEditIngredientPage({super.key, this.ingredientId});
@@ -85,10 +86,7 @@ class _IngredientFormState extends State<_IngredientForm> {
 
   Future<void> _scanProduct() async {
     final cubit = context.read<IngredientFormCubit>();
-    final barcode = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (_) => const BarcodeScannerPage()),
-    );
+    final barcode = await context.push<String>(AppRoutes.scan);
     if (barcode == null) return;
     await cubit.lookUpBarcode(barcode);
   }
@@ -132,7 +130,7 @@ class _IngredientFormState extends State<_IngredientForm> {
         BlocListener<IngredientFormCubit, IngredientFormState>(
           listenWhen: (_, current) =>
               current.status == IngredientFormStatus.saved,
-          listener: (context, _) => Navigator.pop(context),
+          listener: (context, _) => context.pop(),
         ),
       ],
       child: Scaffold(

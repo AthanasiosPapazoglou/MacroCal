@@ -23,14 +23,6 @@ class FoodBankCubit extends Cubit<FoodBankState> {
 
   void search(String query) => emit(state.copyWith(query: query));
 
-  Future<void> delete(int ingredientId) async {
-    try {
-      await _repository.deleteIngredient(ingredientId);
-    } on Exception {
-      emit(state.copyWith(status: FoodBankStatus.failure));
-    }
-  }
-
   @override
   Future<void> close() async {
     await _subscription?.cancel();

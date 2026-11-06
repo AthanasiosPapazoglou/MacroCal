@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:go_router/go_router.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
   const BarcodeScannerPage({super.key});
@@ -16,7 +17,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     final String? barcode = capture.barcodes.firstOrNull?.rawValue;
     if (_hasResult || barcode == null || barcode.isEmpty) return;
     _hasResult = true;
-    Navigator.pop(context, barcode);
+    context.pop(barcode);
   }
 
   @override
@@ -29,7 +30,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 child: Text(context.l10n.scannerPageClose),
               ),
             ),

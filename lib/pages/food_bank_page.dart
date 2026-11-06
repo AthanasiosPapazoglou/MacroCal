@@ -10,10 +10,10 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/pages/create_ingredient_page.dart';
-import 'package:macro_cal_public/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 
 class FoodBankPage extends StatelessWidget {
   const FoodBankPage({super.key});
@@ -77,12 +77,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
         ),
       ),
       floatingActionButton: IconButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => const CreateOrEditIngredientPage(),
-          ),
-        ),
+        onPressed: () => context.push(AppRoutes.newIngredient),
         icon: const Icon(Icons.format_list_bulleted_add, size: 30),
         style: IconButton.styleFrom(
           backgroundColor: AppThemes.darkTheme.primaryColor,
@@ -215,15 +210,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (_) => BlocProvider.value(
-                value: context.read<FoodBankCubit>(),
-                child: IngredientDetailsPage(ingredientId: ingredient.id),
-              ),
-            ),
-          ),
+          onTap: () => context.push(AppRoutes.ingredient(ingredient.id)),
           child: Container(
             padding: const EdgeInsets.all(4),
             height: 48,
