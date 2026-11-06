@@ -26,8 +26,6 @@ dependencies:
   flutter_spinkit: ^5.2.1
   flutter_svg: ^2.0.10
   freezed_annotation: ^3.1.0
-  get: ^4.6.6
-  get_storage: ^2.1.1
   http: ^1.6.0
   intl: any
   json_annotation: ^4.12.0
