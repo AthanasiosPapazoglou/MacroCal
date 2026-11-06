@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import '../controllers/data_controller.dart';
 
@@ -35,14 +36,13 @@ resetActivityVolumesList() {
   }
 }
 
-calculateAdjustedCalories() {
-  double adjustedCalories = dataController.dailyCalories.value;
+double burnedCalories() {
+  double burned = 0;
   for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {
-    adjustedCalories = adjustedCalories +
-        (dataController.activitiesList[i].caloryConsumptionPerUnit! *
-            dataController.activitiyVolumesList[i]);
+    burned += dataController.activitiesList[i].caloryConsumptionPerUnit! *
+        dataController.activitiyVolumesList[i];
   }
-  dataController.adjustedCalories.value = adjustedCalories;
+  return burned;
 }
 
 resetIngredientQuantitiesList() {
@@ -80,17 +80,17 @@ int measurementIndexForDate(DateTime date) =>
     dataController.historicalMeasurementsList.indexWhere((measurement) =>
         DateUtils.isSameDay(measurement.measurementDate, date));
 
-registerHistoricalMeasurement(DateTime selectedDate) {
+registerHistoricalMeasurement(DateTime selectedDate, NutritionGoals goals) {
   HistoricalMeasurement newMeasurement = HistoricalMeasurement(
       measurementDate: selectedDate,
       historicalMeasurementNutritionalData:
           HistoricalMeasurementNutritionalData(
-        adjustedCalories: dataController.adjustedCalories.value,
-        dailyProteins: dataController.dailyProteins.value,
-        dailyFiber: dataController.dailyFiber.value,
-        sugarsLimit: dataController.sugarsLimit.value,
-        saturatedLimit: dataController.saturatedLimit.value,
-        sodiumLimit: dataController.sodiumLimit.value,
+        adjustedCalories: goals.dailyKcal + burnedCalories(),
+        dailyProteins: goals.proteinG,
+        dailyFiber: goals.fiberG,
+        sugarsLimit: goals.sugarLimitPct,
+        saturatedLimit: goals.saturatedLimitPct,
+        sodiumLimit: goals.saltLimitMg,
         consumedCalories: dataController.consumedCalories.value,
         proteinConsumed: dataController.proteinConsumed.value,
         fiberConsumed: dataController.fiberConsumed.value,

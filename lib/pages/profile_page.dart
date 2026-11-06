@@ -1,97 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
+import 'package:macro_cal_public/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:macro_cal_public/features/profile/presentation/cubit/profile_field.dart';
+import 'package:macro_cal_public/features/profile/presentation/cubit/profile_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/core/l10n/l10n.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          ProfileCubit(context.read<ProfileRepository>())..load(),
+      child: Scaffold(
+        appBar: MajorPageAppBar(title: context.l10n.profilePageTitle),
+        endDrawer: const SettingsDrawer(),
+        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+        body: BlocBuilder<ProfileCubit, ProfileState>(
+          buildWhen: (previous, current) =>
+              previous.status == ProfileStatus.loading,
+          builder: (context, state) => state.status == ProfileStatus.loading
+              ? const SizedBox.shrink()
+              : _ProfileForm(initialProfile: state.profile),
+        ),
+      ),
+    );
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  final _formKey = GlobalKey<FormState>();
-  final List<FocusNode> _focusNodes =
-      List<FocusNode>.generate(8, (index) => FocusNode());
-  final List<TextEditingController> _textControllers =
-      List<TextEditingController>.generate(
-          8, (index) => TextEditingController());
+class _ProfileForm extends StatefulWidget {
+  const _ProfileForm({required this.initialProfile});
 
-  prePopulateTextFields() {
-    _textControllers[0].text = dataController.dailyCalories.value.toString();
-    _textControllers[1].text = dataController.dailyProteins.value.toString();
-    _textControllers[2].text = dataController.dailyFiber.value.toString();
-    _textControllers[3].text = dataController.sugarsLimit.value.toString();
-    _textControllers[4].text = dataController.saturatedLimit.value.toString();
-    _textControllers[5].text = dataController.sodiumLimit.value.toString();
-    _textControllers[6].text = dataController.bodyWeight.value.toString();
-    _textControllers[7].text = dataController.bodyHeight.value.toString();
-  }
-
-  double? parseProfileValue(String text) {
-    final double? value = double.tryParse(text.trim().replaceAll(',', '.'));
-    return (value == null || !value.isFinite || value < 0) ? null : value;
-  }
-
-  saveProfileData() {
-    final List<double> values = [
-      for (final controller in _textControllers)
-        parseProfileValue(controller.text)!
-    ];
-    dataController.dailyCalories.value = values[0];
-    dataController.dailyProteins.value = values[1];
-    dataController.dailyFiber.value = values[2];
-    dataController.sugarsLimit.value = values[3];
-    dataController.saturatedLimit.value = values[4];
-    dataController.sodiumLimit.value = values[5];
-    dataController.bodyWeight.value = values[6];
-    dataController.bodyHeight.value = values[7];
-    calculateAdjustedCalories();
-  }
+  final Profile initialProfile;
 
   @override
-  void initState() {
-    prePopulateTextFields();
-    super.initState();
-  }
+  State<_ProfileForm> createState() => _ProfileFormState();
+}
+
+class _ProfileFormState extends State<_ProfileForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _focusNodes = {
+    for (final field in ProfileField.values) field: FocusNode(),
+  };
+  late final _controllers = {
+    for (final field in ProfileField.values)
+      field: TextEditingController(
+        text: field.read(widget.initialProfile).toString(),
+      ),
+  };
 
   @override
   void dispose() {
-    for (var focusNode in _focusNodes) {
+    for (final focusNode in _focusNodes.values) {
       focusNode.dispose();
     }
-    for (var controller in _textControllers) {
+    for (final controller in _controllers.values) {
       controller.dispose();
     }
     super.dispose();
   }
 
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    final tabController = DefaultTabController.of(context);
+    final cubit = context.read<ProfileCubit>();
+    await cubit.save({
+      for (final MapEntry(key: field, value: controller)
+          in _controllers.entries)
+        field: controller.text,
+    });
+    if (cubit.state.status == ProfileStatus.saved) tabController.animateTo(0);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MajorPageAppBar(
-        title: context.l10n.profilePageTitle,
-      ),
-      endDrawer: const SettingsDrawer(),
-      backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            profileScrollableForm(),
-            saveButton(context),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          _scrollableForm(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: ElevatedButton(
+              onPressed: _save,
+              child: Text(context.l10n.profilePageButtonSideActionsSaveButton),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Expanded profileScrollableForm() {
-    final textfieldLabels = [
+  Expanded _scrollableForm() {
+    final labels = [
       context.l10n.profilePageLabels0,
       context.l10n.profilePageLabels1,
       context.l10n.profilePageLabels2,
@@ -101,75 +108,61 @@ class _ProfilePageState extends State<ProfilePage> {
       context.l10n.profilePageLabels6,
       context.l10n.profilePageLabels7,
     ];
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
 
     return Expanded(
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
-            children: List.generate(8, (index) {
-              const borderRadius = BorderRadius.all(Radius.circular(12));
-              final borderSide =
-                  BorderSide(color: Colors.green.shade500, width: 1.5);
-              return Column(
-                children: [
-                  heightSpacer(12),
-                  TextFormField(
-                    controller: _textControllers[index],
-                    focusNode: _focusNodes[index],
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    validator: (value) => parseProfileValue(value ?? '') == null
-                        ? context.l10n.profilePageInvalidNumber
-                        : null,
-                    onFieldSubmitted: (value) {
-                      if (index < _focusNodes.length - 1) {
-                        _focusNodes[index + 1].requestFocus();
-                      } else {
-                        _formKey.currentState!.validate();
-                      }
-                    },
-                    decoration: InputDecoration(
-                      floatingLabelAlignment: FloatingLabelAlignment.center,
-                      labelText: textfieldLabels[index],
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: borderRadius,
-                        borderSide: borderSide,
+            children: [
+              for (final field in ProfileField.values)
+                Column(
+                  children: [
+                    heightSpacer(12),
+                    TextFormField(
+                      controller: _controllers[field],
+                      focusNode: _focusNodes[field],
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: borderRadius,
-                        borderSide: borderSide.copyWith(width: 2.5),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: borderRadius,
-                        borderSide: borderSide,
+                      validator: (value) =>
+                          ProfileField.parse(value ?? '') == null
+                          ? context.l10n.profilePageInvalidNumber
+                          : null,
+                      onFieldSubmitted: (_) {
+                        if (field != ProfileField.values.last) {
+                          _focusNodes[ProfileField.values[field.index + 1]]!
+                              .requestFocus();
+                        } else {
+                          _formKey.currentState!.validate();
+                        }
+                      },
+                      decoration: InputDecoration(
+                        floatingLabelAlignment: FloatingLabelAlignment.center,
+                        labelText: labels[field.index],
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide.copyWith(width: 2.5),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide,
+                        ),
                       ),
                     ),
-                  ),
-                  heightSpacer(12),
-                ],
-              );
-            }),
+                    heightSpacer(12),
+                  ],
+                ),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  Padding saveButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: ElevatedButton(
-          onPressed: () {
-            if (!_formKey.currentState!.validate()) return;
-            final tabController = DefaultTabController.of(context);
-            saveProfileData();
-            dataController.update();
-            storage.globalDataSave();
-            tabController.animateTo(0);
-          },
-          child:
-              Text(context.l10n.profilePageButtonSideActionsSaveButton)),
     );
   }
 }

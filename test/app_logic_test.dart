@@ -69,16 +69,13 @@ void main() {
     expect(dataController.sodiumConsumed.value, closeTo(1300, 1e-9));
   });
 
-  test('calculateAdjustedCalories adds calories burned by exercise', () {
-    dataController.dailyCalories.value = 2000;
+  test('burnedCalories sums calories burned by exercise', () {
     dataController.activitiesList.assignAll([
       Activity(caloryConsumptionPerUnit: 50),
     ]);
     dataController.activitiyVolumesList.assignAll([3]);
 
-    calculateAdjustedCalories();
-
-    expect(dataController.adjustedCalories.value, 2150);
+    expect(burnedCalories(), 150);
   });
 
   test('measurementIndexForDate matches the same day only', () {

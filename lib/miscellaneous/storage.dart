@@ -38,15 +38,6 @@ void saveActivityVolumesList() {
 }
 
 void saveOverviewData() {
-  GetStorage().write('adjustedCalories', dataController.adjustedCalories.value);
-  GetStorage().write('dailyCalories', dataController.dailyCalories.value);
-  GetStorage().write('dailyProteins', dataController.dailyProteins.value);
-  GetStorage().write('dailyCarbs', dataController.dailyCarbs.value);
-  GetStorage().write('dailyFats', dataController.dailyFats.value);
-  GetStorage().write('dailyFiber', dataController.dailyFiber.value);
-  GetStorage().write('sugarsLimit', dataController.sugarsLimit.value);
-  GetStorage().write('saturatedLimit', dataController.saturatedLimit.value);
-  GetStorage().write('sodiumLimit', dataController.sodiumLimit.value);
   GetStorage().write('consumedCalories', dataController.consumedCalories.value);
   GetStorage().write('proteinConsumed', dataController.proteinConsumed.value);
   GetStorage().write('carbsConsumed', dataController.carbsConsumed.value);
@@ -58,11 +49,6 @@ void saveOverviewData() {
   GetStorage().write('sodiumConsumed', dataController.sodiumConsumed.value);
 }
 
-void saveProfileData() {
-  GetStorage().write('bodyWeight', dataController.bodyWeight.value);
-  GetStorage().write('bodyHeight', dataController.bodyHeight.value);
-}
-
 void globalDataSave() {
   saveHistoricalMeasurementsList();
   saveIngredientsList();
@@ -70,7 +56,6 @@ void globalDataSave() {
   saveActivitiesList();
   saveActivityVolumesList();
   saveOverviewData();
-  saveProfileData();
 }
 
 void loadHistoricalMeasurementsList() {
@@ -136,15 +121,6 @@ void _loadDouble(String key, RxDouble target) {
 }
 
 void loadOverviewData() {
-  _loadDouble('adjustedCalories', dataController.adjustedCalories);
-  _loadDouble('dailyCalories', dataController.dailyCalories);
-  _loadDouble('dailyProteins', dataController.dailyProteins);
-  _loadDouble('dailyCarbs', dataController.dailyCarbs);
-  _loadDouble('dailyFats', dataController.dailyFats);
-  _loadDouble('dailyFiber', dataController.dailyFiber);
-  _loadDouble('sugarsLimit', dataController.sugarsLimit);
-  _loadDouble('saturatedLimit', dataController.saturatedLimit);
-  _loadDouble('sodiumLimit', dataController.sodiumLimit);
   _loadDouble('consumedCalories', dataController.consumedCalories);
   _loadDouble('proteinConsumed', dataController.proteinConsumed);
   _loadDouble('carbsConsumed', dataController.carbsConsumed);
@@ -153,11 +129,6 @@ void loadOverviewData() {
   _loadDouble('sugarsConsumed', dataController.sugarsConsumed);
   _loadDouble('saturatedConsumed', dataController.saturatedConsumed);
   _loadDouble('sodiumConsumed', dataController.sodiumConsumed);
-}
-
-void loadProfileData() {
-  _loadDouble('bodyWeight', dataController.bodyWeight);
-  _loadDouble('bodyHeight', dataController.bodyHeight);
 }
 
 void _matchLength(RxList<int> values, int length) {
@@ -179,7 +150,6 @@ globalDataLoad() {
   _matchLength(dataController.activitiyVolumesList,
       dataController.activitiesList.length);
   loadOverviewData();
-  loadProfileData();
 }
 
 bool _hasSavedData() =>

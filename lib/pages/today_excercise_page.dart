@@ -156,7 +156,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
         ),
         ElevatedButton(
             onPressed: () {
-              calculateAdjustedCalories();
               dataController.update();
               storage.globalDataSave();
               Navigator.pop(context);
@@ -188,7 +187,6 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             TextButton(
               onPressed: () {
                 resetActivityVolumesList();
-                calculateAdjustedCalories();
                 dataController.update();
                 storage.globalDataSave();
                 for (final controller in _controllers) {
