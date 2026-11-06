@@ -6,6 +6,7 @@ import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/features/today/domain/repositories/activity_repository.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
@@ -141,11 +142,11 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
           onPressed: () async {
             registerHistoricalMeasurement(
                 selectedDate, context.read<OverviewCubit>().state.summary);
-            resetIngredientQuantitiesList();
-            populateConsumptionVariables();
             dataController.update();
             storage.globalDataSave();
+            final foodLog = context.read<FoodLogRepository>();
             await context.read<ActivityRepository>().resetAmounts();
+            await foodLog.clear();
             if (context.mounted) Navigator.of(context).pop();
           },
           child: Text(

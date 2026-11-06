@@ -1,92 +1,82 @@
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
+import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
+import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
-import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:empty_widget/empty_widget.dart';
-import 'package:macro_cal_public/core/l10n/l10n.dart';
 
-class TodayConsumption extends StatefulWidget {
+class TodayConsumption extends StatelessWidget {
   const TodayConsumption({super.key});
 
   @override
-  State<TodayConsumption> createState() => _TodayConsumptionState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ConsumptionCubit(
+        context.read<IngredientRepository>(),
+        context.read<FoodLogRepository>(),
+      )..load(),
+      child: BlocListener<ConsumptionCubit, ConsumptionState>(
+        listenWhen: (_, current) => current.status == ConsumptionStatus.saved,
+        listener: (context, _) => Navigator.pop(context),
+        child: BlocBuilder<ConsumptionCubit, ConsumptionState>(
+          buildWhen: (previous, _) =>
+              previous.status == ConsumptionStatus.loading,
+          builder: (context, state) =>
+              state.status == ConsumptionStatus.loading
+              ? const Scaffold()
+              : _ConsumptionView(initialState: state),
+        ),
+      ),
+    );
+  }
 }
 
-class _TodayConsumptionState extends State<TodayConsumption>
-    with SingleTickerProviderStateMixin {
-  late List<TextEditingController> _controllers;
-  late TabController _tabController;
-  late TextEditingController _searchBarController;
-  late bool isSearchActivated;
-  bool isActiveFilter = false;
+class _ConsumptionView extends StatefulWidget {
+  const _ConsumptionView({required this.initialState});
 
-  List<int> indexesOfConsumed = [];
-  List<int> indexesOfFiltered = [];
-
-  int totalIngredients() => dataController.ingredientsList.length;
-
-  void getConsumedIngredientList() {
-    indexesOfConsumed.clear();
-    dataController.ingredientQuantitiesList.asMap().forEach((index, value) {
-      if (value != 0) {
-        indexesOfConsumed.add(index);
-      }
-    });
-  }
-
-  void getFilteredIngredientList(String val) {
-    indexesOfFiltered.clear();
-    final String query = val.toLowerCase();
-    if (query.isEmpty) return;
-    for (int i = 0; i < dataController.ingredientsList.length; i++) {
-      if (dataController.ingredientsList[i].ingridientName!
-          .toLowerCase()
-          .contains(query)) {
-        indexesOfFiltered.add(i);
-      }
-    }
-  }
-
-  bool shouldDisplayEmptyWidget() {
-    if (isActiveFilter) {
-      return (indexesOfFiltered.isEmpty) ? true : false;
-    } else {
-      return (dataController.ingredientsList.isEmpty) ? true : false;
-    }
-  }
-
-  bool isUnconsumedTabSelected() {
-    return (_tabController.index == 0);
-  }
+  final ConsumptionState initialState;
 
   @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
-    _tabController.addListener(() {
-      if (_tabController.index == 1) setState(getConsumedIngredientList);
-    });
-    _controllers =
-        List.generate(totalIngredients(), (_) => TextEditingController());
-    for (int i = 0; i < _controllers.length; i++) {
-      _controllers[i].text =
-          dataController.ingredientQuantitiesList[i].toString();
+  State<_ConsumptionView> createState() => _ConsumptionViewState();
+}
+
+class _ConsumptionViewState extends State<_ConsumptionView>
+    with SingleTickerProviderStateMixin {
+  late final _tabController = TabController(length: 2, vsync: this)
+    ..addListener(_onTabChanged);
+  final _searchBarController = TextEditingController();
+  late final _controllers = {
+    for (final ingredient in widget.initialState.ingredients)
+      ingredient.id: TextEditingController(
+        text: widget.initialState.gramsOf(ingredient.id).toString(),
+      ),
+  };
+  bool _isSearchActivated = false;
+
+  bool get _isAllFoodsTabSelected => _tabController.index == 0;
+
+  void _onTabChanged() {
+    if (_tabController.index == 1) {
+      context.read<ConsumptionCubit>().refreshConsumed();
+      _searchBarController.clear();
+      context.read<ConsumptionCubit>().search('');
+      setState(() => _isSearchActivated = false);
+    } else {
+      setState(() {});
     }
-    _searchBarController = TextEditingController();
-    isSearchActivated = false;
-    getConsumedIngredientList();
   }
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
+    for (final controller in _controllers.values) {
       controller.dispose();
     }
     _tabController.dispose();
@@ -94,102 +84,111 @@ class _TodayConsumptionState extends State<TodayConsumption>
     super.dispose();
   }
 
+  void _clearSearch() {
+    _searchBarController.clear();
+    context.read<ConsumptionCubit>().search('');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          context.l10n.consumptionPageTitle,
-          style: appBarStyle(),
-        ),
+        title: Text(context.l10n.consumptionPageTitle, style: appBarStyle()),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
-          topSideActionBar(context),
-          if (isSearchActivated && isUnconsumedTabSelected()) filterSearchBar(),
-          scrollableFoodList(),
+          _topSideActionBar(),
+          if (_isSearchActivated && _isAllFoodsTabSelected) _filterSearchBar(),
+          Expanded(
+            child: BlocBuilder<ConsumptionCubit, ConsumptionState>(
+              builder: (context, state) => TabBarView(
+                controller: _tabController,
+                children: [
+                  _allFoodsTab(state),
+                  if (state.consumedIngredients.isEmpty)
+                    _emptyConsumedPage()
+                  else
+                    _ingredientList(state.consumedIngredients),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
-      bottomNavigationBar: bottomSideNavbar(),
+      bottomNavigationBar: TabBar(
+        controller: _tabController,
+        tabs: [
+          Tab(
+            text: context.l10n.consumptionPageBottomActionBarAllFoods,
+            icon: tabIcon(context, pantryImagePath),
+          ),
+          Tab(
+            text: context.l10n.consumptionPageBottomActionBarConsumed,
+            icon: tabIcon(context, consumptionImagePath),
+          ),
+        ],
+      ),
     );
   }
 
-  Column topSideActionBar(BuildContext context) {
+  Column _topSideActionBar() {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                  onPressed: () {
-                    _showResetValuesPopupDialog();
-                  },
-                  child: Text(
-                    context.l10n.consumptionPageTopActionBarResetValues,
-                  )),
+                onPressed: _showResetDialog,
+                child: Text(context.l10n.consumptionPageTopActionBarResetValues),
+              ),
               ElevatedButton(
-                  onPressed: () {
-                    populateConsumptionVariables();
-                    dataController.update();
-                    storage.globalDataSave();
-                    getConsumedIngredientList();
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    context.l10n.consumptionPageTopActionBarSaveChanges,
-                    style: const TextStyle(color: AppColors.confirmationButtonsColor),
-                  )),
+                onPressed: context.read<ConsumptionCubit>().save,
+                child: Text(
+                  context.l10n.consumptionPageTopActionBarSaveChanges,
+                  style: const TextStyle(
+                    color: AppColors.confirmationButtonsColor,
+                  ),
+                ),
+              ),
               ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: (isUnconsumedTabSelected()
-                        ? null
-                        : WidgetStateProperty.all<Color>(
-                            AppThemes.darkTheme.disabledColor))),
+                  backgroundColor: _isAllFoodsTabSelected
+                      ? null
+                      : WidgetStateProperty.all<Color>(
+                          AppThemes.darkTheme.disabledColor,
+                        ),
+                ),
                 onPressed: () {
-                  if (isUnconsumedTabSelected()) {
-                    indexesOfFiltered.clear();
-                    isActiveFilter = false;
-                    _searchBarController.clear();
-                    setState(() {});
-                    setState(() {
-                      isSearchActivated = !isSearchActivated;
-                    });
-                  }
+                  if (!_isAllFoodsTabSelected) return;
+                  _clearSearch();
+                  setState(() => _isSearchActivated = !_isSearchActivated);
                 },
                 child: Icon(
-                  isSearchActivated
+                  _isSearchActivated
                       ? Icons.search_off_rounded
                       : Icons.search_rounded,
                   size: 25,
-                  color: isSearchActivated ? AppColors.redAccent : null,
+                  color: _isSearchActivated ? AppColors.redAccent : null,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(
-          height: 12,
-        ),
+        const SizedBox(height: 12),
       ],
     );
   }
 
-  Column filterSearchBar() {
+  Column _filterSearchBar() {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextField(
-            onChanged: (val) {
-              getFilteredIngredientList(val);
-              setState(() {});
-              (indexesOfFiltered.isEmpty && val == '')
-                  ? isActiveFilter = false
-                  : isActiveFilter = true;
-            },
+            onChanged: context.read<ConsumptionCubit>().search,
             controller: _searchBarController,
             textInputAction: TextInputAction.done,
             style: const TextStyle(color: AppColors.kPrimaryColor),
@@ -202,12 +201,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                 fontSize: 15,
               ),
               suffixIcon: GestureDetector(
-                onTap: () {
-                  indexesOfFiltered.clear();
-                  _searchBarController.clear();
-                  isActiveFilter = false;
-                  setState(() {});
-                },
+                onTap: _clearSearch,
                 child: const Icon(
                   Icons.cancel_outlined,
                   color: AppColors.kPrimaryColor,
@@ -221,164 +215,110 @@ class _TodayConsumptionState extends State<TodayConsumption>
             ),
           ),
         ),
-        const SizedBox(
-          height: 12,
-        ),
+        const SizedBox(height: 12),
       ],
     );
   }
 
-  Expanded scrollableFoodList() {
-    return Expanded(
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          ingredientItemsView(true, isActiveFilter),
-          (indexesOfConsumed.isEmpty)
-              ? emptyConsumedPage()
-              : ingredientItemsView(false, isActiveFilter)
-        ],
+  Widget _allFoodsTab(ConsumptionState state) {
+    final ingredients = state.visibleIngredients;
+    if (ingredients.isEmpty) {
+      return EmptyWidget(
+        packageImage: PackageImage.Image_2,
+        title: state.isFiltering
+            ? context.l10n.foodsPageEmptyPageTitleNoResults
+            : context.l10n.foodsPageEmptyPageTitleNoItems,
+        titleTextStyle: TextStyle(
+          fontSize: 22,
+          color: AppThemes.darkTheme.primaryColor,
+          fontWeight: FontWeight.w500,
+        ),
+      );
+    }
+    return _ingredientList(ingredients);
+  }
+
+  Widget _ingredientList(List<Ingredient> ingredients) {
+    return ListView.builder(
+      itemCount: ingredients.length,
+      itemBuilder: (_, index) => _ingredientItem(ingredients[index]),
+    );
+  }
+
+  Widget _ingredientItem(Ingredient ingredient) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      child: Container(
+        width: double.maxFinite,
+        height: 62,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 2, color: AppThemes.darkTheme.primaryColor),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: SizedBox(
+                width: 180,
+                child: Text(
+                  ingredient.name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  context.l10n.consumptionPageMetricsGrams,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    height: 48,
+                    width: 85,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: TextField(
+                        onChanged: (value) => context
+                            .read<ConsumptionCubit>()
+                            .updateGrams(ingredient.id, int.tryParse(value) ?? 0),
+                        controller: _controllers[ingredient.id],
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(4),
+                        ],
+                        textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          hoverColor: AppThemes.darkTheme.canvasColor,
+                          fillColor: AppThemes.darkTheme.disabledColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  TabBar bottomSideNavbar() {
-    return TabBar(
-        controller: _tabController,
-        onTap: (_) {
-          if (isUnconsumedTabSelected()) {
-            setState(() {});
-          } else {
-            setState(() {
-              isSearchActivated = false;
-              isActiveFilter = false;
-            });
-          }
-        },
-        tabs: [
-          Tab(
-            text: context.l10n.consumptionPageBottomActionBarAllFoods,
-            icon: tabIcon(context, pantryImagePath),
-          ),
-          Tab(
-            text: context.l10n.consumptionPageBottomActionBarConsumed,
-            icon: tabIcon(context, consumptionImagePath),
-          ),
-        ]);
-  }
-
-  Widget ingredientItemsView(bool isUnconsumedList, bool isActiveFilter) {
-    return shouldDisplayEmptyWidget()
-        ? EmptyWidget(
-            packageImage: PackageImage.Image_2,
-            title: isActiveFilter
-                ? context.l10n.foodsPageEmptyPageTitleNoResults
-                : context.l10n.foodsPageEmptyPageTitleNoItems,
-            titleTextStyle: TextStyle(
-              fontSize: 22,
-              color: AppThemes.darkTheme.primaryColor,
-              fontWeight: FontWeight.w500,
-            ),
-          )
-        : ListView.builder(
-            itemCount: isUnconsumedList
-                ? isActiveFilter
-                    ? indexesOfFiltered.length
-                    : totalIngredients()
-                : indexesOfConsumed.length,
-            itemBuilder: (BuildContext ctx, int index) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                child: Container(
-                  width: double.maxFinite,
-                  height: 62,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        width: 2, color: AppThemes.darkTheme.primaryColor),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: SizedBox(
-                          width: 180,
-                          child: Text(
-                            dataController
-                                    .ingredientsList[isUnconsumedList
-                                        ? isActiveFilter
-                                            ? indexesOfFiltered[index]
-                                            : index
-                                        : indexesOfConsumed[index]]
-                                    .ingridientName ??
-                                '',
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            context.l10n.consumptionPageMetricsGrams,
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Container(
-                              height: 48,
-                              width: 85,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Center(
-                                child: TextField(
-                                  onChanged: (value) {
-                                    dataController.ingredientQuantitiesList[
-                                            isUnconsumedList
-                                                ? isActiveFilter
-                                                    ? indexesOfFiltered[index]
-                                                    : index
-                                                : indexesOfConsumed[index]] =
-                                        int.tryParse(value) ?? 0;
-                                  },
-                                  controller: _controllers[isUnconsumedList
-                                      ? isActiveFilter
-                                          ? indexesOfFiltered[index]
-                                          : index
-                                      : indexesOfConsumed[index]],
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(4),
-                                  ],
-                                  textAlign: TextAlign.center,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
-                                    hoverColor: AppThemes.darkTheme.canvasColor,
-                                    fillColor:
-                                        AppThemes.darkTheme.disabledColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            });
-  }
-
-  Widget emptyConsumedPage() {
+  Widget _emptyConsumedPage() {
     return EmptyWidget(
       image: addFoodImagePath,
       title: context.l10n.consumptionPageEmptyPageTitle,
@@ -395,40 +335,35 @@ class _TodayConsumptionState extends State<TodayConsumption>
     );
   }
 
-  void _showResetValuesPopupDialog() {
-    showDialog(
+  void _showResetDialog() {
+    final cubit = context.read<ConsumptionCubit>();
+    showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(context.l10n.consumptionPageResetValuesDialogTitle),
-          content: Text(context.l10n.consumptionPageResetValuesDialogBody),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                context.l10n.consumptionPageResetValuesDialogCancel,
-              ),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(dialogContext.l10n.consumptionPageResetValuesDialogTitle),
+        content: Text(dialogContext.l10n.consumptionPageResetValuesDialogBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(
+              dialogContext.l10n.consumptionPageResetValuesDialogCancel,
             ),
-            TextButton(
-              onPressed: () {
-                resetIngredientQuantitiesList();
-                populateConsumptionVariables();
-                dataController.update();
-                storage.globalDataSave();
-                getConsumedIngredientList();
-                for (final controller in _controllers) {
-                  controller.text = '0';
-                }
-                setState(() {});
-                Navigator.of(context).pop();
-              },
-              child: Text(context.l10n.consumptionPageResetValuesDialogConfirm, style: const TextStyle(color: AppColors.confirmationButtonsColor),),
+          ),
+          TextButton(
+            onPressed: () async {
+              await cubit.reset();
+              for (final controller in _controllers.values) {
+                controller.text = '0';
+              }
+              if (dialogContext.mounted) Navigator.of(dialogContext).pop();
+            },
+            child: Text(
+              dialogContext.l10n.consumptionPageResetValuesDialogConfirm,
+              style: const TextStyle(color: AppColors.confirmationButtonsColor),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }

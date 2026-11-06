@@ -2,68 +2,45 @@ import 'dart:math';
 
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/pages/create_ingredient_page.dart';
 import 'package:macro_cal_public/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/core/l10n/l10n.dart';
 
-class FoodBankPage extends StatefulWidget {
-  const FoodBankPage({
-    super.key,
-  });
+class FoodBankPage extends StatelessWidget {
+  const FoodBankPage({super.key});
 
   @override
-  State<FoodBankPage> createState() => _IngredientsPageViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          FoodBankCubit(context.read<IngredientRepository>())..watch(),
+      child: const _FoodBankView(),
+    );
+  }
 }
 
-class _IngredientsPageViewState extends State<FoodBankPage> {
-  bool isSelected = false;
-  bool isActiveFilter = false;
-  List<int> indexesOfFiltered = [];
-
-  late TextEditingController _searchBarController;
-  late bool isSearchActivated;
-  late bool isListView;
-
-  void getFilteredIngredientList(String val) {
-    indexesOfFiltered.clear();
-    final String query = val.toLowerCase();
-    if (query.isEmpty) return;
-    for (int i = 0; i < dataController.ingredientsList.length; i++) {
-      if (dataController.ingredientsList[i].ingridientName!
-          .toLowerCase()
-          .contains(query)) {
-        indexesOfFiltered.add(i);
-      }
-    }
-  }
-
-  bool shouldDisplayEmptyWidget() {
-    if (isActiveFilter) {
-      return (indexesOfFiltered.isEmpty) ? true : false;
-    } else {
-      return (dataController.ingredientsList.isEmpty) ? true : false;
-    }
-  }
-
-  int getNumberOfGridChildren() =>
-      max(1, MediaQuery.sizeOf(context).width ~/ 120);
-
-  stateManipulationCallback() {
-    setState(() {});
-  }
+class _FoodBankView extends StatefulWidget {
+  const _FoodBankView();
 
   @override
-  void initState() {
-    super.initState();
-    _searchBarController = TextEditingController();
-    isSearchActivated = false;
-    isListView = false;
-  }
+  State<_FoodBankView> createState() => _FoodBankViewState();
+}
+
+class _FoodBankViewState extends State<_FoodBankView> {
+  final _searchBarController = TextEditingController();
+  bool _isSearchActivated = false;
+  bool _isListView = false;
+
+  int _gridColumns() => max(1, MediaQuery.sizeOf(context).width ~/ 120);
 
   @override
   void dispose() {
@@ -71,52 +48,42 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     super.dispose();
   }
 
+  void _clearSearch() {
+    _searchBarController.clear();
+    context.read<FoodBankCubit>().search('');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MajorPageAppBar(
-        title: context.l10n.foodsPageTitle,
-      ),
+      appBar: MajorPageAppBar(title: context.l10n.foodsPageTitle),
       endDrawer: const SettingsDrawer(),
-      body: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                heightSpacer(12),
-                Expanded(
-                  child: Column(
-                    children: [
-                      topSideActionBar(),
-                      if (isSearchActivated) filterSearchBar(),
-                      foodList(),
-                    ],
-                  ),
-                ),
-                heightSpacer(56),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: IconButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateOrEditIngredientPage(
-                rebuildIngredientsDetailsPage: () {},
-                rebuildIngredientsPage: stateManipulationCallback,
-                isEdit: false,
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            heightSpacer(12),
+            Expanded(
+              child: Column(
+                children: [
+                  _topSideActionBar(),
+                  if (_isSearchActivated) _filterSearchBar(),
+                  _foodList(),
+                ],
               ),
             ),
-          );
-        },
-        icon: const Icon(
-          Icons.format_list_bulleted_add,
-          size: 30,
+            heightSpacer(56),
+          ],
         ),
+      ),
+      floatingActionButton: IconButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => const CreateOrEditIngredientPage(),
+          ),
+        ),
+        icon: const Icon(Icons.format_list_bulleted_add, size: 30),
         style: IconButton.styleFrom(
           backgroundColor: AppThemes.darkTheme.primaryColor,
           fixedSize: const Size(50, 50),
@@ -125,9 +92,9 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     );
   }
 
-  Padding topSideActionBar() {
+  Padding _topSideActionBar() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -135,34 +102,26 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
             children: [
               const Icon(Icons.sort_rounded),
               const SizedBox(width: 4),
-              Text(context.l10n.foodsPageTopActionBarSort)
+              Text(context.l10n.foodsPageTopActionBarSort),
             ],
           ),
           ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isListView = !isListView;
-                });
-              },
-              child: Icon(!isListView
-                  ? Icons.table_rows_rounded
-                  : Icons.window_rounded)),
+            onPressed: () => setState(() => _isListView = !_isListView),
+            child: Icon(
+              _isListView ? Icons.window_rounded : Icons.table_rows_rounded,
+            ),
+          ),
           ElevatedButton(
             onPressed: () {
-              indexesOfFiltered.clear();
-              isActiveFilter = false;
-              _searchBarController.clear();
-              setState(() {});
-              setState(() {
-                isSearchActivated = !isSearchActivated;
-              });
+              _clearSearch();
+              setState(() => _isSearchActivated = !_isSearchActivated);
             },
             child: Icon(
-              isSearchActivated
+              _isSearchActivated
                   ? Icons.search_off_rounded
                   : Icons.search_rounded,
               size: 25,
-              color: isSearchActivated ? AppColors.redAccent : null,
+              color: _isSearchActivated ? AppColors.redAccent : null,
             ),
           ),
         ],
@@ -170,63 +129,53 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
     );
   }
 
-  Column filterSearchBar() {
+  Column _filterSearchBar() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: TextField(
-            onChanged: (val) {
-              getFilteredIngredientList(val);
-              setState(() {});
-              (indexesOfFiltered.isEmpty && val == '')
-                  ? isActiveFilter = false
-                  : isActiveFilter = true;
-            },
-            controller: _searchBarController,
-            textInputAction: TextInputAction.done,
-            style: const TextStyle(color: AppColors.kPrimaryColor),
-            decoration: InputDecoration(
-              fillColor: AppThemes.darkTheme.canvasColor,
-              border: InputBorder.none,
-              hintText: context.l10n.foodsPageTopActionBarSearchHint,
-              hintStyle: const TextStyle(
-                color: AppColors.kPrimaryColor,
-                fontSize: 15,
-              ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  indexesOfFiltered.clear();
-                  _searchBarController.clear();
-                  isActiveFilter = false;
-                  setState(() {});
-                },
-                child: const Icon(
-                  Icons.cancel_outlined,
-                  color: AppColors.kPrimaryColor,
-                ),
-              ),
-              prefixIcon: const Icon(
-                Icons.search_rounded,
-                color: AppColors.kPrimaryColor,
-              ),
-              contentPadding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 8),
+        TextField(
+          onChanged: context.read<FoodBankCubit>().search,
+          controller: _searchBarController,
+          textInputAction: TextInputAction.done,
+          style: const TextStyle(color: AppColors.kPrimaryColor),
+          decoration: InputDecoration(
+            fillColor: AppThemes.darkTheme.canvasColor,
+            border: InputBorder.none,
+            hintText: context.l10n.foodsPageTopActionBarSearchHint,
+            hintStyle: const TextStyle(
+              color: AppColors.kPrimaryColor,
+              fontSize: 15,
             ),
+            suffixIcon: GestureDetector(
+              onTap: _clearSearch,
+              child: const Icon(
+                Icons.cancel_outlined,
+                color: AppColors.kPrimaryColor,
+              ),
+            ),
+            prefixIcon: const Icon(
+              Icons.search_rounded,
+              color: AppColors.kPrimaryColor,
+            ),
+            contentPadding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 8),
           ),
         ),
-        const SizedBox(
-          height: 12,
-        ),
+        const SizedBox(height: 12),
       ],
     );
   }
 
-  Expanded foodList() {
+  Expanded _foodList() {
     return Expanded(
-      child: shouldDisplayEmptyWidget()
-          ? EmptyWidget(
+      child: BlocBuilder<FoodBankCubit, FoodBankState>(
+        builder: (context, state) {
+          if (state.status == FoodBankStatus.loading) {
+            return const SizedBox.shrink();
+          }
+          final ingredients = state.visibleIngredients;
+          if (ingredients.isEmpty) {
+            return EmptyWidget(
               packageImage: PackageImage.Image_2,
-              title: isActiveFilter
+              title: state.isFiltering
                   ? context.l10n.foodsPageEmptyPageTitleNoResults
                   : context.l10n.foodsPageEmptyPageTitleNoItems,
               titleTextStyle: TextStyle(
@@ -234,74 +183,60 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
                 color: AppThemes.darkTheme.primaryColor,
                 fontWeight: FontWeight.w500,
               ),
-            )
-          : isListView
+            );
+          }
+          return _isListView
               ? ListView.builder(
-                  itemCount: isActiveFilter
-                      ? indexesOfFiltered.length
-                      : dataController.ingredientsList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ingredientItem(
-                        ingredientIndex:
-                            isActiveFilter ? indexesOfFiltered[index] : index,
-                        stateManipulationCallback: stateManipulationCallback);
-                  },
+                  itemCount: ingredients.length,
+                  itemBuilder: (_, index) => _ingredientItem(ingredients[index]),
                 )
               : GridView.builder(
-                  itemCount: isActiveFilter
-                      ? indexesOfFiltered.length
-                      : dataController.ingredientsList.length,
-                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: getNumberOfGridChildren(),
-                    childAspectRatio: 1,
+                  itemCount: ingredients.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _gridColumns(),
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ingredientItem(
-                        ingredientIndex:
-                            isActiveFilter ? indexesOfFiltered[index] : index,
-                        stateManipulationCallback: stateManipulationCallback);
-                  },
-                ),
+                  itemBuilder: (_, index) => _ingredientItem(ingredients[index]),
+                );
+        },
+      ),
     );
   }
 
-  Widget ingredientItem({
-    required int ingredientIndex,
-    required Function stateManipulationCallback,
-  }) {
+  Widget _ingredientItem(Ingredient ingredient) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(vertical: 8, horizontal: isListView ? 0 : 8),
+      padding: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: _isListView ? 0 : 8,
+      ),
       child: Material(
         color: AppThemes.darkTheme.primaryColor,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => IngredientDetailsPage(
-                    ingredientIndex: ingredientIndex,
-                    stateManipulationCallback: stateManipulationCallback),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => BlocProvider.value(
+                value: context.read<FoodBankCubit>(),
+                child: IngredientDetailsPage(ingredientId: ingredient.id),
               ),
-            );
-          },
+            ),
+          ),
           child: Container(
             padding: const EdgeInsets.all(4),
             height: 48,
             child: Center(
               child: Text(
-                dataController.ingredientsList[ingredientIndex].ingridientName ??
-                    '',
+                ingredient.name,
                 textAlign: TextAlign.center,
                 maxLines: 3,
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
               ),
             ),
           ),
