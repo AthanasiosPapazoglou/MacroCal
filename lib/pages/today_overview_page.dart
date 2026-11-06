@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
@@ -252,44 +250,41 @@ class _TodaysPageState extends State<TodaysPage>
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Obx(() {
-              final adjustedKcal = summary.adjustedKcal;
-              return ListView(
+            child: ListView(
                 children: [
                   sectionHeader(context.l10n.overviewPageIntake),
-                  caloriesOverview(adjustedKcal),
+                  caloriesOverview(summary.adjustedKcal, summary.consumed.kcal),
                   sectionHeader(context.l10n.overviewPageHealthy),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsProtein,
                       goals.proteinG,
-                      dataController.proteinConsumed.value,
+                      summary.consumed.proteinG,
                       true),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsFiber,
                       goals.fiberG,
-                      dataController.fiberConsumed.value,
+                      summary.consumed.fiberG,
                       true),
                   sectionHeader(context.l10n.overviewPageUnhealthy),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSugars,
                       summary.sugarLimitG,
-                      dataController.sugarsConsumed.value,
+                      summary.consumed.sugarsG,
                       false),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSaturated,
                       summary.saturatedLimitG,
-                      dataController.saturatedConsumed.value,
+                      summary.consumed.saturatedG,
                       false),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSalt,
                       goals.saltLimitMg,
-                      dataController.sodiumConsumed.value,
+                      summary.consumed.saltMg,
                       false,
                       showDecimals: false),
                   heightSpacer(48),
                 ],
-              );
-            }),
+            ),
           ),
           Positioned(
             left: 16,
@@ -339,9 +334,9 @@ class _TodaysPageState extends State<TodaysPage>
     );
   }
 
-  Column caloriesOverview(double adjustedKcal) {
+  Column caloriesOverview(double adjustedKcal, double consumedKcal) {
     final double ringPercent =
-        progressPercent(adjustedKcal, dataController.consumedCalories.value);
+        progressPercent(adjustedKcal, consumedKcal);
     return Column(
       children: [
         heightSpacer(16),
@@ -363,7 +358,7 @@ class _TodaysPageState extends State<TodaysPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${dataController.consumedCalories.toInt()} / ${adjustedKcal.toInt()}",
+                    "${consumedKcal.toInt()} / ${adjustedKcal.toInt()}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),
@@ -384,16 +379,16 @@ class _TodaysPageState extends State<TodaysPage>
                               fontWeight: FontWeight.bold,
                               color: assignItemColor(
                                   adjustedKcal,
-                                  dataController.consumedCalories.value,
+                                  consumedKcal,
                                   true)),
                         ),
                         Text(
-                          '${(dataController.consumedCalories.value - adjustedKcal).abs().toInt()} kcal.',
+                          '${(consumedKcal - adjustedKcal).abs().toInt()} kcal.',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: assignItemColor(
                                   adjustedKcal,
-                                  dataController.consumedCalories.value,
+                                  consumedKcal,
                                   true)),
                         )
                       ],
@@ -404,7 +399,7 @@ class _TodaysPageState extends State<TodaysPage>
               animationDuration: 1000,
               progressColor: assignItemColor(
                   adjustedKcal,
-                  dataController.consumedCalories.value,
+                  consumedKcal,
                   true),
               backgroundColor: Colors.black.withValues(alpha: .3),
             ),

@@ -1,312 +1,259 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/components/loader.dart';
-import 'package:macro_cal_public/miscellaneous/snackbars.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/models/ingredient.dart';
-import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
-import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:http/http.dart' as http;
 import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
+import 'package:macro_cal_public/miscellaneous/functions.dart';
+import 'package:macro_cal_public/miscellaneous/snackbars.dart';
+import 'package:macro_cal_public/themes/app_themes.dart';
 
-class CreateOrEditIngredientPage extends StatefulWidget {
-  const CreateOrEditIngredientPage(
-      {super.key,
-      required this.rebuildIngredientsPage,
-      required this.rebuildIngredientsDetailsPage,
-      required this.isEdit,
-      this.itemIndex});
+class CreateOrEditIngredientPage extends StatelessWidget {
+  const CreateOrEditIngredientPage({super.key, this.ingredientId});
 
-  final Function rebuildIngredientsPage;
-  final Function rebuildIngredientsDetailsPage;
-  final bool isEdit;
-  final int? itemIndex;
+  final int? ingredientId;
 
   @override
-  State<CreateOrEditIngredientPage> createState() =>
-      _CreateOrEditIngredientPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => IngredientFormCubit(
+        context.read<IngredientRepository>(),
+        context.read<ProductLookupRepository>(),
+        ingredientId: ingredientId,
+      )..load(),
+      child: BlocBuilder<IngredientFormCubit, IngredientFormState>(
+        buildWhen: (previous, _) =>
+            previous.status == IngredientFormStatus.loading,
+        builder: (context, state) => state.status == IngredientFormStatus.loading
+            ? const Scaffold()
+            : _IngredientForm(
+                initialValues: state.values,
+                isEdit: ingredientId != null,
+                uncategorisedLabel: context.l10n.ingredientsPageUncategorised,
+              ),
+      ),
+    );
+  }
 }
 
-class _CreateOrEditIngredientPageState
-    extends State<CreateOrEditIngredientPage> {
-  final _formKey = GlobalKey<FormState>();
-  final List<FocusNode> _focusNodes =
-      List<FocusNode>.generate(11, (index) => FocusNode());
-  final List<TextEditingController> _textControllers =
-      List<TextEditingController>.generate(
-          11, (index) => TextEditingController());
+class _IngredientForm extends StatefulWidget {
+  const _IngredientForm({
+    required this.initialValues,
+    required this.isEdit,
+    required this.uncategorisedLabel,
+  });
 
-  Map<String, dynamic> resultData = {};
-  bool _isLookingUpProduct = false;
-
-  Future<Map<String, dynamic>?> fetchProductData(String barcode) async {
-    try {
-      final response = await http.get(
-        Uri.parse(
-            'https://world.openfoodfacts.org/api/v2/product/${Uri.encodeComponent(barcode)}'),
-      );
-      if (response.statusCode != 200) return null;
-      final Map<String, dynamic> data = json.decode(response.body);
-      return (data['status'] == 1 && data['product'] is Map) ? data : null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<void> scanProduct() async {
-    final String? barcode = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (context) => const BarcodeScannerPage()),
-    );
-    if (barcode == null || !mounted) return;
-
-    setState(() => _isLookingUpProduct = true);
-    final Map<String, dynamic>? data = await fetchProductData(barcode);
-    if (!mounted) return;
-    setState(() => _isLookingUpProduct = false);
-    if (data == null) {
-      showErrorSnackBar(context);
-      return;
-    }
-    resultData = data;
-    assignDataFromScan();
-    showSuccessSnackBar(context);
-  }
-
-  void assignDataFromScan() {
-    setState(() {
-      _textControllers[1].text = getProductName();
-      _textControllers[3].text = getValueOfMetric('energy-kcal_100g');
-      _textControllers[4].text = getValueOfMetric('fat_100g');
-      _textControllers[5].text = getValueOfMetric('saturated-fat_100g');
-      _textControllers[6].text = getValueOfMetric('carbohydrates_100g');
-      _textControllers[7].text = getValueOfMetric('sugars_100g');
-      _textControllers[8].text = getValueOfMetric('fiber_100g');
-      _textControllers[9].text = getValueOfMetric('proteins_100g');
-      _textControllers[10].text = getValueOfMetric('salt_100g');
-    });
-  }
-
-  String getValueOfMetric(String metricJsonKey) =>
-      '${resultData['product']['nutriments']?[metricJsonKey] ?? '0.0'}';
-
-  String getProductName() => '${resultData['product']['product_name'] ?? ''}';
-
-  void prePopulateTextfields() {
-    if (widget.isEdit) {
-      _textControllers[0].text = dataController
-          .ingredientsList[widget.itemIndex!].referenceQuantity!
-          .toString();
-      _textControllers[1].text =
-          dataController.ingredientsList[widget.itemIndex!].ingridientName!;
-      _textControllers[2].text = translateDefaultText(context.l10n, 
-          dataController.ingredientsList[widget.itemIndex!].category!);
-      _textControllers[3].text =
-          dataController.ingredientsList[widget.itemIndex!].calories.toString();
-      _textControllers[4].text =
-          dataController.ingredientsList[widget.itemIndex!].fats.toString();
-      _textControllers[5].text = dataController
-          .ingredientsList[widget.itemIndex!].saturated
-          .toString();
-      _textControllers[6].text = dataController
-          .ingredientsList[widget.itemIndex!].carbohydrates
-          .toString();
-      _textControllers[7].text =
-          dataController.ingredientsList[widget.itemIndex!].sugars.toString();
-      _textControllers[8].text =
-          dataController.ingredientsList[widget.itemIndex!].fiber.toString();
-      _textControllers[9].text =
-          dataController.ingredientsList[widget.itemIndex!].proteins.toString();
-      _textControllers[10].text =
-          (dataController.ingredientsList[widget.itemIndex!].salt! * 0.001)
-              .toString();
-    }
-  }
-
-  dynamic textfieldValidatedValue(bool isNumeric, int controllerIndex) {
-    RegExp numericRegex = RegExp(r'^[0-9]*(\.[0-9]*)?$');
-
-    if (isNumeric) {
-      return (numericRegex.hasMatch(_textControllers[controllerIndex].text) &&
-              _textControllers[controllerIndex].text != '')
-          ? (controllerIndex != 10)
-              ? double.tryParse(_textControllers[controllerIndex].text)
-              : (double.tryParse(_textControllers[controllerIndex].text)! *
-                  1000)
-          : 0.0;
-    } else {
-      if (controllerIndex == 2 &&
-          _textControllers[controllerIndex].text == '') {
-        return context.l10n.ingredientsPageUncategorised;
-      } else {
-        return _textControllers[controllerIndex].text;
-      }
-    }
-  }
-
-  void saveIngredientChanges() {
-    if (widget.isEdit) {
-      dataController.ingredientsList[widget.itemIndex!].referenceQuantity =
-          textfieldValidatedValue(true, 0);
-      dataController.ingredientsList[widget.itemIndex!].ingridientName =
-          textfieldValidatedValue(false, 1);
-      dataController.ingredientsList[widget.itemIndex!].category =
-          textfieldValidatedValue(false, 2);
-      dataController.ingredientsList[widget.itemIndex!].calories =
-          textfieldValidatedValue(true, 3);
-      dataController.ingredientsList[widget.itemIndex!].fats =
-          textfieldValidatedValue(true, 4);
-      dataController.ingredientsList[widget.itemIndex!].saturated =
-          textfieldValidatedValue(true, 5);
-      dataController.ingredientsList[widget.itemIndex!].carbohydrates =
-          textfieldValidatedValue(true, 6);
-      dataController.ingredientsList[widget.itemIndex!].sugars =
-          textfieldValidatedValue(true, 7);
-      dataController.ingredientsList[widget.itemIndex!].fiber =
-          textfieldValidatedValue(true, 8);
-      dataController.ingredientsList[widget.itemIndex!].proteins =
-          textfieldValidatedValue(true, 9);
-      dataController.ingredientsList[widget.itemIndex!].salt =
-          textfieldValidatedValue(true, 10);
-    } else {
-      dataController.ingredientsList.add(
-        Ingredient(
-          referenceQuantity: textfieldValidatedValue(true, 0),
-          ingridientName: textfieldValidatedValue(false, 1),
-          category: textfieldValidatedValue(false, 2),
-          calories: textfieldValidatedValue(true, 3),
-          fats: textfieldValidatedValue(true, 4),
-          saturated: textfieldValidatedValue(true, 5),
-          carbohydrates: textfieldValidatedValue(true, 6),
-          sugars: textfieldValidatedValue(true, 7),
-          fiber: textfieldValidatedValue(true, 8),
-          proteins: textfieldValidatedValue(true, 9),
-          salt: textfieldValidatedValue(true, 10),
-        ),
-      );
-      dataController.ingredientQuantitiesList.add(0);
-    }
-  }
+  final Map<IngredientField, String> initialValues;
+  final bool isEdit;
+  final String uncategorisedLabel;
 
   @override
-  void initState() {
-    _textControllers[0].text = '100';
-    _textControllers[2].text = context.l10n.ingredientsPageUncategorised;
-    prePopulateTextfields();
-    super.initState();
+  State<_IngredientForm> createState() => _IngredientFormState();
+}
+
+class _IngredientFormState extends State<_IngredientForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _focusNodes = {
+    for (final field in IngredientField.values) field: FocusNode(),
+  };
+  late final _controllers = {
+    for (final field in IngredientField.values)
+      field: TextEditingController(text: _initialText(field)),
+  };
+
+  String _initialText(IngredientField field) {
+    final value = widget.initialValues[field] ?? '';
+    return field == IngredientField.category && value.isEmpty
+        ? widget.uncategorisedLabel
+        : value;
   }
 
   @override
   void dispose() {
-    for (var focusNode in _focusNodes) {
+    for (final focusNode in _focusNodes.values) {
       focusNode.dispose();
     }
-    for (var controller in _textControllers) {
+    for (final controller in _controllers.values) {
       controller.dispose();
     }
     super.dispose();
   }
 
+  Future<void> _scanProduct() async {
+    final cubit = context.read<IngredientFormCubit>();
+    final barcode = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const BarcodeScannerPage()),
+    );
+    if (barcode == null) return;
+    await cubit.lookUpBarcode(barcode);
+  }
+
+  void _onLookupFinished(IngredientFormState state) {
+    final messenger = ScaffoldMessenger.of(context);
+    if (state.lookupOutcome == LookupOutcome.found) {
+      for (final MapEntry(key: field, value: text)
+          in state.scannedValues.entries) {
+        _controllers[field]!.text = text;
+      }
+      messenger.showSnackBar(productFoundSnackbar(context.l10n));
+    } else {
+      messenger.showSnackBar(noProductFoundSnackbar(context.l10n));
+    }
+  }
+
+  void _save() {
+    if (!_formKey.currentState!.validate()) return;
+    context.read<IngredientFormCubit>().save({
+      for (final MapEntry(key: field, value: controller)
+          in _controllers.entries)
+        field:
+            field == IngredientField.category &&
+                controller.text == widget.uncategorisedLabel
+            ? ''
+            : controller.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.isEdit
-              ? context.l10n.ingredientsPageTitlesEdit
-              : context.l10n.ingredientsPageTitlesAdd,
-          style: appBarStyle(),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<IngredientFormCubit, IngredientFormState>(
+          listenWhen: (previous, current) =>
+              previous.status == IngredientFormStatus.lookingUp &&
+              current.status != IngredientFormStatus.lookingUp,
+          listener: (_, state) => _onLookupFinished(state),
         ),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
-        actions: [
-          if (!widget.isEdit)
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: ElevatedButton(
-                  onPressed: _isLookingUpProduct ? null : scanProduct,
-                  child: _isLookingUpProduct
-                      ? const MacroCalLoader(width: 24, height: 24, size: 24)
-                      : const Icon(Icons.qr_code_scanner_rounded)),
-            )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [macronutrientScrollableForm(), saveButton(context)],
+        BlocListener<IngredientFormCubit, IngredientFormState>(
+          listenWhen: (_, current) =>
+              current.status == IngredientFormStatus.saved,
+          listener: (context, _) => Navigator.pop(context),
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.isEdit
+                ? context.l10n.ingredientsPageTitlesEdit
+                : context.l10n.ingredientsPageTitlesAdd,
+            style: appBarStyle(),
+          ),
+          backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+          actions: [
+            if (!widget.isEdit)
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: BlocBuilder<IngredientFormCubit, IngredientFormState>(
+                  buildWhen: (previous, current) =>
+                      previous.status != current.status,
+                  builder: (context, state) {
+                    final isLookingUp =
+                        state.status == IngredientFormStatus.lookingUp;
+                    return ElevatedButton(
+                      onPressed: isLookingUp ? null : _scanProduct,
+                      child: isLookingUp
+                          ? const MacroCalLoader(width: 24, height: 24, size: 24)
+                          : const Icon(Icons.qr_code_scanner_rounded),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Expanded(
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (final field in IngredientField.values)
+                          _textFieldItem(field),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: ElevatedButton(
+                  onPressed: _save,
+                  child: Text(
+                    context.l10n.ingredientsPageBottomSideActionsSaveButton,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Expanded macronutrientScrollableForm() {
-    return Expanded(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(children: List.generate(11, textfieldItem)),
-        ),
-      ),
-    );
-  }
-
-  Widget textfieldItem(int index) {
+  Widget _textFieldItem(IngredientField field) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
-
-    final textfieldLabels = [
-      context.l10n.ingredientsPageLabels0,
-      context.l10n.ingredientsPageLabels1,
-      context.l10n.ingredientsPageLabels2,
-      context.l10n.ingredientsPageLabels3,
-      context.l10n.ingredientsPageLabels4,
-      context.l10n.ingredientsPageLabels5,
-      context.l10n.ingredientsPageLabels6,
-      context.l10n.ingredientsPageLabels7,
-      context.l10n.ingredientsPageLabels8,
-      context.l10n.ingredientsPageLabels9,
-      context.l10n.ingredientsPageLabels10,
+    final l10n = context.l10n;
+    final labels = [
+      l10n.ingredientsPageLabels0,
+      l10n.ingredientsPageLabels1,
+      l10n.ingredientsPageLabels2,
+      l10n.ingredientsPageLabels3,
+      l10n.ingredientsPageLabels4,
+      l10n.ingredientsPageLabels5,
+      l10n.ingredientsPageLabels6,
+      l10n.ingredientsPageLabels7,
+      l10n.ingredientsPageLabels8,
+      l10n.ingredientsPageLabels9,
+      l10n.ingredientsPageLabels10,
     ];
-
-    final textfieldHints = [
-      context.l10n.ingredientsPageHints0,
-      context.l10n.ingredientsPageHints1,
-      context.l10n.ingredientsPageHints2,
-      context.l10n.ingredientsPageHints3,
-      context.l10n.ingredientsPageHints4,
-      context.l10n.ingredientsPageHints5,
-      context.l10n.ingredientsPageHints6,
-      context.l10n.ingredientsPageHints7,
-      context.l10n.ingredientsPageHints8,
-      context.l10n.ingredientsPageHints9,
-      context.l10n.ingredientsPageHints10,
+    final hints = [
+      l10n.ingredientsPageHints0,
+      l10n.ingredientsPageHints1,
+      l10n.ingredientsPageHints2,
+      l10n.ingredientsPageHints3,
+      l10n.ingredientsPageHints4,
+      l10n.ingredientsPageHints5,
+      l10n.ingredientsPageHints6,
+      l10n.ingredientsPageHints7,
+      l10n.ingredientsPageHints8,
+      l10n.ingredientsPageHints9,
+      l10n.ingredientsPageHints10,
     ];
+    final isText =
+        field == IngredientField.name || field == IngredientField.category;
 
     return Column(
       children: [
         heightSpacer(12),
         TextFormField(
-          keyboardType:
-              (index != 1 && index != 2) ? TextInputType.number : null,
-          validator: (value) => index == 1 && (value ?? '').trim().isEmpty
-              ? context.l10n.ingredientsPageNameRequired
+          keyboardType: isText ? null : TextInputType.number,
+          validator: (value) =>
+              field == IngredientField.name && (value ?? '').trim().isEmpty
+              ? l10n.ingredientsPageNameRequired
               : null,
-          controller: _textControllers[index],
-          focusNode: _focusNodes[index],
-          onFieldSubmitted: (value) {
-            if (index < _focusNodes.length - 1) {
-              _focusNodes[index + 1].requestFocus();
+          controller: _controllers[field],
+          focusNode: _focusNodes[field],
+          onFieldSubmitted: (_) {
+            if (field != IngredientField.values.last) {
+              _focusNodes[IngredientField.values[field.index + 1]]!
+                  .requestFocus();
             } else {
               _formKey.currentState!.validate();
             }
           },
           decoration: InputDecoration(
             floatingLabelAlignment: FloatingLabelAlignment.center,
-            labelText: textfieldLabels[index],
-            hintText: textfieldHints[index],
+            labelText: labels[field.index],
+            hintText: hints[field.index],
             enabledBorder: OutlineInputBorder(
               borderRadius: borderRadius,
               borderSide: borderSide,
@@ -324,35 +271,5 @@ class _CreateOrEditIngredientPageState
         heightSpacer(12),
       ],
     );
-  }
-
-  Padding saveButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: ElevatedButton(
-        onPressed: () {
-          if (!_formKey.currentState!.validate()) return;
-          saveIngredientChanges();
-          widget.rebuildIngredientsPage();
-          widget.rebuildIngredientsDetailsPage();
-          populateConsumptionVariables();
-          dataController.update();
-          storage.globalDataSave();
-          Navigator.pop(context);
-        },
-        child:
-            Text(context.l10n.ingredientsPageBottomSideActionsSaveButton),
-      ),
-    );
-  }
-
-  void showSuccessSnackBar(BuildContext context) {
-    final snackBar = productFoundSnackbar(context.l10n);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void showErrorSnackBar(BuildContext context) {
-    final snackBar = noProductFoundSnackbar(context.l10n);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
