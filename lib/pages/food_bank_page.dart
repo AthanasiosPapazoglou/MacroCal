@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -10,7 +9,7 @@ import 'package:macro_cal_public/pages/create_ingredient_page.dart';
 import 'package:macro_cal_public/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class FoodBankPage extends StatefulWidget {
   const FoodBankPage({
@@ -76,7 +75,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: LocaleConsts.foodsPageTitle.tr(),
+        title: context.l10n.foodsPageTitle,
       ),
       endDrawer: const SettingsDrawer(),
       body: Stack(
@@ -136,7 +135,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
             children: [
               const Icon(Icons.sort_rounded),
               const SizedBox(width: 4),
-              Text(LocaleConsts.foodsPageTopActionBarSort.tr())
+              Text(context.l10n.foodsPageTopActionBarSort)
             ],
           ),
           ElevatedButton(
@@ -190,7 +189,7 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
             decoration: InputDecoration(
               fillColor: AppThemes.darkTheme.canvasColor,
               border: InputBorder.none,
-              hintText: LocaleConsts.foodsPageTopActionBarSearchHint.tr(),
+              hintText: context.l10n.foodsPageTopActionBarSearchHint,
               hintStyle: const TextStyle(
                 color: AppColors.kPrimaryColor,
                 fontSize: 15,
@@ -228,8 +227,8 @@ class _IngredientsPageViewState extends State<FoodBankPage> {
           ? EmptyWidget(
               packageImage: PackageImage.Image_2,
               title: isActiveFilter
-                  ? LocaleConsts.foodsPageEmptyPageTitleNoResults.tr()
-                  : LocaleConsts.foodsPageEmptyPageTitleNoItems.tr(),
+                  ? context.l10n.foodsPageEmptyPageTitleNoResults
+                  : context.l10n.foodsPageEmptyPageTitleNoItems,
               titleTextStyle: TextStyle(
                 fontSize: 22,
                 color: AppThemes.darkTheme.primaryColor,

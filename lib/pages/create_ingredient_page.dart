@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/components/loader.dart';
@@ -11,7 +10,7 @@ import 'package:macro_cal_public/models/ingredient.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:http/http.dart' as http;
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class CreateOrEditIngredientPage extends StatefulWidget {
   const CreateOrEditIngredientPage(
@@ -103,7 +102,7 @@ class _CreateOrEditIngredientPageState
           .toString();
       _textControllers[1].text =
           dataController.ingredientsList[widget.itemIndex!].ingridientName!;
-      _textControllers[2].text = translateDefaultText(
+      _textControllers[2].text = translateDefaultText(context.l10n, 
           dataController.ingredientsList[widget.itemIndex!].category!);
       _textControllers[3].text =
           dataController.ingredientsList[widget.itemIndex!].calories.toString();
@@ -141,7 +140,7 @@ class _CreateOrEditIngredientPageState
     } else {
       if (controllerIndex == 2 &&
           _textControllers[controllerIndex].text == '') {
-        return LocaleConsts.ingredientsPageUncategorised.tr();
+        return context.l10n.ingredientsPageUncategorised;
       } else {
         return _textControllers[controllerIndex].text;
       }
@@ -195,7 +194,7 @@ class _CreateOrEditIngredientPageState
   @override
   void initState() {
     _textControllers[0].text = '100';
-    _textControllers[2].text = LocaleConsts.ingredientsPageUncategorised.tr();
+    _textControllers[2].text = context.l10n.ingredientsPageUncategorised;
     prePopulateTextfields();
     super.initState();
   }
@@ -217,8 +216,8 @@ class _CreateOrEditIngredientPageState
       appBar: AppBar(
         title: Text(
           widget.isEdit
-              ? LocaleConsts.ingredientsPageTitlesEdit.tr()
-              : LocaleConsts.ingredientsPageTitlesAdd.tr(),
+              ? context.l10n.ingredientsPageTitlesEdit
+              : context.l10n.ingredientsPageTitlesAdd,
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -258,32 +257,32 @@ class _CreateOrEditIngredientPageState
     const borderRadius = BorderRadius.all(Radius.circular(12));
     final borderSide = BorderSide(color: Colors.green.shade500, width: 1.5);
 
-    const textfieldLabels = [
-      LocaleConsts.ingredientsPageLabels0,
-      LocaleConsts.ingredientsPageLabels1,
-      LocaleConsts.ingredientsPageLabels2,
-      LocaleConsts.ingredientsPageLabels3,
-      LocaleConsts.ingredientsPageLabels4,
-      LocaleConsts.ingredientsPageLabels5,
-      LocaleConsts.ingredientsPageLabels6,
-      LocaleConsts.ingredientsPageLabels7,
-      LocaleConsts.ingredientsPageLabels8,
-      LocaleConsts.ingredientsPageLabels9,
-      LocaleConsts.ingredientsPageLabels10,
+    final textfieldLabels = [
+      context.l10n.ingredientsPageLabels0,
+      context.l10n.ingredientsPageLabels1,
+      context.l10n.ingredientsPageLabels2,
+      context.l10n.ingredientsPageLabels3,
+      context.l10n.ingredientsPageLabels4,
+      context.l10n.ingredientsPageLabels5,
+      context.l10n.ingredientsPageLabels6,
+      context.l10n.ingredientsPageLabels7,
+      context.l10n.ingredientsPageLabels8,
+      context.l10n.ingredientsPageLabels9,
+      context.l10n.ingredientsPageLabels10,
     ];
 
-    const textfieldHints = [
-      LocaleConsts.ingredientsPageHints0,
-      LocaleConsts.ingredientsPageHints1,
-      LocaleConsts.ingredientsPageHints2,
-      LocaleConsts.ingredientsPageHints3,
-      LocaleConsts.ingredientsPageHints4,
-      LocaleConsts.ingredientsPageHints5,
-      LocaleConsts.ingredientsPageHints6,
-      LocaleConsts.ingredientsPageHints7,
-      LocaleConsts.ingredientsPageHints8,
-      LocaleConsts.ingredientsPageHints9,
-      LocaleConsts.ingredientsPageHints10,
+    final textfieldHints = [
+      context.l10n.ingredientsPageHints0,
+      context.l10n.ingredientsPageHints1,
+      context.l10n.ingredientsPageHints2,
+      context.l10n.ingredientsPageHints3,
+      context.l10n.ingredientsPageHints4,
+      context.l10n.ingredientsPageHints5,
+      context.l10n.ingredientsPageHints6,
+      context.l10n.ingredientsPageHints7,
+      context.l10n.ingredientsPageHints8,
+      context.l10n.ingredientsPageHints9,
+      context.l10n.ingredientsPageHints10,
     ];
 
     return Column(
@@ -293,7 +292,7 @@ class _CreateOrEditIngredientPageState
           keyboardType:
               (index != 1 && index != 2) ? TextInputType.number : null,
           validator: (value) => index == 1 && (value ?? '').trim().isEmpty
-              ? LocaleConsts.ingredientsPageNameRequired.tr()
+              ? context.l10n.ingredientsPageNameRequired
               : null,
           controller: _textControllers[index],
           focusNode: _focusNodes[index],
@@ -306,8 +305,8 @@ class _CreateOrEditIngredientPageState
           },
           decoration: InputDecoration(
             floatingLabelAlignment: FloatingLabelAlignment.center,
-            labelText: textfieldLabels[index].tr(),
-            hintText: textfieldHints[index].tr(),
+            labelText: textfieldLabels[index],
+            hintText: textfieldHints[index],
             enabledBorder: OutlineInputBorder(
               borderRadius: borderRadius,
               borderSide: borderSide,
@@ -342,18 +341,18 @@ class _CreateOrEditIngredientPageState
           Navigator.pop(context);
         },
         child:
-            Text(LocaleConsts.ingredientsPageBottomSideActionsSaveButton.tr()),
+            Text(context.l10n.ingredientsPageBottomSideActionsSaveButton),
       ),
     );
   }
 
   void showSuccessSnackBar(BuildContext context) {
-    final snackBar = productFoundSnackbar();
+    final snackBar = productFoundSnackbar(context.l10n);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void showErrorSnackBar(BuildContext context) {
-    final snackBar = noProductFoundSnackbar();
+    final snackBar = noProductFoundSnackbar(context.l10n);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

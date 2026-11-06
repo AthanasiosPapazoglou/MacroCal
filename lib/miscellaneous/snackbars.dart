@@ -1,25 +1,24 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 
-SnackBar productFoundSnackbar() => SnackBar(
+SnackBar productFoundSnackbar(AppLocalizations l10n) => SnackBar(
       content: Text(
-        LocaleConsts.snackbarProductFound.tr(),
+        l10n.snackbarProductFound,
         style: TextStyle(color: AppThemes.darkTheme.primaryColor),
       ),
       duration: const Duration(seconds: 3),
       action: SnackBarAction(
-        label: LocaleConsts.snackbarClose.tr(),
+        label: l10n.snackbarClose,
         onPressed: () {},
       ),
     );
 
-SnackBar noProductFoundSnackbar() => SnackBar(
-      content: Text(LocaleConsts.snackbarProductNotFound.tr()),
+SnackBar noProductFoundSnackbar(AppLocalizations l10n) => SnackBar(
+      content: Text(l10n.snackbarProductNotFound),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
-        label: LocaleConsts.snackbarClose.tr(),
+        label: l10n.snackbarClose,
         onPressed: () {},
       ),
     );

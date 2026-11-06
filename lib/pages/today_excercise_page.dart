@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -6,7 +5,7 @@ import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class TodayExcercise extends StatefulWidget {
   const TodayExcercise({super.key});
@@ -43,7 +42,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          LocaleConsts.activitiesPageTitle.tr(),
+          context.l10n.activitiesPageTitle,
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -86,7 +85,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             Padding(
               padding: const EdgeInsets.only(left: 12),
               child: Text(
-                translateDefaultText(
+                translateDefaultText(context.l10n, 
                     dataController.activitiesList[index].activityName ?? ''),
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -95,7 +94,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             Row(
               children: [
                 Text(
-                  translateDefaultText(
+                  translateDefaultText(context.l10n, 
                       dataController.activitiesList[index].metricDescription ??
                           ''),
                   style: const TextStyle(
@@ -148,7 +147,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             _showPopupDialog();
           },
           child: Text(
-            LocaleConsts.activitiesPageBottomActionBarResetValues.tr(),
+            context.l10n.activitiesPageBottomActionBarResetValues,
             style: const TextStyle(color: AppColors.orange),
           ),
         ),
@@ -163,7 +162,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
               Navigator.pop(context);
             },
             child: Text(
-              LocaleConsts.activitiesPageBottomActionBarSaveChanges.tr(),
+              context.l10n.activitiesPageBottomActionBarSaveChanges,
               style: const TextStyle(color: AppColors.confirmationButtonsColor),
             )),
       ],
@@ -175,15 +174,15 @@ class _TodayExcerciseState extends State<TodayExcercise> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(LocaleConsts.activitiesPageResetValuesDialogTitle.tr()),
-          content: Text(LocaleConsts.activitiesPageResetValuesDialogBody.tr()),
+          title: Text(context.l10n.activitiesPageResetValuesDialogTitle),
+          content: Text(context.l10n.activitiesPageResetValuesDialogBody),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
-                LocaleConsts.activitiesPageResetValuesDialogCancel.tr(),
+                context.l10n.activitiesPageResetValuesDialogCancel,
               ),
             ),
             TextButton(
@@ -198,7 +197,7 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                 Navigator.of(context).pop();
               },
               child: Text(
-                LocaleConsts.activitiesPageResetValuesDialogConfirm.tr(),
+                context.l10n.activitiesPageResetValuesDialogConfirm,
                 style:
                     const TextStyle(color: AppColors.confirmationButtonsColor),
               ),

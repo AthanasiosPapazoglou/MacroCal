@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class HistoricalPage extends StatefulWidget {
   const HistoricalPage({super.key});
@@ -18,7 +17,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: LocaleConsts.historicalPageTitle.tr(),
+        title: context.l10n.historicalPageTitle,
       ),
       endDrawer: const SettingsDrawer(),
       body: Stack(

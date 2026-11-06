@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:macro_cal_public/miscellaneous/enums.dart';
@@ -12,7 +11,7 @@ import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:macro_cal_public/wrappers/dismiss_page.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class IngredientDetailsPage extends StatefulWidget {
   final int ingredientIndex;
@@ -43,7 +42,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          LocaleConsts.ingredientDetailsTitle.tr(),
+          context.l10n.ingredientDetailsTitle,
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -64,65 +63,57 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
                     context,
                     caloriesSvgPath,
                     ingredientOfGivenIndex().calories,
-                    LocaleConsts.ingredientDetailsNutrientsCalories.tr(),
-                    LocaleConsts.ingredientDetailsNutrientDescriptionsCalories
-                        .tr(),
+                    context.l10n.ingredientDetailsNutrientsCalories,
+                    context.l10n.ingredientDetailsNutrientDescriptionsCalories,
                   ),
                   macroDisplayItem(
                     context,
                     oliveSvgPath,
                     ingredientOfGivenIndex().fats,
-                    LocaleConsts.ingredientDetailsNutrientsFat.tr(),
-                    LocaleConsts.ingredientDetailsNutrientDescriptionsFat.tr(),
+                    context.l10n.ingredientDetailsNutrientsFat,
+                    context.l10n.ingredientDetailsNutrientDescriptionsFat,
                   ),
                   macroDisplayItem(
                       context,
                       saturatedSvgPath,
                       ingredientOfGivenIndex().saturated,
-                      LocaleConsts.ingredientDetailsNutrientsSaturated.tr(),
-                      LocaleConsts
-                          .ingredientDetailsNutrientDescriptionsSaturated
-                          .tr(),
+                      context.l10n.ingredientDetailsNutrientsSaturated,
+                      context.l10n.ingredientDetailsNutrientDescriptionsSaturated,
                       healthEffect: HealthEffects.hazardous),
                   macroDisplayItem(
                     context,
                     carbsSvgPath,
                     ingredientOfGivenIndex().carbohydrates,
-                    LocaleConsts.ingredientDetailsNutrientsCarbs.tr(),
-                    LocaleConsts.ingredientDetailsNutrientDescriptionsCarbs
-                        .tr(),
+                    context.l10n.ingredientDetailsNutrientsCarbs,
+                    context.l10n.ingredientDetailsNutrientDescriptionsCarbs,
                   ),
                   macroDisplayItem(
                       context,
                       sugarSvgPath,
                       ingredientOfGivenIndex().sugars,
-                      LocaleConsts.ingredientDetailsNutrientsSugars.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsSugars
-                          .tr(),
+                      context.l10n.ingredientDetailsNutrientsSugars,
+                      context.l10n.ingredientDetailsNutrientDescriptionsSugars,
                       healthEffect: HealthEffects.hazardous),
                   macroDisplayItem(
                       context,
                       saladSvgPath,
                       ingredientOfGivenIndex().fiber,
-                      LocaleConsts.ingredientDetailsNutrientsFiber.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsFiber
-                          .tr(),
+                      context.l10n.ingredientDetailsNutrientsFiber,
+                      context.l10n.ingredientDetailsNutrientDescriptionsFiber,
                       healthEffect: HealthEffects.benefitial),
                   macroDisplayItem(
                       context,
                       proteinSvgPath,
                       ingredientOfGivenIndex().proteins,
-                      LocaleConsts.ingredientDetailsNutrientsProtein.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsProtein
-                          .tr(),
+                      context.l10n.ingredientDetailsNutrientsProtein,
+                      context.l10n.ingredientDetailsNutrientDescriptionsProtein,
                       healthEffect: HealthEffects.benefitial),
                   macroDisplayItem(
                       context,
                       saltSvgPath,
                       ingredientOfGivenIndex().salt,
-                      LocaleConsts.ingredientDetailsNutrientsSalt.tr(),
-                      LocaleConsts.ingredientDetailsNutrientDescriptionsSalt
-                          .tr(),
+                      context.l10n.ingredientDetailsNutrientsSalt,
+                      context.l10n.ingredientDetailsNutrientDescriptionsSalt,
                       healthEffect: HealthEffects.hazardous),
                 ]),
               ),
@@ -161,7 +152,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
             ),
             heightSpacer(10),
             Text(
-              '${LocaleConsts.ingredientDetailsInfoBoard.tr()} ${referenceQuantity.toInt()} ${LocaleConsts.unitGramsShort.tr()}',
+              '${context.l10n.ingredientDetailsInfoBoard} ${referenceQuantity.toInt()} ${context.l10n.unitGramsShort}',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -253,7 +244,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               _showPopupDialog(context);
             },
             child: Text(
-              LocaleConsts.ingredientDetailsButtonSideActionsDeleteButton.tr(),
+              context.l10n.ingredientDetailsButtonSideActionsDeleteButton,
               style: const TextStyle(color: AppColors.redAccent),
             )),
         const SizedBox(
@@ -274,7 +265,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
               );
             },
             child: Text(
-                '  ${LocaleConsts.ingredientDetailsButtonSideActionsEditButton.tr()}  '))
+                '  ${context.l10n.ingredientDetailsButtonSideActionsEditButton}  '))
       ],
     );
   }
@@ -284,15 +275,15 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(LocaleConsts.ingredientDetailsDeleteDialogTitle.tr()),
-          content: Text(LocaleConsts.ingredientDetailsDeleteDialogBody.tr()),
+          title: Text(context.l10n.ingredientDetailsDeleteDialogTitle),
+          content: Text(context.l10n.ingredientDetailsDeleteDialogBody),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
-                LocaleConsts.ingredientDetailsDeleteDialogCancel.tr(),
+                context.l10n.ingredientDetailsDeleteDialogCancel,
                 style: const TextStyle(color: AppColors.redAccent),
               ),
             ),
@@ -309,7 +300,7 @@ class _IngredientDetailsPageState extends State<IngredientDetailsPage> {
                 Navigator.pop(context);
               },
               child: Text(
-                LocaleConsts.ingredientDetailsDeleteDialogConfirm.tr(),
+                context.l10n.ingredientDetailsDeleteDialogConfirm,
               ),
             ),
           ],

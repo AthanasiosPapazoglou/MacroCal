@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/pages/food_bank_page.dart';
@@ -6,7 +5,7 @@ import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/pages/profile_page.dart';
 import 'package:macro_cal_public/pages/historical_page.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -24,19 +23,19 @@ class _MainPageState extends State<MainPage> {
           tabs: [
             Tab(
               icon: tabIcon(context, todayImagePath),
-              text: LocaleConsts.tabBarOverview.tr(),
+              text: context.l10n.tabBarOverview,
             ),
             Tab(
               icon: tabIcon(context, foodsImagePath),
-              text: LocaleConsts.tabBarFoodBank.tr(),
+              text: context.l10n.tabBarFoodBank,
             ),
             Tab(
               icon: tabIcon(context, historicalImagePath),
-              text: LocaleConsts.tabBarHistorical.tr(),
+              text: context.l10n.tabBarHistorical,
             ),
             Tab(
               icon: tabIcon(context, profileImagePath),
-              text: LocaleConsts.tabBarProfile.tr(),
+              text: context.l10n.tabBarProfile,
             ),
           ],
         ),

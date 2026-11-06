@@ -1,11 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -75,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: LocaleConsts.profilePageTitle.tr(),
+        title: context.l10n.profilePageTitle,
       ),
       endDrawer: const SettingsDrawer(),
       backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -92,15 +91,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Expanded profileScrollableForm() {
-    const textfieldLabels = [
-      LocaleConsts.profilePageLabels0,
-      LocaleConsts.profilePageLabels1,
-      LocaleConsts.profilePageLabels2,
-      LocaleConsts.profilePageLabels3,
-      LocaleConsts.profilePageLabels4,
-      LocaleConsts.profilePageLabels5,
-      LocaleConsts.profilePageLabels6,
-      LocaleConsts.profilePageLabels7,
+    final textfieldLabels = [
+      context.l10n.profilePageLabels0,
+      context.l10n.profilePageLabels1,
+      context.l10n.profilePageLabels2,
+      context.l10n.profilePageLabels3,
+      context.l10n.profilePageLabels4,
+      context.l10n.profilePageLabels5,
+      context.l10n.profilePageLabels6,
+      context.l10n.profilePageLabels7,
     ];
 
     return Expanded(
@@ -121,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                     validator: (value) => parseProfileValue(value ?? '') == null
-                        ? LocaleConsts.profilePageInvalidNumber.tr()
+                        ? context.l10n.profilePageInvalidNumber
                         : null,
                     onFieldSubmitted: (value) {
                       if (index < _focusNodes.length - 1) {
@@ -132,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     decoration: InputDecoration(
                       floatingLabelAlignment: FloatingLabelAlignment.center,
-                      labelText: textfieldLabels[index].tr(),
+                      labelText: textfieldLabels[index],
                       enabledBorder: OutlineInputBorder(
                         borderRadius: borderRadius,
                         borderSide: borderSide,
@@ -170,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
             tabController.animateTo(0);
           },
           child:
-              Text(LocaleConsts.profilePageButtonSideActionsSaveButton.tr())),
+              Text(context.l10n.profilePageButtonSideActionsSaveButton)),
     );
   }
 }
