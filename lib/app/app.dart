@@ -5,18 +5,21 @@ import 'package:macro_cal_public/features/profile/domain/repositories/profile_re
 import 'package:macro_cal_public/features/settings/domain/entities/app_language.dart';
 import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:macro_cal_public/features/settings/presentation/cubit/locale_cubit.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/activity_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 
 class App extends StatelessWidget {
   const new({
     required this.settingsRepository,
     required this.profileRepository,
+    required this.activityRepository,
     required this.initialLanguage,
     super.key,
   });
 
   final SettingsRepository settingsRepository;
   final ProfileRepository profileRepository;
+  final ActivityRepository activityRepository;
   final AppLanguage initialLanguage;
 
   @override
@@ -25,6 +28,7 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: settingsRepository),
         RepositoryProvider.value(value: profileRepository),
+        RepositoryProvider.value(value: activityRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -32,7 +36,8 @@ class App extends StatelessWidget {
             create: (_) => LocaleCubit(settingsRepository, initialLanguage),
           ),
           BlocProvider(
-            create: (_) => OverviewCubit(profileRepository)..watch(),
+            create: (_) =>
+                OverviewCubit(profileRepository, activityRepository)..watch(),
           ),
         ],
         child: const AppView(),

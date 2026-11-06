@@ -243,7 +243,7 @@ class _TodaysPageState extends State<TodaysPage>
   @override
   Widget build(BuildContext context) {
     final String formattedDate = DateFormat('dd/MM/yy').format(DateTime.now());
-    final goals = context.watch<OverviewCubit>().state.goals;
+    final goals = context.watch<OverviewCubit>().state.summary.goals;
     return Scaffold(
       appBar: MajorPageAppBar(
         title: '${context.l10n.overviewPageTitle}:  $formattedDate',

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OverviewState {
 
- OverviewStatus get status; NutritionGoals get goals;
+ DailySummary get summary; OverviewStatus get status;
 /// Create a copy of OverviewState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $OverviewStateCopyWith<OverviewState> get copyWith => _$OverviewStateCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as OverviewState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverviewState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.goals, _this.goals) || other.goals == _this.goals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverviewState&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.status, _this.status) || other.status == _this.status));
 }
 
 
 @override
 int get hashCode {
   final _this = this as OverviewState;
-  return Object.hash(runtimeType,_this.status,_this.goals);
+  return Object.hash(runtimeType,_this.summary,_this.status);
 }
 
 @override
 String toString() {
   final _this = this as OverviewState;
-  return 'OverviewState(status: ${_this.status}, goals: ${_this.goals})';
+  return 'OverviewState(summary: ${_this.summary}, status: ${_this.status})';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $OverviewStateCopyWith<$Res>  {
   factory $OverviewStateCopyWith(OverviewState value, $Res Function(OverviewState) _then) = _$OverviewStateCopyWithImpl;
 @useResult
 $Res call({
- OverviewStatus status, NutritionGoals goals
+ DailySummary summary, OverviewStatus status
 });
 
 
-$NutritionGoalsCopyWith<$Res> get goals;
+$DailySummaryCopyWith<$Res> get summary;
 
 }
 /// @nodoc
@@ -68,21 +68,21 @@ class _$OverviewStateCopyWithImpl<$Res>
 
 /// Create a copy of OverviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? goals = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? summary = null,Object? status = null,}) {
   return _then(OverviewState(
-status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as OverviewStatus,goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
-as NutritionGoals,
+summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as DailySummary,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as OverviewStatus,
   ));
 }
 /// Create a copy of OverviewState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$NutritionGoalsCopyWith<$Res> get goals {
+$DailySummaryCopyWith<$Res> get summary {
   
-  return $NutritionGoalsCopyWith<$Res>(_self.goals, (value) {
-    return _then(_self.copyWith(goals: value));
+  return $DailySummaryCopyWith<$Res>(_self.summary, (value) {
+    return _then(_self.copyWith(summary: value));
   });
 }
 }
@@ -166,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( OverviewStatus status,  NutritionGoals goals)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DailySummary summary,  OverviewStatus status)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OverviewState() when $default != null:
-return $default(_that.status,_that.goals);case _:
+return $default(_that.summary,_that.status);case _:
   return orElse();
 
 }
@@ -187,10 +187,10 @@ return $default(_that.status,_that.goals);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( OverviewStatus status,  NutritionGoals goals)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DailySummary summary,  OverviewStatus status)  $default,) {final _that = this;
 switch (_that) {
 case _OverviewState():
-return $default(_that.status,_that.goals);case _:
+return $default(_that.summary,_that.status);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +207,10 @@ return $default(_that.status,_that.goals);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( OverviewStatus status,  NutritionGoals goals)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DailySummary summary,  OverviewStatus status)?  $default,) {final _that = this;
 switch (_that) {
 case _OverviewState() when $default != null:
-return $default(_that.status,_that.goals);case _:
+return $default(_that.summary,_that.status);case _:
   return null;
 
 }
@@ -222,11 +222,11 @@ return $default(_that.status,_that.goals);case _:
 
 
 class _OverviewState implements OverviewState {
-  const _OverviewState({this.status = OverviewStatus.loading, this.goals = const NutritionGoals()});
+  const _OverviewState({required this.summary, this.status = OverviewStatus.loading});
   
 
+@override final  DailySummary summary;
 @override@JsonKey() final  OverviewStatus status;
-@override@JsonKey() final  NutritionGoals goals;
 
 /// Create a copy of OverviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -238,18 +238,18 @@ _$OverviewStateCopyWith<_OverviewState> get copyWith => __$OverviewStateCopyWith
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverviewState&&(identical(other.status, status) || other.status == status)&&(identical(other.goals, goals) || other.goals == goals));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverviewState&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,goals);
+    return Object.hash(runtimeType,summary,status);
 }
 
 @override
 String toString() {
-    return 'OverviewState(status: $status, goals: $goals)';
+    return 'OverviewState(summary: $summary, status: $status)';
 }
 
 
@@ -260,11 +260,11 @@ abstract mixin class _$OverviewStateCopyWith<$Res> implements $OverviewStateCopy
   factory _$OverviewStateCopyWith(_OverviewState value, $Res Function(_OverviewState) _then) = __$OverviewStateCopyWithImpl;
 @override @useResult
 $Res call({
- OverviewStatus status, NutritionGoals goals
+ DailySummary summary, OverviewStatus status
 });
 
 
-@override $NutritionGoalsCopyWith<$Res> get goals;
+@override $DailySummaryCopyWith<$Res> get summary;
 
 }
 /// @nodoc
@@ -277,11 +277,11 @@ class __$OverviewStateCopyWithImpl<$Res>
 
 /// Create a copy of OverviewState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? goals = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? summary = null,Object? status = null,}) {
   return _then(_OverviewState(
-status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as OverviewStatus,goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
-as NutritionGoals,
+summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as DailySummary,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as OverviewStatus,
   ));
 }
 
@@ -289,10 +289,10 @@ as NutritionGoals,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$NutritionGoalsCopyWith<$Res> get goals {
+$DailySummaryCopyWith<$Res> get summary {
   
-  return $NutritionGoalsCopyWith<$Res>(_self.goals, (value) {
-    return _then(_self.copyWith(goals: value));
+  return $DailySummaryCopyWith<$Res>(_self.summary, (value) {
+    return _then(_self.copyWith(summary: value));
   });
 }
 }

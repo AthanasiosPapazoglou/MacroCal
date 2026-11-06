@@ -772,16 +772,701 @@ class ProfileTableCompanion extends UpdateCompanion<ProfileRow> {
   }
 }
 
+class $ActivitiesTableTable extends ActivitiesTable
+    with TableInfo<$ActivitiesTableTable, ActivityRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ActivitiesTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _presetKeyMeta = const VerificationMeta(
+    'presetKey',
+  );
+  @override
+  late final GeneratedColumn<String> presetKey = GeneratedColumn<String>(
+    'preset_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kcalPerUnitMeta = const VerificationMeta(
+    'kcalPerUnit',
+  );
+  @override
+  late final GeneratedColumn<int> kcalPerUnit = GeneratedColumn<int>(
+    'kcal_per_unit',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _unitLabelMeta = const VerificationMeta(
+    'unitLabel',
+  );
+  @override
+  late final GeneratedColumn<String> unitLabel = GeneratedColumn<String>(
+    'unit_label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isDurationBasedMeta = const VerificationMeta(
+    'isDurationBased',
+  );
+  @override
+  late final GeneratedColumn<bool> isDurationBased = GeneratedColumn<bool>(
+    'is_duration_based',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_duration_based" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    presetKey,
+    name,
+    kcalPerUnit,
+    unitLabel,
+    isDurationBased,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'activities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ActivityRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('preset_key')) {
+      context.handle(
+        _presetKeyMeta,
+        presetKey.isAcceptableOrUnknown(data['preset_key']!, _presetKeyMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('kcal_per_unit')) {
+      context.handle(
+        _kcalPerUnitMeta,
+        kcalPerUnit.isAcceptableOrUnknown(
+          data['kcal_per_unit']!,
+          _kcalPerUnitMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_kcalPerUnitMeta);
+    }
+    if (data.containsKey('unit_label')) {
+      context.handle(
+        _unitLabelMeta,
+        unitLabel.isAcceptableOrUnknown(data['unit_label']!, _unitLabelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_unitLabelMeta);
+    }
+    if (data.containsKey('is_duration_based')) {
+      context.handle(
+        _isDurationBasedMeta,
+        isDurationBased.isAcceptableOrUnknown(
+          data['is_duration_based']!,
+          _isDurationBasedMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ActivityRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ActivityRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      presetKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preset_key'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      kcalPerUnit: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}kcal_per_unit'],
+      )!,
+      unitLabel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_label'],
+      )!,
+      isDurationBased: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_duration_based'],
+      )!,
+    );
+  }
+
+  @override
+  $ActivitiesTableTable createAlias(String alias) {
+    return $ActivitiesTableTable(attachedDatabase, alias);
+  }
+}
+
+class ActivityRow extends DataClass implements Insertable<ActivityRow> {
+  final int id;
+  final String? presetKey;
+  final String name;
+  final int kcalPerUnit;
+  final String unitLabel;
+  final bool isDurationBased;
+  const ActivityRow({
+    required this.id,
+    this.presetKey,
+    required this.name,
+    required this.kcalPerUnit,
+    required this.unitLabel,
+    required this.isDurationBased,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || presetKey != null) {
+      map['preset_key'] = Variable<String>(presetKey);
+    }
+    map['name'] = Variable<String>(name);
+    map['kcal_per_unit'] = Variable<int>(kcalPerUnit);
+    map['unit_label'] = Variable<String>(unitLabel);
+    map['is_duration_based'] = Variable<bool>(isDurationBased);
+    return map;
+  }
+
+  ActivitiesTableCompanion toCompanion(bool nullToAbsent) {
+    return ActivitiesTableCompanion(
+      id: Value(id),
+      presetKey: presetKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(presetKey),
+      name: Value(name),
+      kcalPerUnit: Value(kcalPerUnit),
+      unitLabel: Value(unitLabel),
+      isDurationBased: Value(isDurationBased),
+    );
+  }
+
+  factory ActivityRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ActivityRow(
+      id: serializer.fromJson<int>(json['id']),
+      presetKey: serializer.fromJson<String?>(json['presetKey']),
+      name: serializer.fromJson<String>(json['name']),
+      kcalPerUnit: serializer.fromJson<int>(json['kcalPerUnit']),
+      unitLabel: serializer.fromJson<String>(json['unitLabel']),
+      isDurationBased: serializer.fromJson<bool>(json['isDurationBased']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'presetKey': serializer.toJson<String?>(presetKey),
+      'name': serializer.toJson<String>(name),
+      'kcalPerUnit': serializer.toJson<int>(kcalPerUnit),
+      'unitLabel': serializer.toJson<String>(unitLabel),
+      'isDurationBased': serializer.toJson<bool>(isDurationBased),
+    };
+  }
+
+  ActivityRow copyWith({
+    int? id,
+    Value<String?> presetKey = const Value.absent(),
+    String? name,
+    int? kcalPerUnit,
+    String? unitLabel,
+    bool? isDurationBased,
+  }) => ActivityRow(
+    id: id ?? this.id,
+    presetKey: presetKey.present ? presetKey.value : this.presetKey,
+    name: name ?? this.name,
+    kcalPerUnit: kcalPerUnit ?? this.kcalPerUnit,
+    unitLabel: unitLabel ?? this.unitLabel,
+    isDurationBased: isDurationBased ?? this.isDurationBased,
+  );
+  ActivityRow copyWithCompanion(ActivitiesTableCompanion data) {
+    return ActivityRow(
+      id: data.id.present ? data.id.value : this.id,
+      presetKey: data.presetKey.present ? data.presetKey.value : this.presetKey,
+      name: data.name.present ? data.name.value : this.name,
+      kcalPerUnit: data.kcalPerUnit.present
+          ? data.kcalPerUnit.value
+          : this.kcalPerUnit,
+      unitLabel: data.unitLabel.present ? data.unitLabel.value : this.unitLabel,
+      isDurationBased: data.isDurationBased.present
+          ? data.isDurationBased.value
+          : this.isDurationBased,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActivityRow(')
+          ..write('id: $id, ')
+          ..write('presetKey: $presetKey, ')
+          ..write('name: $name, ')
+          ..write('kcalPerUnit: $kcalPerUnit, ')
+          ..write('unitLabel: $unitLabel, ')
+          ..write('isDurationBased: $isDurationBased')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, presetKey, name, kcalPerUnit, unitLabel, isDurationBased);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ActivityRow &&
+          other.id == this.id &&
+          other.presetKey == this.presetKey &&
+          other.name == this.name &&
+          other.kcalPerUnit == this.kcalPerUnit &&
+          other.unitLabel == this.unitLabel &&
+          other.isDurationBased == this.isDurationBased);
+}
+
+class ActivitiesTableCompanion extends UpdateCompanion<ActivityRow> {
+  final Value<int> id;
+  final Value<String?> presetKey;
+  final Value<String> name;
+  final Value<int> kcalPerUnit;
+  final Value<String> unitLabel;
+  final Value<bool> isDurationBased;
+  const ActivitiesTableCompanion({
+    this.id = const Value.absent(),
+    this.presetKey = const Value.absent(),
+    this.name = const Value.absent(),
+    this.kcalPerUnit = const Value.absent(),
+    this.unitLabel = const Value.absent(),
+    this.isDurationBased = const Value.absent(),
+  });
+  ActivitiesTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.presetKey = const Value.absent(),
+    required String name,
+    required int kcalPerUnit,
+    required String unitLabel,
+    this.isDurationBased = const Value.absent(),
+  }) : name = Value(name),
+       kcalPerUnit = Value(kcalPerUnit),
+       unitLabel = Value(unitLabel);
+  static Insertable<ActivityRow> custom({
+    Expression<int>? id,
+    Expression<String>? presetKey,
+    Expression<String>? name,
+    Expression<int>? kcalPerUnit,
+    Expression<String>? unitLabel,
+    Expression<bool>? isDurationBased,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (presetKey != null) 'preset_key': presetKey,
+      if (name != null) 'name': name,
+      if (kcalPerUnit != null) 'kcal_per_unit': kcalPerUnit,
+      if (unitLabel != null) 'unit_label': unitLabel,
+      if (isDurationBased != null) 'is_duration_based': isDurationBased,
+    });
+  }
+
+  ActivitiesTableCompanion copyWith({
+    Value<int>? id,
+    Value<String?>? presetKey,
+    Value<String>? name,
+    Value<int>? kcalPerUnit,
+    Value<String>? unitLabel,
+    Value<bool>? isDurationBased,
+  }) {
+    return ActivitiesTableCompanion(
+      id: id ?? this.id,
+      presetKey: presetKey ?? this.presetKey,
+      name: name ?? this.name,
+      kcalPerUnit: kcalPerUnit ?? this.kcalPerUnit,
+      unitLabel: unitLabel ?? this.unitLabel,
+      isDurationBased: isDurationBased ?? this.isDurationBased,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (presetKey.present) {
+      map['preset_key'] = Variable<String>(presetKey.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (kcalPerUnit.present) {
+      map['kcal_per_unit'] = Variable<int>(kcalPerUnit.value);
+    }
+    if (unitLabel.present) {
+      map['unit_label'] = Variable<String>(unitLabel.value);
+    }
+    if (isDurationBased.present) {
+      map['is_duration_based'] = Variable<bool>(isDurationBased.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActivitiesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('presetKey: $presetKey, ')
+          ..write('name: $name, ')
+          ..write('kcalPerUnit: $kcalPerUnit, ')
+          ..write('unitLabel: $unitLabel, ')
+          ..write('isDurationBased: $isDurationBased')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ActivityEntriesTableTable extends ActivityEntriesTable
+    with TableInfo<$ActivityEntriesTableTable, ActivityEntryRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ActivityEntriesTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _activityIdMeta = const VerificationMeta(
+    'activityId',
+  );
+  @override
+  late final GeneratedColumn<int> activityId = GeneratedColumn<int>(
+    'activity_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'UNIQUE REFERENCES activities (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<int> amount = GeneratedColumn<int>(
+    'amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, activityId, amount];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'activity_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ActivityEntryRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('activity_id')) {
+      context.handle(
+        _activityIdMeta,
+        activityId.isAcceptableOrUnknown(data['activity_id']!, _activityIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_activityIdMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(
+        _amountMeta,
+        amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ActivityEntryRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ActivityEntryRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      activityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}activity_id'],
+      )!,
+      amount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount'],
+      )!,
+    );
+  }
+
+  @override
+  $ActivityEntriesTableTable createAlias(String alias) {
+    return $ActivityEntriesTableTable(attachedDatabase, alias);
+  }
+}
+
+class ActivityEntryRow extends DataClass
+    implements Insertable<ActivityEntryRow> {
+  final int id;
+  final int activityId;
+  final int amount;
+  const ActivityEntryRow({
+    required this.id,
+    required this.activityId,
+    required this.amount,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['activity_id'] = Variable<int>(activityId);
+    map['amount'] = Variable<int>(amount);
+    return map;
+  }
+
+  ActivityEntriesTableCompanion toCompanion(bool nullToAbsent) {
+    return ActivityEntriesTableCompanion(
+      id: Value(id),
+      activityId: Value(activityId),
+      amount: Value(amount),
+    );
+  }
+
+  factory ActivityEntryRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ActivityEntryRow(
+      id: serializer.fromJson<int>(json['id']),
+      activityId: serializer.fromJson<int>(json['activityId']),
+      amount: serializer.fromJson<int>(json['amount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'activityId': serializer.toJson<int>(activityId),
+      'amount': serializer.toJson<int>(amount),
+    };
+  }
+
+  ActivityEntryRow copyWith({int? id, int? activityId, int? amount}) =>
+      ActivityEntryRow(
+        id: id ?? this.id,
+        activityId: activityId ?? this.activityId,
+        amount: amount ?? this.amount,
+      );
+  ActivityEntryRow copyWithCompanion(ActivityEntriesTableCompanion data) {
+    return ActivityEntryRow(
+      id: data.id.present ? data.id.value : this.id,
+      activityId: data.activityId.present
+          ? data.activityId.value
+          : this.activityId,
+      amount: data.amount.present ? data.amount.value : this.amount,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActivityEntryRow(')
+          ..write('id: $id, ')
+          ..write('activityId: $activityId, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, activityId, amount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ActivityEntryRow &&
+          other.id == this.id &&
+          other.activityId == this.activityId &&
+          other.amount == this.amount);
+}
+
+class ActivityEntriesTableCompanion extends UpdateCompanion<ActivityEntryRow> {
+  final Value<int> id;
+  final Value<int> activityId;
+  final Value<int> amount;
+  const ActivityEntriesTableCompanion({
+    this.id = const Value.absent(),
+    this.activityId = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  ActivityEntriesTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int activityId,
+    required int amount,
+  }) : activityId = Value(activityId),
+       amount = Value(amount);
+  static Insertable<ActivityEntryRow> custom({
+    Expression<int>? id,
+    Expression<int>? activityId,
+    Expression<int>? amount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (activityId != null) 'activity_id': activityId,
+      if (amount != null) 'amount': amount,
+    });
+  }
+
+  ActivityEntriesTableCompanion copyWith({
+    Value<int>? id,
+    Value<int>? activityId,
+    Value<int>? amount,
+  }) {
+    return ActivityEntriesTableCompanion(
+      id: id ?? this.id,
+      activityId: activityId ?? this.activityId,
+      amount: amount ?? this.amount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (activityId.present) {
+      map['activity_id'] = Variable<int>(activityId.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<int>(amount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActivityEntriesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('activityId: $activityId, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $SettingsTable settings = $SettingsTable(this);
   late final $ProfileTableTable profileTable = $ProfileTableTable(this);
+  late final $ActivitiesTableTable activitiesTable = $ActivitiesTableTable(
+    this,
+  );
+  late final $ActivityEntriesTableTable activityEntriesTable =
+      $ActivityEntriesTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [settings, profileTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    settings,
+    profileTable,
+    activitiesTable,
+    activityEntriesTable,
+  ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'activities',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('activity_entries', kind: UpdateKind.delete)],
+    ),
+  ]);
   @override
   DriftDatabaseOptions get options =>
       const DriftDatabaseOptions(storeDateTimeAsText: true);
@@ -1204,6 +1889,629 @@ typedef $$ProfileTableTableProcessedTableManager =
       ProfileRow,
       PrefetchHooks Function()
     >;
+typedef $$ActivitiesTableTableCreateCompanionBuilder =
+    ActivitiesTableCompanion Function({
+      Value<int> id,
+      Value<String?> presetKey,
+      required String name,
+      required int kcalPerUnit,
+      required String unitLabel,
+      Value<bool> isDurationBased,
+    });
+typedef $$ActivitiesTableTableUpdateCompanionBuilder =
+    ActivitiesTableCompanion Function({
+      Value<int> id,
+      Value<String?> presetKey,
+      Value<String> name,
+      Value<int> kcalPerUnit,
+      Value<String> unitLabel,
+      Value<bool> isDurationBased,
+    });
+
+final class $$ActivitiesTableTableReferences
+    extends BaseReferences<_$AppDatabase, $ActivitiesTableTable, ActivityRow> {
+  $$ActivitiesTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ActivityEntriesTableTable, List<ActivityEntryRow>>
+  _activityEntriesTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.activityEntriesTable,
+        aliasName: 'activities__id__activity_entries__activity_id',
+      );
+
+  $$ActivityEntriesTableTableProcessedTableManager
+  get activityEntriesTableRefs {
+    final manager = $$ActivityEntriesTableTableTableManager(
+      $_db,
+      $_db.activityEntriesTable,
+    ).filter((f) => f.activityId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _activityEntriesTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ActivitiesTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get presetKey => $composableBuilder(
+    column: $table.presetKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get kcalPerUnit => $composableBuilder(
+    column: $table.kcalPerUnit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get unitLabel => $composableBuilder(
+    column: $table.unitLabel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDurationBased => $composableBuilder(
+    column: $table.isDurationBased,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> activityEntriesTableRefs(
+    Expression<bool> Function($$ActivityEntriesTableTableFilterComposer f) f,
+  ) {
+    final $$ActivityEntriesTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.activityEntriesTable,
+      getReferencedColumn: (t) => t.activityId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ActivityEntriesTableTableFilterComposer(
+            $db: $db,
+            $table: $db.activityEntriesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ActivitiesTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get presetKey => $composableBuilder(
+    column: $table.presetKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get kcalPerUnit => $composableBuilder(
+    column: $table.kcalPerUnit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get unitLabel => $composableBuilder(
+    column: $table.unitLabel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDurationBased => $composableBuilder(
+    column: $table.isDurationBased,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ActivitiesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ActivitiesTableTable> {
+  $$ActivitiesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get presetKey =>
+      $composableBuilder(column: $table.presetKey, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get kcalPerUnit => $composableBuilder(
+    column: $table.kcalPerUnit,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get unitLabel =>
+      $composableBuilder(column: $table.unitLabel, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDurationBased => $composableBuilder(
+    column: $table.isDurationBased,
+    builder: (column) => column,
+  );
+
+  Expression<T> activityEntriesTableRefs<T extends Object>(
+    Expression<T> Function($$ActivityEntriesTableTableAnnotationComposer a) f,
+  ) {
+    final $$ActivityEntriesTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.activityEntriesTable,
+          getReferencedColumn: (t) => t.activityId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ActivityEntriesTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.activityEntriesTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ActivitiesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ActivitiesTableTable,
+          ActivityRow,
+          $$ActivitiesTableTableFilterComposer,
+          $$ActivitiesTableTableOrderingComposer,
+          $$ActivitiesTableTableAnnotationComposer,
+          $$ActivitiesTableTableCreateCompanionBuilder,
+          $$ActivitiesTableTableUpdateCompanionBuilder,
+          (ActivityRow, $$ActivitiesTableTableReferences),
+          ActivityRow,
+          PrefetchHooks Function({bool activityEntriesTableRefs})
+        > {
+  $$ActivitiesTableTableTableManager(
+    _$AppDatabase db,
+    $ActivitiesTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ActivitiesTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ActivitiesTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ActivitiesTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> presetKey = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> kcalPerUnit = const Value.absent(),
+                Value<String> unitLabel = const Value.absent(),
+                Value<bool> isDurationBased = const Value.absent(),
+              }) => ActivitiesTableCompanion(
+                id: id,
+                presetKey: presetKey,
+                name: name,
+                kcalPerUnit: kcalPerUnit,
+                unitLabel: unitLabel,
+                isDurationBased: isDurationBased,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> presetKey = const Value.absent(),
+                required String name,
+                required int kcalPerUnit,
+                required String unitLabel,
+                Value<bool> isDurationBased = const Value.absent(),
+              }) => ActivitiesTableCompanion.insert(
+                id: id,
+                presetKey: presetKey,
+                name: name,
+                kcalPerUnit: kcalPerUnit,
+                unitLabel: unitLabel,
+                isDurationBased: isDurationBased,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ActivitiesTableTable, ActivityRow>(table),
+                  $$ActivitiesTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({activityEntriesTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (activityEntriesTableRefs) db.activityEntriesTable,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (activityEntriesTableRefs)
+                    await $_getPrefetchedDataByColumns<
+                      ActivityRow,
+                      $ActivitiesTableTable,
+                      ActivityEntryRow,
+                      $ActivityEntriesTableTable
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ActivitiesTableTableReferences
+                          ._activityEntriesTableRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ActivitiesTableTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).activityEntriesTableRefs,
+                      currentColumn: 'id',
+                      referencedColumn: 'activity_id',
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ActivitiesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ActivitiesTableTable,
+      ActivityRow,
+      $$ActivitiesTableTableFilterComposer,
+      $$ActivitiesTableTableOrderingComposer,
+      $$ActivitiesTableTableAnnotationComposer,
+      $$ActivitiesTableTableCreateCompanionBuilder,
+      $$ActivitiesTableTableUpdateCompanionBuilder,
+      (ActivityRow, $$ActivitiesTableTableReferences),
+      ActivityRow,
+      PrefetchHooks Function({bool activityEntriesTableRefs})
+    >;
+typedef $$ActivityEntriesTableTableCreateCompanionBuilder =
+    ActivityEntriesTableCompanion Function({
+      Value<int> id,
+      required int activityId,
+      required int amount,
+    });
+typedef $$ActivityEntriesTableTableUpdateCompanionBuilder =
+    ActivityEntriesTableCompanion Function({
+      Value<int> id,
+      Value<int> activityId,
+      Value<int> amount,
+    });
+
+final class $$ActivityEntriesTableTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ActivityEntriesTableTable,
+          ActivityEntryRow
+        > {
+  $$ActivityEntriesTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ActivitiesTableTable _activityIdTable(_$AppDatabase db) => db
+      .activitiesTable
+      .createAlias('activity_entries__activity_id__activities__id');
+
+  $$ActivitiesTableTableProcessedTableManager get activityId {
+    final $_column = $_itemColumn<int>('activity_id')!;
+
+    final manager = $$ActivitiesTableTableTableManager(
+      $_db,
+      $_db.activitiesTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_activityIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ActivityEntriesTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ActivityEntriesTableTable> {
+  $$ActivityEntriesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ActivitiesTableTableFilterComposer get activityId {
+    final $$ActivitiesTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.activityId,
+      referencedTable: $db.activitiesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ActivitiesTableTableFilterComposer(
+            $db: $db,
+            $table: $db.activitiesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ActivityEntriesTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ActivityEntriesTableTable> {
+  $$ActivityEntriesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amount => $composableBuilder(
+    column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ActivitiesTableTableOrderingComposer get activityId {
+    final $$ActivitiesTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.activityId,
+      referencedTable: $db.activitiesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ActivitiesTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.activitiesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ActivityEntriesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ActivityEntriesTableTable> {
+  $$ActivityEntriesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get amount =>
+      $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  $$ActivitiesTableTableAnnotationComposer get activityId {
+    final $$ActivitiesTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.activityId,
+      referencedTable: $db.activitiesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ActivitiesTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.activitiesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ActivityEntriesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ActivityEntriesTableTable,
+          ActivityEntryRow,
+          $$ActivityEntriesTableTableFilterComposer,
+          $$ActivityEntriesTableTableOrderingComposer,
+          $$ActivityEntriesTableTableAnnotationComposer,
+          $$ActivityEntriesTableTableCreateCompanionBuilder,
+          $$ActivityEntriesTableTableUpdateCompanionBuilder,
+          (ActivityEntryRow, $$ActivityEntriesTableTableReferences),
+          ActivityEntryRow,
+          PrefetchHooks Function({bool activityId})
+        > {
+  $$ActivityEntriesTableTableTableManager(
+    _$AppDatabase db,
+    $ActivityEntriesTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ActivityEntriesTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ActivityEntriesTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ActivityEntriesTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> activityId = const Value.absent(),
+                Value<int> amount = const Value.absent(),
+              }) => ActivityEntriesTableCompanion(
+                id: id,
+                activityId: activityId,
+                amount: amount,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int activityId,
+                required int amount,
+              }) => ActivityEntriesTableCompanion.insert(
+                id: id,
+                activityId: activityId,
+                amount: amount,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ActivityEntriesTableTable, ActivityEntryRow>(
+                    table,
+                  ),
+                  $$ActivityEntriesTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({activityId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (activityId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.activityId,
+                        referencedTable: $$ActivityEntriesTableTableReferences
+                            ._activityIdTable(db),
+                        referencedColumn: $$ActivityEntriesTableTableReferences
+                            ._activityIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ActivityEntriesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ActivityEntriesTableTable,
+      ActivityEntryRow,
+      $$ActivityEntriesTableTableFilterComposer,
+      $$ActivityEntriesTableTableOrderingComposer,
+      $$ActivityEntriesTableTableAnnotationComposer,
+      $$ActivityEntriesTableTableCreateCompanionBuilder,
+      $$ActivityEntriesTableTableUpdateCompanionBuilder,
+      (ActivityEntryRow, $$ActivityEntriesTableTableReferences),
+      ActivityEntryRow,
+      PrefetchHooks Function({bool activityId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1212,4 +2520,8 @@ class $AppDatabaseManager {
       $$SettingsTableTableManager(_db, _db.settings);
   $$ProfileTableTableTableManager get profileTable =>
       $$ProfileTableTableTableManager(_db, _db.profileTable);
+  $$ActivitiesTableTableTableManager get activitiesTable =>
+      $$ActivitiesTableTableTableManager(_db, _db.activitiesTable);
+  $$ActivityEntriesTableTableTableManager get activityEntriesTable =>
+      $$ActivityEntriesTableTableTableManager(_db, _db.activityEntriesTable);
 }

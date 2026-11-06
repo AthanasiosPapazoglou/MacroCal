@@ -139,7 +139,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
         TextButton(
           onPressed: () {
             registerHistoricalMeasurement(
-                selectedDate, context.read<OverviewCubit>().state.goals);
+                selectedDate, context.read<OverviewCubit>().state.summary.goals);
             resetIngredientQuantitiesList();
             populateConsumptionVariables();
             resetActivityVolumesList();
