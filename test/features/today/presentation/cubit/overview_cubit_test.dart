@@ -6,20 +6,28 @@ import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
 import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
 import 'package:macro_cal_public/features/today/domain/entities/activity.dart';
 import 'package:macro_cal_public/features/today/domain/entities/activity_entry.dart';
+import 'package:macro_cal_public/features/today/domain/entities/food_entry.dart';
 import 'package:macro_cal_public/features/today/domain/repositories/activity_repository.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_state.dart';
 import 'package:mocktail/mocktail.dart';
+
+import '../../../../helpers/sample_ingredients.dart';
 
 class _MockProfileRepository extends Mock implements ProfileRepository;
 
 class _MockActivityRepository extends Mock implements ActivityRepository;
 
+class _MockFoodLogRepository extends Mock implements FoodLogRepository;
+
 void main() {
   late StreamController<Profile> profiles;
   late StreamController<List<ActivityEntry>> activities;
+  late StreamController<List<FoodEntry>> food;
   late ProfileRepository profileRepository;
   late ActivityRepository activityRepository;
+  late FoodLogRepository foodLogRepository;
   late OverviewCubit cubit;
 
   const walking = Activity(
@@ -32,18 +40,26 @@ void main() {
   setUp(() {
     profiles = StreamController<Profile>.broadcast();
     activities = StreamController<List<ActivityEntry>>.broadcast();
+    food = StreamController<List<FoodEntry>>.broadcast();
     profileRepository = _MockProfileRepository();
     activityRepository = _MockActivityRepository();
+    foodLogRepository = _MockFoodLogRepository();
     when(() => profileRepository.watchProfile())
         .thenAnswer((_) => profiles.stream);
     when(() => activityRepository.watchEntries())
         .thenAnswer((_) => activities.stream);
-    cubit = OverviewCubit(profileRepository, activityRepository);
+    when(() => foodLogRepository.watchEntries()).thenAnswer((_) => food.stream);
+    cubit = OverviewCubit(
+      profileRepository,
+      activityRepository,
+      foodLogRepository,
+    );
   });
   tearDown(() async {
     await cubit.close();
     await profiles.close();
     await activities.close();
+    await food.close();
   });
 
   test('starts loading with a summary of the default goals', () {
@@ -77,6 +93,7 @@ void main() {
 
     verify(() => profileRepository.watchProfile()).called(1);
     verify(() => activityRepository.watchEntries()).called(1);
+    verify(() => foodLogRepository.watchEntries()).called(1);
   });
 
   test('watch emits failure when a stream errors', () async {
@@ -87,6 +104,22 @@ void main() {
 
     cubit.watch();
     activities.addError(Exception('db'));
+
+    await emitted;
+  });
+
+  test('watch adds the logged food to the consumed totals', () async {
+    final emitted = expectLater(
+      cubit.stream.map((state) => state.summary.consumed.kcal),
+      emitsInOrder([0.0, closeTo(215, 1e-9)]),
+    );
+
+    cubit.watch();
+    profiles.add(const Profile());
+    food.add(const [
+      FoodEntry(ingredient: sampleMilk, grams: 200),
+      FoodEntry(ingredient: sampleBread, grams: 50),
+    ]);
 
     await emitted;
   });

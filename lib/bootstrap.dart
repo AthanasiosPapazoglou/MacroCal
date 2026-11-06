@@ -10,6 +10,7 @@ import 'package:macro_cal_public/core/database/seed/ingredient_seed.dart';
 import 'package:macro_cal_public/features/profile/data/repositories/drift_profile_repository.dart';
 import 'package:macro_cal_public/features/settings/data/repositories/drift_settings_repository.dart';
 import 'package:macro_cal_public/features/today/data/repositories/drift_activity_repository.dart';
+import 'package:macro_cal_public/features/today/data/repositories/drift_food_log_repository.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart';
 
 Future<void> bootstrap() async {
@@ -20,6 +21,7 @@ Future<void> bootstrap() async {
   final settingsRepository = DriftSettingsRepository(database);
   final profileRepository = DriftProfileRepository(database);
   final activityRepository = DriftActivityRepository(database);
+  final foodLogRepository = DriftFoodLogRepository(database);
   final initialLanguage = await settingsRepository.readLanguage();
 
   await GetStorage.init();
@@ -33,6 +35,7 @@ Future<void> bootstrap() async {
       settingsRepository: settingsRepository,
       profileRepository: profileRepository,
       activityRepository: activityRepository,
+      foodLogRepository: foodLogRepository,
       initialLanguage: initialLanguage,
     ),
   );
