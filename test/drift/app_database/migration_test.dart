@@ -3,10 +3,12 @@ import 'package:drift_dev/api/migrations_native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 
+import '../../helpers/ingredient_seeds.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
 import 'generated/schema_v3.dart' as v3;
+import 'generated/schema_v4.dart' as v4;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -89,6 +91,32 @@ void main() {
             isDurationBased: 0,
           ),
         ]);
+      },
+    );
+  });
+
+  test('v3 to v4 keeps activities and seeds the default ingredients', () async {
+    await verifier.testWithDataIntegrity(
+      oldVersion: 3,
+      newVersion: 4,
+      createOld: v3.DatabaseAtV3.new,
+      createNew: v4.DatabaseAtV4.new,
+      openTestedDatabase: (executor) =>
+          AppDatabase(executor, testIngredientSeeds),
+      createItems: (batch, oldDb) => batch.insertAll(
+        oldDb.activityEntries,
+        const [v3.ActivityEntriesData(id: 1, activityId: 1, amount: 3)],
+      ),
+      validateItems: (newDb) async {
+        expect(await newDb.select(newDb.activityEntries).get(), const [
+          v4.ActivityEntriesData(id: 1, activityId: 1, amount: 3),
+        ]);
+        final ingredients = await newDb.select(newDb.ingredients).get();
+        expect(ingredients.map((row) => (row.name, row.category)), [
+          ('Milk 1.5%', 'Dairy'),
+          ('Bread', null),
+        ]);
+        expect(await newDb.select(newDb.foodEntries).get(), isEmpty);
       },
     );
   });
