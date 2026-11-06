@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
-import 'package:macro_cal_public/features/today/domain/services/nutrition_calculator.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
@@ -66,7 +65,6 @@ class TodaysPage extends StatefulWidget {
 
 class _TodaysPageState extends State<TodaysPage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  static const _calculator = NutritionCalculator();
   bool _fabExpanded = false;
   OverlayEntry? _overlayEntry;
   final GlobalKey _fabKey = GlobalKey();
@@ -243,7 +241,8 @@ class _TodaysPageState extends State<TodaysPage>
   @override
   Widget build(BuildContext context) {
     final String formattedDate = DateFormat('dd/MM/yy').format(DateTime.now());
-    final goals = context.watch<OverviewCubit>().state.summary.goals;
+    final summary = context.watch<OverviewCubit>().state.summary;
+    final goals = summary.goals;
     return Scaffold(
       appBar: MajorPageAppBar(
         title: '${context.l10n.overviewPageTitle}:  $formattedDate',
@@ -254,7 +253,7 @@ class _TodaysPageState extends State<TodaysPage>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Obx(() {
-              final adjustedKcal = goals.dailyKcal + burnedCalories();
+              final adjustedKcal = summary.adjustedKcal;
               return ListView(
                 children: [
                   sectionHeader(context.l10n.overviewPageIntake),
@@ -273,19 +272,12 @@ class _TodaysPageState extends State<TodaysPage>
                   sectionHeader(context.l10n.overviewPageUnhealthy),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSugars,
-                      _calculator.limitGrams(
-                          percent: goals.sugarLimitPct,
-                          adjustedKcal: adjustedKcal,
-                          kcalPerGram: NutritionCalculator.sugarKcalPerGram),
+                      summary.sugarLimitG,
                       dataController.sugarsConsumed.value,
                       false),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSaturated,
-                      _calculator.limitGrams(
-                          percent: goals.saturatedLimitPct,
-                          adjustedKcal: adjustedKcal,
-                          kcalPerGram:
-                              NutritionCalculator.saturatedFatKcalPerGram),
+                      summary.saturatedLimitG,
                       dataController.saturatedConsumed.value,
                       false),
                   horizontalMetricOverview(

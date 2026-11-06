@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/models/activity.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import 'package:macro_cal_public/models/ingredient.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
@@ -67,15 +66,6 @@ void main() {
     expect(dataController.consumedCalories.value, closeTo(140, 1e-9));
     expect(dataController.proteinConsumed.value, closeTo(13.9, 1e-9));
     expect(dataController.sodiumConsumed.value, closeTo(1300, 1e-9));
-  });
-
-  test('burnedCalories sums calories burned by exercise', () {
-    dataController.activitiesList.assignAll([
-      Activity(caloryConsumptionPerUnit: 50),
-    ]);
-    dataController.activitiyVolumesList.assignAll([3]);
-
-    expect(burnedCalories(), 150);
   });
 
   test('measurementIndexForDate matches the same day only', () {

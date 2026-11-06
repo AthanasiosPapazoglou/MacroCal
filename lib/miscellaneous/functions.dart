@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
+import 'package:macro_cal_public/features/today/domain/entities/daily_summary.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import '../controllers/data_controller.dart';
 
@@ -24,26 +24,9 @@ TextStyle appBarStyle() =>
     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
 
 String translateDefaultText(AppLocalizations l10n, String text) => switch (text) {
-      'Walking' => l10n.activityWalking,
-      'Kilometers' => l10n.activityKilometers,
       'Uncategorised' => l10n.ingredientsPageUncategorised,
       _ => text,
     };
-
-resetActivityVolumesList() {
-  for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {
-    dataController.activitiyVolumesList[i] = 0;
-  }
-}
-
-double burnedCalories() {
-  double burned = 0;
-  for (int i = 0; i < dataController.activitiyVolumesList.length; i++) {
-    burned += dataController.activitiesList[i].caloryConsumptionPerUnit! *
-        dataController.activitiyVolumesList[i];
-  }
-  return burned;
-}
 
 resetIngredientQuantitiesList() {
   for (int i = 0; i < dataController.ingredientQuantitiesList.length; i++) {
@@ -80,17 +63,17 @@ int measurementIndexForDate(DateTime date) =>
     dataController.historicalMeasurementsList.indexWhere((measurement) =>
         DateUtils.isSameDay(measurement.measurementDate, date));
 
-registerHistoricalMeasurement(DateTime selectedDate, NutritionGoals goals) {
+registerHistoricalMeasurement(DateTime selectedDate, DailySummary summary) {
   HistoricalMeasurement newMeasurement = HistoricalMeasurement(
       measurementDate: selectedDate,
       historicalMeasurementNutritionalData:
           HistoricalMeasurementNutritionalData(
-        adjustedCalories: goals.dailyKcal + burnedCalories(),
-        dailyProteins: goals.proteinG,
-        dailyFiber: goals.fiberG,
-        sugarsLimit: goals.sugarLimitPct,
-        saturatedLimit: goals.saturatedLimitPct,
-        sodiumLimit: goals.saltLimitMg,
+        adjustedCalories: summary.adjustedKcal,
+        dailyProteins: summary.goals.proteinG,
+        dailyFiber: summary.goals.fiberG,
+        sugarsLimit: summary.goals.sugarLimitPct,
+        saturatedLimit: summary.goals.saturatedLimitPct,
+        sodiumLimit: summary.goals.saltLimitMg,
         consumedCalories: dataController.consumedCalories.value,
         proteinConsumed: dataController.proteinConsumed.value,
         fiberConsumed: dataController.fiberConsumed.value,

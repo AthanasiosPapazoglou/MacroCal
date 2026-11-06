@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
-import 'package:macro_cal_public/models/activity.dart';
 import 'package:macro_cal_public/models/historical_measurement.dart';
 import 'package:macro_cal_public/models/ingredient.dart';
 
@@ -26,17 +25,6 @@ void saveIngredientQuantitiesList() {
   GetStorage().write('ingredientQuantitiesList', dataAsString);
 }
 
-void saveActivitiesList() {
-  final dataAsString =
-      jsonEncode(Activity.listToJson(dataController.activitiesList));
-  GetStorage().write('activityList', dataAsString);
-}
-
-void saveActivityVolumesList() {
-  final dataAsString = dataController.activitiyVolumesList.toList().toString();
-  GetStorage().write('activitiyVolumesList', dataAsString);
-}
-
 void saveOverviewData() {
   GetStorage().write('consumedCalories', dataController.consumedCalories.value);
   GetStorage().write('proteinConsumed', dataController.proteinConsumed.value);
@@ -53,8 +41,6 @@ void globalDataSave() {
   saveHistoricalMeasurementsList();
   saveIngredientsList();
   saveIngredientQuantitiesList();
-  saveActivitiesList();
-  saveActivityVolumesList();
   saveOverviewData();
 }
 
@@ -93,28 +79,6 @@ void loadIngredientsQuantitiesList() {
   }
 }
 
-void loadActivitiesList() {
-  final dataAsString = GetStorage().read('activityList');
-  if (dataAsString == null) {
-    dataController.activitiesList = RxList<Activity>([]);
-  } else {
-    final List<dynamic> dataList = jsonDecode(dataAsString);
-    dataController.activitiesList =
-        RxList<Activity>.from(Activity.listFromJson(dataList));
-  }
-}
-
-void loadActivitiyVolumesList() {
-  final dataAsString = GetStorage().read('activitiyVolumesList');
-  if (dataAsString == null) {
-    dataController.activitiyVolumesList = RxList<int>([]);
-  } else {
-    final List<dynamic> dataList = json.decode(dataAsString);
-    dataController.activitiyVolumesList =
-        RxList<int>.from(dataList.cast<int>());
-  }
-}
-
 void _loadDouble(String key, RxDouble target) {
   final value = GetStorage().read(key);
   if (value is num) target.value = value.toDouble();
@@ -143,18 +107,12 @@ globalDataLoad() {
   loadHistoricalMeasurementsList();
   loadIngredientsList();
   loadIngredientsQuantitiesList();
-  loadActivitiesList();
-  loadActivitiyVolumesList();
   _matchLength(dataController.ingredientQuantitiesList,
       dataController.ingredientsList.length);
-  _matchLength(dataController.activitiyVolumesList,
-      dataController.activitiesList.length);
   loadOverviewData();
 }
 
-bool _hasSavedData() =>
-    GetStorage().read('ingredientList') != null &&
-    GetStorage().read('activityList') != null;
+bool _hasSavedData() => GetStorage().read('ingredientList') != null;
 
 Future<void> loadDefaultIngredients() async {
   if (_hasSavedData()) return;

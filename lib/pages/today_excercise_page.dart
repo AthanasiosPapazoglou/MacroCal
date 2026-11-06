@@ -1,37 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/today/domain/entities/activity.dart';
+import 'package:macro_cal_public/features/today/domain/entities/activity_entry.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/activity_repository.dart';
+import 'package:macro_cal_public/features/today/presentation/activity_labels.dart';
+import 'package:macro_cal_public/features/today/presentation/cubit/exercise_cubit.dart';
+import 'package:macro_cal_public/features/today/presentation/cubit/exercise_state.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/core/l10n/l10n.dart';
 
-class TodayExcercise extends StatefulWidget {
+class TodayExcercise extends StatelessWidget {
   const TodayExcercise({super.key});
 
   @override
-  State<TodayExcercise> createState() => _TodayExcerciseState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          ExerciseCubit(context.read<ActivityRepository>())..load(),
+      child: BlocListener<ExerciseCubit, ExerciseState>(
+        listenWhen: (previous, current) =>
+            current.status == ExerciseStatus.saved,
+        listener: (context, _) => Navigator.pop(context),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              context.l10n.activitiesPageTitle,
+              style: appBarStyle(),
+            ),
+            backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+          ),
+          body: BlocBuilder<ExerciseCubit, ExerciseState>(
+            buildWhen: (previous, _) =>
+                previous.status == ExerciseStatus.loading,
+            builder: (context, state) => state.status == ExerciseStatus.loading
+                ? const SizedBox.shrink()
+                : _ExerciseForm(initialEntries: state.entries),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _TodayExcerciseState extends State<TodayExcercise> {
-  late List<TextEditingController> _controllers;
+class _ExerciseForm extends StatefulWidget {
+  const _ExerciseForm({required this.initialEntries});
 
-  int totalExcerciseActivities() => dataController.activitiesList.length;
+  final List<ActivityEntry> initialEntries;
 
   @override
-  void initState() {
-    super.initState();
-    _controllers = List.generate(
-        totalExcerciseActivities(), (_) => TextEditingController());
-    for (int i = 0; i < _controllers.length; i++) {
-      _controllers[i].text = dataController.activitiyVolumesList[i].toString();
-    }
-  }
+  State<_ExerciseForm> createState() => _ExerciseFormState();
+}
+
+class _ExerciseFormState extends State<_ExerciseForm> {
+  late final _controllers = {
+    for (final entry in widget.initialEntries)
+      entry.activity.id: TextEditingController(text: entry.amount.toString()),
+  };
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
+    for (final controller in _controllers.values) {
       controller.dispose();
     }
     super.dispose();
@@ -39,37 +70,22 @@ class _TodayExcerciseState extends State<TodayExcercise> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.l10n.activitiesPageTitle,
-          style: appBarStyle(),
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.initialEntries.length,
+            itemBuilder: (_, index) =>
+                _activityItem(widget.initialEntries[index].activity),
+          ),
         ),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
-      ),
-      body: Column(
-        children: [
-          activitiesListView(),
-          bottomSideActionButtons(context),
-          const SizedBox(
-            height: 32,
-          )
-        ],
-      ),
+        _actionButtons(),
+        const SizedBox(height: 32),
+      ],
     );
   }
 
-  Expanded activitiesListView() {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: totalExcerciseActivities(),
-          itemBuilder: (BuildContext ctx, int index) {
-            return activityItem(index);
-          }),
-    );
-  }
-
-  Padding activityItem(int index) {
+  Padding _activityItem(Activity activity) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
       child: Container(
@@ -85,23 +101,24 @@ class _TodayExcerciseState extends State<TodayExcercise> {
             Padding(
               padding: const EdgeInsets.only(left: 12),
               child: Text(
-                translateDefaultText(context.l10n, 
-                    dataController.activitiesList[index].activityName ?? ''),
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                activity.localizedName(context.l10n),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Row(
               children: [
                 Text(
-                  translateDefaultText(context.l10n, 
-                      dataController.activitiesList[index].metricDescription ??
-                          ''),
+                  activity.localizedUnit(context.l10n),
                   style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Container(
                     height: 48,
                     width: 85,
@@ -110,11 +127,10 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                     ),
                     child: Center(
                       child: TextField(
-                        onChanged: (value) {
-                          dataController.activitiyVolumesList[index] =
-                              int.tryParse(value) ?? 0;
-                        },
-                        controller: _controllers[index],
+                        onChanged: (value) => context
+                            .read<ExerciseCubit>()
+                            .updateAmount(activity.id, int.tryParse(value) ?? 0),
+                        controller: _controllers[activity.id],
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -129,80 +145,65 @@ class _TodayExcerciseState extends State<TodayExcercise> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Row bottomSideActionButtons(BuildContext context) {
+  Row _actionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          onPressed: () {
-            _showPopupDialog();
-          },
+          onPressed: _showResetDialog,
           child: Text(
             context.l10n.activitiesPageBottomActionBarResetValues,
             style: const TextStyle(color: AppColors.orange),
           ),
         ),
-        const SizedBox(
-          width: 16,
-        ),
+        const SizedBox(width: 16),
         ElevatedButton(
-            onPressed: () {
-              dataController.update();
-              storage.globalDataSave();
-              Navigator.pop(context);
-            },
-            child: Text(
-              context.l10n.activitiesPageBottomActionBarSaveChanges,
-              style: const TextStyle(color: AppColors.confirmationButtonsColor),
-            )),
+          onPressed: context.read<ExerciseCubit>().save,
+          child: Text(
+            context.l10n.activitiesPageBottomActionBarSaveChanges,
+            style: const TextStyle(color: AppColors.confirmationButtonsColor),
+          ),
+        ),
       ],
     );
   }
 
-  void _showPopupDialog() {
-    showDialog(
+  void _showResetDialog() {
+    final cubit = context.read<ExerciseCubit>();
+    showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(context.l10n.activitiesPageResetValuesDialogTitle),
-          content: Text(context.l10n.activitiesPageResetValuesDialogBody),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                context.l10n.activitiesPageResetValuesDialogCancel,
-              ),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(dialogContext.l10n.activitiesPageResetValuesDialogTitle),
+        content: Text(dialogContext.l10n.activitiesPageResetValuesDialogBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(dialogContext.l10n.activitiesPageResetValuesDialogCancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              await cubit.reset();
+              for (final controller in _controllers.values) {
+                controller.text = '0';
+              }
+              if (dialogContext.mounted) Navigator.of(dialogContext).pop();
+            },
+            child: Text(
+              dialogContext.l10n.activitiesPageResetValuesDialogConfirm,
+              style: const TextStyle(color: AppColors.confirmationButtonsColor),
             ),
-            TextButton(
-              onPressed: () {
-                resetActivityVolumesList();
-                dataController.update();
-                storage.globalDataSave();
-                for (final controller in _controllers) {
-                  controller.text = '0';
-                }
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                context.l10n.activitiesPageResetValuesDialogConfirm,
-                style:
-                    const TextStyle(color: AppColors.confirmationButtonsColor),
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }
