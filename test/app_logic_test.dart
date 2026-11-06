@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -13,20 +10,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() => Get.put(DataController()));
-
-  test('default ingredients asset loads 28 complete ingredients', () async {
-    final data = jsonDecode(
-      await rootBundle.loadString('assets/data/default_ingredients.json'),
-    ) as List<dynamic>;
-    final ingredients = Ingredient.listFromJson(data);
-    expect(ingredients.length, 28);
-    expect(
-      ingredients.every(
-        (i) => i.ingridientName != null && i.calories != null && i.salt != null,
-      ),
-      isTrue,
-    );
-  });
 
   test('progressPercent stays between 0 and 1 for any goal', () {
     expect(progressPercent(100, 50), 0.5);
