@@ -1,11 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:macro_cal_public/controllers/data_controller.dart';
-import 'package:macro_cal_public/pages/main_page.dart';
-import 'package:macro_cal_public/miscellaneous/storage.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:macro_cal_public/controllers/data_controller.dart';
+import 'package:macro_cal_public/miscellaneous/storage.dart';
+import 'package:macro_cal_public/pages/main_page.dart';
+import 'package:macro_cal_public/themes/app_themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,11 +18,12 @@ void main() async {
 
   runApp(
     EasyLocalization(
-        supportedLocales: const [Locale('en', 'US'), Locale('el', 'GR')],
-        path: 'assets/translations',
-        startLocale: const Locale('en', 'US'),
-        fallbackLocale: const Locale('en', 'US'),
-        child: const MacroCal()),
+      supportedLocales: const [Locale('en', 'US'), Locale('el', 'GR')],
+      path: 'assets/translations',
+      startLocale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MacroCal(),
+    ),
   );
 }
 
