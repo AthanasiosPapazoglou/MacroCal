@@ -1,30 +1,25 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/pages/main_page.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:macro_cal_public/app/view/app_view.dart';
+import 'package:macro_cal_public/features/settings/domain/entities/app_language.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
+import 'package:macro_cal_public/features/settings/presentation/cubit/locale_cubit.dart';
 
 class App extends StatelessWidget {
-  const new({super.key});
+  const new({
+    required this.settingsRepository,
+    required this.initialLanguage,
+    super.key,
+  });
+
+  final SettingsRepository settingsRepository;
+  final AppLanguage initialLanguage;
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      locale: context.locale,
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: [
-        ...context.localizationDelegates,
-        AppLocalizations.delegate,
-      ],
-      debugShowCheckedModeBanner: false,
-      theme: AppThemes.darkTheme,
-      darkTheme: AppThemes.darkTheme,
-      home: const DefaultTabController(
-        length: 4,
-        animationDuration: Duration(milliseconds: 300),
-        child: MainPage(),
-      ),
+    return BlocProvider(
+      create: (_) => LocaleCubit(settingsRepository, initialLanguage),
+      child: const AppView(),
     );
   }
 }
