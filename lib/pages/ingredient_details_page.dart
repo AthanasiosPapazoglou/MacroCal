@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_cubit.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
 import 'package:macro_cal_public/miscellaneous/enums.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/images.dart';
-import 'package:macro_cal_public/pages/create_ingredient_page.dart';
-import 'package:macro_cal_public/pages/food_metric_detail_page.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:macro_cal_public/wrappers/dismiss_page.dart';
@@ -20,22 +22,35 @@ class IngredientDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ingredient = context.select(
-      (FoodBankCubit cubit) => cubit.state.ingredientById(ingredientId),
-    );
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.ingredientDetailsTitle, style: appBarStyle()),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+    return BlocProvider(
+      create: (context) => IngredientDetailsCubit(
+        context.read<IngredientRepository>(),
+        ingredientId,
+      )..watch(),
+      child: BlocConsumer<IngredientDetailsCubit, IngredientDetailsState>(
+        listenWhen: (_, current) =>
+            current.status == IngredientDetailsStatus.deleted,
+        listener: (context, _) => context.pop(),
+        builder: (context, state) {
+          final ingredient = state.ingredient;
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                context.l10n.ingredientDetailsTitle,
+                style: appBarStyle(),
+              ),
+              backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+            ),
+            body: ingredient == null
+                ? const SizedBox.shrink()
+                : PageDismissWraper(child: _details(context, ingredient)),
+          );
+        },
       ),
-      body: ingredient == null
-          ? const SizedBox.shrink()
-          : PageDismissWraper(child: _details(context, ingredient)),
     );
   }
 
   Widget _details(BuildContext context, Ingredient ingredient) {
-    final per100g = ingredient.per100g;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -44,67 +59,8 @@ class IngredientDetailsPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                _macroDisplayItem(
-                  context,
-                  caloriesSvgPath,
-                  per100g.kcal,
-                  context.l10n.ingredientDetailsNutrientsCalories,
-                  context.l10n.ingredientDetailsNutrientDescriptionsCalories,
-                ),
-                _macroDisplayItem(
-                  context,
-                  oliveSvgPath,
-                  per100g.fatG,
-                  context.l10n.ingredientDetailsNutrientsFat,
-                  context.l10n.ingredientDetailsNutrientDescriptionsFat,
-                ),
-                _macroDisplayItem(
-                  context,
-                  saturatedSvgPath,
-                  per100g.saturatedG,
-                  context.l10n.ingredientDetailsNutrientsSaturated,
-                  context.l10n.ingredientDetailsNutrientDescriptionsSaturated,
-                  healthEffect: HealthEffects.hazardous,
-                ),
-                _macroDisplayItem(
-                  context,
-                  carbsSvgPath,
-                  per100g.carbsG,
-                  context.l10n.ingredientDetailsNutrientsCarbs,
-                  context.l10n.ingredientDetailsNutrientDescriptionsCarbs,
-                ),
-                _macroDisplayItem(
-                  context,
-                  sugarSvgPath,
-                  per100g.sugarsG,
-                  context.l10n.ingredientDetailsNutrientsSugars,
-                  context.l10n.ingredientDetailsNutrientDescriptionsSugars,
-                  healthEffect: HealthEffects.hazardous,
-                ),
-                _macroDisplayItem(
-                  context,
-                  saladSvgPath,
-                  per100g.fiberG,
-                  context.l10n.ingredientDetailsNutrientsFiber,
-                  context.l10n.ingredientDetailsNutrientDescriptionsFiber,
-                  healthEffect: HealthEffects.benefitial,
-                ),
-                _macroDisplayItem(
-                  context,
-                  proteinSvgPath,
-                  per100g.proteinG,
-                  context.l10n.ingredientDetailsNutrientsProtein,
-                  context.l10n.ingredientDetailsNutrientDescriptionsProtein,
-                  healthEffect: HealthEffects.benefitial,
-                ),
-                _macroDisplayItem(
-                  context,
-                  saltSvgPath,
-                  per100g.saltMg,
-                  context.l10n.ingredientDetailsNutrientsSalt,
-                  context.l10n.ingredientDetailsNutrientDescriptionsSalt,
-                  healthEffect: HealthEffects.hazardous,
-                ),
+                for (final kind in NutrientKind.values)
+                  _nutrientItem(context, kind, kind.valueIn(ingredient.per100g)),
               ],
             ),
           ),
@@ -151,15 +107,8 @@ class IngredientDetailsPage extends StatelessWidget {
     );
   }
 
-  Column _macroDisplayItem(
-    BuildContext context,
-    String svgPath,
-    double value,
-    String metricName,
-    String metricDescription, {
-    HealthEffects healthEffect = HealthEffects.neutral,
-  }) {
-    final color = switch (healthEffect) {
+  Column _nutrientItem(BuildContext context, NutrientKind kind, double value) {
+    final color = switch (kind.healthEffect) {
       HealthEffects.hazardous => Colors.red.shade300,
       HealthEffects.benefitial => Colors.green.shade300,
       HealthEffects.neutral => null,
@@ -168,28 +117,19 @@ class IngredientDetailsPage extends StatelessWidget {
       children: [
         heightSpacer(12),
         GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (_) => FoodMetricDetailsPage(
-                title: metricName,
-                svgPath: svgPath,
-                metricDescription: metricDescription,
-              ),
-            ),
-          ),
+          onTap: () => context.push(AppRoutes.nutrient(ingredientId, kind)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   Hero(
-                    tag: 'ICON$svgPath',
-                    child: SvgPicture.asset(svgPath, width: 40, height: 40),
+                    tag: 'ICON${kind.svgPath}',
+                    child: SvgPicture.asset(kind.svgPath, width: 40, height: 40),
                   ),
                   const SizedBox(width: 16),
                   Text(
-                    metricName,
+                    kind.title(context.l10n),
                     style: TextStyle(
                       color: color,
                       fontSize: 22,
@@ -227,13 +167,7 @@ class IngredientDetailsPage extends StatelessWidget {
         ),
         const SizedBox(width: 24),
         ElevatedButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (_) =>
-                  CreateOrEditIngredientPage(ingredientId: ingredientId),
-            ),
-          ),
+          onPressed: () => context.push(AppRoutes.editIngredient(ingredientId)),
           child: Text(
             '  ${context.l10n.ingredientDetailsButtonSideActionsEditButton}  ',
           ),
@@ -243,8 +177,7 @@ class IngredientDetailsPage extends StatelessWidget {
   }
 
   void _showDeleteDialog(BuildContext context) {
-    final cubit = context.read<FoodBankCubit>();
-    final navigator = Navigator.of(context);
+    final cubit = context.read<IngredientDetailsCubit>();
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -259,11 +192,9 @@ class IngredientDetailsPage extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () async {
-              await cubit.delete(ingredientId);
-              navigator
-                ..pop()
-                ..pop();
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              cubit.delete();
             },
             child: Text(dialogContext.l10n.ingredientDetailsDeleteDialogConfirm),
           ),

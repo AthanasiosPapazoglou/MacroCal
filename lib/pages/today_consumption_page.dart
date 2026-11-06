@@ -12,6 +12,7 @@ import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/images.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:go_router/go_router.dart';
 
 class TodayConsumption extends StatelessWidget {
   const TodayConsumption({super.key});
@@ -25,7 +26,7 @@ class TodayConsumption extends StatelessWidget {
       )..load(),
       child: BlocListener<ConsumptionCubit, ConsumptionState>(
         listenWhen: (_, current) => current.status == ConsumptionStatus.saved,
-        listener: (context, _) => Navigator.pop(context),
+        listener: (context, _) => context.pop(),
         child: BlocBuilder<ConsumptionCubit, ConsumptionState>(
           buildWhen: (previous, _) =>
               previous.status == ConsumptionStatus.loading,

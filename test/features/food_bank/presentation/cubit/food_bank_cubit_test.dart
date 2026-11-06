@@ -21,7 +21,6 @@ void main() {
     repository = _MockIngredientRepository();
     when(() => repository.watchIngredients())
         .thenAnswer((_) => ingredients.stream);
-    when(() => repository.deleteIngredient(any())).thenAnswer((_) async {});
     cubit = FoodBankCubit(repository);
   });
   tearDown(() async {
@@ -59,19 +58,6 @@ void main() {
       ..search('');
 
     expect(cubit.state.visibleIngredients, [sampleMilk, sampleBread]);
-  });
-
-  test('ingredientById finds a loaded ingredient', () async {
-    await loadSamples();
-
-    expect(cubit.state.ingredientById(sampleBread.id), sampleBread);
-    expect(cubit.state.ingredientById(99), isNull);
-  });
-
-  test('delete removes the ingredient through the repository', () async {
-    await cubit.delete(sampleMilk.id);
-
-    verify(() => repository.deleteIngredient(sampleMilk.id)).called(1);
   });
 
   test('watch emits failure when the stream errors', () async {

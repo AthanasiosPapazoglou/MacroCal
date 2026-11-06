@@ -9,6 +9,8 @@ import 'package:macro_cal_public/features/profile/presentation/cubit/profile_sta
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -68,14 +70,15 @@ class _ProfileFormState extends State<_ProfileForm> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-    final tabController = DefaultTabController.of(context);
     final cubit = context.read<ProfileCubit>();
     await cubit.save({
       for (final MapEntry(key: field, value: controller)
           in _controllers.entries)
         field: controller.text,
     });
-    if (cubit.state.status == ProfileStatus.saved) tabController.animateTo(0);
+    if (cubit.state.status == ProfileStatus.saved && mounted) {
+      context.go(AppRoutes.today);
+    }
   }
 
   @override

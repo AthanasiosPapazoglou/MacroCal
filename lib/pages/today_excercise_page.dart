@@ -11,6 +11,7 @@ import 'package:macro_cal_public/features/today/presentation/cubit/exercise_stat
 import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:go_router/go_router.dart';
 
 class TodayExcercise extends StatelessWidget {
   const TodayExcercise({super.key});
@@ -23,7 +24,7 @@ class TodayExcercise extends StatelessWidget {
       child: BlocListener<ExerciseCubit, ExerciseState>(
         listenWhen: (previous, current) =>
             current.status == ExerciseStatus.saved,
-        listener: (context, _) => Navigator.pop(context),
+        listener: (context, _) => context.pop(),
         child: Scaffold(
           appBar: AppBar(
             title: Text(

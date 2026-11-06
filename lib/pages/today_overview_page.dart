@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
 import 'package:macro_cal_public/features/today/domain/services/nutrition_calculator.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/pages/today_consumption_page.dart';
-import 'package:macro_cal_public/pages/today_excercise_page.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:intl/intl.dart';
@@ -166,11 +166,7 @@ class _TodaysPageState extends State<TodaysPage>
                       child: IconButton(
                         onPressed: () {
                           _collapseFab();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TodayConsumption()));
+                          context.push(AppRoutes.consumption);
                         },
                         icon: const Icon(Icons.restaurant_rounded),
                         style: IconButton.styleFrom(
@@ -188,11 +184,7 @@ class _TodaysPageState extends State<TodaysPage>
                       child: IconButton(
                         onPressed: () {
                           _collapseFab();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TodayExcercise()));
+                          context.push(AppRoutes.exercise);
                         },
                         icon: const Icon(Icons.sports_gymnastics_rounded),
                         style: IconButton.styleFrom(
