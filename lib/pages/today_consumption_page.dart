@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
@@ -8,7 +7,7 @@ import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:macro_cal_public/themes/app_colors.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:empty_widget/empty_widget.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class TodayConsumption extends StatefulWidget {
   const TodayConsumption({super.key});
@@ -100,7 +99,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          LocaleConsts.consumptionPageTitle.tr(),
+          context.l10n.consumptionPageTitle,
           style: appBarStyle(),
         ),
         backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
@@ -129,7 +128,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                     _showResetValuesPopupDialog();
                   },
                   child: Text(
-                    LocaleConsts.consumptionPageTopActionBarResetValues.tr(),
+                    context.l10n.consumptionPageTopActionBarResetValues,
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -140,7 +139,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                     Navigator.pop(context);
                   },
                   child: Text(
-                    LocaleConsts.consumptionPageTopActionBarSaveChanges.tr(),
+                    context.l10n.consumptionPageTopActionBarSaveChanges,
                     style: const TextStyle(color: AppColors.confirmationButtonsColor),
                   )),
               ElevatedButton(
@@ -197,7 +196,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
             decoration: InputDecoration(
               fillColor: AppThemes.darkTheme.canvasColor,
               border: InputBorder.none,
-              hintText: LocaleConsts.consumptionPageTopActionBarSearchHint.tr(),
+              hintText: context.l10n.consumptionPageTopActionBarSearchHint,
               hintStyle: const TextStyle(
                 color: AppColors.kPrimaryColor,
                 fontSize: 15,
@@ -258,11 +257,11 @@ class _TodayConsumptionState extends State<TodayConsumption>
         },
         tabs: [
           Tab(
-            text: LocaleConsts.consumptionPageBottomActionBarAllFoods.tr(),
+            text: context.l10n.consumptionPageBottomActionBarAllFoods,
             icon: tabIcon(context, pantryImagePath),
           ),
           Tab(
-            text: LocaleConsts.consumptionPageBottomActionBarConsumed.tr(),
+            text: context.l10n.consumptionPageBottomActionBarConsumed,
             icon: tabIcon(context, consumptionImagePath),
           ),
         ]);
@@ -273,8 +272,8 @@ class _TodayConsumptionState extends State<TodayConsumption>
         ? EmptyWidget(
             packageImage: PackageImage.Image_2,
             title: isActiveFilter
-                ? LocaleConsts.foodsPageEmptyPageTitleNoResults.tr()
-                : LocaleConsts.foodsPageEmptyPageTitleNoItems.tr(),
+                ? context.l10n.foodsPageEmptyPageTitleNoResults
+                : context.l10n.foodsPageEmptyPageTitleNoItems,
             titleTextStyle: TextStyle(
               fontSize: 22,
               color: AppThemes.darkTheme.primaryColor,
@@ -325,7 +324,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                       Row(
                         children: [
                           Text(
-                            LocaleConsts.consumptionPageMetricsGrams.tr(),
+                            context.l10n.consumptionPageMetricsGrams,
                             style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
@@ -382,8 +381,8 @@ class _TodayConsumptionState extends State<TodayConsumption>
   Widget emptyConsumedPage() {
     return EmptyWidget(
       image: addFoodImagePath,
-      title: LocaleConsts.consumptionPageEmptyPageTitle.tr(),
-      subTitle: LocaleConsts.consumptionPageEmptyPageSubTitle.tr(),
+      title: context.l10n.consumptionPageEmptyPageTitle,
+      subTitle: context.l10n.consumptionPageEmptyPageSubTitle,
       titleTextStyle: TextStyle(
         fontSize: 22,
         color: AppThemes.darkTheme.primaryColor,
@@ -401,15 +400,15 @@ class _TodayConsumptionState extends State<TodayConsumption>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(LocaleConsts.consumptionPageResetValuesDialogTitle.tr()),
-          content: Text(LocaleConsts.consumptionPageResetValuesDialogBody.tr()),
+          title: Text(context.l10n.consumptionPageResetValuesDialogTitle),
+          content: Text(context.l10n.consumptionPageResetValuesDialogBody),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
-                LocaleConsts.consumptionPageResetValuesDialogCancel.tr(),
+                context.l10n.consumptionPageResetValuesDialogCancel,
               ),
             ),
             TextButton(
@@ -425,7 +424,7 @@ class _TodayConsumptionState extends State<TodayConsumption>
                 setState(() {});
                 Navigator.of(context).pop();
               },
-              child: Text(LocaleConsts.consumptionPageResetValuesDialogConfirm.tr(), style: const TextStyle(color: AppColors.confirmationButtonsColor),),
+              child: Text(context.l10n.consumptionPageResetValuesDialogConfirm, style: const TextStyle(color: AppColors.confirmationButtonsColor),),
             ),
           ],
         );

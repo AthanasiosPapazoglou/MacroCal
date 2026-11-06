@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:macro_cal_public/controllers/data_controller.dart';
 import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/miscellaneous/storage.dart' as storage;
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/themes/app_colors.dart';
@@ -21,14 +21,14 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
   Widget build(BuildContext context) {
     final bool isDatePopulated = measurementIndexForDate(selectedDate) != -1;
     return AlertDialog(
-      title: Text(LocaleConsts.archiveDialogTitle.tr()),
+      title: Text(context.l10n.archiveDialogTitle),
       content: SizedBox(
         height: 260,
         width: double.maxFinite,
         child: Column(
           children: [
             Text(
-              LocaleConsts.archiveDialogBody.tr(),
+              context.l10n.archiveDialogBody,
               textAlign: TextAlign.start,
             ),
             const SizedBox(
@@ -38,7 +38,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(LocaleConsts.archiveDialogSelectedDate.tr()),
+                  child: Text(context.l10n.archiveDialogSelectedDate),
                 ),
                 InkWell(
                   onTap: () async {
@@ -64,7 +64,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                         Row(
                           children: [
                             Text(
-                              LocaleConsts.archiveDialogArchiveFor.tr(),
+                              context.l10n.archiveDialogArchiveFor,
                               style: TextStyle(
                                   color: AppThemes.darkTheme.primaryColor),
                             ),
@@ -106,8 +106,8 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
                       width: 240,
                       child: Text(
                         isDatePopulated
-                            ? LocaleConsts.archiveDialogDateTaken.tr()
-                            : LocaleConsts.archiveDialogDateFree.tr(),
+                            ? context.l10n.archiveDialogDateTaken
+                            : context.l10n.archiveDialogDateFree,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
@@ -130,7 +130,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
             Navigator.of(context).pop();
           },
           child: Text(
-            LocaleConsts.archiveDialogCancel.tr(),
+            context.l10n.archiveDialogCancel,
             style: const TextStyle(color: AppColors.redAccent),
           ),
         ),
@@ -146,7 +146,7 @@ class _DateSelectionDialogState extends State<DateSelectionDialog> {
             Navigator.of(context).pop();
           },
           child: Text(
-            LocaleConsts.archiveDialogComplete.tr(),
+            context.l10n.archiveDialogComplete,
             style: TextStyle(color: AppThemes.darkTheme.primaryColor),
           ),
         ),

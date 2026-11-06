@@ -10,8 +10,8 @@ import 'package:macro_cal_public/pages/today_consumption_page.dart';
 import 'package:macro_cal_public/pages/today_excercise_page.dart';
 import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:macro_cal_public/miscellaneous/locale_consts.dart';
+import 'package:intl/intl.dart';
+import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 List<Color> colorCodingList = [
   Colors.red,
@@ -27,8 +27,8 @@ double progressPercent(double max, double current) {
   return (current / max).clamp(0.0, 1.0);
 }
 
-String surpassedTitle(String title, double max, double current) {
-  final String surpassed = LocaleConsts.overviewPageSurpassed.tr(args: [title]);
+String surpassedTitle(AppLocalizations l10n, String title, double max, double current) {
+  final String surpassed = l10n.overviewPageSurpassed(title);
   return max > 0
       ? "$surpassed (${(((current / max) - 1) * 100).floor()}%)"
       : surpassed;
@@ -255,7 +255,7 @@ class _TodaysPageState extends State<TodaysPage>
     final String formattedDate = DateFormat('dd/MM/yy').format(DateTime.now());
     return Scaffold(
       appBar: MajorPageAppBar(
-        title: '${LocaleConsts.overviewPageTitle.tr()}:  $formattedDate',
+        title: '${context.l10n.overviewPageTitle}:  $formattedDate',
       ),
       endDrawer: const SettingsDrawer(),
       body: Stack(
@@ -265,36 +265,36 @@ class _TodaysPageState extends State<TodaysPage>
             child: Obx(
               () => ListView(
                 children: [
-                  sectionHeader(LocaleConsts.overviewPageIntake.tr()),
+                  sectionHeader(context.l10n.overviewPageIntake),
                   caloriesOverview(),
-                  sectionHeader(LocaleConsts.overviewPageHealthy.tr()),
+                  sectionHeader(context.l10n.overviewPageHealthy),
                   horizontalMetricOverview(
-                      LocaleConsts.overviewPageNutrientsProtein.tr(),
+                      context.l10n.overviewPageNutrientsProtein,
                       dataController.dailyProteins.value,
                       dataController.proteinConsumed.value,
                       true),
                   horizontalMetricOverview(
-                      LocaleConsts.overviewPageNutrientsFiber.tr(),
+                      context.l10n.overviewPageNutrientsFiber,
                       dataController.dailyFiber.value,
                       dataController.fiberConsumed.value,
                       true),
-                  sectionHeader(LocaleConsts.overviewPageUnhealthy.tr()),
+                  sectionHeader(context.l10n.overviewPageUnhealthy),
                   horizontalMetricOverview(
-                      LocaleConsts.overviewPageNutrientsSugars.tr(),
+                      context.l10n.overviewPageNutrientsSugars,
                       calculateMacroFromPercentile(
                           limitPercentage: dataController.sugarsLimit.value,
                           unitCalories: 4),
                       dataController.sugarsConsumed.value,
                       false),
                   horizontalMetricOverview(
-                      LocaleConsts.overviewPageNutrientsSaturated.tr(),
+                      context.l10n.overviewPageNutrientsSaturated,
                       calculateMacroFromPercentile(
                           limitPercentage: dataController.saturatedLimit.value,
                           unitCalories: 9),
                       dataController.saturatedConsumed.value,
                       false),
                   horizontalMetricOverview(
-                      LocaleConsts.overviewPageNutrientsSalt.tr(),
+                      context.l10n.overviewPageNutrientsSalt,
                       dataController.sodiumLimit.value,
                       dataController.sodiumConsumed.value,
                       false,
@@ -379,7 +379,7 @@ class _TodaysPageState extends State<TodaysPage>
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   Text(
-                    LocaleConsts.overviewPageIntakeInfoKcal.tr(),
+                    context.l10n.overviewPageIntakeInfoKcal,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 14),
                   ),
@@ -389,10 +389,8 @@ class _TodaysPageState extends State<TodaysPage>
                       children: [
                         Text(
                           (caloryCirclePercentile() == 1.0)
-                              ? LocaleConsts.overviewPageIntakeInfoExceeding
-                                  .tr()
-                              : LocaleConsts.overviewPageIntakeInfoRemaining
-                                  .tr(),
+                              ? context.l10n.overviewPageIntakeInfoExceeding
+                              : context.l10n.overviewPageIntakeInfoRemaining,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: assignItemColor(
@@ -441,7 +439,7 @@ class _TodaysPageState extends State<TodaysPage>
           padding: const EdgeInsets.only(left: 12),
           child: Text(
             isLimitSurpassed(max, current)
-                ? surpassedTitle(title, max, current)
+                ? surpassedTitle(context.l10n, title, max, current)
                 : title,
             style: TextStyle(
                 fontSize: 18,
