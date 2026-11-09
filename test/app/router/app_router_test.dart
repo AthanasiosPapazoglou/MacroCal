@@ -7,9 +7,9 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
-import 'package:macro_cal_public/pages/today_consumption_page.dart';
-import 'package:macro_cal_public/pages/today_excercise_page.dart';
-import 'package:macro_cal_public/pages/today_overview_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
 
 import '../../helpers/pump_app.dart';
 
@@ -31,7 +31,7 @@ void main() {
   testWidgets('starts on the overview tab', (tester) async {
     await startApp(tester);
 
-    expect(find.byType(TodaysPage), findsOneWidget);
+    expect(find.byType(OverviewPage), findsOneWidget);
   });
 
   testWidgets('the navigation bar switches to the food bank', (tester) async {
@@ -45,8 +45,8 @@ void main() {
   });
 
   final pages = {
-    AppRoutes.consumption: TodayConsumption,
-    AppRoutes.exercise: TodayExcercise,
+    AppRoutes.consumption: ConsumptionPage,
+    AppRoutes.exercise: ExercisePage,
     AppRoutes.newIngredient: IngredientFormPage,
     AppRoutes.ingredient(1): IngredientDetailsPage,
     AppRoutes.editIngredient(1): IngredientFormPage,

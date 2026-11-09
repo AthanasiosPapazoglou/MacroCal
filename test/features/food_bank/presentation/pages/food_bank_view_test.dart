@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/core/widgets/search_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank_view.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_search_bar.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_tile.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -69,13 +69,13 @@ void main() {
     tester,
   ) async {
     await pumpView(tester, ready);
-    expect(find.byType(IngredientSearchBar), findsNothing);
+    expect(find.byType(SearchField), findsNothing);
 
     await tester.tap(find.byIcon(Icons.search_rounded));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'milk');
 
-    expect(find.byType(IngredientSearchBar), findsOneWidget);
+    expect(find.byType(SearchField), findsOneWidget);
     verify(() => cubit.search('milk')).called(1);
   });
 
