@@ -1,7 +1,7 @@
 import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
-import 'package:macro_cal_public/miscellaneous/enums.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/health_effect.dart';
 
 enum NutrientKind {
   calories,
@@ -24,10 +24,10 @@ enum NutrientKind {
     salt => AppSvgs.salt,
   };
 
-  HealthEffects get healthEffect => switch (this) {
-    saturated || sugars || salt => HealthEffects.hazardous,
-    fiber || protein => HealthEffects.benefitial,
-    calories || fat || carbs => HealthEffects.neutral,
+  HealthEffect get healthEffect => switch (this) {
+    saturated || sugars || salt => HealthEffect.hazardous,
+    fiber || protein => HealthEffect.beneficial,
+    calories || fat || carbs => HealthEffect.neutral,
   };
 
   double valueIn(Nutrients nutrients) => switch (this) {

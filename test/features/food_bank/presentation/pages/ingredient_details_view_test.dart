@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_cubit.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_view.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/nutrient_row.dart';
+import 'package:mocktail/mocktail.dart';
+
+import '../../../../helpers/cubit_stub.dart';
+import '../../../../helpers/pump_localized.dart';
+import '../../../../helpers/sample_ingredients.dart';
+
+class _MockIngredientDetailsCubit extends Mock
+    implements IngredientDetailsCubit;
+
+void main() {
+  late IngredientDetailsCubit cubit;
+  late CubitStub<IngredientDetailsState> stub;
+
+  const ready = IngredientDetailsState(
+    status: IngredientDetailsStatus.ready,
+    ingredient: sampleMilk,
+  );
+
+  setUp(() {
+    cubit = _MockIngredientDetailsCubit();
+    stub = CubitStub(cubit, ready);
+    when(cubit.delete).thenAnswer((_) async {});
+  });
+
+  Future<void> pumpView(WidgetTester tester) => pumpLocalized(
+    tester,
+    router: GoRouter(
+      initialLocation: AppRoutes.ingredient(1),
+      routes: [
+        GoRoute(
+          path: AppRoutes.foods,
+          builder: (_, _) => const Text('food bank'),
+          routes: [
+            GoRoute(
+              path: ':id',
+              builder: (_, _) => BlocProvider.value(
+                value: cubit,
+                child: const IngredientDetailsView(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'nutrient/:kind',
+                  builder: (_, state) =>
+                      Text('nutrient ${state.pathParameters['kind']}'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+
+  testWidgets('shows the ingredient header and a row per nutrient', (
+    tester,
+  ) async {
+    await pumpView(tester);
+
+    expect(find.text('Milk 1.5%'), findsOneWidget);
+    expect(find.byType(NutrientRow), findsNWidgets(8));
+  });
+
+  testWidgets('tapping a nutrient opens its description', (tester) async {
+    await pumpView(tester);
+
+    await tester.tap(find.text('Calories'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('nutrient calories'), findsOneWidget);
+  });
+
+  testWidgets('delete asks first and only deletes on confirm', (tester) async {
+    await pumpView(tester);
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    verifyNever(cubit.delete);
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm'));
+    await tester.pumpAndSettle();
+    verify(cubit.delete).called(1);
+  });
+
+  testWidgets('a deleted ingredient returns to the food bank', (tester) async {
+    await pumpView(tester);
+
+    stub.emit(ready.copyWith(status: IngredientDetailsStatus.deleted));
+    await tester.pumpAndSettle();
+
+    expect(find.text('food bank'), findsOneWidget);
+  });
+}

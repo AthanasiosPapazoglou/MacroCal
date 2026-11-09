@@ -14,9 +14,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - lib/core/l10n/gen/**
-    - lib/components/**
     - lib/dialogs/**
-    - lib/miscellaneous/**
     - lib/pages/**
 
 linter:
