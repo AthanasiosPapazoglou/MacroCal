@@ -8,7 +8,8 @@ import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.d
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
-import 'package:macro_cal_public/miscellaneous/appbars.dart';
+import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
+import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 import 'package:macro_cal_public/app/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
