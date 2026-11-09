@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
-import 'package:macro_cal_public/miscellaneous/appbars.dart';
+import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
+import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 
