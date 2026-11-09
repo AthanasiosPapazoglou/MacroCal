@@ -2,14 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/app/view/home_shell.dart';
-import 'package:macro_cal_public/components/barcode_scanner.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/barcode_scanner_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
-import 'package:macro_cal_public/pages/create_ingredient_page.dart';
-import 'package:macro_cal_public/pages/food_bank_page.dart';
-import 'package:macro_cal_public/pages/food_metric_detail_page.dart';
 import 'package:macro_cal_public/pages/historical_page.dart';
-import 'package:macro_cal_public/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/pages/today_consumption_page.dart';
 import 'package:macro_cal_public/pages/today_excercise_page.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
@@ -56,7 +56,7 @@ GoRouter createAppRouter() {
                 path: AppRoutes.foods,
                 builder: (_, _) => const FoodBankPage(),
                 routes: [
-                  fullScreen('new', (_) => const CreateOrEditIngredientPage()),
+                  fullScreen('new', (_) => const IngredientFormPage()),
                   fullScreen(
                     ':id',
                     (state) => IngredientDetailsPage(ingredientId: _id(state)!),
@@ -65,13 +65,11 @@ GoRouter createAppRouter() {
                     routes: [
                       fullScreen(
                         'edit',
-                        (state) => CreateOrEditIngredientPage(
-                          ingredientId: _id(state),
-                        ),
+                        (state) => IngredientFormPage(ingredientId: _id(state)),
                       ),
                       fullScreen(
                         'nutrient/:kind',
-                        (state) => FoodMetricDetailsPage(kind: _kind(state)!),
+                        (state) => NutrientDetailPage(kind: _kind(state)!),
                         redirect: (_, state) =>
                             _kind(state) == null ? AppRoutes.foods : null,
                       ),

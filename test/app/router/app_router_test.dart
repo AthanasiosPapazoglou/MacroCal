@@ -3,10 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/app/view/home_shell.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
-import 'package:macro_cal_public/pages/create_ingredient_page.dart';
-import 'package:macro_cal_public/pages/food_bank_page.dart';
-import 'package:macro_cal_public/pages/food_metric_detail_page.dart';
-import 'package:macro_cal_public/pages/ingredient_details_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
 import 'package:macro_cal_public/pages/today_consumption_page.dart';
 import 'package:macro_cal_public/pages/today_excercise_page.dart';
 import 'package:macro_cal_public/pages/today_overview_page.dart';
@@ -47,10 +47,10 @@ void main() {
   final pages = {
     AppRoutes.consumption: TodayConsumption,
     AppRoutes.exercise: TodayExcercise,
-    AppRoutes.newIngredient: CreateOrEditIngredientPage,
+    AppRoutes.newIngredient: IngredientFormPage,
     AppRoutes.ingredient(1): IngredientDetailsPage,
-    AppRoutes.editIngredient(1): CreateOrEditIngredientPage,
-    AppRoutes.nutrient(1, NutrientKind.salt): FoodMetricDetailsPage,
+    AppRoutes.editIngredient(1): IngredientFormPage,
+    AppRoutes.nutrient(1, NutrientKind.salt): NutrientDetailPage,
   };
   for (final MapEntry(key: location, value: page) in pages.entries) {
     testWidgets('$location opens $page', (tester) async {
