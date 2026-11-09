@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -10,10 +11,8 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredien
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
 import 'package:macro_cal_public/miscellaneous/enums.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_colors.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/wrappers/dismiss_page.dart';
+import 'package:macro_cal_public/app/theme/app_colors.dart';
+import 'package:macro_cal_public/core/widgets/swipe_back_detector.dart';
 
 class IngredientDetailsPage extends StatelessWidget {
   const IngredientDetailsPage({required this.ingredientId, super.key});
@@ -37,13 +36,13 @@ class IngredientDetailsPage extends StatelessWidget {
             appBar: AppBar(
               title: Text(
                 context.l10n.ingredientDetailsTitle,
-                style: appBarStyle(),
+                style: AppTextStyles.appBarTitle,
               ),
-              backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             ),
             body: ingredient == null
                 ? const SizedBox.shrink()
-                : PageDismissWraper(child: _details(context, ingredient)),
+                : SwipeBackDetector(child: _details(context, ingredient)),
           );
         },
       ),
@@ -79,17 +78,17 @@ class IngredientDetailsPage extends StatelessWidget {
       child: Container(
         width: double.maxFinite,
         decoration: BoxDecoration(
-          border: Border.all(color: AppThemes.darkTheme.primaryColor, width: 2),
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           children: [
-            heightSpacer(10),
+            const SizedBox(height: 10),
             Text(
               ingredient.name,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            heightSpacer(10),
+            const SizedBox(height: 10),
             Text(
               '${context.l10n.ingredientDetailsInfoBoard} '
               '${ingredient.referenceGrams.toInt()} '
@@ -100,7 +99,7 @@ class IngredientDetailsPage extends StatelessWidget {
                 color: Colors.orange.shade300,
               ),
             ),
-            heightSpacer(10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -115,7 +114,7 @@ class IngredientDetailsPage extends StatelessWidget {
     };
     return Column(
       children: [
-        heightSpacer(12),
+        const SizedBox(height: 12),
         GestureDetector(
           onTap: () => context.push(AppRoutes.nutrient(ingredientId, kind)),
           child: Row(
@@ -149,7 +148,7 @@ class IngredientDetailsPage extends StatelessWidget {
             ],
           ),
         ),
-        heightSpacer(12),
+        const SizedBox(height: 12),
       ],
     );
   }

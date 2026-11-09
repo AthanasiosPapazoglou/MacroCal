@@ -18,8 +18,6 @@ analyzer:
     - lib/dialogs/**
     - lib/miscellaneous/**
     - lib/pages/**
-    - lib/themes/**
-    - lib/wrappers/**
 
 linter:
   rules:

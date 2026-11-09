@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/images.dart';
+import 'package:macro_cal_public/core/widgets/tab_icon.dart';
 
 class HomeShell extends StatelessWidget {
   const new({required this.navigationShell, super.key});
@@ -22,19 +22,19 @@ class HomeShell extends StatelessWidget {
         ),
         destinations: [
           NavigationDestination(
-            icon: tabIcon(context, todayImagePath),
+            icon: const TabIcon(AppImages.today),
             label: l10n.tabBarOverview,
           ),
           NavigationDestination(
-            icon: tabIcon(context, foodsImagePath),
+            icon: const TabIcon(AppImages.foods),
             label: l10n.tabBarFoodBank,
           ),
           NavigationDestination(
-            icon: tabIcon(context, historicalImagePath),
+            icon: const TabIcon(AppImages.historical),
             label: l10n.tabBarHistorical,
           ),
           NavigationDestination(
-            icon: tabIcon(context, profileImagePath),
+            icon: const TabIcon(AppImages.profile),
             label: l10n.tabBarProfile,
           ),
         ],

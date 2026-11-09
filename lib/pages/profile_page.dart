@@ -7,8 +7,6 @@ import 'package:macro_cal_public/features/profile/presentation/cubit/profile_cub
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_field.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 
@@ -23,7 +21,7 @@ class ProfilePage extends StatelessWidget {
       child: Scaffold(
         appBar: MajorPageAppBar(title: context.l10n.profilePageTitle),
         endDrawer: const SettingsDrawer(),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: BlocBuilder<ProfileCubit, ProfileState>(
           buildWhen: (previous, current) =>
               previous.status == ProfileStatus.loading,
@@ -123,7 +121,7 @@ class _ProfileFormState extends State<_ProfileForm> {
               for (final field in ProfileField.values)
                 Column(
                   children: [
-                    heightSpacer(12),
+                    const SizedBox(height: 12),
                     TextFormField(
                       controller: _controllers[field],
                       focusNode: _focusNodes[field],
@@ -159,7 +157,7 @@ class _ProfileFormState extends State<_ProfileForm> {
                         ),
                       ),
                     ),
-                    heightSpacer(12),
+                    const SizedBox(height: 12),
                   ],
                 ),
             ],

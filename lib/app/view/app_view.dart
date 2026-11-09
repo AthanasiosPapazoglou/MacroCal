@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/app_router.dart';
+import 'package:macro_cal_public/app/theme/app_theme.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/settings/presentation/cubit/locale_cubit.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 
 class AppView extends StatefulWidget {
   const new({super.key});
@@ -31,8 +31,8 @@ class _AppViewState extends State<AppView> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       debugShowCheckedModeBanner: false,
-      theme: AppThemes.darkTheme,
-      darkTheme: AppThemes.darkTheme,
+      theme: AppTheme.dark,
+      darkTheme: AppTheme.dark,
     );
   }
 }

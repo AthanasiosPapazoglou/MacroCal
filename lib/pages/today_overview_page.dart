@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/features/today/domain/entities/goal_kind.dart';
+import 'package:macro_cal_public/app/theme/intake_colors.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
@@ -8,18 +11,9 @@ import 'package:macro_cal_public/dialogs/date_selection_dialog.dart';
 import 'package:macro_cal_public/features/today/domain/services/nutrition_calculator.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:intl/intl.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-
-List<Color> colorCodingList = [
-  Colors.red,
-  Colors.orange,
-  Colors.yellow.shade700,
-  Colors.green
-];
 
 bool isLimitSurpassed(double max, double current) => current > max;
 
@@ -28,24 +22,6 @@ String surpassedTitle(AppLocalizations l10n, String title, double max, double cu
   return max > 0
       ? "$surpassed (${(((current / max) - 1) * 100).floor()}%)"
       : surpassed;
-}
-
-Color assignItemColor(double max, double current, bool isMacro) {
-  if (current / max < .3) {
-    return colorCodingList[isMacro ? 0 : 3];
-  } else if (current / max < .6) {
-    return colorCodingList[isMacro ? 1 : 3];
-  } else if (current / max < .85) {
-    return colorCodingList[isMacro ? 2 : 2];
-  } else if (current / max <= 1.1) {
-    return colorCodingList[isMacro ? 3 : 1];
-  } else if (current / max <= 1.2) {
-    return colorCodingList[isMacro ? 2 : 0];
-  } else if (current / max <= 1.3) {
-    return colorCodingList[isMacro ? 1 : 0];
-  } else {
-    return colorCodingList[0];
-  }
 }
 
 class TodaysPage extends StatefulWidget {
@@ -170,7 +146,7 @@ class _TodaysPageState extends State<TodaysPage>
                         },
                         icon: const Icon(Icons.restaurant_rounded),
                         style: IconButton.styleFrom(
-                          backgroundColor: AppThemes.darkTheme.primaryColor,
+                          backgroundColor: Theme.of(context).primaryColor,
                           fixedSize: const Size(50, 50),
                         ),
                       ),
@@ -188,7 +164,7 @@ class _TodaysPageState extends State<TodaysPage>
                         },
                         icon: const Icon(Icons.sports_gymnastics_rounded),
                         style: IconButton.styleFrom(
-                          backgroundColor: AppThemes.darkTheme.primaryColor,
+                          backgroundColor: Theme.of(context).primaryColor,
                           fixedSize: const Size(50, 50),
                         ),
                       ),
@@ -205,7 +181,7 @@ class _TodaysPageState extends State<TodaysPage>
                         child: const Icon(Icons.add_rounded),
                       ),
                       style: IconButton.styleFrom(
-                        backgroundColor: AppThemes.darkTheme.primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         fixedSize: fabSize,
                       ),
                     ),
@@ -248,30 +224,30 @@ class _TodaysPageState extends State<TodaysPage>
                       context.l10n.overviewPageNutrientsProtein,
                       goals.proteinG,
                       summary.consumed.proteinG,
-                      true),
+                      GoalKind.minimum),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsFiber,
                       goals.fiberG,
                       summary.consumed.fiberG,
-                      true),
+                      GoalKind.minimum),
                   sectionHeader(context.l10n.overviewPageUnhealthy),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSugars,
                       summary.sugarLimitG,
                       summary.consumed.sugarsG,
-                      false),
+                      GoalKind.limit),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSaturated,
                       summary.saturatedLimitG,
                       summary.consumed.saturatedG,
-                      false),
+                      GoalKind.limit),
                   horizontalMetricOverview(
                       context.l10n.overviewPageNutrientsSalt,
                       goals.saltLimitMg,
                       summary.consumed.saltMg,
-                      false,
+                      GoalKind.limit,
                       showDecimals: false),
-                  heightSpacer(48),
+                  const SizedBox(height: 48),
                 ],
             ),
           ),
@@ -284,7 +260,7 @@ class _TodaysPageState extends State<TodaysPage>
               },
               icon: const Icon(Icons.save_rounded),
               style: IconButton.styleFrom(
-                backgroundColor: AppThemes.darkTheme.primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 fixedSize: const Size(50, 50),
               ),
             ),
@@ -298,7 +274,7 @@ class _TodaysPageState extends State<TodaysPage>
                 onPressed: _toggleFab,
                 icon: const Icon(Icons.add_rounded),
                 style: IconButton.styleFrom(
-                  backgroundColor: AppThemes.darkTheme.primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   fixedSize: const Size(56, 56),
                 ),
               ),
@@ -311,14 +287,14 @@ class _TodaysPageState extends State<TodaysPage>
   Column sectionHeader(String title) {
     return Column(
       children: [
-        heightSpacer(48),
+        const SizedBox(height: 48),
         Center(
           child: Text(
             title,
-            style: appBarStyle(),
+            style: AppTextStyles.appBarTitle,
           ),
         ),
-        heightSpacer(16),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -328,13 +304,13 @@ class _TodaysPageState extends State<TodaysPage>
         _calculator.progress(goal: adjustedKcal, consumed: consumedKcal);
     return Column(
       children: [
-        heightSpacer(16),
+        const SizedBox(height: 16),
         Center(
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: AppThemes.darkTheme.hintColor.withValues(alpha: .2),
+              color: Theme.of(context).hintColor.withValues(alpha: .2),
             ),
             child: CircularPercentIndicator(
               animation: true,
@@ -366,19 +342,13 @@ class _TodaysPageState extends State<TodaysPage>
                               : context.l10n.overviewPageIntakeInfoRemaining,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: assignItemColor(
-                                  adjustedKcal,
-                                  consumedKcal,
-                                  true)),
+                              color: _intakeColor(adjustedKcal, consumedKcal, GoalKind.energy)),
                         ),
                         Text(
                           '${(consumedKcal - adjustedKcal).abs().toInt()} kcal.',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: assignItemColor(
-                                  adjustedKcal,
-                                  consumedKcal,
-                                  true)),
+                              color: _intakeColor(adjustedKcal, consumedKcal, GoalKind.energy)),
                         )
                       ],
                     ),
@@ -386,10 +356,7 @@ class _TodaysPageState extends State<TodaysPage>
                 ],
               ),
               animationDuration: 1000,
-              progressColor: assignItemColor(
-                  adjustedKcal,
-                  consumedKcal,
-                  true),
+              progressColor: _intakeColor(adjustedKcal, consumedKcal, GoalKind.energy),
               backgroundColor: Colors.black.withValues(alpha: .3),
             ),
           ),
@@ -402,12 +369,12 @@ class _TodaysPageState extends State<TodaysPage>
     String title,
     double max,
     double current,
-    bool isMacro, {
+    GoalKind kind, {
     bool showDecimals = true,
   }) {
     return Column(
       children: [
-        heightSpacer(8),
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Text(
@@ -418,9 +385,9 @@ class _TodaysPageState extends State<TodaysPage>
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isLimitSurpassed(max, current)
-                    ? isMacro
+                    ? kind == GoalKind.minimum
                         ? Colors.green
-                        : assignItemColor(max, current, isMacro)
+                        : _intakeColor(max, current, kind)
                     : Colors.white),
           ),
         ),
@@ -437,17 +404,22 @@ class _TodaysPageState extends State<TodaysPage>
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             animationDuration: 1000,
-            progressColor: isLimitSurpassed(max, current) && isMacro
+            progressColor: isLimitSurpassed(max, current) && kind == GoalKind.minimum
                 ? Colors.green
-                : assignItemColor(max, current, isMacro),
+                : _intakeColor(max, current, kind),
             backgroundColor: Colors.black.withValues(alpha: .3),
             barRadius: const Radius.circular(20),
           ),
         ),
-        heightSpacer(8),
+        const SizedBox(height: 8),
       ],
     );
   }
+
+  Color _intakeColor(double goal, double consumed, GoalKind kind) =>
+      context.intakeColors.of(
+        _calculator.status(goal: goal, consumed: consumed, kind: kind),
+      );
 
   void _showArchiveDayPopupDialog() {
     showDialog(

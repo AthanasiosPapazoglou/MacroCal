@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:macro_cal_public/core/widgets/numeric_field.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/today/domain/entities/activity.dart';
@@ -8,9 +9,7 @@ import 'package:macro_cal_public/features/today/domain/repositories/activity_rep
 import 'package:macro_cal_public/features/today/presentation/activity_labels.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/exercise_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/exercise_state.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_colors.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/app/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 
 class TodayExcercise extends StatelessWidget {
@@ -29,9 +28,9 @@ class TodayExcercise extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               context.l10n.activitiesPageTitle,
-              style: appBarStyle(),
+              style: AppTextStyles.appBarTitle,
             ),
-            backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
           body: BlocBuilder<ExerciseCubit, ExerciseState>(
             buildWhen: (previous, _) =>
@@ -94,7 +93,7 @@ class _ExerciseFormState extends State<_ExerciseForm> {
         height: 62,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(width: 2, color: AppThemes.darkTheme.primaryColor),
+          border: Border.all(width: 2, color: Theme.of(context).primaryColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,31 +119,11 @@ class _ExerciseFormState extends State<_ExerciseForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    height: 48,
-                    width: 85,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: TextField(
-                        onChanged: (value) => context
-                            .read<ExerciseCubit>()
-                            .updateAmount(activity.id, int.tryParse(value) ?? 0),
-                        controller: _controllers[activity.id],
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(4),
-                        ],
-                        textAlign: TextAlign.center,
-                        textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                          hoverColor: AppThemes.darkTheme.canvasColor,
-                          fillColor: AppThemes.darkTheme.disabledColor,
-                        ),
-                      ),
-                    ),
+                  child: NumericField(
+                    controller: _controllers[activity.id],
+                    onChanged: (amount) => context
+                        .read<ExerciseCubit>()
+                        .updateAmount(activity.id, amount),
                   ),
                 ),
               ],
