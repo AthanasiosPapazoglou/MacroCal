@@ -1,8 +1,7 @@
-import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
-import 'package:macro_cal_public/miscellaneous/images.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 class HistoricalPage extends StatefulWidget {
@@ -26,18 +25,12 @@ class _HistoricalPageState extends State<HistoricalPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Center(
-              child: EmptyWidget(
-                image: historicalImagePath,
+              child: EmptyState(
+                image: AppImages.historical,
                 title: 'Page not available yet',
-                subTitle: 'Coming Soon!',
-                titleTextStyle: TextStyle(
-                  fontSize: 22,
-                  color: AppThemes.darkTheme.primaryColor,
-                  fontWeight: FontWeight.w500,
-                ),
-                subtitleTextStyle: TextStyle(
+                subtitle: 'Coming Soon!',
+                subtitleStyle: const TextStyle(
                   fontSize: 18,
-                  color: AppThemes.darkTheme.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -50,7 +43,7 @@ class _HistoricalPageState extends State<HistoricalPage> {
               onPressed: () {},
               icon: const Icon(Icons.restaurant_rounded),
               style: IconButton.styleFrom(
-                backgroundColor: AppThemes.darkTheme.primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 fixedSize: const Size(50, 50),
               ),
             ),

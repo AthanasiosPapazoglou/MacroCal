@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/language_switch.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 
 class MajorPageAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -26,7 +25,7 @@ class _MajorPageAppBarState extends State<MajorPageAppBar> {
         widget.title,
         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
-      backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       actions: [
         Builder(
           builder: (context) => IconButton(
@@ -48,7 +47,7 @@ class SettingsDrawer extends StatelessWidget {
     final label = context.l10n.settingsPageLanguage;
 
     return Drawer(
-      backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: Center(
           child: Padding(

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
-import 'package:macro_cal_public/wrappers/dismiss_page.dart';
+import 'package:macro_cal_public/core/widgets/swipe_back_detector.dart';
 
 class FoodMetricDetailsPage extends StatelessWidget {
   const FoodMetricDetailsPage({required this.kind, super.key});
@@ -15,10 +14,10 @@ class FoodMetricDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(kind.title(context.l10n), style: appBarStyle()),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+        title: Text(kind.title(context.l10n), style: AppTextStyles.appBarTitle),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: PageDismissWraper(
+      body: SwipeBackDetector(
         child: Container(
           padding: const EdgeInsetsDirectional.all(16),
           child: Column(

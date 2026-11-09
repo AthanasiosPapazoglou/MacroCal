@@ -1,7 +1,7 @@
+import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/miscellaneous/enums.dart';
-import 'package:macro_cal_public/miscellaneous/images.dart';
 
 enum NutrientKind {
   calories,
@@ -14,14 +14,14 @@ enum NutrientKind {
   salt;
 
   String get svgPath => switch (this) {
-    calories => caloriesSvgPath,
-    fat => oliveSvgPath,
-    saturated => saturatedSvgPath,
-    carbs => carbsSvgPath,
-    sugars => sugarSvgPath,
-    fiber => saladSvgPath,
-    protein => proteinSvgPath,
-    salt => saltSvgPath,
+    calories => AppSvgs.calories,
+    fat => AppSvgs.olive,
+    saturated => AppSvgs.saturated,
+    carbs => AppSvgs.carbs,
+    sugars => AppSvgs.sugar,
+    fiber => AppSvgs.salad,
+    protein => AppSvgs.protein,
+    salt => AppSvgs.salt,
   };
 
   HealthEffects get healthEffect => switch (this) {

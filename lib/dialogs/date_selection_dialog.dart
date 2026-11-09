@@ -7,8 +7,7 @@ import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.d
 import 'package:macro_cal_public/features/today/presentation/cubit/archive_day_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/archive_day_state.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
-import 'package:macro_cal_public/themes/app_colors.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/app/theme/app_colors.dart';
 
 class DateSelectionDialog extends StatelessWidget {
   const DateSelectionDialog({super.key});
@@ -64,7 +63,7 @@ class DateSelectionDialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     width: 2,
-                    color: AppThemes.darkTheme.primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 child: Row(
@@ -75,13 +74,13 @@ class DateSelectionDialog extends StatelessWidget {
                         Text(
                           context.l10n.archiveDialogArchiveFor,
                           style: TextStyle(
-                            color: AppThemes.darkTheme.primaryColor,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                         const SizedBox(width: 8),
                         Icon(
                           Icons.calendar_month_rounded,
-                          color: AppThemes.darkTheme.primaryColor,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ],
                     ),
@@ -89,7 +88,7 @@ class DateSelectionDialog extends StatelessWidget {
                       DateFormat('dd/MM/yyyy').format(state.selectedDate),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: AppThemes.darkTheme.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ],
@@ -141,7 +140,7 @@ class DateSelectionDialog extends StatelessWidget {
                 ),
           child: Text(
             context.l10n.archiveDialogComplete,
-            style: TextStyle(color: AppThemes.darkTheme.primaryColor),
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ),
       ],

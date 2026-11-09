@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 
-SnackBar productFoundSnackbar(AppLocalizations l10n) => SnackBar(
+SnackBar productFoundSnackbar(AppLocalizations l10n, Color textColor) => SnackBar(
       content: Text(
         l10n.snackbarProductFound,
-        style: TextStyle(color: AppThemes.darkTheme.primaryColor),
+        style: TextStyle(color: textColor),
       ),
       duration: const Duration(seconds: 3),
       action: SnackBarAction(

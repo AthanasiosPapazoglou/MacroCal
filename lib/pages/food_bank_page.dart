@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
@@ -9,9 +9,7 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredie
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/miscellaneous/appbars.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/themes/app_colors.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/app/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 
@@ -62,7 +60,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            heightSpacer(12),
+            const SizedBox(height: 12),
             Expanded(
               child: Column(
                 children: [
@@ -72,7 +70,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
                 ],
               ),
             ),
-            heightSpacer(56),
+            const SizedBox(height: 56),
           ],
         ),
       ),
@@ -80,7 +78,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
         onPressed: () => context.push(AppRoutes.newIngredient),
         icon: const Icon(Icons.format_list_bulleted_add, size: 30),
         style: IconButton.styleFrom(
-          backgroundColor: AppThemes.darkTheme.primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           fixedSize: const Size(50, 50),
         ),
       ),
@@ -133,7 +131,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
           textInputAction: TextInputAction.done,
           style: const TextStyle(color: AppColors.kPrimaryColor),
           decoration: InputDecoration(
-            fillColor: AppThemes.darkTheme.canvasColor,
+            fillColor: Theme.of(context).canvasColor,
             border: InputBorder.none,
             hintText: context.l10n.foodsPageTopActionBarSearchHint,
             hintStyle: const TextStyle(
@@ -168,16 +166,10 @@ class _FoodBankViewState extends State<_FoodBankView> {
           }
           final ingredients = state.visibleIngredients;
           if (ingredients.isEmpty) {
-            return EmptyWidget(
-              packageImage: PackageImage.Image_2,
+            return EmptyState(
               title: state.isFiltering
                   ? context.l10n.foodsPageEmptyPageTitleNoResults
                   : context.l10n.foodsPageEmptyPageTitleNoItems,
-              titleTextStyle: TextStyle(
-                fontSize: 22,
-                color: AppThemes.darkTheme.primaryColor,
-                fontWeight: FontWeight.w500,
-              ),
             );
           }
           return _isListView
@@ -206,7 +198,7 @@ class _FoodBankViewState extends State<_FoodBankView> {
         horizontal: _isListView ? 0 : 8,
       ),
       child: Material(
-        color: AppThemes.darkTheme.primaryColor,
+        color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),

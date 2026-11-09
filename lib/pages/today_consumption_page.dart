@@ -1,6 +1,8 @@
-import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:macro_cal_public/core/widgets/numeric_field.dart';
+import 'package:macro_cal_public/core/widgets/empty_state.dart';
+import 'package:macro_cal_public/core/widgets/tab_icon.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
@@ -8,10 +10,8 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredie
 import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
-import 'package:macro_cal_public/miscellaneous/images.dart';
-import 'package:macro_cal_public/themes/app_colors.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
+import 'package:macro_cal_public/core/assets/app_assets.dart';
+import 'package:macro_cal_public/app/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 
 class TodayConsumption extends StatelessWidget {
@@ -94,8 +94,8 @@ class _ConsumptionViewState extends State<_ConsumptionView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.consumptionPageTitle, style: appBarStyle()),
-        backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+        title: Text(context.l10n.consumptionPageTitle, style: AppTextStyles.appBarTitle),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
@@ -122,11 +122,11 @@ class _ConsumptionViewState extends State<_ConsumptionView>
         tabs: [
           Tab(
             text: context.l10n.consumptionPageBottomActionBarAllFoods,
-            icon: tabIcon(context, pantryImagePath),
+            icon: TabIcon(AppImages.pantry),
           ),
           Tab(
             text: context.l10n.consumptionPageBottomActionBarConsumed,
-            icon: tabIcon(context, consumptionImagePath),
+            icon: TabIcon(AppImages.consumption),
           ),
         ],
       ),
@@ -159,7 +159,7 @@ class _ConsumptionViewState extends State<_ConsumptionView>
                   backgroundColor: _isAllFoodsTabSelected
                       ? null
                       : WidgetStateProperty.all<Color>(
-                          AppThemes.darkTheme.disabledColor,
+                          Theme.of(context).disabledColor,
                         ),
                 ),
                 onPressed: () {
@@ -194,7 +194,7 @@ class _ConsumptionViewState extends State<_ConsumptionView>
             textInputAction: TextInputAction.done,
             style: const TextStyle(color: AppColors.kPrimaryColor),
             decoration: InputDecoration(
-              fillColor: AppThemes.darkTheme.canvasColor,
+              fillColor: Theme.of(context).canvasColor,
               border: InputBorder.none,
               hintText: context.l10n.consumptionPageTopActionBarSearchHint,
               hintStyle: const TextStyle(
@@ -224,16 +224,10 @@ class _ConsumptionViewState extends State<_ConsumptionView>
   Widget _allFoodsTab(ConsumptionState state) {
     final ingredients = state.visibleIngredients;
     if (ingredients.isEmpty) {
-      return EmptyWidget(
-        packageImage: PackageImage.Image_2,
+      return EmptyState(
         title: state.isFiltering
             ? context.l10n.foodsPageEmptyPageTitleNoResults
             : context.l10n.foodsPageEmptyPageTitleNoItems,
-        titleTextStyle: TextStyle(
-          fontSize: 22,
-          color: AppThemes.darkTheme.primaryColor,
-          fontWeight: FontWeight.w500,
-        ),
       );
     }
     return _ingredientList(ingredients);
@@ -254,7 +248,7 @@ class _ConsumptionViewState extends State<_ConsumptionView>
         height: 62,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(width: 2, color: AppThemes.darkTheme.primaryColor),
+          border: Border.all(width: 2, color: Theme.of(context).primaryColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,31 +278,11 @@ class _ConsumptionViewState extends State<_ConsumptionView>
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    height: 48,
-                    width: 85,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: TextField(
-                        onChanged: (value) => context
-                            .read<ConsumptionCubit>()
-                            .updateGrams(ingredient.id, int.tryParse(value) ?? 0),
-                        controller: _controllers[ingredient.id],
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(4),
-                        ],
-                        textAlign: TextAlign.center,
-                        textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                          hoverColor: AppThemes.darkTheme.canvasColor,
-                          fillColor: AppThemes.darkTheme.disabledColor,
-                        ),
-                      ),
-                    ),
+                  child: NumericField(
+                    controller: _controllers[ingredient.id],
+                    onChanged: (grams) => context
+                        .read<ConsumptionCubit>()
+                        .updateGrams(ingredient.id, grams),
                   ),
                 ),
               ],
@@ -320,19 +294,10 @@ class _ConsumptionViewState extends State<_ConsumptionView>
   }
 
   Widget _emptyConsumedPage() {
-    return EmptyWidget(
-      image: addFoodImagePath,
+    return EmptyState(
+      image: AppImages.addFood,
       title: context.l10n.consumptionPageEmptyPageTitle,
-      subTitle: context.l10n.consumptionPageEmptyPageSubTitle,
-      titleTextStyle: TextStyle(
-        fontSize: 22,
-        color: AppThemes.darkTheme.primaryColor,
-        fontWeight: FontWeight.w500,
-      ),
-      subtitleTextStyle: TextStyle(
-        fontSize: 14,
-        color: AppThemes.darkTheme.primaryColor,
-      ),
+      subtitle: context.l10n.consumptionPageEmptyPageSubTitle,
     );
   }
 

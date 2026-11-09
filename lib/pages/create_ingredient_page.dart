@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:macro_cal_public/components/loader.dart';
+import 'package:macro_cal_public/core/widgets/loader.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
-import 'package:macro_cal_public/miscellaneous/functions.dart';
 import 'package:macro_cal_public/miscellaneous/snackbars.dart';
-import 'package:macro_cal_public/themes/app_themes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 
@@ -98,7 +97,7 @@ class _IngredientFormState extends State<_IngredientForm> {
           in state.scannedValues.entries) {
         _controllers[field]!.text = text;
       }
-      messenger.showSnackBar(productFoundSnackbar(context.l10n));
+      messenger.showSnackBar(productFoundSnackbar(context.l10n, Theme.of(context).primaryColor));
     } else {
       messenger.showSnackBar(noProductFoundSnackbar(context.l10n));
     }
@@ -139,9 +138,9 @@ class _IngredientFormState extends State<_IngredientForm> {
             widget.isEdit
                 ? context.l10n.ingredientsPageTitlesEdit
                 : context.l10n.ingredientsPageTitlesAdd,
-            style: appBarStyle(),
+            style: AppTextStyles.appBarTitle,
           ),
-          backgroundColor: AppThemes.darkTheme.scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           actions: [
             if (!widget.isEdit)
               Padding(
@@ -155,7 +154,7 @@ class _IngredientFormState extends State<_IngredientForm> {
                     return ElevatedButton(
                       onPressed: isLookingUp ? null : _scanProduct,
                       child: isLookingUp
-                          ? const MacroCalLoader(width: 24, height: 24, size: 24)
+                          ? const Loader(size: 24)
                           : const Icon(Icons.qr_code_scanner_rounded),
                     );
                   },
@@ -231,7 +230,7 @@ class _IngredientFormState extends State<_IngredientForm> {
 
     return Column(
       children: [
-        heightSpacer(12),
+        const SizedBox(height: 12),
         TextFormField(
           keyboardType: isText ? null : TextInputType.number,
           validator: (value) =>
@@ -266,7 +265,7 @@ class _IngredientFormState extends State<_IngredientForm> {
             ),
           ),
         ),
-        heightSpacer(12),
+        const SizedBox(height: 12),
       ],
     );
   }
