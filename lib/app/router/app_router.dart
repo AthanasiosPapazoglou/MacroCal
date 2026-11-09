@@ -9,10 +9,10 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredien
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
+import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
 import 'package:macro_cal_public/pages/historical_page.dart';
-import 'package:macro_cal_public/pages/today_consumption_page.dart';
-import 'package:macro_cal_public/pages/today_excercise_page.dart';
-import 'package:macro_cal_public/pages/today_overview_page.dart';
 
 GoRouter createAppRouter() {
   final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -42,10 +42,10 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.today,
-                builder: (_, _) => const TodaysPage(),
+                builder: (_, _) => const OverviewPage(),
                 routes: [
-                  fullScreen('consumption', (_) => const TodayConsumption()),
-                  fullScreen('exercise', (_) => const TodayExcercise()),
+                  fullScreen('consumption', (_) => const ConsumptionPage()),
+                  fullScreen('exercise', (_) => const ExercisePage()),
                 ],
               ),
             ],

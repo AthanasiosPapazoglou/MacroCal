@@ -7,11 +7,11 @@ import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
+import 'package:macro_cal_public/core/widgets/search_field.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_bank_action_bar.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_search_bar.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_tile.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 
@@ -61,8 +61,9 @@ class _FoodBankViewState extends State<FoodBankView> {
             if (_isSearching)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: IngredientSearchBar(
+                child: SearchField(
                   controller: _searchController,
+                  hintText: context.l10n.foodsPageTopActionBarSearchHint,
                   onChanged: context.read<FoodBankCubit>().search,
                   onClear: _clearSearch,
                 ),
