@@ -14,7 +14,6 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - lib/core/l10n/gen/**
-    - lib/pages/**
 
 linter:
   rules:

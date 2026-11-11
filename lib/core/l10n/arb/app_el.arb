@@ -133,5 +133,7 @@
   "activityWalking": "Περπάτημα",
   "activityKilometers": "Χιλιόμετρα",
   "ingredientsPageUncategorised": "Χωρίς κατηγορία",
-  "ingredientsPageNameRequired": "Εισάγετε όνομα προϊόντος"
+  "ingredientsPageNameRequired": "Εισάγετε όνομα προϊόντος",
+  "historyPageComingSoonTitle": "Η σελίδα δεν είναι ακόμη διαθέσιμη",
+  "historyPageComingSoonSubtitle": "Έρχεται σύντομα!"
 }

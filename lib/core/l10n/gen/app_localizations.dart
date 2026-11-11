@@ -901,6 +901,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a product name'**
   String get ingredientsPageNameRequired;
+
+  /// No description provided for @historyPageComingSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Page not available yet'**
+  String get historyPageComingSoonTitle;
+
+  /// No description provided for @historyPageComingSoonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon!'**
+  String get historyPageComingSoonSubtitle;
 }
 
 class _AppLocalizationsDelegate

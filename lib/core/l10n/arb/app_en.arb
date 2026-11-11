@@ -140,5 +140,7 @@
   "activityWalking": "Walking",
   "activityKilometers": "Kilometers",
   "ingredientsPageUncategorised": "Uncategorised",
-  "ingredientsPageNameRequired": "Enter a product name"
+  "ingredientsPageNameRequired": "Enter a product name",
+  "historyPageComingSoonTitle": "Page not available yet",
+  "historyPageComingSoonSubtitle": "Coming Soon!"
 }

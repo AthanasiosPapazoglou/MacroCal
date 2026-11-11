@@ -437,4 +437,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ingredientsPageNameRequired => 'Enter a product name';
+
+  @override
+  String get historyPageComingSoonTitle => 'Page not available yet';
+
+  @override
+  String get historyPageComingSoonSubtitle => 'Coming Soon!';
 }

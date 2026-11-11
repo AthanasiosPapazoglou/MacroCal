@@ -442,4 +442,10 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get ingredientsPageNameRequired => 'Εισάγετε όνομα προϊόντος';
+
+  @override
+  String get historyPageComingSoonTitle => 'Η σελίδα δεν είναι ακόμη διαθέσιμη';
+
+  @override
+  String get historyPageComingSoonSubtitle => 'Έρχεται σύντομα!';
 }
