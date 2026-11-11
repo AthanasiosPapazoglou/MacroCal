@@ -23,6 +23,7 @@ To develop and run the MacroCal application using Flutter, you need to set up yo
 
 1. **Flutter SDK:**
    - Download and install the Flutter SDK from the official [Flutter website](https://flutter.dev/docs/get-started/install).
+   - The project needs Flutter 3.47 or newer (Dart 3.13 or newer).
    - Follow the installation instructions for your operating system (Windows, macOS, or Linux).
    - After installation, add Flutter to your system path.
 
@@ -64,8 +65,8 @@ To develop and run the MacroCal application using Flutter, you need to set up yo
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/macrocal.git
-    cd macrocal
+    git clone https://github.com/AthanasiosPapazoglou/MacroCal.git
+    cd MacroCal
     ```
 
 2. **Install Dependencies:**
@@ -134,6 +135,71 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
 
 4. **View Insights:** (In Progress)
     - Access detailed reports on your daily, weekly, and monthly nutritional intake to help you meet your health goals. 
+
+## Architecture
+
+MacroCal uses a feature-first clean architecture with [bloc](https://bloclibrary.dev) cubits for state and [drift](https://drift.simonbinder.eu) (SQLite) for storage.
+
+```
+lib/
+├── main.dart            # calls bootstrap()
+├── bootstrap.dart       # composition root: database, repositories, use cases → App
+├── app/                 # App widget, router (go_router), theme, tab shell
+├── core/                # database, l10n, shared widgets, asset paths, plain-Dart helpers
+└── features/
+    ├── settings/        # language
+    ├── profile/         # daily goals and body metrics
+    ├── food_bank/       # ingredient catalog, form, barcode lookup (Open Food Facts)
+    ├── today/           # overview, consumption, exercise, archive day
+    └── history/         # archived days (placeholder screen for now)
+        ├── domain/      # entities, repository interfaces, services; plain Dart only
+        ├── data/        # drift and http implementations of the repositories
+        └── presentation/# cubits, pages, widgets
+```
+
+Rules the code follows:
+
+- **Dependencies point inward:** `presentation → domain ← data`. Domain code imports no Flutter, drift or http; `test/architecture_test.dart` enforces this.
+- **Drift is the single source of truth.** Repositories expose streams, so every screen watching the same data updates on its own.
+- **Cubits never call other cubits or use a `BuildContext`**, and widgets never call repositories directly.
+- **Features don't import each other's `data/` or `presentation/`.** Shared needs go through domain interfaces.
+- **`XPage` provides the cubit and `XView` builds the UI.** Only `LocaleCubit` and `OverviewCubit` live app-wide.
+- **Generated code is committed** (`*.g.dart`, `*.freezed.dart`, `lib/core/l10n/gen/`), so a fresh checkout runs with a plain `flutter run`.
+
+## Development commands
+
+```bash
+flutter analyze
+```
+
+```bash
+flutter test
+```
+
+```bash
+flutter test integration_test -d <device id>
+```
+
+```bash
+dart run build_runner build
+```
+
+```bash
+flutter gen-l10n
+```
+
+- `flutter test` runs the unit, widget and drift migration tests in `test/`.
+- The `integration_test/` end-to-end test drives the real app on an in-memory database; run it on an iOS simulator or macOS (`flutter devices` lists the ids).
+- Run `build_runner` after changing a drift table, a freezed class or a `json_serializable` DTO, and commit the output.
+- Run `gen-l10n` after editing `lib/core/l10n/arb/app_en.arb` or `app_el.arb`. Every new string goes in both files.
+
+## Adding a feature
+
+1. Create `lib/features/<name>/{domain,data,presentation}`.
+2. Add any tables in `lib/core/database/tables`, bump `schemaVersion` in `app_database.dart`, run `dart run drift_dev make-migrations`, and add a step-by-step migration with its test in `test/drift/`.
+3. Add the repository interface (domain), its drift implementation (data), and the cubit, page and view (presentation).
+4. Register the repository in `bootstrap.dart` and `App`, add the route in `lib/app/router`, and add the strings to both ARB files.
+5. Add tests that mirror each layer under `test/features/<name>/`.
 
 ## Contributing
 
