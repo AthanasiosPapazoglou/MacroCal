@@ -1,3 +1,4 @@
+import 'package:macro_cal_public/core/domain/date_only.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
 
 abstract final class AppRoutes {
@@ -9,6 +10,8 @@ abstract final class AppRoutes {
   static const history = '/history';
   static const profile = '/profile';
   static const scan = '/scan';
+
+  static String historyDay(DateTime date) => '/history/${date.isoDay}';
 
   static String ingredient(int id) => '/foods/$id';
 

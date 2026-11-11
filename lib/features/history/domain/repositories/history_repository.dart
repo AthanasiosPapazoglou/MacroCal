@@ -3,6 +3,8 @@ import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 abstract interface class HistoryRepository {
   Stream<List<DayLog>> watchDayLogs();
 
+  Stream<DayLog?> watchDayLog(DateTime date);
+
   Future<bool> hasLogFor(DateTime date);
 
   /// Replaces any log already saved for the same day.

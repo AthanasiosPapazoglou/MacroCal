@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
+import 'package:macro_cal_public/core/domain/date_only.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
@@ -19,9 +20,18 @@ class DriftHistoryRepository implements HistoryRepository {
   }
 
   @override
+  Stream<DayLog?> watchDayLog(DateTime date) {
+    final query = _database.select(_database.dayLogsTable)
+      ..where((log) => log.day.equals(date.isoDay));
+    return query.watchSingleOrNull().map(
+      (row) => row == null ? null : _toEntity(row),
+    );
+  }
+
+  @override
   Future<bool> hasLogFor(DateTime date) async {
     final query = _database.select(_database.dayLogsTable)
-      ..where((log) => log.day.equals(_dayKey(date)));
+      ..where((log) => log.day.equals(date.isoDay));
     return await query.getSingleOrNull() != null;
   }
 
@@ -38,11 +48,6 @@ class DriftHistoryRepository implements HistoryRepository {
           ),
         );
   }
-
-  static String _dayKey(DateTime date) =>
-      '${date.year.toString().padLeft(4, '0')}-'
-      '${date.month.toString().padLeft(2, '0')}-'
-      '${date.day.toString().padLeft(2, '0')}';
 
   DayLog _toEntity(DayLogRow row) => DayLog(
     date: DateTime.parse(row.day),
@@ -77,7 +82,7 @@ class DriftHistoryRepository implements HistoryRepository {
     final goals = summary.goals;
     final consumed = summary.consumed;
     return DayLogsTableCompanion.insert(
-      day: _dayKey(log.date),
+      day: log.date.isoDay,
       dailyKcal: goals.dailyKcal,
       proteinGoalG: goals.proteinG,
       fiberGoalG: goals.fiberG,

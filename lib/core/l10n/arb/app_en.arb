@@ -176,5 +176,14 @@
   "historyPageCaloriesChart": "Daily calories",
   "historyPageMacroSplit": "Average macro split",
   "historyMacroCarbs": "Carbs",
-  "historyMacroFat": "Fat"
+  "historyMacroFat": "Fat",
+  "historyDayNotFound": "This day is not archived",
+  "historyDayBurned": "Burned through activity: {kcal} kcal",
+  "@historyDayBurned": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/app/theme/intake_colors.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
@@ -25,6 +27,7 @@ class DayLogTile extends StatelessWidget {
       ),
     );
     return ListTile(
+      onTap: () => context.push(AppRoutes.historyDay(log.date)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       leading: Icon(Icons.circle, color: color, size: 16),
       title: Text(DateFormat('EEE dd/MM/yyyy', locale).format(log.date)),

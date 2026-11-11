@@ -511,4 +511,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyMacroFat => 'Fat';
+
+  @override
+  String get historyDayNotFound => 'This day is not archived';
+
+  @override
+  String historyDayBurned(int kcal) {
+    return 'Burned through activity: $kcal kcal';
+  }
 }
