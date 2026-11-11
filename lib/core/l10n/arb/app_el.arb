@@ -152,5 +152,7 @@
   "historyPageCaloriesChart": "Ημερήσιες θερμίδες",
   "historyPageMacroSplit": "Μέση κατανομή μακροθρεπτικών",
   "historyMacroCarbs": "Υδατάνθρακες",
-  "historyMacroFat": "Λιπαρά"
+  "historyMacroFat": "Λιπαρά",
+  "historyDayNotFound": "Αυτή η ημέρα δεν είναι αρχειοθετημένη",
+  "historyDayBurned": "Κάηκαν με δραστηριότητα: {kcal} kcal"
 }

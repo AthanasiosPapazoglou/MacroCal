@@ -1015,6 +1015,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fat'**
   String get historyMacroFat;
+
+  /// No description provided for @historyDayNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This day is not archived'**
+  String get historyDayNotFound;
+
+  /// No description provided for @historyDayBurned.
+  ///
+  /// In en, this message translates to:
+  /// **'Burned through activity: {kcal} kcal'**
+  String historyDayBurned(int kcal);
 }
 
 class _AppLocalizationsDelegate

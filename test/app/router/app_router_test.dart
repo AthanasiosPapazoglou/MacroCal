@@ -7,6 +7,8 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
+import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
+import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
@@ -51,6 +53,8 @@ void main() {
     AppRoutes.ingredient(1): IngredientDetailsPage,
     AppRoutes.editIngredient(1): IngredientFormPage,
     AppRoutes.nutrient(1, NutrientKind.salt): NutrientDetailPage,
+    AppRoutes.history: HistoryPage,
+    AppRoutes.historyDay(DateTime(2026, 11, 10)): DayDetailPage,
   };
   for (final MapEntry(key: location, value: page) in pages.entries) {
     testWidgets('$location opens $page', (tester) async {
@@ -78,6 +82,17 @@ void main() {
 
       expect(find.byType(FoodBankPage), findsOneWidget);
       expect(find.byType(IngredientDetailsPage), findsNothing);
+    });
+  }
+
+  for (final location in ['/history/abc', '/history/2026-13-01']) {
+    testWidgets('$location falls back to the history', (tester) async {
+      final router = await startApp(tester);
+
+      await goTo(tester, router, location);
+
+      expect(find.byType(HistoryPage), findsOneWidget);
+      expect(find.byType(DayDetailPage), findsNothing);
     });
   }
 }

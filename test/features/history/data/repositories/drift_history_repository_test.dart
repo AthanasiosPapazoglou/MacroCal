@@ -24,6 +24,14 @@ void main() {
     expect(await repository.watchDayLogs().first, [log]);
   });
 
+  test('watchDayLog emits the log of that day or null', () async {
+    final log = DayLog(date: DateTime(2026, 11, 6), summary: sampleSummary);
+    await repository.saveDayLog(log);
+
+    expect(await repository.watchDayLog(DateTime(2026, 11, 6, 20)).first, log);
+    expect(await repository.watchDayLog(DateTime(2026, 11, 7)).first, isNull);
+  });
+
   test('hasLogFor matches the same day at any time', () async {
     await repository.saveDayLog(
       DayLog(date: DateTime(2026, 10, 30, 9), summary: sampleSummary),

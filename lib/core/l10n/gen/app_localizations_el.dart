@@ -516,4 +516,12 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get historyMacroFat => 'Λιπαρά';
+
+  @override
+  String get historyDayNotFound => 'Αυτή η ημέρα δεν είναι αρχειοθετημένη';
+
+  @override
+  String historyDayBurned(int kcal) {
+    return 'Κάηκαν με δραστηριότητα: $kcal kcal';
+  }
 }
