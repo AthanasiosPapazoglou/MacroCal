@@ -148,5 +148,9 @@
   "historyPageAdherence": "Τήρηση στόχων",
   "historyPageDaysMet": "{met} από {total, plural, =1{1 ημέρα} other{{total} ημέρες}}",
   "historyPageDays": "Αρχειοθετημένες ημέρες",
-  "historyGoalEnergy": "Θερμίδες"
+  "historyGoalEnergy": "Θερμίδες",
+  "historyPageCaloriesChart": "Ημερήσιες θερμίδες",
+  "historyPageMacroSplit": "Μέση κατανομή μακροθρεπτικών",
+  "historyMacroCarbs": "Υδατάνθρακες",
+  "historyMacroFat": "Λιπαρά"
 }

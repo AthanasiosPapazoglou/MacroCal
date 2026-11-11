@@ -499,4 +499,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyGoalEnergy => 'Calories';
+
+  @override
+  String get historyPageCaloriesChart => 'Daily calories';
+
+  @override
+  String get historyPageMacroSplit => 'Average macro split';
+
+  @override
+  String get historyMacroCarbs => 'Carbs';
+
+  @override
+  String get historyMacroFat => 'Fat';
 }

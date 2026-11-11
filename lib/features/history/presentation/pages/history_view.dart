@@ -8,10 +8,12 @@ import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
 import 'package:macro_cal_public/features/history/domain/entities/tracked_goal.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/calories_chart.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/day_log_tile.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/goal_adherence_bar.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/history_range_selector.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/history_summary.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/macro_split_chart.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/section_header.dart';
 
@@ -47,6 +49,15 @@ class HistoryView extends StatelessWidget {
                 )
               else ...[
                 HistorySummary(stats: state.stats),
+                SectionHeader(l10n.historyPageCaloriesChart),
+                CaloriesChart(
+                  logs: state.logs,
+                  averageGoal: state.stats.averageAdjustedKcal,
+                ),
+                if (MacroSplitChart.hasData(state.stats.averageConsumed)) ...[
+                  SectionHeader(l10n.historyPageMacroSplit),
+                  MacroSplitChart(average: state.stats.averageConsumed),
+                ],
                 SectionHeader(l10n.historyPageAdherence),
                 for (final goal in TrackedGoal.values)
                   GoalAdherenceBar(goal: goal, stats: state.stats),
