@@ -444,8 +444,64 @@ class AppLocalizationsEl extends AppLocalizations {
   String get ingredientsPageNameRequired => 'Εισάγετε όνομα προϊόντος';
 
   @override
-  String get historyPageComingSoonTitle => 'Η σελίδα δεν είναι ακόμη διαθέσιμη';
+  String get historyRangeWeek => '7 ημέρες';
 
   @override
-  String get historyPageComingSoonSubtitle => 'Έρχεται σύντομα!';
+  String get historyRangeMonth => '30 ημέρες';
+
+  @override
+  String get historyRangeAll => 'Όλες';
+
+  @override
+  String get historyPageEmptyTitle => 'Δεν υπάρχουν αρχειοθετημένες ημέρες';
+
+  @override
+  String get historyPageEmptySubtitle =>
+      'Αρχειοθετήστε μια ημέρα από την Επισκόπηση με το κουμπί αποθήκευσης';
+
+  @override
+  String get historyPageLoadFailed => 'Δεν ήταν δυνατή η φόρτωση του ιστορικού';
+
+  @override
+  String get historyPageDaysLogged => 'Καταγεγραμμένες ημέρες';
+
+  @override
+  String get historyPageAverageKcal => 'Μέσες θερμίδες';
+
+  @override
+  String get historyPageKcalGoalMet => 'Στόχος θερμίδων';
+
+  @override
+  String get historyPageStreak => 'Τρέχον σερί';
+
+  @override
+  String historyPageStreakDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ημέρες',
+      one: '1 ημέρα',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyPageAdherence => 'Τήρηση στόχων';
+
+  @override
+  String historyPageDaysMet(int met, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total ημέρες',
+      one: '1 ημέρα',
+    );
+    return '$met από $_temp0';
+  }
+
+  @override
+  String get historyPageDays => 'Αρχειοθετημένες ημέρες';
+
+  @override
+  String get historyGoalEnergy => 'Θερμίδες';
 }

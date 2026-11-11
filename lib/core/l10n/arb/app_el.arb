@@ -134,6 +134,19 @@
   "activityKilometers": "Χιλιόμετρα",
   "ingredientsPageUncategorised": "Χωρίς κατηγορία",
   "ingredientsPageNameRequired": "Εισάγετε όνομα προϊόντος",
-  "historyPageComingSoonTitle": "Η σελίδα δεν είναι ακόμη διαθέσιμη",
-  "historyPageComingSoonSubtitle": "Έρχεται σύντομα!"
+  "historyRangeWeek": "7 ημέρες",
+  "historyRangeMonth": "30 ημέρες",
+  "historyRangeAll": "Όλες",
+  "historyPageEmptyTitle": "Δεν υπάρχουν αρχειοθετημένες ημέρες",
+  "historyPageEmptySubtitle": "Αρχειοθετήστε μια ημέρα από την Επισκόπηση με το κουμπί αποθήκευσης",
+  "historyPageLoadFailed": "Δεν ήταν δυνατή η φόρτωση του ιστορικού",
+  "historyPageDaysLogged": "Καταγεγραμμένες ημέρες",
+  "historyPageAverageKcal": "Μέσες θερμίδες",
+  "historyPageKcalGoalMet": "Στόχος θερμίδων",
+  "historyPageStreak": "Τρέχον σερί",
+  "historyPageStreakDays": "{count, plural, =1{1 ημέρα} other{{count} ημέρες}}",
+  "historyPageAdherence": "Τήρηση στόχων",
+  "historyPageDaysMet": "{met} από {total, plural, =1{1 ημέρα} other{{total} ημέρες}}",
+  "historyPageDays": "Αρχειοθετημένες ημέρες",
+  "historyGoalEnergy": "Θερμίδες"
 }

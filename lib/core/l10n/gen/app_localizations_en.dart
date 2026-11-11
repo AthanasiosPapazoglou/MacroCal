@@ -439,8 +439,64 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ingredientsPageNameRequired => 'Enter a product name';
 
   @override
-  String get historyPageComingSoonTitle => 'Page not available yet';
+  String get historyRangeWeek => '7 days';
 
   @override
-  String get historyPageComingSoonSubtitle => 'Coming Soon!';
+  String get historyRangeMonth => '30 days';
+
+  @override
+  String get historyRangeAll => 'All';
+
+  @override
+  String get historyPageEmptyTitle => 'No archived days';
+
+  @override
+  String get historyPageEmptySubtitle =>
+      'Archive a day from the Overview with the save button';
+
+  @override
+  String get historyPageLoadFailed => 'History could not be loaded';
+
+  @override
+  String get historyPageDaysLogged => 'Days logged';
+
+  @override
+  String get historyPageAverageKcal => 'Average kcal';
+
+  @override
+  String get historyPageKcalGoalMet => 'Calorie goal met';
+
+  @override
+  String get historyPageStreak => 'Current streak';
+
+  @override
+  String historyPageStreakDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyPageAdherence => 'Goal adherence';
+
+  @override
+  String historyPageDaysMet(int met, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total days',
+      one: '1 day',
+    );
+    return '$met of $_temp0';
+  }
+
+  @override
+  String get historyPageDays => 'Archived days';
+
+  @override
+  String get historyGoalEnergy => 'Calories';
 }

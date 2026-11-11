@@ -902,17 +902,95 @@ abstract class AppLocalizations {
   /// **'Enter a product name'**
   String get ingredientsPageNameRequired;
 
-  /// No description provided for @historyPageComingSoonTitle.
+  /// No description provided for @historyRangeWeek.
   ///
   /// In en, this message translates to:
-  /// **'Page not available yet'**
-  String get historyPageComingSoonTitle;
+  /// **'7 days'**
+  String get historyRangeWeek;
 
-  /// No description provided for @historyPageComingSoonSubtitle.
+  /// No description provided for @historyRangeMonth.
   ///
   /// In en, this message translates to:
-  /// **'Coming Soon!'**
-  String get historyPageComingSoonSubtitle;
+  /// **'30 days'**
+  String get historyRangeMonth;
+
+  /// No description provided for @historyRangeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get historyRangeAll;
+
+  /// No description provided for @historyPageEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No archived days'**
+  String get historyPageEmptyTitle;
+
+  /// No description provided for @historyPageEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive a day from the Overview with the save button'**
+  String get historyPageEmptySubtitle;
+
+  /// No description provided for @historyPageLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'History could not be loaded'**
+  String get historyPageLoadFailed;
+
+  /// No description provided for @historyPageDaysLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Days logged'**
+  String get historyPageDaysLogged;
+
+  /// No description provided for @historyPageAverageKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Average kcal'**
+  String get historyPageAverageKcal;
+
+  /// No description provided for @historyPageKcalGoalMet.
+  ///
+  /// In en, this message translates to:
+  /// **'Calorie goal met'**
+  String get historyPageKcalGoalMet;
+
+  /// No description provided for @historyPageStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Current streak'**
+  String get historyPageStreak;
+
+  /// No description provided for @historyPageStreakDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String historyPageStreakDays(int count);
+
+  /// No description provided for @historyPageAdherence.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal adherence'**
+  String get historyPageAdherence;
+
+  /// No description provided for @historyPageDaysMet.
+  ///
+  /// In en, this message translates to:
+  /// **'{met} of {total, plural, =1{1 day} other{{total} days}}'**
+  String historyPageDaysMet(int met, int total);
+
+  /// No description provided for @historyPageDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived days'**
+  String get historyPageDays;
+
+  /// No description provided for @historyGoalEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories'**
+  String get historyGoalEnergy;
 }
 
 class _AppLocalizationsDelegate
