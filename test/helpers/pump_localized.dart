@@ -5,10 +5,12 @@ import 'package:macro_cal_public/app/theme/app_theme.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 
 /// Pumps [home], or [router] when given, inside the app theme in English.
+/// Skips settling when [settle] is false, for endless animations.
 Future<void> pumpLocalized(
   WidgetTester tester, {
   Widget? home,
   GoRouter? router,
+  bool settle = true,
 }) async {
   tester.view
     ..physicalSize = const Size(1179, 2556)
@@ -33,5 +35,5 @@ Future<void> pumpLocalized(
             routerConfig: router,
           ),
   );
-  await tester.pumpAndSettle();
+  if (settle) await tester.pumpAndSettle();
 }

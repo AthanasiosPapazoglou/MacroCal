@@ -141,6 +141,36 @@
   "activityKilometers": "Kilometers",
   "ingredientsPageUncategorised": "Uncategorised",
   "ingredientsPageNameRequired": "Enter a product name",
-  "historyPageComingSoonTitle": "Page not available yet",
-  "historyPageComingSoonSubtitle": "Coming Soon!"
+  "historyRangeWeek": "7 days",
+  "historyRangeMonth": "30 days",
+  "historyRangeAll": "All",
+  "historyPageEmptyTitle": "No archived days",
+  "historyPageEmptySubtitle": "Archive a day from the Overview with the save button",
+  "historyPageLoadFailed": "History could not be loaded",
+  "historyPageDaysLogged": "Days logged",
+  "historyPageAverageKcal": "Average kcal",
+  "historyPageKcalGoalMet": "Calorie goal met",
+  "historyPageStreak": "Current streak",
+  "historyPageStreakDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "@historyPageStreakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "historyPageAdherence": "Goal adherence",
+  "historyPageDaysMet": "{met} of {total, plural, =1{1 day} other{{total} days}}",
+  "@historyPageDaysMet": {
+    "placeholders": {
+      "met": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "historyPageDays": "Archived days",
+  "historyGoalEnergy": "Calories"
 }
