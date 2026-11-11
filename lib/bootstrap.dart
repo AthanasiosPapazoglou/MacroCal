@@ -20,31 +20,39 @@ Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = const AppBlocObserver();
 
-  final database = AppDatabase(null, loadDefaultIngredientSeeds);
+  runApp(
+    await createApp(
+      database: AppDatabase(null, loadDefaultIngredientSeeds),
+      httpClient: http.Client(),
+    ),
+  );
+}
+
+/// Wires the repositories and use cases on [database] into the [App].
+Future<App> createApp({
+  required AppDatabase database,
+  required http.Client httpClient,
+}) async {
   final settingsRepository = DriftSettingsRepository(database);
   final activityRepository = DriftActivityRepository(database);
   final foodLogRepository = DriftFoodLogRepository(database);
   final historyRepository = DriftHistoryRepository(database);
-  final initialLanguage = await settingsRepository.readLanguage();
-
-  runApp(
-    App(
-      settingsRepository: settingsRepository,
-      profileRepository: DriftProfileRepository(database),
-      activityRepository: activityRepository,
-      foodLogRepository: foodLogRepository,
-      ingredientRepository: DriftIngredientRepository(database),
-      productLookupRepository: OpenFoodFactsProductLookupRepository(
-        OpenFoodFactsClient(http.Client()),
-      ),
-      historyRepository: historyRepository,
-      archiveDay: ArchiveDay(
-        historyRepository,
-        foodLogRepository,
-        activityRepository,
-        DriftTransactionRunner(database),
-      ),
-      initialLanguage: initialLanguage,
+  return App(
+    settingsRepository: settingsRepository,
+    profileRepository: DriftProfileRepository(database),
+    activityRepository: activityRepository,
+    foodLogRepository: foodLogRepository,
+    ingredientRepository: DriftIngredientRepository(database),
+    productLookupRepository: OpenFoodFactsProductLookupRepository(
+      OpenFoodFactsClient(httpClient),
     ),
+    historyRepository: historyRepository,
+    archiveDay: ArchiveDay(
+      historyRepository,
+      foodLogRepository,
+      activityRepository,
+      DriftTransactionRunner(database),
+    ),
+    initialLanguage: await settingsRepository.readLanguage(),
   );
 }
