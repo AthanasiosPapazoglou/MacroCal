@@ -172,5 +172,9 @@
     }
   },
   "historyPageDays": "Archived days",
-  "historyGoalEnergy": "Calories"
+  "historyGoalEnergy": "Calories",
+  "historyPageCaloriesChart": "Daily calories",
+  "historyPageMacroSplit": "Average macro split",
+  "historyMacroCarbs": "Carbs",
+  "historyMacroFat": "Fat"
 }

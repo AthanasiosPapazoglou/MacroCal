@@ -10,8 +10,10 @@ import 'package:macro_cal_public/features/history/domain/entities/tracked_goal.d
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_view.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/calories_chart.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/day_log_tile.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/goal_adherence_bar.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/macro_split_chart.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/cubit_stub.dart';
@@ -85,7 +87,14 @@ void main() {
     expect(find.text('90 / 1950'), findsOneWidget);
     expect(find.text('1 of 2 days'), findsNWidgets(2));
     expect(find.text('2 days'), findsOneWidget);
-    expect(find.byType(GoalAdherenceBar), findsNWidgets(6));
+    expect(find.byType(CaloriesChart), findsOneWidget);
+    expect(find.byType(MacroSplitChart), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byType(GoalAdherenceBar).first,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byType(GoalAdherenceBar), findsWidgets);
 
     await tester.scrollUntilVisible(
       find.text('Tue 10/11/2026'),
@@ -95,6 +104,24 @@ void main() {
     expect(find.text('Wed 11/11/2026'), findsOneWidget);
     expect(find.text('Tue 10/11/2026'), findsOneWidget);
     expect(find.text('90 / 1950 kcal.'), findsNWidgets(2));
+  });
+
+  testWidgets('shows the macro split when macros were eaten', (tester) async {
+    await pumpView(
+      tester,
+      ready.copyWith(
+        stats: ready.stats.copyWith(
+          averageConsumed: const Nutrients(kcal: 90, proteinG: 6.4),
+        ),
+      ),
+    );
+
+    await tester.scrollUntilVisible(
+      find.byType(MacroSplitChart),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Average macro split'), findsOneWidget);
   });
 
   testWidgets('selecting a range asks the cubit for it', (tester) async {

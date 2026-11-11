@@ -991,6 +991,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Calories'**
   String get historyGoalEnergy;
+
+  /// No description provided for @historyPageCaloriesChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily calories'**
+  String get historyPageCaloriesChart;
+
+  /// No description provided for @historyPageMacroSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Average macro split'**
+  String get historyPageMacroSplit;
+
+  /// No description provided for @historyMacroCarbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbs'**
+  String get historyMacroCarbs;
+
+  /// No description provided for @historyMacroFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat'**
+  String get historyMacroFat;
 }
 
 class _AppLocalizationsDelegate

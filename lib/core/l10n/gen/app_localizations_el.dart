@@ -504,4 +504,16 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get historyGoalEnergy => 'Θερμίδες';
+
+  @override
+  String get historyPageCaloriesChart => 'Ημερήσιες θερμίδες';
+
+  @override
+  String get historyPageMacroSplit => 'Μέση κατανομή μακροθρεπτικών';
+
+  @override
+  String get historyMacroCarbs => 'Υδατάνθρακες';
+
+  @override
+  String get historyMacroFat => 'Λιπαρά';
 }
