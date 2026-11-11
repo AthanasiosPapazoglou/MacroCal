@@ -8,11 +8,11 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
+import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
-import 'package:macro_cal_public/pages/historical_page.dart';
 
 GoRouter createAppRouter() {
   final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -83,7 +83,7 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.history,
-                builder: (_, _) => const HistoricalPage(),
+                builder: (_, _) => const HistoryPage(),
               ),
             ],
           ),
