@@ -597,4 +597,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyDaysEmptyFilter => 'No days match this filter';
+
+  @override
+  String get historyDaysShowList => 'Show as list';
+
+  @override
+  String get historyDaysShowCalendar => 'Show as calendar';
+
+  @override
+  String historyCalendarGoalMet(int count) {
+    return '$count on goal';
+  }
+
+  @override
+  String historyCalendarAverage(int kcal) {
+    return 'Avg $kcal kcal';
+  }
 }

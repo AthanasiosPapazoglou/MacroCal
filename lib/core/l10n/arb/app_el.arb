@@ -177,5 +177,9 @@
   "historyDaysSortOldest": "Παλαιότερες πρώτα",
   "historyDaysCount": "{count, plural, =1{1 ημέρα} other{{count} ημέρες}}",
   "historyDaysEmptyPeriod": "Δεν υπάρχουν αρχειοθετημένες ημέρες σε αυτή την περίοδο",
-  "historyDaysEmptyFilter": "Καμία ημέρα δεν ταιριάζει με το φίλτρο"
+  "historyDaysEmptyFilter": "Καμία ημέρα δεν ταιριάζει με το φίλτρο",
+  "historyDaysShowList": "Εμφάνιση ως λίστα",
+  "historyDaysShowCalendar": "Εμφάνιση ως ημερολόγιο",
+  "historyCalendarGoalMet": "{count} εντός στόχου",
+  "historyCalendarAverage": "Μ.Ο. {kcal} kcal"
 }

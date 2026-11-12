@@ -215,5 +215,23 @@
         "type": "int"
       }
     }
+  },
+  "historyDaysShowList": "Show as list",
+  "historyDaysShowCalendar": "Show as calendar",
+  "historyCalendarGoalMet": "{count} on goal",
+  "historyCalendarAverage": "Avg {kcal} kcal",
+  "@historyCalendarGoalMet": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@historyCalendarAverage": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
   }
 }

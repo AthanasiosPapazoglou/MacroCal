@@ -1165,6 +1165,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No days match this filter'**
   String get historyDaysEmptyFilter;
+
+  /// No description provided for @historyDaysShowList.
+  ///
+  /// In en, this message translates to:
+  /// **'Show as list'**
+  String get historyDaysShowList;
+
+  /// No description provided for @historyDaysShowCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Show as calendar'**
+  String get historyDaysShowCalendar;
+
+  /// No description provided for @historyCalendarGoalMet.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on goal'**
+  String historyCalendarGoalMet(int count);
+
+  /// No description provided for @historyCalendarAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg {kcal} kcal'**
+  String historyCalendarAverage(int kcal);
 }
 
 class _AppLocalizationsDelegate

@@ -603,4 +603,20 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get historyDaysEmptyFilter => 'Καμία ημέρα δεν ταιριάζει με το φίλτρο';
+
+  @override
+  String get historyDaysShowList => 'Εμφάνιση ως λίστα';
+
+  @override
+  String get historyDaysShowCalendar => 'Εμφάνιση ως ημερολόγιο';
+
+  @override
+  String historyCalendarGoalMet(int count) {
+    return '$count εντός στόχου';
+  }
+
+  @override
+  String historyCalendarAverage(int kcal) {
+    return 'Μ.Ο. $kcal kcal';
+  }
 }

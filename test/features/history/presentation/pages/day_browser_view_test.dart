@@ -10,6 +10,7 @@ import 'package:macro_cal_public/features/history/domain/entities/tracked_goal.d
 import 'package:macro_cal_public/features/history/presentation/cubit/day_browser_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_browser_state.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_browser_view.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/calendar_month.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/day_log_tile.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -37,6 +38,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(november);
     registerFallbackValue(DaySort.newestFirst);
+    registerFallbackValue(DayBrowserLayout.list);
   });
 
   setUp(() => cubit = _MockDayBrowserCubit());
@@ -174,5 +176,47 @@ void main() {
 
     verify(() => cubit.selectPeriod(DatePeriod.yearOf(DateTime(2026))))
         .called(1);
+  });
+
+  testWidgets('the view button switches to the calendar', (tester) async {
+    await pumpView(tester, ready);
+
+    await tester.tap(find.byTooltip('Show as calendar'));
+
+    verify(() => cubit.selectView(DayBrowserLayout.calendar)).called(1);
+  });
+
+  testWidgets('the calendar shows each month of the period', (tester) async {
+    await pumpView(
+      tester,
+      ready.copyWith(
+        view: DayBrowserLayout.calendar,
+        period: DatePeriod.between(
+          DateTime(2026, 10, 20),
+          DateTime(2026, 11, 8),
+        ),
+      ),
+    );
+
+    expect(find.byType(CalendarMonth), findsNWidgets(2));
+    expect(find.byTooltip('Show as list'), findsOneWidget);
+    expect(find.byTooltip('Newest first'), findsNothing);
+    expect(find.byType(DayLogTile), findsNothing);
+  });
+
+  testWidgets('the calendar stays visible when nothing matches', (
+    tester,
+  ) async {
+    await pumpView(
+      tester,
+      DayBrowserState(
+        period: november,
+        status: DayBrowserStatus.ready,
+        view: DayBrowserLayout.calendar,
+      ),
+    );
+
+    expect(find.byType(CalendarMonth), findsOneWidget);
+    expect(find.text('No archived days in this period'), findsNothing);
   });
 }
