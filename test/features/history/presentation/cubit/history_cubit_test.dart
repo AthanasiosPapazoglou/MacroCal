@@ -1,53 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
-import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
 
+import '../../../../helpers/fake_history_repository.dart';
 import '../../../../helpers/sample_summary.dart';
 
-class _FakeHistoryRepository extends Fake implements HistoryRepository {
-  final _changes = StreamController<void>.broadcast();
-  final periods = <DateTime?>[];
-  List<DayLog> days = const [];
-  Object? error;
-
-  void update(List<DayLog> next) {
-    days = next;
-    _changes.add(null);
-  }
-
-  void fail(Object next) {
-    error = next;
-    _changes.add(null);
-  }
-
-  @override
-  Stream<List<DayLog>> watchDayLogs({DateTime? from, DateTime? to}) {
-    periods.add(from);
-    return Stream.multi((controller) {
-      void push() {
-        if (error case final error?) return controller.addError(error);
-        controller.add([
-          for (final log in days)
-            if (from == null || !log.date.isBefore(from)) log,
-        ]);
-      }
-
-      push();
-      final subscription = _changes.stream.listen((_) => push());
-      controller.onCancel = subscription.cancel;
-    });
-  }
-
-  Future<void> dispose() => _changes.close();
-}
-
 void main() {
-  late _FakeHistoryRepository repository;
+  late FakeHistoryRepository repository;
   late HistoryCubit cubit;
 
   DayLog log(int month, int day) =>
@@ -58,7 +19,7 @@ void main() {
   final today = log(11, 11);
 
   setUp(() {
-    repository = _FakeHistoryRepository()
+    repository = FakeHistoryRepository()
       ..days = [log(1, 5), older, yesterday, today];
     cubit = HistoryCubit(repository, now: () => DateTime(2026, 11, 11, 20));
   });
@@ -79,7 +40,10 @@ void main() {
     cubit.watch();
     final state = await ready();
 
-    expect(repository.periods, [DateTime(2025, 10, 8), DateTime(2026, 11, 5)]);
+    expect(repository.periods, [
+      (DateTime(2025, 10, 8), null),
+      (DateTime(2026, 11, 5), null),
+    ]);
     expect(state.logs, [today, yesterday]);
     expect(state.stats.daysLogged, 2);
     expect(state.stats.currentStreak, 2);
@@ -93,7 +57,7 @@ void main() {
     expect(cubit.state.range, HistoryRange.month);
     final state = await ready();
 
-    expect(repository.periods.last, DateTime(2026, 10, 13));
+    expect(repository.periods.last, (DateTime(2026, 10, 13), null));
     expect(state.logs, [today, yesterday, older]);
     expect(state.stats.daysLogged, 3);
   });
@@ -106,7 +70,7 @@ void main() {
       (state) => state.logs.length == 4,
     );
 
-    expect(repository.periods.last, isNull);
+    expect(repository.periods.last, (null, null));
     expect(state.stats.daysLogged, 4);
   });
 

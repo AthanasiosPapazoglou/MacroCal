@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
+import 'package:macro_cal_public/features/history/domain/entities/day_filter.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_stats.dart';
@@ -140,6 +141,34 @@ void main() {
 
     expect(stats.daysLogged, 1);
     expect(stats.currentStreak, 3);
+  });
+
+  test('outcome tells met, under and over apart', () {
+    DailySummary summary(double kcal, double saltMg) =>
+        _log(today, kcal: kcal).summary.copyWith(
+          consumed: Nutrients(kcal: kcal, saltMg: saltMg),
+        );
+
+    expect(
+      calculator.outcome(TrackedGoal.energy, summary(2000, 0)),
+      DayOutcome.met,
+    );
+    expect(
+      calculator.outcome(TrackedGoal.energy, summary(1000, 0)),
+      DayOutcome.under,
+    );
+    expect(
+      calculator.outcome(TrackedGoal.energy, summary(3000, 0)),
+      DayOutcome.over,
+    );
+    expect(
+      calculator.outcome(TrackedGoal.salt, summary(2000, 9000)),
+      DayOutcome.over,
+    );
+    expect(
+      calculator.outcome(TrackedGoal.salt, summary(2000, 100)),
+      DayOutcome.met,
+    );
   });
 
   group('TrackedGoal', () {

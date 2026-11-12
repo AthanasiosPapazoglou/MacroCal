@@ -1,5 +1,6 @@
 import 'package:macro_cal_public/core/domain/date_only.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
+import 'package:macro_cal_public/features/history/domain/entities/day_filter.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_stats.dart';
@@ -32,6 +33,13 @@ class HistoryStatsCalculator {
         kind: goal.kind,
       ) ==
       IntakeStatus.good;
+
+  DayOutcome outcome(TrackedGoal goal, DailySummary summary) {
+    if (isMet(goal, summary)) return DayOutcome.met;
+    return goal.consumedIn(summary) > goal.targetIn(summary)
+        ? DayOutcome.over
+        : DayOutcome.under;
+  }
 
   /// Logged days in a row ending today, or yesterday while today is open.
   int currentStreak(Iterable<DayLog> logs, {required DateTime today}) {
