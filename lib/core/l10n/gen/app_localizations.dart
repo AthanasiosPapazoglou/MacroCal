@@ -1045,6 +1045,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Its archived intake will be removed from the history. This cannot be undone.'**
   String get historyDayDeleteBody;
+
+  /// No description provided for @historyDaysSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all days'**
+  String get historyDaysSeeAll;
+
+  /// No description provided for @historyDaysPeriodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show days for'**
+  String get historyDaysPeriodTitle;
+
+  /// No description provided for @historyDaysPeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'A month'**
+  String get historyDaysPeriodMonth;
+
+  /// No description provided for @historyDaysPeriodYear.
+  ///
+  /// In en, this message translates to:
+  /// **'A year'**
+  String get historyDaysPeriodYear;
+
+  /// No description provided for @historyDaysPeriodRange.
+  ///
+  /// In en, this message translates to:
+  /// **'A custom range'**
+  String get historyDaysPeriodRange;
+
+  /// No description provided for @historyDaysPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous period'**
+  String get historyDaysPrevious;
+
+  /// No description provided for @historyDaysNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next period'**
+  String get historyDaysNext;
+
+  /// No description provided for @historyDaysFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get historyDaysFilter;
+
+  /// No description provided for @historyDaysFilterGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get historyDaysFilterGoal;
+
+  /// No description provided for @historyDaysFilterOutcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get historyDaysFilterOutcome;
+
+  /// No description provided for @historyDaysFilterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get historyDaysFilterApply;
+
+  /// No description provided for @historyDaysFilterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get historyDaysFilterClear;
+
+  /// No description provided for @historyOutcomeMet.
+  ///
+  /// In en, this message translates to:
+  /// **'Met'**
+  String get historyOutcomeMet;
+
+  /// No description provided for @historyOutcomeUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'Below'**
+  String get historyOutcomeUnder;
+
+  /// No description provided for @historyOutcomeOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Above'**
+  String get historyOutcomeOver;
+
+  /// No description provided for @historyDaysSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get historyDaysSortNewest;
+
+  /// No description provided for @historyDaysSortOldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get historyDaysSortOldest;
+
+  /// No description provided for @historyDaysCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String historyDaysCount(int count);
+
+  /// No description provided for @historyDaysEmptyPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No archived days in this period'**
+  String get historyDaysEmptyPeriod;
+
+  /// No description provided for @historyDaysEmptyFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No days match this filter'**
+  String get historyDaysEmptyFilter;
 }
 
 class _AppLocalizationsDelegate

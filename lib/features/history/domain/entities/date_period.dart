@@ -1,29 +1,29 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:macro_cal_public/core/domain/date_only.dart';
 
-part 'day_period.freezed.dart';
+part 'date_period.freezed.dart';
 
-enum DayPeriodKind { month, year, range }
+enum DatePeriodKind { month, year, range }
 
 /// Whole days from [from] to [to], both included.
 @freezed
-abstract class DayPeriod with _$DayPeriod {
+abstract class DatePeriod with _$DatePeriod {
   const factory({
-    required DayPeriodKind kind,
+    required DatePeriodKind kind,
     required DateTime from,
     required DateTime to,
-  }) = _DayPeriod;
+  }) = _DatePeriod;
 
   const new _();
 
-  factory monthOf(DateTime date) => DayPeriod(
-    kind: DayPeriodKind.month,
+  factory monthOf(DateTime date) => DatePeriod(
+    kind: DatePeriodKind.month,
     from: DateTime(date.year, date.month),
     to: DateTime(date.year, date.month + 1, 0),
   );
 
-  factory yearOf(DateTime date) => DayPeriod(
-    kind: DayPeriodKind.year,
+  factory yearOf(DateTime date) => DatePeriod(
+    kind: DatePeriodKind.year,
     from: DateTime(date.year),
     to: DateTime(date.year, 12, 31),
   );
@@ -31,8 +31,8 @@ abstract class DayPeriod with _$DayPeriod {
   factory between(DateTime first, DateTime last) {
     final a = first.dateOnly;
     final b = last.dateOnly;
-    return DayPeriod(
-      kind: DayPeriodKind.range,
+    return DatePeriod(
+      kind: DatePeriodKind.range,
       from: a.isAfter(b) ? b : a,
       to: a.isAfter(b) ? a : b,
     );
@@ -52,12 +52,12 @@ abstract class DayPeriod with _$DayPeriod {
   }
 
   /// The same kind of period [steps] later, or earlier when negative.
-  DayPeriod shifted(int steps) => switch (kind) {
-    DayPeriodKind.month => DayPeriod.monthOf(
+  DatePeriod shifted(int steps) => switch (kind) {
+    DatePeriodKind.month => DatePeriod.monthOf(
       DateTime(from.year, from.month + steps),
     ),
-    DayPeriodKind.year => DayPeriod.yearOf(DateTime(from.year + steps)),
-    DayPeriodKind.range => DayPeriod.between(
+    DatePeriodKind.year => DatePeriod.yearOf(DateTime(from.year + steps)),
+    DatePeriodKind.range => DatePeriod.between(
       DateTime(from.year, from.month, from.day + steps * dayCount),
       DateTime(to.year, to.month, to.day + steps * dayCount),
     ),

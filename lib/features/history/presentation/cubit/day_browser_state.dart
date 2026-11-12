@@ -1,24 +1,24 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:macro_cal_public/features/history/domain/entities/date_period.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_filter.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
-import 'package:macro_cal_public/features/history/domain/entities/day_period.dart';
 import 'package:macro_cal_public/features/history/domain/services/history_stats_calculator.dart';
 
 part 'day_browser_state.freezed.dart';
 
 enum DayBrowserStatus { loading, ready, failure }
 
-enum DayBrowserView { list, calendar }
+enum DayBrowserLayout { list, calendar }
 
 @freezed
 abstract class DayBrowserState with _$DayBrowserState {
   const factory({
-    required DayPeriod period,
+    required DatePeriod period,
     @Default(DayBrowserStatus.loading) DayBrowserStatus status,
     @Default(<DayLog>[]) List<DayLog> periodDays,
     DayFilter? filter,
     @Default(DaySort.newestFirst) DaySort sort,
-    @Default(DayBrowserView.list) DayBrowserView view,
+    @Default(DayBrowserLayout.list) DayBrowserLayout view,
   }) = _DayBrowserState;
 
   const new _();

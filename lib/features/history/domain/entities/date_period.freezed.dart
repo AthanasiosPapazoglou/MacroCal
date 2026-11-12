@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'day_period.dart';
+part of 'date_period.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,45 +13,45 @@ part of 'day_period.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$DayPeriod {
+mixin _$DatePeriod {
 
- DayPeriodKind get kind; DateTime get from; DateTime get to;
-/// Create a copy of DayPeriod
+ DatePeriodKind get kind; DateTime get from; DateTime get to;
+/// Create a copy of DatePeriod
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DayPeriodCopyWith<DayPeriod> get copyWith => _$DayPeriodCopyWithImpl<DayPeriod>(this as DayPeriod, _$identity);
+$DatePeriodCopyWith<DatePeriod> get copyWith => _$DatePeriodCopyWithImpl<DatePeriod>(this as DatePeriod, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  final _this = this as DayPeriod;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayPeriod&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.from, _this.from) || other.from == _this.from)&&(identical(other.to, _this.to) || other.to == _this.to));
+  final _this = this as DatePeriod;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DatePeriod&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.from, _this.from) || other.from == _this.from)&&(identical(other.to, _this.to) || other.to == _this.to));
 }
 
 
 @override
 int get hashCode {
-  final _this = this as DayPeriod;
+  final _this = this as DatePeriod;
   return Object.hash(runtimeType,_this.kind,_this.from,_this.to);
 }
 
 @override
 String toString() {
-  final _this = this as DayPeriod;
-  return 'DayPeriod(kind: ${_this.kind}, from: ${_this.from}, to: ${_this.to})';
+  final _this = this as DatePeriod;
+  return 'DatePeriod(kind: ${_this.kind}, from: ${_this.from}, to: ${_this.to})';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DayPeriodCopyWith<$Res>  {
-  factory $DayPeriodCopyWith(DayPeriod value, $Res Function(DayPeriod) _then) = _$DayPeriodCopyWithImpl;
+abstract mixin class $DatePeriodCopyWith<$Res>  {
+  factory $DatePeriodCopyWith(DatePeriod value, $Res Function(DatePeriod) _then) = _$DatePeriodCopyWithImpl;
 @useResult
 $Res call({
- DayPeriodKind kind, DateTime from, DateTime to
+ DatePeriodKind kind, DateTime from, DateTime to
 });
 
 
@@ -59,19 +59,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$DayPeriodCopyWithImpl<$Res>
-    implements $DayPeriodCopyWith<$Res> {
-  _$DayPeriodCopyWithImpl(this._self, this._then);
+class _$DatePeriodCopyWithImpl<$Res>
+    implements $DatePeriodCopyWith<$Res> {
+  _$DatePeriodCopyWithImpl(this._self, this._then);
 
-  final DayPeriod _self;
-  final $Res Function(DayPeriod) _then;
+  final DatePeriod _self;
+  final $Res Function(DatePeriod) _then;
 
-/// Create a copy of DayPeriod
+/// Create a copy of DatePeriod
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? kind = null,Object? from = null,Object? to = null,}) {
-  return _then(DayPeriod(
+  return _then(DatePeriod(
 kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as DayPeriodKind,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as DatePeriodKind,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
 as DateTime,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -80,8 +80,8 @@ as DateTime,
 }
 
 
-/// Adds pattern-matching-related methods to [DayPeriod].
-extension DayPeriodPatterns on DayPeriod {
+/// Adds pattern-matching-related methods to [DatePeriod].
+extension DatePeriodPatterns on DatePeriod {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -94,10 +94,10 @@ extension DayPeriodPatterns on DayPeriod {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DayPeriod value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DatePeriod value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _DayPeriod() when $default != null:
+case _DatePeriod() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -116,10 +116,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DayPeriod value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DatePeriod value)  $default,){
 final _that = this;
 switch (_that) {
-case _DayPeriod():
+case _DatePeriod():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -137,10 +137,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DayPeriod value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DatePeriod value)?  $default,){
 final _that = this;
 switch (_that) {
-case _DayPeriod() when $default != null:
+case _DatePeriod() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -158,9 +158,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DayPeriodKind kind,  DateTime from,  DateTime to)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DatePeriodKind kind,  DateTime from,  DateTime to)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _DayPeriod() when $default != null:
+case _DatePeriod() when $default != null:
 return $default(_that.kind,_that.from,_that.to);case _:
   return orElse();
 
@@ -179,9 +179,9 @@ return $default(_that.kind,_that.from,_that.to);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DayPeriodKind kind,  DateTime from,  DateTime to)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DatePeriodKind kind,  DateTime from,  DateTime to)  $default,) {final _that = this;
 switch (_that) {
-case _DayPeriod():
+case _DatePeriod():
 return $default(_that.kind,_that.from,_that.to);case _:
   throw StateError('Unexpected subclass');
 
@@ -199,9 +199,9 @@ return $default(_that.kind,_that.from,_that.to);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DayPeriodKind kind,  DateTime from,  DateTime to)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DatePeriodKind kind,  DateTime from,  DateTime to)?  $default,) {final _that = this;
 switch (_that) {
-case _DayPeriod() when $default != null:
+case _DatePeriod() when $default != null:
 return $default(_that.kind,_that.from,_that.to);case _:
   return null;
 
@@ -213,25 +213,25 @@ return $default(_that.kind,_that.from,_that.to);case _:
 /// @nodoc
 
 
-class _DayPeriod extends DayPeriod {
-  const _DayPeriod({required this.kind, required this.from, required this.to}): super._();
+class _DatePeriod extends DatePeriod {
+  const _DatePeriod({required this.kind, required this.from, required this.to}): super._();
   
 
-@override final  DayPeriodKind kind;
+@override final  DatePeriodKind kind;
 @override final  DateTime from;
 @override final  DateTime to;
 
-/// Create a copy of DayPeriod
+/// Create a copy of DatePeriod
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$DayPeriodCopyWith<_DayPeriod> get copyWith => __$DayPeriodCopyWithImpl<_DayPeriod>(this, _$identity);
+_$DatePeriodCopyWith<_DatePeriod> get copyWith => __$DatePeriodCopyWithImpl<_DatePeriod>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayPeriod&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DatePeriod&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to));
 }
 
 
@@ -242,18 +242,18 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'DayPeriod(kind: $kind, from: $from, to: $to)';
+    return 'DatePeriod(kind: $kind, from: $from, to: $to)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DayPeriodCopyWith<$Res> implements $DayPeriodCopyWith<$Res> {
-  factory _$DayPeriodCopyWith(_DayPeriod value, $Res Function(_DayPeriod) _then) = __$DayPeriodCopyWithImpl;
+abstract mixin class _$DatePeriodCopyWith<$Res> implements $DatePeriodCopyWith<$Res> {
+  factory _$DatePeriodCopyWith(_DatePeriod value, $Res Function(_DatePeriod) _then) = __$DatePeriodCopyWithImpl;
 @override @useResult
 $Res call({
- DayPeriodKind kind, DateTime from, DateTime to
+ DatePeriodKind kind, DateTime from, DateTime to
 });
 
 
@@ -261,19 +261,19 @@ $Res call({
 
 }
 /// @nodoc
-class __$DayPeriodCopyWithImpl<$Res>
-    implements _$DayPeriodCopyWith<$Res> {
-  __$DayPeriodCopyWithImpl(this._self, this._then);
+class __$DatePeriodCopyWithImpl<$Res>
+    implements _$DatePeriodCopyWith<$Res> {
+  __$DatePeriodCopyWithImpl(this._self, this._then);
 
-  final _DayPeriod _self;
-  final $Res Function(_DayPeriod) _then;
+  final _DatePeriod _self;
+  final $Res Function(_DatePeriod) _then;
 
-/// Create a copy of DayPeriod
+/// Create a copy of DatePeriod
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? kind = null,Object? from = null,Object? to = null,}) {
-  return _then(_DayPeriod(
+  return _then(_DatePeriod(
 kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as DayPeriodKind,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as DatePeriodKind,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
 as DateTime,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

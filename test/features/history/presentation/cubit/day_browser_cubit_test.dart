@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
+import 'package:macro_cal_public/features/history/domain/entities/date_period.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_filter.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
-import 'package:macro_cal_public/features/history/domain/entities/day_period.dart';
 import 'package:macro_cal_public/features/history/domain/entities/tracked_goal.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_browser_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_browser_state.dart';
@@ -47,9 +47,9 @@ void main() {
 
   test('starts loading on the current month as a newest-first list', () {
     expect(cubit.state.status, DayBrowserStatus.loading);
-    expect(cubit.state.period, DayPeriod.monthOf(DateTime(2026, 11)));
+    expect(cubit.state.period, DatePeriod.monthOf(DateTime(2026, 11)));
     expect(cubit.state.sort, DaySort.newestFirst);
-    expect(cubit.state.view, DayBrowserView.list);
+    expect(cubit.state.view, DayBrowserLayout.list);
     expect(cubit.state.filter, isNull);
   });
 
@@ -78,14 +78,14 @@ void main() {
       ..showNext()
       ..showNext();
     expect((await ready()).days, [december]);
-    expect(cubit.state.period, DayPeriod.monthOf(DateTime(2026, 12)));
+    expect(cubit.state.period, DatePeriod.monthOf(DateTime(2026, 12)));
   });
 
   test('selectPeriod with a custom range spans months', () async {
     cubit
       ..watch()
       ..selectPeriod(
-        DayPeriod.between(DateTime(2026, 10, 25), DateTime(2026, 11, 3)),
+        DatePeriod.between(DateTime(2026, 10, 25), DateTime(2026, 11, 3)),
       );
 
     final state = await cubit.stream.firstWhere(
@@ -99,15 +99,15 @@ void main() {
     cubit.watch();
     await ready();
 
-    cubit.selectPeriod(DayPeriod.monthOf(DateTime(2026, 11, 20)));
+    cubit.selectPeriod(DatePeriod.monthOf(DateTime(2026, 11, 20)));
 
     expect(repository.periods, hasLength(1));
   });
 
   test('selectPeriod before watch does not query', () {
-    cubit.selectPeriod(DayPeriod.yearOf(DateTime(2026)));
+    cubit.selectPeriod(DatePeriod.yearOf(DateTime(2026)));
 
-    expect(cubit.state.period.kind, DayPeriodKind.year);
+    expect(cubit.state.period.kind, DatePeriodKind.year);
     expect(repository.periods, isEmpty);
   });
 
@@ -137,17 +137,17 @@ void main() {
 
     cubit
       ..selectSort(DaySort.oldestFirst)
-      ..selectView(DayBrowserView.calendar);
+      ..selectView(DayBrowserLayout.calendar);
 
     expect(cubit.state.days, [novemberMet, novemberUnder, novemberOver]);
-    expect(cubit.state.view, DayBrowserView.calendar);
+    expect(cubit.state.view, DayBrowserLayout.calendar);
     expect(repository.periods, hasLength(1));
   });
 
   test('monthGroups follows the sort order', () async {
     cubit
       ..watch()
-      ..selectPeriod(DayPeriod.yearOf(DateTime(2026)));
+      ..selectPeriod(DatePeriod.yearOf(DateTime(2026)));
     await cubit.stream.firstWhere((state) => state.periodDays.length == 5);
 
     expect(

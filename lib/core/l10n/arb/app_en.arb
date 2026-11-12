@@ -188,5 +188,32 @@
   },
   "historyDayDelete": "Delete day",
   "historyDayDeleteTitle": "Delete this day?",
-  "historyDayDeleteBody": "Its archived intake will be removed from the history. This cannot be undone."
+  "historyDayDeleteBody": "Its archived intake will be removed from the history. This cannot be undone.",
+  "historyDaysSeeAll": "See all days",
+  "historyDaysPeriodTitle": "Show days for",
+  "historyDaysPeriodMonth": "A month",
+  "historyDaysPeriodYear": "A year",
+  "historyDaysPeriodRange": "A custom range",
+  "historyDaysPrevious": "Previous period",
+  "historyDaysNext": "Next period",
+  "historyDaysFilter": "Filter",
+  "historyDaysFilterGoal": "Goal",
+  "historyDaysFilterOutcome": "Result",
+  "historyDaysFilterApply": "Apply",
+  "historyDaysFilterClear": "Clear",
+  "historyOutcomeMet": "Met",
+  "historyOutcomeUnder": "Below",
+  "historyOutcomeOver": "Above",
+  "historyDaysSortNewest": "Newest first",
+  "historyDaysSortOldest": "Oldest first",
+  "historyDaysCount": "{count, plural, =1{1 day} other{{count} days}}",
+  "historyDaysEmptyPeriod": "No archived days in this period",
+  "historyDaysEmptyFilter": "No days match this filter",
+  "@historyDaysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

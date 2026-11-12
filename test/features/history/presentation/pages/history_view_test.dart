@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/core/widgets/loader.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
@@ -130,5 +131,48 @@ void main() {
     await tester.tap(find.text('30 days'));
 
     verify(() => cubit.selectRange(HistoryRange.month)).called(1);
+  });
+
+  testWidgets('lists only the latest days and links to all of them', (
+    tester,
+  ) async {
+    CubitStub(
+      cubit,
+      ready.copyWith(
+        logs: [
+          for (var day = 11; day >= 4; day--)
+            DayLog(date: DateTime(2026, 11, day), summary: sampleSummary),
+        ],
+      ),
+    );
+    await pumpLocalized(
+      tester,
+      router: GoRouter(
+        initialLocation: '/history',
+        routes: [
+          GoRoute(
+            path: '/history',
+            builder: (_, _) =>
+                BlocProvider.value(value: cubit, child: const HistoryView()),
+            routes: [
+              GoRoute(path: 'days', builder: (_, _) => const Text('browser')),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    final seeAll = find.text('See all days');
+    await tester.scrollUntilVisible(
+      seeAll,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byType(DayLogTile), findsNWidgets(HistoryView.latestDays));
+    expect(find.text('Fri 06/11/2026'), findsNothing);
+
+    await tester.tap(seeAll);
+    await tester.pumpAndSettle();
+    expect(find.text('browser'), findsOneWidget);
   });
 }

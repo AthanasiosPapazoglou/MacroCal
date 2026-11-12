@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/assets/app_assets.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
@@ -19,6 +21,8 @@ import 'package:macro_cal_public/features/today/presentation/widgets/section_hea
 
 class HistoryView extends StatelessWidget {
   const new({super.key});
+
+  static const latestDays = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +66,16 @@ class HistoryView extends StatelessWidget {
                 for (final goal in TrackedGoal.values)
                   GoalAdherenceBar(goal: goal, stats: state.stats),
                 SectionHeader(l10n.historyPageDays),
-                for (final log in state.logs) DayLogTile(log: log),
+                for (final log in state.logs.take(latestDays))
+                  DayLogTile(log: log),
               ],
+              Center(
+                child: TextButton.icon(
+                  onPressed: () => context.push(AppRoutes.historyDays),
+                  icon: const Icon(Icons.calendar_month_rounded),
+                  label: Text(l10n.historyDaysSeeAll),
+                ),
+              ),
             ],
           ),
         },

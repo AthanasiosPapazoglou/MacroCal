@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:macro_cal_public/features/history/domain/entities/date_period.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_filter.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
-import 'package:macro_cal_public/features/history/domain/entities/day_period.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_browser_state.dart';
 
 class DayBrowserCubit extends Cubit<DayBrowserState> {
   new(this._repository, {DateTime Function() now = DateTime.now})
-    : super(DayBrowserState(period: DayPeriod.monthOf(now())));
+    : super(DayBrowserState(period: DatePeriod.monthOf(now())));
 
   final HistoryRepository _repository;
   StreamSubscription<List<DayLog>>? _subscription;
@@ -21,7 +21,7 @@ class DayBrowserCubit extends Cubit<DayBrowserState> {
     _watchPeriod();
   }
 
-  void selectPeriod(DayPeriod period) {
+  void selectPeriod(DatePeriod period) {
     if (period == state.period) return;
     emit(
       state.copyWith(
@@ -41,7 +41,7 @@ class DayBrowserCubit extends Cubit<DayBrowserState> {
 
   void selectSort(DaySort sort) => emit(state.copyWith(sort: sort));
 
-  void selectView(DayBrowserView view) => emit(state.copyWith(view: view));
+  void selectView(DayBrowserLayout view) => emit(state.copyWith(view: view));
 
   void _watchPeriod() {
     unawaited(_subscription?.cancel());

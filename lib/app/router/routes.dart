@@ -8,6 +8,7 @@ abstract final class AppRoutes {
   static const foods = '/foods';
   static const newIngredient = '/foods/new';
   static const history = '/history';
+  static const historyDays = '/history/days';
   static const profile = '/profile';
   static const scan = '/scan';
 

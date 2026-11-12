@@ -534,4 +534,73 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get historyDayDeleteBody =>
       'Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται.';
+
+  @override
+  String get historyDaysSeeAll => 'Όλες οι ημέρες';
+
+  @override
+  String get historyDaysPeriodTitle => 'Εμφάνιση ημερών για';
+
+  @override
+  String get historyDaysPeriodMonth => 'Έναν μήνα';
+
+  @override
+  String get historyDaysPeriodYear => 'Ένα έτος';
+
+  @override
+  String get historyDaysPeriodRange => 'Προσαρμοσμένο διάστημα';
+
+  @override
+  String get historyDaysPrevious => 'Προηγούμενη περίοδος';
+
+  @override
+  String get historyDaysNext => 'Επόμενη περίοδος';
+
+  @override
+  String get historyDaysFilter => 'Φίλτρο';
+
+  @override
+  String get historyDaysFilterGoal => 'Στόχος';
+
+  @override
+  String get historyDaysFilterOutcome => 'Αποτέλεσμα';
+
+  @override
+  String get historyDaysFilterApply => 'Εφαρμογή';
+
+  @override
+  String get historyDaysFilterClear => 'Καθαρισμός';
+
+  @override
+  String get historyOutcomeMet => 'Επιτεύχθηκε';
+
+  @override
+  String get historyOutcomeUnder => 'Κάτω';
+
+  @override
+  String get historyOutcomeOver => 'Πάνω';
+
+  @override
+  String get historyDaysSortNewest => 'Νεότερες πρώτα';
+
+  @override
+  String get historyDaysSortOldest => 'Παλαιότερες πρώτα';
+
+  @override
+  String historyDaysCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ημέρες',
+      one: '1 ημέρα',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyDaysEmptyPeriod =>
+      'Δεν υπάρχουν αρχειοθετημένες ημέρες σε αυτή την περίοδο';
+
+  @override
+  String get historyDaysEmptyFilter => 'Καμία ημέρα δεν ταιριάζει με το φίλτρο';
 }

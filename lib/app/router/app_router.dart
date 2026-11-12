@@ -9,6 +9,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
+import 'package:macro_cal_public/features/history/presentation/pages/day_browser_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
@@ -87,6 +88,7 @@ GoRouter createAppRouter() {
                 path: AppRoutes.history,
                 builder: (_, _) => const HistoryPage(),
                 routes: [
+                  fullScreen('days', (_) => const DayBrowserPage()),
                   fullScreen(
                     ':date',
                     (state) => DayDetailPage(date: _date(state)!),

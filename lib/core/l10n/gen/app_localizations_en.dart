@@ -529,4 +529,72 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get historyDayDeleteBody =>
       'Its archived intake will be removed from the history. This cannot be undone.';
+
+  @override
+  String get historyDaysSeeAll => 'See all days';
+
+  @override
+  String get historyDaysPeriodTitle => 'Show days for';
+
+  @override
+  String get historyDaysPeriodMonth => 'A month';
+
+  @override
+  String get historyDaysPeriodYear => 'A year';
+
+  @override
+  String get historyDaysPeriodRange => 'A custom range';
+
+  @override
+  String get historyDaysPrevious => 'Previous period';
+
+  @override
+  String get historyDaysNext => 'Next period';
+
+  @override
+  String get historyDaysFilter => 'Filter';
+
+  @override
+  String get historyDaysFilterGoal => 'Goal';
+
+  @override
+  String get historyDaysFilterOutcome => 'Result';
+
+  @override
+  String get historyDaysFilterApply => 'Apply';
+
+  @override
+  String get historyDaysFilterClear => 'Clear';
+
+  @override
+  String get historyOutcomeMet => 'Met';
+
+  @override
+  String get historyOutcomeUnder => 'Below';
+
+  @override
+  String get historyOutcomeOver => 'Above';
+
+  @override
+  String get historyDaysSortNewest => 'Newest first';
+
+  @override
+  String get historyDaysSortOldest => 'Oldest first';
+
+  @override
+  String historyDaysCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyDaysEmptyPeriod => 'No archived days in this period';
+
+  @override
+  String get historyDaysEmptyFilter => 'No days match this filter';
 }

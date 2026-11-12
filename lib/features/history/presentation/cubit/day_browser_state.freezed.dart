@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DayBrowserState {
 
- DayPeriod get period; DayBrowserStatus get status; List<DayLog> get periodDays; DayFilter? get filter; DaySort get sort; DayBrowserView get view;
+ DatePeriod get period; DayBrowserStatus get status; List<DayLog> get periodDays; DayFilter? get filter; DaySort get sort; DayBrowserLayout get view;
 /// Create a copy of DayBrowserState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -51,11 +51,11 @@ abstract mixin class $DayBrowserStateCopyWith<$Res>  {
   factory $DayBrowserStateCopyWith(DayBrowserState value, $Res Function(DayBrowserState) _then) = _$DayBrowserStateCopyWithImpl;
 @useResult
 $Res call({
- DayPeriod period, DayBrowserStatus status, List<DayLog> periodDays, DayFilter? filter, DaySort sort, DayBrowserView view
+ DatePeriod period, DayBrowserStatus status, List<DayLog> periodDays, DayFilter? filter, DaySort sort, DayBrowserLayout view
 });
 
 
-$DayPeriodCopyWith<$Res> get period;$DayFilterCopyWith<$Res>? get filter;
+$DatePeriodCopyWith<$Res> get period;$DayFilterCopyWith<$Res>? get filter;
 
 }
 /// @nodoc
@@ -71,21 +71,21 @@ class _$DayBrowserStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? period = null,Object? status = null,Object? periodDays = null,Object? filter = freezed,Object? sort = null,Object? view = null,}) {
   return _then(DayBrowserState(
 period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
-as DayPeriod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as DatePeriod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DayBrowserStatus,periodDays: null == periodDays ? _self.periodDays : periodDays // ignore: cast_nullable_to_non_nullable
 as List<DayLog>,filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
 as DayFilter?,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as DaySort,view: null == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
-as DayBrowserView,
+as DayBrowserLayout,
   ));
 }
 /// Create a copy of DayBrowserState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$DayPeriodCopyWith<$Res> get period {
+$DatePeriodCopyWith<$Res> get period {
   
-  return $DayPeriodCopyWith<$Res>(_self.period, (value) {
+  return $DatePeriodCopyWith<$Res>(_self.period, (value) {
     return _then(_self.copyWith(period: value));
   });
 }/// Create a copy of DayBrowserState
@@ -182,7 +182,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DayPeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserView view)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DatePeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserLayout view)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DayBrowserState() when $default != null:
 return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.sort,_that.view);case _:
@@ -203,7 +203,7 @@ return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.so
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DayPeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserView view)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DatePeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserLayout view)  $default,) {final _that = this;
 switch (_that) {
 case _DayBrowserState():
 return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.sort,_that.view);case _:
@@ -223,7 +223,7 @@ return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.so
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DayPeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserView view)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DatePeriod period,  DayBrowserStatus status,  List<DayLog> periodDays,  DayFilter? filter,  DaySort sort,  DayBrowserLayout view)?  $default,) {final _that = this;
 switch (_that) {
 case _DayBrowserState() when $default != null:
 return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.sort,_that.view);case _:
@@ -238,10 +238,10 @@ return $default(_that.period,_that.status,_that.periodDays,_that.filter,_that.so
 
 
 class _DayBrowserState extends DayBrowserState {
-  const _DayBrowserState({required this.period, this.status = DayBrowserStatus.loading,  List<DayLog> periodDays = const <DayLog>[], this.filter, this.sort = DaySort.newestFirst, this.view = DayBrowserView.list}): _periodDays = periodDays,super._();
+  const _DayBrowserState({required this.period, this.status = DayBrowserStatus.loading,  List<DayLog> periodDays = const <DayLog>[], this.filter, this.sort = DaySort.newestFirst, this.view = DayBrowserLayout.list}): _periodDays = periodDays,super._();
   
 
-@override final  DayPeriod period;
+@override final  DatePeriod period;
 @override@JsonKey() final  DayBrowserStatus status;
  final  List<DayLog> _periodDays;
 @override@JsonKey() List<DayLog> get periodDays {
@@ -252,7 +252,7 @@ class _DayBrowserState extends DayBrowserState {
 
 @override final  DayFilter? filter;
 @override@JsonKey() final  DaySort sort;
-@override@JsonKey() final  DayBrowserView view;
+@override@JsonKey() final  DayBrowserLayout view;
 
 /// Create a copy of DayBrowserState
 /// with the given fields replaced by the non-null parameter values.
@@ -286,11 +286,11 @@ abstract mixin class _$DayBrowserStateCopyWith<$Res> implements $DayBrowserState
   factory _$DayBrowserStateCopyWith(_DayBrowserState value, $Res Function(_DayBrowserState) _then) = __$DayBrowserStateCopyWithImpl;
 @override @useResult
 $Res call({
- DayPeriod period, DayBrowserStatus status, List<DayLog> periodDays, DayFilter? filter, DaySort sort, DayBrowserView view
+ DatePeriod period, DayBrowserStatus status, List<DayLog> periodDays, DayFilter? filter, DaySort sort, DayBrowserLayout view
 });
 
 
-@override $DayPeriodCopyWith<$Res> get period;@override $DayFilterCopyWith<$Res>? get filter;
+@override $DatePeriodCopyWith<$Res> get period;@override $DayFilterCopyWith<$Res>? get filter;
 
 }
 /// @nodoc
@@ -306,12 +306,12 @@ class __$DayBrowserStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? period = null,Object? status = null,Object? periodDays = null,Object? filter = freezed,Object? sort = null,Object? view = null,}) {
   return _then(_DayBrowserState(
 period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
-as DayPeriod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as DatePeriod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DayBrowserStatus,periodDays: null == periodDays ? _self._periodDays : periodDays // ignore: cast_nullable_to_non_nullable
 as List<DayLog>,filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
 as DayFilter?,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as DaySort,view: null == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
-as DayBrowserView,
+as DayBrowserLayout,
   ));
 }
 
@@ -319,9 +319,9 @@ as DayBrowserView,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$DayPeriodCopyWith<$Res> get period {
+$DatePeriodCopyWith<$Res> get period {
   
-  return $DayPeriodCopyWith<$Res>(_self.period, (value) {
+  return $DatePeriodCopyWith<$Res>(_self.period, (value) {
     return _then(_self.copyWith(period: value));
   });
 }/// Create a copy of DayBrowserState
