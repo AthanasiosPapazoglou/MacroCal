@@ -13,7 +13,7 @@ enum IngredientField {
 
   static final _number = RegExp(r'^[0-9]*(\.[0-9]*)?$');
 
-  /// Unparseable input counts as 0, as the form always allowed.
+  /// Unparseable input counts as 0.
   static double parse(String text) => text.isNotEmpty && _number.hasMatch(text)
       ? double.tryParse(text) ?? 0
       : 0;
