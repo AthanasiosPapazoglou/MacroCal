@@ -23,11 +23,12 @@ class ArchiveDayCubit extends Cubit<ArchiveDayState> {
     );
     try {
       final isTaken = await _history.hasLogFor(date.dateOnly);
+      if (isClosed) return;
       emit(
         state.copyWith(isDateTaken: isTaken, status: ArchiveDayStatus.ready),
       );
     } on Exception {
-      emit(state.copyWith(status: ArchiveDayStatus.failure));
+      if (!isClosed) emit(state.copyWith(status: ArchiveDayStatus.failure));
     }
   }
 
@@ -35,9 +36,10 @@ class ArchiveDayCubit extends Cubit<ArchiveDayState> {
     emit(state.copyWith(status: ArchiveDayStatus.archiving));
     try {
       await _archiveDay(date: state.selectedDate, summary: summary);
+      if (isClosed) return;
       emit(state.copyWith(status: ArchiveDayStatus.archived));
     } on Exception {
-      emit(state.copyWith(status: ArchiveDayStatus.failure));
+      if (!isClosed) emit(state.copyWith(status: ArchiveDayStatus.failure));
     }
   }
 }

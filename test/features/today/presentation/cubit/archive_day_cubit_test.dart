@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
@@ -71,6 +73,23 @@ void main() {
     verify(
       () => archiveDay(date: DateTime(2026, 11, 7), summary: sampleSummary),
     ).called(1);
+  });
+
+  test('archive finishing after close does not emit', () async {
+    final done = Completer<void>();
+    when(
+      () => archiveDay(
+        date: any(named: 'date'),
+        summary: any(named: 'summary'),
+      ),
+    ).thenAnswer((_) => done.future);
+
+    final archiving = cubit.archive(sampleSummary);
+    await cubit.close();
+    done.complete();
+
+    await expectLater(archiving, completes);
+    expect(cubit.state.status, ArchiveDayStatus.archiving);
   });
 
   test('archive emits failure when the use case throws', () async {

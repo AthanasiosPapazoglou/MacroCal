@@ -27,99 +27,109 @@ class ArchiveDayDialogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ArchiveDayCubit, ArchiveDayState>(
       listenWhen: (_, current) => current.status == ArchiveDayStatus.archived,
-      listener: (context, _) => Navigator.of(context).pop(),
+      listener: (context, _) {
+        if (ModalRoute.of(context)?.isCurrent ?? false) {
+          Navigator.of(context).pop();
+        }
+      },
       builder: (context, state) {
         final l10n = context.l10n;
         final primary = Theme.of(context).primaryColor;
         final isTaken = state.isDateTaken;
         final statusColor = isTaken ? AppColors.orange : AppColors.green;
-        return AlertDialog(
-          title: Text(l10n.archiveDialogTitle),
-          content: SizedBox(
-            height: 260,
-            width: double.maxFinite,
-            child: Column(
-              children: [
-                Text(l10n.archiveDialogBody),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(l10n.archiveDialogSelectedDate),
-                ),
-                InkWell(
-                  onTap: () => _pickDate(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(width: 2, color: primary),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          l10n.archiveDialogArchiveFor,
-                          style: TextStyle(color: primary),
-                        ),
-                        const SizedBox(width: 8),
-                        Icon(Icons.calendar_month_rounded, color: primary),
-                        const Spacer(),
-                        Text(
-                          DateFormat('dd/MM/yyyy').format(state.selectedDate),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: primary,
-                          ),
-                        ),
-                      ],
-                    ),
+        final isArchiving = state.status == ArchiveDayStatus.archiving;
+        return PopScope(
+          canPop: !isArchiving,
+          child: AlertDialog(
+            title: Text(l10n.archiveDialogTitle),
+            content: SizedBox(
+              height: 260,
+              width: double.maxFinite,
+              child: Column(
+                children: [
+                  Text(l10n.archiveDialogBody),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(l10n.archiveDialogSelectedDate),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(
-                      isTaken
-                          ? Icons.warning_amber_rounded
-                          : Icons.check_circle_outline_rounded,
-                      color: statusColor,
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        isTaken
-                            ? l10n.archiveDialogDateTaken
-                            : l10n.archiveDialogDateFree,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 11, color: statusColor),
+                  InkWell(
+                    onTap: () => _pickDate(context),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(width: 2, color: primary),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            l10n.archiveDialogArchiveFor,
+                            style: TextStyle(color: primary),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(Icons.calendar_month_rounded, color: primary),
+                          const Spacer(),
+                          Text(
+                            DateFormat('dd/MM/yyyy').format(state.selectedDate),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: primary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        isTaken
+                            ? Icons.warning_amber_rounded
+                            : Icons.check_circle_outline_rounded,
+                        color: statusColor,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          isTaken
+                              ? l10n.archiveDialogDateTaken
+                              : l10n.archiveDialogDateFree,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: TextStyle(fontSize: 11, color: statusColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: isArchiving
+                    ? null
+                    : () => Navigator.of(context).pop(),
+                child: Text(
+                  l10n.archiveDialogCancel,
+                  style: const TextStyle(color: AppColors.redAccent),
                 ),
-              ],
-            ),
+              ),
+              TextButton(
+                onPressed: isArchiving
+                    ? null
+                    : () => context.read<ArchiveDayCubit>().archive(
+                        context.read<OverviewCubit>().state.summary,
+                      ),
+                child: Text(
+                  l10n.archiveDialogComplete,
+                  style: TextStyle(color: primary),
+                ),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                l10n.archiveDialogCancel,
-                style: const TextStyle(color: AppColors.redAccent),
-              ),
-            ),
-            TextButton(
-              onPressed: state.status == ArchiveDayStatus.archiving
-                  ? null
-                  : () => context.read<ArchiveDayCubit>().archive(
-                      context.read<OverviewCubit>().state.summary,
-                    ),
-              child: Text(
-                l10n.archiveDialogComplete,
-                style: TextStyle(color: primary),
-              ),
-            ),
-          ],
         );
       },
     );

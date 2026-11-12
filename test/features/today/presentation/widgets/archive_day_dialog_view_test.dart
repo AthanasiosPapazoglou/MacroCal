@@ -100,4 +100,33 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Complete'), findsNothing);
   });
+
+  testWidgets('cannot be dismissed while archiving', (tester) async {
+    await openDialog(tester);
+    stub.emit(ready.copyWith(status: ArchiveDayStatus.archiving));
+    await tester.pumpAndSettle();
+
+    await tester.tapAt(const Offset(10, 10));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Complete'), findsOneWidget);
+    expect(find.text('open'), findsOneWidget);
+  });
+
+  testWidgets('a late archived state does not pop the page underneath', (
+    tester,
+  ) async {
+    await openDialog(tester);
+
+    await tester.tapAt(const Offset(10, 10));
+    await tester.pump();
+    stub.emit(ready.copyWith(status: ArchiveDayStatus.archived));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Complete'), findsNothing);
+    expect(find.text('open'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }
