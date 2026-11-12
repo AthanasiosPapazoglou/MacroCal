@@ -59,7 +59,12 @@ Future<void> pumpApp(WidgetTester tester) async {
     ),
   );
   when(() => history.hasLogFor(any())).thenAnswer((_) async => false);
-  when(history.watchDayLogs).thenAnswer((_) => Stream.value(const []));
+  when(
+    () => history.watchDayLogs(
+      from: any(named: 'from'),
+      to: any(named: 'to'),
+    ),
+  ).thenAnswer((_) => Stream.value(const []));
   when(() => history.watchDayLog(any())).thenAnswer((_) => Stream.value(null));
 
   await tester.pumpWidget(

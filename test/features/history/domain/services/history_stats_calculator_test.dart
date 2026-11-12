@@ -126,6 +126,22 @@ void main() {
     });
   });
 
+  test('calculate counts the streak over the recent logs when given', () {
+    final stats = calculator.calculate(
+      [_log(DateTime(2026, 11, 10), kcal: 2000)],
+      range: HistoryRange.week,
+      today: today,
+      recentLogs: [
+        _log(DateTime(2026, 11, 8), kcal: 0),
+        _log(DateTime(2026, 11, 9), kcal: 0),
+        _log(DateTime(2026, 11, 10), kcal: 0),
+      ],
+    );
+
+    expect(stats.daysLogged, 1);
+    expect(stats.currentStreak, 3);
+  });
+
   group('TrackedGoal', () {
     final summary = _log(today, kcal: 1800, proteinG: 90).summary;
 

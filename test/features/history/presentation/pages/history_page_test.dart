@@ -17,7 +17,7 @@ void main() {
     tester,
   ) async {
     final repository = _MockHistoryRepository();
-    when(repository.watchDayLogs)
+    when(() => repository.watchDayLogs(from: any(named: 'from')))
         .thenAnswer((_) => Stream.value(const <DayLog>[]));
 
     await pumpLocalized(
@@ -33,6 +33,6 @@ void main() {
     await tester.pump();
 
     expect(cubit.state.status, HistoryStatus.ready);
-    verify(repository.watchDayLogs).called(1);
+    verify(() => repository.watchDayLogs(from: any(named: 'from'))).called(2);
   });
 }

@@ -6,89 +6,140 @@ import 'package:macro_cal_public/features/history/domain/entities/history_range.
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_summary.dart';
 
-class _MockHistoryRepository extends Mock implements HistoryRepository;
+class _FakeHistoryRepository extends Fake implements HistoryRepository {
+  final _changes = StreamController<void>.broadcast();
+  final periods = <DateTime?>[];
+  List<DayLog> days = const [];
+  Object? error;
+
+  void update(List<DayLog> next) {
+    days = next;
+    _changes.add(null);
+  }
+
+  void fail(Object next) {
+    error = next;
+    _changes.add(null);
+  }
+
+  @override
+  Stream<List<DayLog>> watchDayLogs({DateTime? from, DateTime? to}) {
+    periods.add(from);
+    return Stream.multi((controller) {
+      void push() {
+        if (error case final error?) return controller.addError(error);
+        controller.add([
+          for (final log in days)
+            if (from == null || !log.date.isBefore(from)) log,
+        ]);
+      }
+
+      push();
+      final subscription = _changes.stream.listen((_) => push());
+      controller.onCancel = subscription.cancel;
+    });
+  }
+
+  Future<void> dispose() => _changes.close();
+}
 
 void main() {
-  late StreamController<List<DayLog>> logs;
-  late HistoryRepository repository;
+  late _FakeHistoryRepository repository;
   late HistoryCubit cubit;
 
-  final older = DayLog(date: DateTime(2026, 10, 20), summary: sampleSummary);
-  final yesterday = DayLog(
-    date: DateTime(2026, 11, 10),
-    summary: sampleSummary,
-  );
-  final today = DayLog(date: DateTime(2026, 11, 11), summary: sampleSummary);
+  DayLog log(int month, int day) =>
+      DayLog(date: DateTime(2026, month, day), summary: sampleSummary);
+
+  final older = log(10, 20);
+  final yesterday = log(11, 10);
+  final today = log(11, 11);
 
   setUp(() {
-    logs = StreamController<List<DayLog>>.broadcast();
-    repository = _MockHistoryRepository();
-    when(() => repository.watchDayLogs()).thenAnswer((_) => logs.stream);
+    repository = _FakeHistoryRepository()
+      ..days = [log(1, 5), older, yesterday, today];
     cubit = HistoryCubit(repository, now: () => DateTime(2026, 11, 11, 20));
   });
   tearDown(() async {
     await cubit.close();
-    await logs.close();
+    await repository.dispose();
   });
+
+  Future<HistoryState> ready() =>
+      cubit.stream.firstWhere((state) => state.status == HistoryStatus.ready);
 
   test('starts loading on the week range', () {
     expect(cubit.state, const HistoryState());
     expect(cubit.state.range, HistoryRange.week);
   });
 
-  test('watch emits the range days newest first with their stats', () async {
-    final emitted = expectLater(
-      cubit.stream,
-      emits(
-        isA<HistoryState>()
-            .having((state) => state.status, 'status', HistoryStatus.ready)
-            .having((state) => state.logs, 'logs', [today, yesterday])
-            .having((state) => state.stats.daysLogged, 'days', 2)
-            .having((state) => state.stats.currentStreak, 'streak', 2),
-      ),
-    );
-
+  test('watch asks for the streak window and the week only', () async {
     cubit.watch();
-    logs.add([older, yesterday, today]);
+    final state = await ready();
 
-    await emitted;
+    expect(repository.periods, [DateTime(2025, 10, 8), DateTime(2026, 11, 5)]);
+    expect(state.logs, [today, yesterday]);
+    expect(state.stats.daysLogged, 2);
+    expect(state.stats.currentStreak, 2);
   });
 
-  test('selectRange recalculates for the new range', () async {
+  test('selectRange queries the new range and recalculates', () async {
     cubit.watch();
-    logs.add([older, yesterday, today]);
-    await cubit.stream.first;
+    await ready();
 
     cubit.selectRange(HistoryRange.month);
-
     expect(cubit.state.range, HistoryRange.month);
-    expect(cubit.state.logs, [today, yesterday, older]);
-    expect(cubit.state.stats.daysLogged, 3);
+    final state = await ready();
+
+    expect(repository.periods.last, DateTime(2026, 10, 13));
+    expect(state.logs, [today, yesterday, older]);
+    expect(state.stats.daysLogged, 3);
   });
 
-  test('selectRange before the first load only keeps the range', () {
+  test('the all range asks for every day', () async {
+    cubit
+      ..watch()
+      ..selectRange(HistoryRange.all);
+    final state = await cubit.stream.firstWhere(
+      (state) => state.logs.length == 4,
+    );
+
+    expect(repository.periods.last, isNull);
+    expect(state.stats.daysLogged, 4);
+  });
+
+  test('selectRange before watch only keeps the range', () {
     cubit.selectRange(HistoryRange.all);
 
     expect(cubit.state.status, HistoryStatus.loading);
     expect(cubit.state.range, HistoryRange.all);
+    expect(repository.periods, isEmpty);
   });
 
-  test('watch keeps the selected range when new logs arrive', () async {
+  test('selecting the current range does not query again', () async {
+    cubit.watch();
+    await ready();
+
+    cubit.selectRange(HistoryRange.week);
+
+    expect(repository.periods, hasLength(2));
+  });
+
+  test('watch keeps the selected range when days change', () async {
     cubit
       ..watch()
       ..selectRange(HistoryRange.all);
-    final emitted = expectLater(
-      cubit.stream.map((state) => (state.range, state.logs.length)),
-      emits((HistoryRange.all, 1)),
+    await cubit.stream.firstWhere((state) => state.logs.length == 4);
+
+    repository.update([older]);
+    final state = await cubit.stream.firstWhere(
+      (state) => state.logs.length == 1,
     );
 
-    logs.add([older]);
-
-    await emitted;
+    expect(state.range, HistoryRange.all);
+    expect(state.stats.currentStreak, 0);
   });
 
   test('watch subscribes only once', () {
@@ -96,18 +147,15 @@ void main() {
       ..watch()
       ..watch();
 
-    verify(() => repository.watchDayLogs()).called(1);
+    expect(repository.periods, hasLength(2));
   });
 
-  test('watch emits failure when the stream errors', () async {
-    final emitted = expectLater(
-      cubit.stream.map((state) => state.status),
-      emits(HistoryStatus.failure),
-    );
-
+  test('watch emits failure when a stream errors', () async {
     cubit.watch();
-    logs.addError(Exception('db'));
+    await ready();
 
-    await emitted;
+    repository.fail(Exception('db'));
+
+    expect((await cubit.stream.first).status, HistoryStatus.failure);
   });
 }

@@ -13,8 +13,18 @@ class DriftHistoryRepository implements HistoryRepository {
   final AppDatabase _database;
 
   @override
-  Stream<List<DayLog>> watchDayLogs() {
+  Stream<List<DayLog>> watchDayLogs({DateTime? from, DateTime? to}) {
     final query = _database.select(_database.dayLogsTable)
+      ..where((log) {
+        Expression<bool> inPeriod = const Constant(true);
+        if (from != null) {
+          inPeriod = inPeriod & log.day.isBiggerOrEqualValue(from.isoDay);
+        }
+        if (to != null) {
+          inPeriod = inPeriod & log.day.isSmallerOrEqualValue(to.isoDay);
+        }
+        return inPeriod;
+      })
       ..orderBy([(log) => OrderingTerm.asc(log.day)]);
     return query.watch().map((rows) => rows.map(_toEntity).toList());
   }

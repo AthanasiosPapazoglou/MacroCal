@@ -11,50 +11,79 @@ class HistoryCubit extends Cubit<HistoryState> {
   new(this._repository, {this._now = DateTime.now})
     : super(const HistoryState());
 
+  /// How far back the current streak is counted.
+  static const streakWindowDays = 400;
+
   static const _calculator = HistoryStatsCalculator();
 
   final HistoryRepository _repository;
   final DateTime Function() _now;
-  StreamSubscription<List<DayLog>>? _subscription;
-  List<DayLog> _allLogs = const [];
+  StreamSubscription<List<DayLog>>? _recentSubscription;
+  StreamSubscription<List<DayLog>>? _rangeSubscription;
+  List<DayLog>? _recentLogs;
+  List<DayLog>? _rangeLogs;
 
   void watch() {
-    _subscription ??= _repository.watchDayLogs().listen(
-      (logs) {
-        _allLogs = logs;
-        _emitFor(state.range);
-      },
-      onError: (Object _) =>
-          emit(state.copyWith(status: HistoryStatus.failure)),
-    );
+    if (_recentSubscription != null) return;
+    final today = _now();
+    _recentSubscription = _repository
+        .watchDayLogs(
+          from: DateTime(
+            today.year,
+            today.month,
+            today.day - streakWindowDays + 1,
+          ),
+        )
+        .listen((logs) {
+          _recentLogs = logs;
+          _emitIfLoaded();
+        }, onError: _onError);
+    _watchRange(state.range);
   }
 
   void selectRange(HistoryRange range) {
-    if (state.status == HistoryStatus.ready) {
-      _emitFor(range);
-    } else {
-      emit(state.copyWith(range: range));
-    }
+    if (range == state.range) return;
+    emit(state.copyWith(range: range));
+    if (_recentSubscription != null) _watchRange(range);
   }
 
-  void _emitFor(HistoryRange range) {
-    final today = _now();
+  void _watchRange(HistoryRange range) {
+    unawaited(_rangeSubscription?.cancel());
+    _rangeLogs = null;
+    _rangeSubscription = _repository
+        .watchDayLogs(from: range.since(_now()))
+        .listen((logs) {
+          _rangeLogs = logs;
+          _emitIfLoaded();
+        }, onError: _onError);
+  }
+
+  void _emitIfLoaded() {
+    final rangeLogs = _rangeLogs;
+    final recentLogs = _recentLogs;
+    if (rangeLogs == null || recentLogs == null) return;
     emit(
       HistoryState(
         status: HistoryStatus.ready,
-        range: range,
-        logs: _calculator
-            .inRange(_allLogs, range: range, today: today)
-            .reversed
-            .toList(),
-        stats: _calculator.calculate(_allLogs, range: range, today: today),
+        range: state.range,
+        logs: rangeLogs.reversed.toList(),
+        stats: _calculator.calculate(
+          rangeLogs,
+          range: state.range,
+          today: _now(),
+          recentLogs: recentLogs,
+        ),
       ),
     );
   }
 
+  void _onError(Object _) =>
+      emit(state.copyWith(status: HistoryStatus.failure));
+
   @override
   Future<void> close() async {
-    await _subscription?.cancel();
+    await _recentSubscription?.cancel();
+    await _rangeSubscription?.cancel();
     await super.close();
   }
 }

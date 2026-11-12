@@ -78,4 +78,39 @@ void main() {
     final logs = await repository.watchDayLogs().first;
     expect(logs.map((log) => log.date.day), [3, 7, 12]);
   });
+
+  test('watchDayLogs keeps only the days in the period', () async {
+    for (final day in [1, 5, 10, 15]) {
+      await repository.saveDayLog(
+        DayLog(date: DateTime(2026, 11, day), summary: sampleSummary),
+      );
+    }
+
+    Future<List<int>> days({DateTime? from, DateTime? to}) async =>
+        (await repository.watchDayLogs(from: from, to: to).first)
+            .map((log) => log.date.day)
+            .toList();
+
+    expect(await days(from: DateTime(2026, 11, 5, 23)), [5, 10, 15]);
+    expect(await days(to: DateTime(2026, 11, 10)), [1, 5, 10]);
+    expect(
+      await days(from: DateTime(2026, 11, 2), to: DateTime(2026, 11, 14)),
+      [5, 10],
+    );
+  });
+
+  test('watchDayLogs with a period updates when a day is added', () async {
+    final stream = repository.watchDayLogs(from: DateTime(2026, 11));
+    final emitted = expectLater(
+      stream.map((logs) => logs.length),
+      emitsInOrder([0, 1]),
+    );
+
+    await pumpEventQueue();
+    await repository.saveDayLog(
+      DayLog(date: DateTime(2026, 11, 3), summary: sampleSummary),
+    );
+
+    await emitted;
+  });
 }

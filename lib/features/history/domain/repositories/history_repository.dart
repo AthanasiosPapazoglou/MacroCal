@@ -1,7 +1,8 @@
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 
 abstract interface class HistoryRepository {
-  Stream<List<DayLog>> watchDayLogs();
+  /// Oldest first, limited to [from] and [to] inclusive when given.
+  Stream<List<DayLog>> watchDayLogs({DateTime? from, DateTime? to});
 
   Stream<DayLog?> watchDayLog(DateTime date);
 

@@ -46,12 +46,14 @@ class HistoryStatsCalculator {
     return streak;
   }
 
+  /// Counts the streak over [recentLogs] when given, else over [logs].
   HistoryStats calculate(
     Iterable<DayLog> logs, {
     required HistoryRange range,
     required DateTime today,
+    Iterable<DayLog>? recentLogs,
   }) {
-    final streak = currentStreak(logs, today: today);
+    final streak = currentStreak(recentLogs ?? logs, today: today);
     final days = inRange(logs, range: range, today: today);
     if (days.isEmpty) return HistoryStats(currentStreak: streak);
     final count = days.length;
