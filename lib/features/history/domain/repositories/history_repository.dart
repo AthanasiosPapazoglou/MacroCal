@@ -9,4 +9,6 @@ abstract interface class HistoryRepository {
 
   /// Replaces any log already saved for the same day.
   Future<void> saveDayLog(DayLog log);
+
+  Future<void> deleteDayLog(DateTime date);
 }

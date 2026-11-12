@@ -50,6 +50,28 @@ void main() {
     await emitted;
   });
 
+  test('delete removes the day and ignores the following null', () async {
+    when(() => repository.deleteDayLog(date)).thenAnswer((_) async {});
+    cubit.watch();
+    logs.add(log);
+    await cubit.stream.first;
+
+    await cubit.delete();
+    logs.add(null);
+    await pumpEventQueue();
+
+    expect(cubit.state.status, DayDetailStatus.deleted);
+    verify(() => repository.deleteDayLog(date)).called(1);
+  });
+
+  test('delete emits failure when the repository throws', () async {
+    when(() => repository.deleteDayLog(date)).thenThrow(Exception('db'));
+
+    await cubit.delete();
+
+    expect(cubit.state.status, DayDetailStatus.failure);
+  });
+
   test('watch subscribes only once', () {
     cubit
       ..watch()

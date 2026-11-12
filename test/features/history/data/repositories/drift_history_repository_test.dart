@@ -32,6 +32,18 @@ void main() {
     expect(await repository.watchDayLog(DateTime(2026, 11, 7)).first, isNull);
   });
 
+  test('deleteDayLog removes only that day', () async {
+    final kept = DayLog(date: DateTime(2026, 11, 7), summary: sampleSummary);
+    await repository.saveDayLog(
+      DayLog(date: DateTime(2026, 11, 6), summary: sampleSummary),
+    );
+    await repository.saveDayLog(kept);
+
+    await repository.deleteDayLog(DateTime(2026, 11, 6, 18));
+
+    expect(await repository.watchDayLogs().first, [kept]);
+  });
+
   test('hasLogFor matches the same day at any time', () async {
     await repository.saveDayLog(
       DayLog(date: DateTime(2026, 10, 30, 9), summary: sampleSummary),

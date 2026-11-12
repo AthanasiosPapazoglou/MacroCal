@@ -11,7 +11,7 @@
 - **Caloric and Nutritional Tracking:** Monitor your daily intake of calories, proteins, dietary fiber, sugars, saturated fats, and salt.
 - **Exercise Logging:** Record your exercise activities to adjust your caloric requirements and macronutrient thresholds.
 - **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives. (In Progress)
-- **Detailed Insights:** View detailed reports on your daily, weekly, and monthly intake. (In Progress)
+- **History and Insights:** Archive a day from the Overview, then review your last 7 days, 30 days or all time: averages, goal adherence, a daily calories chart, your macro split, a logging streak and each archived day in detail.
 
 ## Getting Started
 
@@ -133,8 +133,11 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
 3. **Track Exercise:**
     - Record your daily exercise activities to adjust your caloric requirements.
 
-4. **View Insights:** (In Progress)
-    - Access detailed reports on your daily, weekly, and monthly nutritional intake to help you meet your health goals. 
+4. **Archive the Day:**
+    - Tap the save button on the Overview to store the day's intake in your history. Archiving is manual: a day you don't archive does not appear in the history.
+
+5. **View Insights:**
+    - Open the History tab to see your statistics and charts for a range, tap a day for its details, or delete it from there.
 
 ## Architecture
 
@@ -151,7 +154,7 @@ lib/
     ├── profile/         # daily goals and body metrics
     ├── food_bank/       # ingredient catalog, form, barcode lookup (Open Food Facts)
     ├── today/           # overview, consumption, exercise, archive day
-    └── history/         # archived days (placeholder screen for now)
+    └── history/         # archived days, statistics, charts, day detail
         ├── domain/      # entities, repository interfaces, services; plain Dart only
         ├── data/        # drift and http implementations of the repositories
         └── presentation/# cubits, pages, widgets

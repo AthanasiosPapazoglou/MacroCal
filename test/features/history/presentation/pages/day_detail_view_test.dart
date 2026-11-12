@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_state.dart';
@@ -49,6 +51,57 @@ void main() {
     expect(find.text('Burned through activity: 150 kcal'), findsOneWidget);
   });
 
+  testWidgets('deletes the day after confirming and leaves the page', (
+    tester,
+  ) async {
+    final stub = CubitStub(
+      cubit,
+      DayDetailState(
+        status: DayDetailStatus.ready,
+        log: DayLog(date: date, summary: sampleSummary),
+      ),
+    );
+    when(cubit.delete).thenAnswer((_) async {
+      stub.emit(const DayDetailState(status: DayDetailStatus.deleted));
+    });
+    await pumpLocalized(
+      tester,
+      router: GoRouter(
+        initialLocation: '/day',
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const Text('history'),
+            routes: [
+              GoRoute(
+                path: 'day',
+                builder: (_, _) => BlocProvider.value(
+                  value: cubit,
+                  child: const DayDetailView(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    await tester.tap(find.byTooltip('Delete day'));
+    await tester.pumpAndSettle();
+    expect(find.text('Delete this day?'), findsOneWidget);
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    verifyNever(cubit.delete);
+
+    await tester.tap(find.byTooltip('Delete day'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+
+    verify(cubit.delete).called(1);
+    expect(find.text('history'), findsOneWidget);
+  });
+
   testWidgets('says when the day is not archived', (tester) async {
     await pumpView(
       tester,
@@ -57,5 +110,6 @@ void main() {
 
     expect(find.text('This day is not archived'), findsOneWidget);
     expect(find.byType(SummaryBreakdown), findsNothing);
+    expect(find.byTooltip('Delete day'), findsNothing);
   });
 }

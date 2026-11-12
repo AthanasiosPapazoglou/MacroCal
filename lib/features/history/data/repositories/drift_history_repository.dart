@@ -49,6 +49,11 @@ class DriftHistoryRepository implements HistoryRepository {
         );
   }
 
+  @override
+  Future<void> deleteDayLog(DateTime date) => (_database.delete(
+    _database.dayLogsTable,
+  )..where((log) => log.day.equals(date.isoDay))).go();
+
   DayLog _toEntity(DayLogRow row) => DayLog(
     date: DateTime.parse(row.day),
     summary: DailySummary(

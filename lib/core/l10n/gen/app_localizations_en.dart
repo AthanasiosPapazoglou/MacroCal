@@ -519,4 +519,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String historyDayBurned(int kcal) {
     return 'Burned through activity: $kcal kcal';
   }
+
+  @override
+  String get historyDayDelete => 'Delete day';
+
+  @override
+  String get historyDayDeleteTitle => 'Delete this day?';
+
+  @override
+  String get historyDayDeleteBody =>
+      'Its archived intake will be removed from the history. This cannot be undone.';
 }
