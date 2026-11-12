@@ -154,5 +154,8 @@
   "historyMacroCarbs": "Υδατάνθρακες",
   "historyMacroFat": "Λιπαρά",
   "historyDayNotFound": "Αυτή η ημέρα δεν είναι αρχειοθετημένη",
-  "historyDayBurned": "Κάηκαν με δραστηριότητα: {kcal} kcal"
+  "historyDayBurned": "Κάηκαν με δραστηριότητα: {kcal} kcal",
+  "historyDayDelete": "Διαγραφή ημέρας",
+  "historyDayDeleteTitle": "Διαγραφή αυτής της ημέρας;",
+  "historyDayDeleteBody": "Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται."
 }

@@ -524,4 +524,14 @@ class AppLocalizationsEl extends AppLocalizations {
   String historyDayBurned(int kcal) {
     return 'Κάηκαν με δραστηριότητα: $kcal kcal';
   }
+
+  @override
+  String get historyDayDelete => 'Διαγραφή ημέρας';
+
+  @override
+  String get historyDayDeleteTitle => 'Διαγραφή αυτής της ημέρας;';
+
+  @override
+  String get historyDayDeleteBody =>
+      'Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται.';
 }

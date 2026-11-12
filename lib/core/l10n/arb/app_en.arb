@@ -185,5 +185,8 @@
         "type": "int"
       }
     }
-  }
+  },
+  "historyDayDelete": "Delete day",
+  "historyDayDeleteTitle": "Delete this day?",
+  "historyDayDeleteBody": "Its archived intake will be removed from the history. This cannot be undone."
 }

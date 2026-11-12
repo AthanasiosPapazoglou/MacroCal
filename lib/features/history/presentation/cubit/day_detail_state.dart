@@ -3,7 +3,7 @@ import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 
 part 'day_detail_state.freezed.dart';
 
-enum DayDetailStatus { loading, ready, notFound, failure }
+enum DayDetailStatus { loading, ready, notFound, deleted, failure }
 
 @freezed
 abstract class DayDetailState with _$DayDetailState {

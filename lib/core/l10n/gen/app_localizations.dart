@@ -1027,6 +1027,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Burned through activity: {kcal} kcal'**
   String historyDayBurned(int kcal);
+
+  /// No description provided for @historyDayDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete day'**
+  String get historyDayDelete;
+
+  /// No description provided for @historyDayDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this day?'**
+  String get historyDayDeleteTitle;
+
+  /// No description provided for @historyDayDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its archived intake will be removed from the history. This cannot be undone.'**
+  String get historyDayDeleteBody;
 }
 
 class _AppLocalizationsDelegate

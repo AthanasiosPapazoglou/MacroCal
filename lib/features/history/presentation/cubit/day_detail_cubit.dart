@@ -13,20 +13,30 @@ class DayDetailCubit extends Cubit<DayDetailState> {
   StreamSubscription<DayLog?>? _subscription;
 
   void watch() {
-    _subscription ??= _repository
-        .watchDayLog(date)
-        .listen(
-          (log) => emit(
-            DayDetailState(
-              status: log == null
-                  ? DayDetailStatus.notFound
-                  : DayDetailStatus.ready,
-              log: log,
-            ),
+    _subscription ??= _repository.watchDayLog(date).listen(
+      (log) {
+        if (state.status == DayDetailStatus.deleted) return;
+        emit(
+          DayDetailState(
+            status: log == null
+                ? DayDetailStatus.notFound
+                : DayDetailStatus.ready,
+            log: log,
           ),
-          onError: (Object _) =>
-              emit(state.copyWith(status: DayDetailStatus.failure)),
         );
+      },
+      onError: (Object _) =>
+          emit(state.copyWith(status: DayDetailStatus.failure)),
+    );
+  }
+
+  Future<void> delete() async {
+    try {
+      await _repository.deleteDayLog(date);
+      emit(state.copyWith(status: DayDetailStatus.deleted));
+    } on Exception {
+      emit(state.copyWith(status: DayDetailStatus.failure));
+    }
   }
 
   @override
