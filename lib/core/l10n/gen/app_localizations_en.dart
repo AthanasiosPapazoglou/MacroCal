@@ -562,7 +562,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add at least one ingredient with its grams';
 
   @override
-  String get recipeFormFinalWeight => 'Final Weight (g)';
+  String get recipeFormFinalWeight => 'Final Weight (gr.)';
 
   @override
   String get recipeFormFinalWeightHint =>
@@ -572,10 +572,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeFormPickerTitle => 'Choose an ingredient';
 
   @override
-  String get recipeTotalsPer100g => 'Per 100 g';
+  String get recipeTotalsPer100g => 'Per 100 gr.';
 
   @override
   String recipeTotalsWeight(int grams) {
-    return '$grams g in total';
+    return '$grams gr. in total';
+  }
+
+  @override
+  String get recipeFormTitleEdit => 'Edit Recipe';
+
+  @override
+  String get recipeDetailsTitle => 'Recipe Details:';
+
+  @override
+  String recipeDetailsWhole(int grams, int kcal) {
+    return 'Whole recipe: $grams gr., $kcal kcal';
+  }
+
+  @override
+  String recipeDetailsWholeCooked(int grams, int ingredientsGrams, int kcal) {
+    return 'Whole recipe: $grams gr. (ingredients $ingredientsGrams gr.), $kcal kcal';
+  }
+
+  @override
+  String get recipeDetailsDeleteBody =>
+      'Are you sure you wish to delete this recipe?';
+
+  @override
+  String ingredientDetailsDeleteDialogRecipes(String recipes) {
+    return 'It will also be removed from these recipes: $recipes';
   }
 }

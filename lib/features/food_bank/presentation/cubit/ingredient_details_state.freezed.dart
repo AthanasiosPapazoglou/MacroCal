@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$IngredientDetailsState {
 
- IngredientDetailsStatus get status; Ingredient? get ingredient;
+ IngredientDetailsStatus get status; Ingredient? get ingredient; List<String> get recipeNames;
 /// Create a copy of IngredientDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $IngredientDetailsStateCopyWith<IngredientDetailsState> get copyWith => _$Ingred
 @override
 bool operator ==(Object other) {
   final _this = this as IngredientDetailsState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientDetailsState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.ingredient, _this.ingredient) || other.ingredient == _this.ingredient));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientDetailsState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.ingredient, _this.ingredient) || other.ingredient == _this.ingredient)&&const DeepCollectionEquality().equals(other.recipeNames, _this.recipeNames));
 }
 
 
 @override
 int get hashCode {
   final _this = this as IngredientDetailsState;
-  return Object.hash(runtimeType,_this.status,_this.ingredient);
+  return Object.hash(runtimeType,_this.status,_this.ingredient,const DeepCollectionEquality().hash(_this.recipeNames));
 }
 
 @override
 String toString() {
   final _this = this as IngredientDetailsState;
-  return 'IngredientDetailsState(status: ${_this.status}, ingredient: ${_this.ingredient})';
+  return 'IngredientDetailsState(status: ${_this.status}, ingredient: ${_this.ingredient}, recipeNames: ${_this.recipeNames})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $IngredientDetailsStateCopyWith<$Res>  {
   factory $IngredientDetailsStateCopyWith(IngredientDetailsState value, $Res Function(IngredientDetailsState) _then) = _$IngredientDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- IngredientDetailsStatus status, Ingredient? ingredient
+ IngredientDetailsStatus status, Ingredient? ingredient, List<String> recipeNames
 });
 
 
@@ -68,11 +68,12 @@ class _$IngredientDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of IngredientDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? ingredient = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? ingredient = freezed,Object? recipeNames = null,}) {
   return _then(IngredientDetailsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as IngredientDetailsStatus,ingredient: freezed == ingredient ? _self.ingredient : ingredient // ignore: cast_nullable_to_non_nullable
-as Ingredient?,
+as Ingredient?,recipeNames: null == recipeNames ? _self.recipeNames : recipeNames // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 /// Create a copy of IngredientDetailsState
@@ -169,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IngredientDetailsStatus status,  Ingredient? ingredient)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IngredientDetailsStatus status,  Ingredient? ingredient,  List<String> recipeNames)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IngredientDetailsState() when $default != null:
-return $default(_that.status,_that.ingredient);case _:
+return $default(_that.status,_that.ingredient,_that.recipeNames);case _:
   return orElse();
 
 }
@@ -190,10 +191,10 @@ return $default(_that.status,_that.ingredient);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IngredientDetailsStatus status,  Ingredient? ingredient)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IngredientDetailsStatus status,  Ingredient? ingredient,  List<String> recipeNames)  $default,) {final _that = this;
 switch (_that) {
 case _IngredientDetailsState():
-return $default(_that.status,_that.ingredient);case _:
+return $default(_that.status,_that.ingredient,_that.recipeNames);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +211,10 @@ return $default(_that.status,_that.ingredient);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IngredientDetailsStatus status,  Ingredient? ingredient)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IngredientDetailsStatus status,  Ingredient? ingredient,  List<String> recipeNames)?  $default,) {final _that = this;
 switch (_that) {
 case _IngredientDetailsState() when $default != null:
-return $default(_that.status,_that.ingredient);case _:
+return $default(_that.status,_that.ingredient,_that.recipeNames);case _:
   return null;
 
 }
@@ -225,11 +226,18 @@ return $default(_that.status,_that.ingredient);case _:
 
 
 class _IngredientDetailsState implements IngredientDetailsState {
-  const _IngredientDetailsState({this.status = IngredientDetailsStatus.loading, this.ingredient});
+  const _IngredientDetailsState({this.status = IngredientDetailsStatus.loading, this.ingredient,  List<String> recipeNames = const <String>[]}): _recipeNames = recipeNames;
   
 
 @override@JsonKey() final  IngredientDetailsStatus status;
 @override final  Ingredient? ingredient;
+ final  List<String> _recipeNames;
+@override@JsonKey() List<String> get recipeNames {
+  if (_recipeNames is EqualUnmodifiableListView) return _recipeNames;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_recipeNames);
+}
+
 
 /// Create a copy of IngredientDetailsState
 /// with the given fields replaced by the non-null parameter values.
@@ -241,18 +249,18 @@ _$IngredientDetailsStateCopyWith<_IngredientDetailsState> get copyWith => __$Ing
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientDetailsState&&(identical(other.status, status) || other.status == status)&&(identical(other.ingredient, ingredient) || other.ingredient == ingredient));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientDetailsState&&(identical(other.status, status) || other.status == status)&&(identical(other.ingredient, ingredient) || other.ingredient == ingredient)&&const DeepCollectionEquality().equals(other.recipeNames, _recipeNames));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,ingredient);
+    return Object.hash(runtimeType,status,ingredient,const DeepCollectionEquality().hash(_recipeNames));
 }
 
 @override
 String toString() {
-    return 'IngredientDetailsState(status: $status, ingredient: $ingredient)';
+    return 'IngredientDetailsState(status: $status, ingredient: $ingredient, recipeNames: $recipeNames)';
 }
 
 
@@ -263,7 +271,7 @@ abstract mixin class _$IngredientDetailsStateCopyWith<$Res> implements $Ingredie
   factory _$IngredientDetailsStateCopyWith(_IngredientDetailsState value, $Res Function(_IngredientDetailsState) _then) = __$IngredientDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- IngredientDetailsStatus status, Ingredient? ingredient
+ IngredientDetailsStatus status, Ingredient? ingredient, List<String> recipeNames
 });
 
 
@@ -280,11 +288,12 @@ class __$IngredientDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of IngredientDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? ingredient = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? ingredient = freezed,Object? recipeNames = null,}) {
   return _then(_IngredientDetailsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as IngredientDetailsStatus,ingredient: freezed == ingredient ? _self.ingredient : ingredient // ignore: cast_nullable_to_non_nullable
-as Ingredient?,
+as Ingredient?,recipeNames: null == recipeNames ? _self._recipeNames : recipeNames // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

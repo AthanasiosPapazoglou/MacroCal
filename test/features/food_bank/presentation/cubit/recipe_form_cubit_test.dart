@@ -7,6 +7,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/recipe_fo
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_ingredients.dart';
+import '../../../../helpers/sample_recipes.dart';
 
 class _MockRecipeRepository extends Mock implements RecipeRepository;
 
@@ -14,13 +15,17 @@ class _MockIngredientRepository extends Mock implements IngredientRepository;
 
 void main() {
   late RecipeRepository recipes;
+  late IngredientRepository ingredients;
   late RecipeFormCubit cubit;
 
-  setUpAll(() => registerFallbackValue(<RecipeIngredient>[]));
+  setUpAll(() {
+    registerFallbackValue(<RecipeIngredient>[]);
+    registerFallbackValue(sampleWarmMilk);
+  });
 
   setUp(() async {
     recipes = _MockRecipeRepository();
-    final ingredients = _MockIngredientRepository();
+    ingredients = _MockIngredientRepository();
     when(ingredients.watchIngredients)
         .thenAnswer((_) => Stream.value(const [sampleMilk, sampleBread]));
     when(
@@ -44,6 +49,7 @@ void main() {
   );
 
   test('load offers every ingredient', () {
+    expect(cubit.isEdit, isFalse);
     expect(cubit.state.status, RecipeFormStatus.ready);
     expect(cubit.state.items, isEmpty);
     expect(cubit.state.addable, [sampleMilk, sampleBread]);
@@ -149,5 +155,51 @@ void main() {
     await cubit.save('Warm milk');
 
     expect(cubit.state.status, RecipeFormStatus.failure);
+  });
+
+  test('editing loads the recipe and saves it in place', () async {
+    when(() => recipes.watchRecipe(sampleWarmMilk.id))
+        .thenAnswer((_) => Stream.value(sampleWarmMilk));
+    when(() => recipes.updateRecipe(any())).thenAnswer((_) async {});
+    final edit = RecipeFormCubit(
+      recipes,
+      ingredients,
+      recipeId: sampleWarmMilk.id,
+    );
+    addTearDown(edit.close);
+
+    await edit.load();
+
+    expect(edit.isEdit, isTrue);
+    expect(edit.state.name, 'Warm Milk');
+    expect(edit.state.items, sampleWarmMilk.ingredients);
+    expect(edit.state.finalWeightGrams, 240);
+    expect(edit.state.addable, [sampleBread]);
+
+    edit.updateGrams(sampleMilk.id, 300);
+    await edit.save('Hot milk');
+
+    expect(edit.state.status, RecipeFormStatus.saved);
+    verify(
+      () => recipes.updateRecipe(
+        sampleWarmMilk.copyWith(
+          name: 'Hot milk',
+          ingredients: const [
+            RecipeIngredient(ingredient: sampleMilk, grams: 300),
+          ],
+        ),
+      ),
+    ).called(1);
+    verifyNothingSaved();
+  });
+
+  test('editing a missing recipe reports the failure', () async {
+    when(() => recipes.watchRecipe(99)).thenAnswer((_) => Stream.value(null));
+    final edit = RecipeFormCubit(recipes, ingredients, recipeId: 99);
+    addTearDown(edit.close);
+
+    await edit.load();
+
+    expect(edit.state.status, RecipeFormStatus.failure);
   });
 }

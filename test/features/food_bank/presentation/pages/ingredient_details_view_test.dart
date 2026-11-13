@@ -83,6 +83,7 @@ void main() {
 
     await tester.tap(find.text('Delete'));
     await tester.pumpAndSettle();
+    expect(find.textContaining('these recipes'), findsNothing);
     await tester.tap(find.text('Cancel'));
     await tester.pumpAndSettle();
     verifyNever(cubit.delete);
@@ -92,6 +93,23 @@ void main() {
     await tester.tap(find.text('Confirm'));
     await tester.pumpAndSettle();
     verify(cubit.delete).called(1);
+  });
+
+  testWidgets('the delete dialog names the recipes that use it', (
+    tester,
+  ) async {
+    stub.emit(ready.copyWith(recipeNames: const ['Milk Toast', 'Warm Milk']));
+    await pumpView(tester);
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'It will also be removed from these recipes: Milk Toast, Warm Milk',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('a deleted ingredient returns to the food bank', (tester) async {

@@ -567,7 +567,7 @@ class AppLocalizationsEl extends AppLocalizations {
       'Προσθέστε τουλάχιστον ένα συστατικό με τα γραμμάριά του';
 
   @override
-  String get recipeFormFinalWeight => 'Τελικό Βάρος (g)';
+  String get recipeFormFinalWeight => 'Τελικό Βάρος (γρ.)';
 
   @override
   String get recipeFormFinalWeightHint =>
@@ -577,10 +577,35 @@ class AppLocalizationsEl extends AppLocalizations {
   String get recipeFormPickerTitle => 'Επιλέξτε συστατικό';
 
   @override
-  String get recipeTotalsPer100g => 'Ανά 100 g';
+  String get recipeTotalsPer100g => 'Ανά 100 γρ.';
 
   @override
   String recipeTotalsWeight(int grams) {
-    return '$grams g συνολικά';
+    return '$grams γρ. συνολικά';
+  }
+
+  @override
+  String get recipeFormTitleEdit => 'Επεξεργασία Συνταγής';
+
+  @override
+  String get recipeDetailsTitle => 'Λεπτομέρειες Συνταγής:';
+
+  @override
+  String recipeDetailsWhole(int grams, int kcal) {
+    return 'Ολόκληρη η συνταγή: $grams γρ., $kcal kcal';
+  }
+
+  @override
+  String recipeDetailsWholeCooked(int grams, int ingredientsGrams, int kcal) {
+    return 'Ολόκληρη η συνταγή: $grams γρ. (συστατικά $ingredientsGrams γρ.), $kcal kcal';
+  }
+
+  @override
+  String get recipeDetailsDeleteBody =>
+      'Είστε σίγουρος ότι επιθυμείτε να διαγράψετε αυτή τη συνταγή;';
+
+  @override
+  String ingredientDetailsDeleteDialogRecipes(String recipes) {
+    return 'Θα αφαιρεθεί επίσης από αυτές τις συνταγές: $recipes';
   }
 }

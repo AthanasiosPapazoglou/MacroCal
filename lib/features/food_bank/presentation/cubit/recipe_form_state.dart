@@ -18,6 +18,7 @@ enum RecipeFormStatus {
 abstract class RecipeFormState with _$RecipeFormState {
   const factory({
     @Default(RecipeFormStatus.loading) RecipeFormStatus status,
+    @Default('') String name,
     @Default(<Ingredient>[]) List<Ingredient> ingredients,
     @Default(<RecipeIngredient>[]) List<RecipeIngredient> items,
     int? finalWeightGrams,

@@ -16,5 +16,5 @@ abstract interface class RecipeRepository {
 
   Future<void> deleteRecipe(int id);
 
-  Future<List<String>> recipeNamesUsing(int ingredientId);
+  Stream<List<String>> watchRecipeNamesUsing(int ingredientId);
 }

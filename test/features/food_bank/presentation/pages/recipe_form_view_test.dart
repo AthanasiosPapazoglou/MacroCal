@@ -32,6 +32,7 @@ void main() {
   setUp(() {
     cubit = _MockRecipeFormCubit();
     stub = CubitStub(cubit, ready);
+    when(() => cubit.isEdit).thenReturn(false);
     when(() => cubit.save(any())).thenAnswer((_) async {});
   });
 
@@ -136,9 +137,9 @@ void main() {
     stub.emit(withMilk.copyWith(finalWeightGrams: 100));
     await pumpView(tester);
 
-    expect(find.text('100 g in total'), findsOneWidget);
+    expect(find.text('100 gr. in total'), findsOneWidget);
     expect(find.text('90'), findsOneWidget);
-    expect(find.text('6.4 g'), findsOneWidget);
+    expect(find.text('6.4 gr.'), findsOneWidget);
 
     await tester.enterText(find.byType(TextFormField).last, '400');
 
@@ -163,6 +164,17 @@ void main() {
       find.text('Add at least one ingredient with its grams'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('editing fills the form with the recipe', (tester) async {
+    when(() => cubit.isEdit).thenReturn(true);
+    stub.emit(withMilk.copyWith(name: 'Warm milk', finalWeightGrams: 180));
+    await pumpView(tester);
+
+    expect(find.text('Edit Recipe'), findsOneWidget);
+    expect(find.text('Warm milk'), findsOneWidget);
+    expect(find.text('200'), findsOneWidget);
+    expect(find.text('180'), findsOneWidget);
   });
 
   testWidgets('a saved recipe returns to the food bank', (tester) async {

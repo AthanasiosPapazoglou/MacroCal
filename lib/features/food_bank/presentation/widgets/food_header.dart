@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
-import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 
-class IngredientHeader extends StatelessWidget {
-  const new({required this.ingredient, super.key});
+class FoodHeader extends StatelessWidget {
+  const new({required this.name, required this.referenceGrams, super.key});
 
-  final Ingredient ingredient;
+  final String name;
+  final double referenceGrams;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class IngredientHeader extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              ingredient.name,
+              name,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
               '${l10n.ingredientDetailsInfoBoard} '
-              '${ingredient.referenceGrams.toInt()} '
+              '${referenceGrams.toInt()} '
               '${l10n.unitGramsShort}',
               style: TextStyle(
                 fontSize: 20,

@@ -8,7 +8,9 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/recipe_fo
 import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_form_view.dart';
 
 class RecipeFormPage extends StatelessWidget {
-  const new({super.key});
+  const new({this.recipeId, super.key});
+
+  final int? recipeId;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class RecipeFormPage extends StatelessWidget {
         final cubit = RecipeFormCubit(
           context.read<RecipeRepository>(),
           context.read<IngredientRepository>(),
+          recipeId: recipeId,
         );
         unawaited(cubit.load());
         return cubit;
