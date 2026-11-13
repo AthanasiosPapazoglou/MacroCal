@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
+import 'package:macro_cal_public/features/food_bank/data/mappers/ingredient_row_mapper.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
@@ -13,16 +14,16 @@ class DriftIngredientRepository implements IngredientRepository {
   Stream<List<Ingredient>> watchIngredients() {
     final query = _database.select(_database.ingredientsTable)
       ..orderBy([(ingredient) => OrderingTerm.asc(ingredient.id)]);
-    return query.watch().map((rows) => rows.map(_ingredientFromRow).toList());
+    return query.watch().map(
+      (rows) => [for (final row in rows) row.toIngredient()],
+    );
   }
 
   @override
   Stream<Ingredient?> watchIngredient(int id) {
     final query = _database.select(_database.ingredientsTable)
       ..where((ingredient) => ingredient.id.equals(id));
-    return query.watchSingleOrNull().map(
-      (row) => row == null ? null : _ingredientFromRow(row),
-    );
+    return query.watchSingleOrNull().map((row) => row?.toIngredient());
   }
 
   @override
@@ -73,21 +74,4 @@ class DriftIngredientRepository implements IngredientRepository {
   Future<void> deleteIngredient(int id) => (_database.delete(
     _database.ingredientsTable,
   )..where((ingredient) => ingredient.id.equals(id))).go();
-
-  Ingredient _ingredientFromRow(IngredientRow row) => Ingredient(
-    id: row.id,
-    name: row.name,
-    category: row.category,
-    referenceGrams: row.referenceG,
-    per100g: Nutrients(
-      kcal: row.kcal,
-      proteinG: row.proteinG,
-      carbsG: row.carbsG,
-      sugarsG: row.sugarsG,
-      fatG: row.fatG,
-      saturatedG: row.saturatedG,
-      fiberG: row.fiberG,
-      saltMg: row.saltMg,
-    ),
-  );
 }

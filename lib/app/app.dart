@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/app/view/app_view.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
 import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
     required this.activityRepository,
     required this.foodLogRepository,
     required this.ingredientRepository,
+    required this.recipeRepository,
     required this.productLookupRepository,
     required this.historyRepository,
     required this.archiveDay,
@@ -32,6 +34,7 @@ class App extends StatelessWidget {
   final ActivityRepository activityRepository;
   final FoodLogRepository foodLogRepository;
   final IngredientRepository ingredientRepository;
+  final RecipeRepository recipeRepository;
   final ProductLookupRepository productLookupRepository;
   final HistoryRepository historyRepository;
   final ArchiveDay archiveDay;
@@ -46,6 +49,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: activityRepository),
         RepositoryProvider.value(value: foodLogRepository),
         RepositoryProvider.value(value: ingredientRepository),
+        RepositoryProvider.value(value: recipeRepository),
         RepositoryProvider.value(value: productLookupRepository),
         RepositoryProvider.value(value: historyRepository),
         RepositoryProvider.value(value: archiveDay),
