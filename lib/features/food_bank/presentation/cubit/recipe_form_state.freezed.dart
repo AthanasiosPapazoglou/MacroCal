@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RecipeFormState {
 
- RecipeFormStatus get status; List<Ingredient> get ingredients; List<RecipeIngredient> get items; int? get finalWeightGrams;
+ RecipeFormStatus get status; String get name; List<Ingredient> get ingredients; List<RecipeIngredient> get items; int? get finalWeightGrams;
 /// Create a copy of RecipeFormState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $RecipeFormStateCopyWith<RecipeFormState> get copyWith => _$RecipeFormStateCopyW
 @override
 bool operator ==(Object other) {
   final _this = this as RecipeFormState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.ingredients, _this.ingredients)&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.finalWeightGrams, _this.finalWeightGrams) || other.finalWeightGrams == _this.finalWeightGrams));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeFormState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.ingredients, _this.ingredients)&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.finalWeightGrams, _this.finalWeightGrams) || other.finalWeightGrams == _this.finalWeightGrams));
 }
 
 
 @override
 int get hashCode {
   final _this = this as RecipeFormState;
-  return Object.hash(runtimeType,_this.status,const DeepCollectionEquality().hash(_this.ingredients),const DeepCollectionEquality().hash(_this.items),_this.finalWeightGrams);
+  return Object.hash(runtimeType,_this.status,_this.name,const DeepCollectionEquality().hash(_this.ingredients),const DeepCollectionEquality().hash(_this.items),_this.finalWeightGrams);
 }
 
 @override
 String toString() {
   final _this = this as RecipeFormState;
-  return 'RecipeFormState(status: ${_this.status}, ingredients: ${_this.ingredients}, items: ${_this.items}, finalWeightGrams: ${_this.finalWeightGrams})';
+  return 'RecipeFormState(status: ${_this.status}, name: ${_this.name}, ingredients: ${_this.ingredients}, items: ${_this.items}, finalWeightGrams: ${_this.finalWeightGrams})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $RecipeFormStateCopyWith<$Res>  {
   factory $RecipeFormStateCopyWith(RecipeFormState value, $Res Function(RecipeFormState) _then) = _$RecipeFormStateCopyWithImpl;
 @useResult
 $Res call({
- RecipeFormStatus status, List<Ingredient> ingredients, List<RecipeIngredient> items, int? finalWeightGrams
+ RecipeFormStatus status, String name, List<Ingredient> ingredients, List<RecipeIngredient> items, int? finalWeightGrams
 });
 
 
@@ -68,10 +68,11 @@ class _$RecipeFormStateCopyWithImpl<$Res>
 
 /// Create a copy of RecipeFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? ingredients = null,Object? items = null,Object? finalWeightGrams = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? name = null,Object? ingredients = null,Object? items = null,Object? finalWeightGrams = freezed,}) {
   return _then(RecipeFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as RecipeFormStatus,ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as RecipeFormStatus,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
 as List<Ingredient>,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<RecipeIngredient>,finalWeightGrams: freezed == finalWeightGrams ? _self.finalWeightGrams : finalWeightGrams // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecipeFormStatus status,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecipeFormStatus status,  String name,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RecipeFormState() when $default != null:
-return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
+return $default(_that.status,_that.name,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGram
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecipeFormStatus status,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecipeFormStatus status,  String name,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)  $default,) {final _that = this;
 switch (_that) {
 case _RecipeFormState():
-return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
+return $default(_that.status,_that.name,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGram
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecipeFormStatus status,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecipeFormStatus status,  String name,  List<Ingredient> ingredients,  List<RecipeIngredient> items,  int? finalWeightGrams)?  $default,) {final _that = this;
 switch (_that) {
 case _RecipeFormState() when $default != null:
-return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
+return $default(_that.status,_that.name,_that.ingredients,_that.items,_that.finalWeightGrams);case _:
   return null;
 
 }
@@ -215,10 +216,11 @@ return $default(_that.status,_that.ingredients,_that.items,_that.finalWeightGram
 
 
 class _RecipeFormState extends RecipeFormState {
-  const _RecipeFormState({this.status = RecipeFormStatus.loading,  List<Ingredient> ingredients = const <Ingredient>[],  List<RecipeIngredient> items = const <RecipeIngredient>[], this.finalWeightGrams}): _ingredients = ingredients,_items = items,super._();
+  const _RecipeFormState({this.status = RecipeFormStatus.loading, this.name = '',  List<Ingredient> ingredients = const <Ingredient>[],  List<RecipeIngredient> items = const <RecipeIngredient>[], this.finalWeightGrams}): _ingredients = ingredients,_items = items,super._();
   
 
 @override@JsonKey() final  RecipeFormStatus status;
+@override@JsonKey() final  String name;
  final  List<Ingredient> _ingredients;
 @override@JsonKey() List<Ingredient> get ingredients {
   if (_ingredients is EqualUnmodifiableListView) return _ingredients;
@@ -245,18 +247,18 @@ _$RecipeFormStateCopyWith<_RecipeFormState> get copyWith => __$RecipeFormStateCo
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeFormState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.ingredients, _ingredients)&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.finalWeightGrams, finalWeightGrams) || other.finalWeightGrams == finalWeightGrams));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeFormState&&(identical(other.status, status) || other.status == status)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.ingredients, _ingredients)&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.finalWeightGrams, finalWeightGrams) || other.finalWeightGrams == finalWeightGrams));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_ingredients),const DeepCollectionEquality().hash(_items),finalWeightGrams);
+    return Object.hash(runtimeType,status,name,const DeepCollectionEquality().hash(_ingredients),const DeepCollectionEquality().hash(_items),finalWeightGrams);
 }
 
 @override
 String toString() {
-    return 'RecipeFormState(status: $status, ingredients: $ingredients, items: $items, finalWeightGrams: $finalWeightGrams)';
+    return 'RecipeFormState(status: $status, name: $name, ingredients: $ingredients, items: $items, finalWeightGrams: $finalWeightGrams)';
 }
 
 
@@ -267,7 +269,7 @@ abstract mixin class _$RecipeFormStateCopyWith<$Res> implements $RecipeFormState
   factory _$RecipeFormStateCopyWith(_RecipeFormState value, $Res Function(_RecipeFormState) _then) = __$RecipeFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- RecipeFormStatus status, List<Ingredient> ingredients, List<RecipeIngredient> items, int? finalWeightGrams
+ RecipeFormStatus status, String name, List<Ingredient> ingredients, List<RecipeIngredient> items, int? finalWeightGrams
 });
 
 
@@ -284,10 +286,11 @@ class __$RecipeFormStateCopyWithImpl<$Res>
 
 /// Create a copy of RecipeFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? ingredients = null,Object? items = null,Object? finalWeightGrams = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? name = null,Object? ingredients = null,Object? items = null,Object? finalWeightGrams = freezed,}) {
   return _then(_RecipeFormState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as RecipeFormStatus,ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as RecipeFormStatus,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
 as List<Ingredient>,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<RecipeIngredient>,finalWeightGrams: freezed == finalWeightGrams ? _self.finalWeightGrams : finalWeightGrams // ignore: cast_nullable_to_non_nullable
 as int?,

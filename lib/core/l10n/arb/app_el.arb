@@ -168,9 +168,15 @@
   "recipeFormNameRequired": "Εισάγετε όνομα συνταγής",
   "recipeFormAddIngredient": "Προσθήκη συστατικού",
   "recipeFormIngredientsRequired": "Προσθέστε τουλάχιστον ένα συστατικό με τα γραμμάριά του",
-  "recipeFormFinalWeight": "Τελικό Βάρος (g)",
+  "recipeFormFinalWeight": "Τελικό Βάρος (γρ.)",
   "recipeFormFinalWeightHint": "Αφήστε το κενό για το σύνολο των συστατικών",
   "recipeFormPickerTitle": "Επιλέξτε συστατικό",
-  "recipeTotalsPer100g": "Ανά 100 g",
-  "recipeTotalsWeight": "{grams} g συνολικά"
+  "recipeTotalsPer100g": "Ανά 100 γρ.",
+  "recipeTotalsWeight": "{grams} γρ. συνολικά",
+  "recipeFormTitleEdit": "Επεξεργασία Συνταγής",
+  "recipeDetailsTitle": "Λεπτομέρειες Συνταγής:",
+  "recipeDetailsWhole": "Ολόκληρη η συνταγή: {grams} γρ., {kcal} kcal",
+  "recipeDetailsWholeCooked": "Ολόκληρη η συνταγή: {grams} γρ. (συστατικά {ingredientsGrams} γρ.), {kcal} kcal",
+  "recipeDetailsDeleteBody": "Είστε σίγουρος ότι επιθυμείτε να διαγράψετε αυτή τη συνταγή;",
+  "ingredientDetailsDeleteDialogRecipes": "Θα αφαιρεθεί επίσης από αυτές τις συνταγές: {recipes}"
 }

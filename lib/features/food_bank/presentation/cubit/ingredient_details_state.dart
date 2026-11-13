@@ -10,5 +10,6 @@ abstract class IngredientDetailsState with _$IngredientDetailsState {
   const factory({
     @Default(IngredientDetailsStatus.loading) IngredientDetailsStatus status,
     Ingredient? ingredient,
+    @Default(<String>[]) List<String> recipeNames,
   }) = _IngredientDetailsState;
 }

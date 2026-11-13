@@ -1109,7 +1109,7 @@ abstract class AppLocalizations {
   /// No description provided for @recipeFormFinalWeight.
   ///
   /// In en, this message translates to:
-  /// **'Final Weight (g)'**
+  /// **'Final Weight (gr.)'**
   String get recipeFormFinalWeight;
 
   /// No description provided for @recipeFormFinalWeightHint.
@@ -1127,14 +1127,50 @@ abstract class AppLocalizations {
   /// No description provided for @recipeTotalsPer100g.
   ///
   /// In en, this message translates to:
-  /// **'Per 100 g'**
+  /// **'Per 100 gr.'**
   String get recipeTotalsPer100g;
 
   /// No description provided for @recipeTotalsWeight.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g in total'**
+  /// **'{grams} gr. in total'**
   String recipeTotalsWeight(int grams);
+
+  /// No description provided for @recipeFormTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Recipe'**
+  String get recipeFormTitleEdit;
+
+  /// No description provided for @recipeDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe Details:'**
+  String get recipeDetailsTitle;
+
+  /// No description provided for @recipeDetailsWhole.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole recipe: {grams} gr., {kcal} kcal'**
+  String recipeDetailsWhole(int grams, int kcal);
+
+  /// No description provided for @recipeDetailsWholeCooked.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole recipe: {grams} gr. (ingredients {ingredientsGrams} gr.), {kcal} kcal'**
+  String recipeDetailsWholeCooked(int grams, int ingredientsGrams, int kcal);
+
+  /// No description provided for @recipeDetailsDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you wish to delete this recipe?'**
+  String get recipeDetailsDeleteBody;
+
+  /// No description provided for @ingredientDetailsDeleteDialogRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'It will also be removed from these recipes: {recipes}'**
+  String ingredientDetailsDeleteDialogRecipes(String recipes);
 }
 
 class _AppLocalizationsDelegate

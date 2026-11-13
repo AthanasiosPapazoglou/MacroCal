@@ -20,4 +20,11 @@ abstract final class AppRoutes {
 
   static String nutrient(int ingredientId, NutrientKind kind) =>
       '/foods/$ingredientId/nutrient/${kind.name}';
+
+  static String recipe(int id) => '/foods/recipes/$id';
+
+  static String editRecipe(int id) => '/foods/recipes/$id/edit';
+
+  static String recipeNutrient(int recipeId, NutrientKind kind) =>
+      '/foods/recipes/$recipeId/nutrient/${kind.name}';
 }

@@ -21,13 +21,25 @@ class RecipeFormView extends StatelessWidget {
       buildWhen: (previous, _) => previous.status == RecipeFormStatus.loading,
       builder: (context, state) => state.status == RecipeFormStatus.loading
           ? const Scaffold()
-          : const _RecipeForm(),
+          : _RecipeForm(
+              initialName: state.name,
+              initialFinalWeight: state.finalWeightGrams,
+              isEdit: context.read<RecipeFormCubit>().isEdit,
+            ),
     );
   }
 }
 
 class _RecipeForm extends StatefulWidget {
-  const new();
+  const new({
+    required this.initialName,
+    required this.initialFinalWeight,
+    required this.isEdit,
+  });
+
+  final String initialName;
+  final int? initialFinalWeight;
+  final bool isEdit;
 
   @override
   State<_RecipeForm> createState() => _RecipeFormState();
@@ -35,8 +47,10 @@ class _RecipeForm extends StatefulWidget {
 
 class _RecipeFormState extends State<_RecipeForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _finalWeightController = TextEditingController();
+  late final _nameController = TextEditingController(text: widget.initialName);
+  late final _finalWeightController = TextEditingController(
+    text: widget.initialFinalWeight?.toString() ?? '',
+  );
   int? _addedId;
 
   RecipeFormCubit get _cubit => context.read<RecipeFormCubit>();
@@ -75,7 +89,7 @@ class _RecipeFormState extends State<_RecipeForm> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            l10n.recipeFormTitleAdd,
+            widget.isEdit ? l10n.recipeFormTitleEdit : l10n.recipeFormTitleAdd,
             style: AppTextStyles.appBarTitle,
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

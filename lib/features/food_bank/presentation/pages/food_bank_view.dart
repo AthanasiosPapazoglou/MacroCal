@@ -147,6 +147,7 @@ class _FoodBankViewState extends State<FoodBankView> {
         name: recipes[index].name,
         isListItem: _isListView,
         icon: Icons.menu_book_rounded,
+        onTap: () => context.push(AppRoutes.recipe(recipes[index].id)),
       ),
     );
   }

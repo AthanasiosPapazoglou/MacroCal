@@ -6,19 +6,33 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_r
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/recipe_form_state.dart';
 
 class RecipeFormCubit extends Cubit<RecipeFormState> {
-  new(this._recipeRepository, this._ingredientRepository)
+  new(this._recipeRepository, this._ingredientRepository, {this.recipeId})
     : super(const RecipeFormState());
 
   final RecipeRepository _recipeRepository;
   final IngredientRepository _ingredientRepository;
+  final int? recipeId;
+
+  bool get isEdit => recipeId != null;
 
   Future<void> load() async {
     try {
       final ingredients = await _ingredientRepository.watchIngredients().first;
+      final id = recipeId;
+      final recipe = id == null
+          ? null
+          : await _recipeRepository.watchRecipe(id).first;
+      if (id != null && recipe == null) {
+        emit(state.copyWith(status: RecipeFormStatus.failure));
+        return;
+      }
       emit(
         state.copyWith(
           status: RecipeFormStatus.ready,
           ingredients: ingredients,
+          name: recipe?.name ?? '',
+          items: recipe?.ingredients ?? const [],
+          finalWeightGrams: recipe?.finalWeightGrams,
         ),
       );
     } on Exception {
@@ -65,11 +79,23 @@ class RecipeFormCubit extends Cubit<RecipeFormState> {
     }
     emit(state.copyWith(status: RecipeFormStatus.saving));
     try {
-      await _recipeRepository.addRecipe(
-        name: name.trim(),
-        ingredients: state.items,
-        finalWeightGrams: state.finalWeightGrams,
-      );
+      final id = recipeId;
+      if (id == null) {
+        await _recipeRepository.addRecipe(
+          name: name.trim(),
+          ingredients: state.items,
+          finalWeightGrams: state.finalWeightGrams,
+        );
+      } else {
+        await _recipeRepository.updateRecipe(
+          Recipe(
+            id: id,
+            name: name.trim(),
+            ingredients: state.items,
+            finalWeightGrams: state.finalWeightGrams,
+          ),
+        );
+      }
       emit(state.copyWith(status: RecipeFormStatus.saved));
     } on Exception {
       emit(state.copyWith(status: RecipeFormStatus.failure));

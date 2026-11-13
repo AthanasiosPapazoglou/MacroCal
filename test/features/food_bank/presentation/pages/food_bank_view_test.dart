@@ -49,6 +49,11 @@ void main() {
                 builder: (_, _) => const Text('new recipe'),
               ),
               GoRoute(
+                path: 'recipes/:id',
+                builder: (_, state) =>
+                    Text('recipe ${state.pathParameters['id']}'),
+              ),
+              GoRoute(
                 path: ':id',
                 builder: (_, state) =>
                     Text('details ${state.pathParameters['id']}'),
@@ -133,6 +138,21 @@ void main() {
     expect(find.text('Milk Toast'), findsOneWidget);
     expect(find.byIcon(Icons.menu_book_rounded), findsNWidgets(2));
     expect(find.text('Whole Bread'), findsNothing);
+  });
+
+  testWidgets('tapping a recipe opens it', (tester) async {
+    await pumpView(
+      tester,
+      ready.copyWith(
+        kind: FoodKind.recipe,
+        recipes: const [sampleMilkToast, sampleWarmMilk],
+      ),
+    );
+
+    await tester.tap(find.text('Warm Milk'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('recipe 2'), findsOneWidget);
   });
 
   testWidgets('without recipes the recipes side says how to add one', (

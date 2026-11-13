@@ -10,8 +10,8 @@ import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.d
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/delete_ingredient_dialog.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_header.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/delete_food_dialog.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_header.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/nutrient_row.dart';
 
 class IngredientDetailsView extends StatelessWidget {
@@ -19,9 +19,16 @@ class IngredientDetailsView extends StatelessWidget {
 
   Future<void> _confirmDelete(BuildContext context) async {
     final cubit = context.read<IngredientDetailsCubit>();
+    final l10n = context.l10n;
+    final recipeNames = cubit.state.recipeNames;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => const DeleteIngredientDialog(),
+      builder: (_) => DeleteFoodDialog(
+        body: l10n.ingredientDetailsDeleteDialogBody,
+        note: recipeNames.isEmpty
+            ? null
+            : l10n.ingredientDetailsDeleteDialogRecipes(recipeNames.join(', ')),
+      ),
     );
     if (confirmed ?? false) await cubit.delete();
   }
@@ -56,7 +63,10 @@ class IngredientDetailsView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          IngredientHeader(ingredient: ingredient),
+          FoodHeader(
+            name: ingredient.name,
+            referenceGrams: ingredient.referenceGrams,
+          ),
           Expanded(
             child: ListView(
               children: [

@@ -199,15 +199,51 @@
   "recipeFormNameRequired": "Enter a recipe name",
   "recipeFormAddIngredient": "Add ingredient",
   "recipeFormIngredientsRequired": "Add at least one ingredient with its grams",
-  "recipeFormFinalWeight": "Final Weight (g)",
+  "recipeFormFinalWeight": "Final Weight (gr.)",
   "recipeFormFinalWeightHint": "Leave empty to use the ingredients' total",
   "recipeFormPickerTitle": "Choose an ingredient",
-  "recipeTotalsPer100g": "Per 100 g",
-  "recipeTotalsWeight": "{grams} g in total",
+  "recipeTotalsPer100g": "Per 100 gr.",
+  "recipeTotalsWeight": "{grams} gr. in total",
   "@recipeTotalsWeight": {
     "placeholders": {
       "grams": {
         "type": "int"
+      }
+    }
+  },
+  "recipeFormTitleEdit": "Edit Recipe",
+  "recipeDetailsTitle": "Recipe Details:",
+  "recipeDetailsWhole": "Whole recipe: {grams} gr., {kcal} kcal",
+  "@recipeDetailsWhole": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeDetailsWholeCooked": "Whole recipe: {grams} gr. (ingredients {ingredientsGrams} gr.), {kcal} kcal",
+  "@recipeDetailsWholeCooked": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      },
+      "ingredientsGrams": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeDetailsDeleteBody": "Are you sure you wish to delete this recipe?",
+  "ingredientDetailsDeleteDialogRecipes": "It will also be removed from these recipes: {recipes}",
+  "@ingredientDetailsDeleteDialogRecipes": {
+    "placeholders": {
+      "recipes": {
+        "type": "String"
       }
     }
   }

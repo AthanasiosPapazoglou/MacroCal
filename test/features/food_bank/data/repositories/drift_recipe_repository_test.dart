@@ -141,7 +141,7 @@ void main() {
     );
   });
 
-  test('recipeNamesUsing lists the recipes holding the ingredient', () async {
+  test('watchRecipeNamesUsing lists the recipes with the ingredient', () async {
     await repository.addRecipe(
       name: 'Toast',
       ingredients: [RecipeIngredient(ingredient: bread, grams: 60)],
@@ -155,7 +155,7 @@ void main() {
       ],
     );
 
-    expect(await repository.recipeNamesUsing(milk.id), [
+    expect(await repository.watchRecipeNamesUsing(milk.id).first, [
       'Warm milk',
       'Milk toast',
     ]);

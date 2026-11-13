@@ -15,6 +15,7 @@ import 'package:macro_cal_public/features/today/domain/repositories/food_log_rep
 import 'package:mocktail/mocktail.dart';
 
 import 'sample_ingredients.dart';
+import 'sample_recipes.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository;
 
@@ -63,6 +64,16 @@ Future<void> pumpApp(WidgetTester tester) async {
     ),
   );
   when(recipes.watchRecipes).thenAnswer((_) => Stream.value(const []));
+  when(() => recipes.watchRecipe(any())).thenAnswer(
+    (invocation) => Stream.value(
+      const {
+        1: sampleMilkToast,
+        2: sampleWarmMilk,
+      }[invocation.positionalArguments.single as int],
+    ),
+  );
+  when(() => recipes.watchRecipeNamesUsing(any()))
+      .thenAnswer((_) => Stream.value(const []));
   when(() => history.hasLogFor(any())).thenAnswer((_) async => false);
   when(history.watchDayLogs).thenAnswer((_) => Stream.value(const []));
   when(() => history.watchDayLog(any())).thenAnswer((_) => Stream.value(null));

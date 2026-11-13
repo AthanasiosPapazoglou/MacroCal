@@ -12,7 +12,8 @@ class RecipeTotals extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final per100g = recipe.per100g;
-    String grams(double value) => '${value.toStringAsFixed(1)} g';
+    String grams(double value) =>
+        '${value.toStringAsFixed(1)} ${l10n.unitGramsShort}';
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),

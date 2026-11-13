@@ -57,7 +57,7 @@ class DriftRecipeRepository implements RecipeRepository {
   )..where((recipe) => recipe.id.equals(id))).go();
 
   @override
-  Future<List<String>> recipeNamesUsing(int ingredientId) {
+  Stream<List<String>> watchRecipeNamesUsing(int ingredientId) {
     final recipes = _database.recipesTable;
     final items = _database.recipeIngredientsTable;
     final query =
@@ -66,7 +66,7 @@ class DriftRecipeRepository implements RecipeRepository {
           ])
           ..where(items.ingredientId.equals(ingredientId))
           ..orderBy([OrderingTerm.asc(recipes.id)]);
-    return query.map((row) => row.readTable(recipes).name).get();
+    return query.map((row) => row.readTable(recipes).name).watch();
   }
 
   Stream<List<Recipe>> _watch({int? id}) {
