@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
 
 part 'food_bank_state.freezed.dart';
 
@@ -9,7 +11,9 @@ enum FoodBankStatus { loading, ready, failure }
 abstract class FoodBankState with _$FoodBankState {
   const factory({
     @Default(FoodBankStatus.loading) FoodBankStatus status,
+    @Default(FoodKind.ingredient) FoodKind kind,
     @Default(<Ingredient>[]) List<Ingredient> ingredients,
+    @Default(<Recipe>[]) List<Recipe> recipes,
     @Default('') String query,
   }) = _FoodBankState;
 
@@ -17,11 +21,16 @@ abstract class FoodBankState with _$FoodBankState {
 
   bool get isFiltering => query.isNotEmpty;
 
-  List<Ingredient> get visibleIngredients => isFiltering
-      ? [
-          for (final ingredient in ingredients)
-            if (ingredient.name.toLowerCase().contains(query.toLowerCase()))
-              ingredient,
-        ]
-      : ingredients;
+  List<Ingredient> get visibleIngredients => [
+    for (final ingredient in ingredients)
+      if (_matches(ingredient.name)) ingredient,
+  ];
+
+  List<Recipe> get visibleRecipes => [
+    for (final recipe in recipes)
+      if (_matches(recipe.name)) recipe,
+  ];
+
+  bool _matches(String name) =>
+      name.toLowerCase().contains(query.toLowerCase());
 }

@@ -1,0 +1,1 @@
+enum FoodKind { ingredient, recipe }

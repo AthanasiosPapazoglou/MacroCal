@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FoodBankState {
 
- FoodBankStatus get status; List<Ingredient> get ingredients; String get query;
+ FoodBankStatus get status; FoodKind get kind; List<Ingredient> get ingredients; List<Recipe> get recipes; String get query;
 /// Create a copy of FoodBankState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $FoodBankStateCopyWith<FoodBankState> get copyWith => _$FoodBankStateCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as FoodBankState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodBankState&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.ingredients, _this.ingredients)&&(identical(other.query, _this.query) || other.query == _this.query));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodBankState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&const DeepCollectionEquality().equals(other.ingredients, _this.ingredients)&&const DeepCollectionEquality().equals(other.recipes, _this.recipes)&&(identical(other.query, _this.query) || other.query == _this.query));
 }
 
 
 @override
 int get hashCode {
   final _this = this as FoodBankState;
-  return Object.hash(runtimeType,_this.status,const DeepCollectionEquality().hash(_this.ingredients),_this.query);
+  return Object.hash(runtimeType,_this.status,_this.kind,const DeepCollectionEquality().hash(_this.ingredients),const DeepCollectionEquality().hash(_this.recipes),_this.query);
 }
 
 @override
 String toString() {
   final _this = this as FoodBankState;
-  return 'FoodBankState(status: ${_this.status}, ingredients: ${_this.ingredients}, query: ${_this.query})';
+  return 'FoodBankState(status: ${_this.status}, kind: ${_this.kind}, ingredients: ${_this.ingredients}, recipes: ${_this.recipes}, query: ${_this.query})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $FoodBankStateCopyWith<$Res>  {
   factory $FoodBankStateCopyWith(FoodBankState value, $Res Function(FoodBankState) _then) = _$FoodBankStateCopyWithImpl;
 @useResult
 $Res call({
- FoodBankStatus status, List<Ingredient> ingredients, String query
+ FoodBankStatus status, FoodKind kind, List<Ingredient> ingredients, List<Recipe> recipes, String query
 });
 
 
@@ -68,11 +68,13 @@ class _$FoodBankStateCopyWithImpl<$Res>
 
 /// Create a copy of FoodBankState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? ingredients = null,Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? kind = null,Object? ingredients = null,Object? recipes = null,Object? query = null,}) {
   return _then(FoodBankState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FoodBankStatus,ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
-as List<Ingredient>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as FoodBankStatus,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as FoodKind,ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<Ingredient>,recipes: null == recipes ? _self.recipes : recipes // ignore: cast_nullable_to_non_nullable
+as List<Recipe>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -158,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FoodBankStatus status,  List<Ingredient> ingredients,  String query)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FoodBankStatus status,  FoodKind kind,  List<Ingredient> ingredients,  List<Recipe> recipes,  String query)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FoodBankState() when $default != null:
-return $default(_that.status,_that.ingredients,_that.query);case _:
+return $default(_that.status,_that.kind,_that.ingredients,_that.recipes,_that.query);case _:
   return orElse();
 
 }
@@ -179,10 +181,10 @@ return $default(_that.status,_that.ingredients,_that.query);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FoodBankStatus status,  List<Ingredient> ingredients,  String query)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FoodBankStatus status,  FoodKind kind,  List<Ingredient> ingredients,  List<Recipe> recipes,  String query)  $default,) {final _that = this;
 switch (_that) {
 case _FoodBankState():
-return $default(_that.status,_that.ingredients,_that.query);case _:
+return $default(_that.status,_that.kind,_that.ingredients,_that.recipes,_that.query);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +201,10 @@ return $default(_that.status,_that.ingredients,_that.query);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FoodBankStatus status,  List<Ingredient> ingredients,  String query)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FoodBankStatus status,  FoodKind kind,  List<Ingredient> ingredients,  List<Recipe> recipes,  String query)?  $default,) {final _that = this;
 switch (_that) {
 case _FoodBankState() when $default != null:
-return $default(_that.status,_that.ingredients,_that.query);case _:
+return $default(_that.status,_that.kind,_that.ingredients,_that.recipes,_that.query);case _:
   return null;
 
 }
@@ -214,15 +216,23 @@ return $default(_that.status,_that.ingredients,_that.query);case _:
 
 
 class _FoodBankState extends FoodBankState {
-  const _FoodBankState({this.status = FoodBankStatus.loading,  List<Ingredient> ingredients = const <Ingredient>[], this.query = ''}): _ingredients = ingredients,super._();
+  const _FoodBankState({this.status = FoodBankStatus.loading, this.kind = FoodKind.ingredient,  List<Ingredient> ingredients = const <Ingredient>[],  List<Recipe> recipes = const <Recipe>[], this.query = ''}): _ingredients = ingredients,_recipes = recipes,super._();
   
 
 @override@JsonKey() final  FoodBankStatus status;
+@override@JsonKey() final  FoodKind kind;
  final  List<Ingredient> _ingredients;
 @override@JsonKey() List<Ingredient> get ingredients {
   if (_ingredients is EqualUnmodifiableListView) return _ingredients;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_ingredients);
+}
+
+ final  List<Recipe> _recipes;
+@override@JsonKey() List<Recipe> get recipes {
+  if (_recipes is EqualUnmodifiableListView) return _recipes;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_recipes);
 }
 
 @override@JsonKey() final  String query;
@@ -237,18 +247,18 @@ _$FoodBankStateCopyWith<_FoodBankState> get copyWith => __$FoodBankStateCopyWith
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodBankState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.ingredients, _ingredients)&&(identical(other.query, query) || other.query == query));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodBankState&&(identical(other.status, status) || other.status == status)&&(identical(other.kind, kind) || other.kind == kind)&&const DeepCollectionEquality().equals(other.ingredients, _ingredients)&&const DeepCollectionEquality().equals(other.recipes, _recipes)&&(identical(other.query, query) || other.query == query));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_ingredients),query);
+    return Object.hash(runtimeType,status,kind,const DeepCollectionEquality().hash(_ingredients),const DeepCollectionEquality().hash(_recipes),query);
 }
 
 @override
 String toString() {
-    return 'FoodBankState(status: $status, ingredients: $ingredients, query: $query)';
+    return 'FoodBankState(status: $status, kind: $kind, ingredients: $ingredients, recipes: $recipes, query: $query)';
 }
 
 
@@ -259,7 +269,7 @@ abstract mixin class _$FoodBankStateCopyWith<$Res> implements $FoodBankStateCopy
   factory _$FoodBankStateCopyWith(_FoodBankState value, $Res Function(_FoodBankState) _then) = __$FoodBankStateCopyWithImpl;
 @override @useResult
 $Res call({
- FoodBankStatus status, List<Ingredient> ingredients, String query
+ FoodBankStatus status, FoodKind kind, List<Ingredient> ingredients, List<Recipe> recipes, String query
 });
 
 
@@ -276,11 +286,13 @@ class __$FoodBankStateCopyWithImpl<$Res>
 
 /// Create a copy of FoodBankState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? ingredients = null,Object? query = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? kind = null,Object? ingredients = null,Object? recipes = null,Object? query = null,}) {
   return _then(_FoodBankState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FoodBankStatus,ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
-as List<Ingredient>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as FoodBankStatus,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as FoodKind,ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<Ingredient>,recipes: null == recipes ? _self._recipes : recipes // ignore: cast_nullable_to_non_nullable
+as List<Recipe>,query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

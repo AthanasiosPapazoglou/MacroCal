@@ -7,6 +7,7 @@ abstract final class AppRoutes {
   static const exercise = '/today/exercise';
   static const foods = '/foods';
   static const newIngredient = '/foods/new';
+  static const newRecipe = '/foods/recipes/new';
   static const history = '/history';
   static const profile = '/profile';
   static const scan = '/scan';
