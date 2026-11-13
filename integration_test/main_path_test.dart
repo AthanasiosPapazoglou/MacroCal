@@ -6,6 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:macro_cal_public/bootstrap.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/core/database/seed/ingredient_seed.dart';
+import 'package:macro_cal_public/core/domain/date_only.dart';
 import 'package:macro_cal_public/core/widgets/numeric_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 
@@ -82,18 +83,26 @@ void main() {
 
       await tapAndSettle(tester, find.text('Historical'));
       expect(find.text('800 / 2100'), findsOneWidget);
+      final seeAll = find.text('See all days');
       await tester.scrollUntilVisible(
-        find.text('800 / 2100 kcal.'),
+        seeAll,
         300,
         scrollable: find.byType(Scrollable).first,
       );
-      await tapAndSettle(tester, find.text('800 / 2100 kcal.'));
+      await tapAndSettle(tester, seeAll);
+      expect(find.text('1 day'), findsOneWidget);
+      expect(find.text('800 / 2100 kcal.'), findsOneWidget);
+
+      await tapAndSettle(tester, find.byTooltip('Show as calendar'));
+      await tapAndSettle(tester, find.byKey(ValueKey(DateTime.now().dateOnly)));
       expect(find.text('Calory intake'), findsOneWidget);
       expect(find.text('800 / 2100'), findsOneWidget);
 
       await tapAndSettle(tester, find.byTooltip('Delete day'));
       await tapAndSettle(tester, find.text('Delete'));
+      expect(find.text('0 days'), findsWidgets);
 
+      await tapAndSettle(tester, find.byType(BackButton));
       expect(find.text('No archived days'), findsOneWidget);
       expect(await database.select(database.dayLogsTable).get(), isEmpty);
     },

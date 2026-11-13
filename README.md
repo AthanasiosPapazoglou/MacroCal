@@ -12,6 +12,7 @@
 - **Exercise Logging:** Record your exercise activities to adjust your caloric requirements and macronutrient thresholds.
 - **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives. (In Progress)
 - **History and Insights:** Archive a day from the Overview, then review your last 7 days, 30 days or all time: averages, goal adherence, a daily calories chart, your macro split, a logging streak and each archived day in detail.
+- **Day Browser:** Browse every archived day as a list or a calendar, by month, year or custom date range, filtered by whether you met a goal, stayed below it or went above it.
 
 ## Getting Started
 
@@ -138,6 +139,7 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
 
 5. **View Insights:**
     - Open the History tab to see your statistics and charts for a range, tap a day for its details, or delete it from there.
+    - Use **See all days** to browse every archived day as a list or a calendar, by month, year or custom range, filtered by goal result.
 
 ## Architecture
 
@@ -154,7 +156,7 @@ lib/
     ├── profile/         # daily goals and body metrics
     ├── food_bank/       # ingredient catalog, form, barcode lookup (Open Food Facts)
     ├── today/           # overview, consumption, exercise, archive day
-    └── history/         # archived days, statistics, charts, day detail
+    └── history/         # archived days, statistics, charts, day browser, calendar, day detail
         ├── domain/      # entities, repository interfaces, services; plain Dart only
         ├── data/        # drift and http implementations of the repositories
         └── presentation/# cubits, pages, widgets
