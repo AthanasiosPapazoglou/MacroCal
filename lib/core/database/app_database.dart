@@ -9,6 +9,9 @@ import 'package:macro_cal_public/core/database/tables/day_logs_table.dart';
 import 'package:macro_cal_public/core/database/tables/food_entries_table.dart';
 import 'package:macro_cal_public/core/database/tables/ingredients_table.dart';
 import 'package:macro_cal_public/core/database/tables/profile_table.dart';
+import 'package:macro_cal_public/core/database/tables/recipe_entries_table.dart';
+import 'package:macro_cal_public/core/database/tables/recipe_ingredients_table.dart';
+import 'package:macro_cal_public/core/database/tables/recipes_table.dart';
 import 'package:macro_cal_public/core/database/tables/settings_table.dart';
 
 part 'app_database.g.dart';
@@ -22,6 +25,9 @@ part 'app_database.g.dart';
     IngredientsTable,
     FoodEntriesTable,
     DayLogsTable,
+    RecipesTable,
+    RecipeIngredientsTable,
+    RecipeEntriesTable,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -31,7 +37,7 @@ class AppDatabase extends _$AppDatabase {
   final IngredientSeedLoader? _loadIngredientSeeds;
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -53,6 +59,11 @@ class AppDatabase extends _$AppDatabase {
         await _seedIngredients(schema.ingredients);
       },
       from4To5: (m, schema) => m.createTable(schema.dayLogs),
+      from5To6: (m, schema) async {
+        await m.createTable(schema.recipes);
+        await m.createTable(schema.recipeIngredients);
+        await m.createTable(schema.recipeEntries);
+      },
     ),
     beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),
   );

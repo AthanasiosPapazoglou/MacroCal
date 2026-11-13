@@ -10,6 +10,7 @@ import 'generated/schema_v2.dart' as v2;
 import 'generated/schema_v3.dart' as v3;
 import 'generated/schema_v4.dart' as v4;
 import 'generated/schema_v5.dart' as v5;
+import 'generated/schema_v6.dart' as v6;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -172,6 +173,48 @@ void main() {
           v5.FoodEntriesData(id: 1, ingredientId: 1, grams: 200),
         ]);
         expect(await newDb.select(newDb.dayLogs).get(), isEmpty);
+      },
+    );
+  });
+
+  test('v5 to v6 keeps the food log and adds empty recipe tables', () async {
+    await verifier.testWithDataIntegrity(
+      oldVersion: 5,
+      newVersion: 6,
+      createOld: v5.DatabaseAtV5.new,
+      createNew: v6.DatabaseAtV6.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch
+          ..insert(
+            oldDb.ingredients,
+            const v5.IngredientsData(
+              id: 1,
+              name: 'Milk 1.5%',
+              category: 'Dairy',
+              referenceG: 100,
+              kcal: 45,
+              proteinG: 3.2,
+              carbsG: 4.5,
+              sugarsG: 4.5,
+              fatG: 1.5,
+              saturatedG: 1,
+              fiberG: 0,
+              saltMg: 50,
+            ),
+          )
+          ..insert(
+            oldDb.foodEntries,
+            const v5.FoodEntriesData(id: 1, ingredientId: 1, grams: 200),
+          );
+      },
+      validateItems: (newDb) async {
+        expect(await newDb.select(newDb.foodEntries).get(), const [
+          v6.FoodEntriesData(id: 1, ingredientId: 1, grams: 200),
+        ]);
+        expect(await newDb.select(newDb.recipes).get(), isEmpty);
+        expect(await newDb.select(newDb.recipeIngredients).get(), isEmpty);
+        expect(await newDb.select(newDb.recipeEntries).get(), isEmpty);
       },
     );
   });

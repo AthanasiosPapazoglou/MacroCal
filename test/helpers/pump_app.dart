@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/app/app.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
@@ -24,6 +25,8 @@ class MockActivityRepository extends Mock implements ActivityRepository;
 class MockFoodLogRepository extends Mock implements FoodLogRepository;
 
 class MockIngredientRepository extends Mock implements IngredientRepository;
+
+class MockRecipeRepository extends Mock implements RecipeRepository;
 
 class MockProductLookupRepository extends Mock
     implements ProductLookupRepository;
@@ -69,6 +72,7 @@ Future<void> pumpApp(WidgetTester tester) async {
       activityRepository: activities,
       foodLogRepository: foodLog,
       ingredientRepository: ingredients,
+      recipeRepository: MockRecipeRepository(),
       productLookupRepository: MockProductLookupRepository(),
       historyRepository: history,
       archiveDay: MockArchiveDay(),
