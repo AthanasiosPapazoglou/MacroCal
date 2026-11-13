@@ -6,12 +6,14 @@ class NumericField extends StatelessWidget {
     required this.controller,
     required this.onChanged,
     this.maxDigits = 4,
+    this.autofocus = false,
     super.key,
   });
 
   final TextEditingController? controller;
   final ValueChanged<int> onChanged;
   final int maxDigits;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class NumericField extends StatelessWidget {
       child: Center(
         child: TextField(
           controller: controller,
+          autofocus: autofocus,
           onChanged: (value) => onChanged(int.tryParse(value) ?? 0),
           keyboardType: TextInputType.number,
           inputFormatters: [

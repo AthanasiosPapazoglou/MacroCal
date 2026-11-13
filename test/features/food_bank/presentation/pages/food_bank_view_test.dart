@@ -4,15 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/widgets/search_field.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank_view.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_tile.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_tile.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/cubit_stub.dart';
 import '../../../../helpers/pump_localized.dart';
 import '../../../../helpers/sample_ingredients.dart';
+import '../../../../helpers/sample_recipes.dart';
 
 class _MockFoodBankCubit extends Mock implements FoodBankCubit;
 
@@ -39,6 +41,14 @@ void main() {
                 BlocProvider.value(value: cubit, child: const FoodBankView()),
             routes: [
               GoRoute(
+                path: 'new',
+                builder: (_, _) => const Text('new ingredient'),
+              ),
+              GoRoute(
+                path: 'recipes/new',
+                builder: (_, _) => const Text('new recipe'),
+              ),
+              GoRoute(
                 path: ':id',
                 builder: (_, state) =>
                     Text('details ${state.pathParameters['id']}'),
@@ -55,7 +65,7 @@ void main() {
   ) async {
     await pumpView(tester, ready);
 
-    expect(find.byType(IngredientTile), findsNWidgets(2));
+    expect(find.byType(FoodTile), findsNWidgets(2));
     expect(find.byType(GridView), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.table_rows_rounded));
@@ -84,7 +94,7 @@ void main() {
   ) async {
     await pumpView(tester, ready.copyWith(query: 'zzz'));
 
-    expect(find.byType(IngredientTile), findsNothing);
+    expect(find.byType(FoodTile), findsNothing);
     expect(
       find.text('No items found matching your search criteria'),
       findsOneWidget,
@@ -99,4 +109,52 @@ void main() {
 
     expect(find.text('details 2'), findsOneWidget);
   });
+
+  testWidgets('the switch selects the recipes', (tester) async {
+    await pumpView(tester, ready);
+
+    await tester.tap(find.text('Recipes'));
+
+    verify(() => cubit.selectKind(FoodKind.recipe)).called(1);
+  });
+
+  testWidgets('the recipes side shows a tile with an icon per recipe', (
+    tester,
+  ) async {
+    await pumpView(
+      tester,
+      ready.copyWith(
+        kind: FoodKind.recipe,
+        recipes: const [sampleMilkToast, sampleWarmMilk],
+      ),
+    );
+
+    expect(find.byType(FoodTile), findsNWidgets(2));
+    expect(find.text('Milk Toast'), findsOneWidget);
+    expect(find.byIcon(Icons.menu_book_rounded), findsNWidgets(2));
+    expect(find.text('Whole Bread'), findsNothing);
+  });
+
+  testWidgets('without recipes the recipes side says how to add one', (
+    tester,
+  ) async {
+    await pumpView(tester, ready.copyWith(kind: FoodKind.recipe));
+
+    expect(find.text('No recipes yet'), findsOneWidget);
+    expect(find.text('Build one from your ingredients'), findsOneWidget);
+  });
+
+  for (final (kind, page) in [
+    (FoodKind.ingredient, 'new ingredient'),
+    (FoodKind.recipe, 'new recipe'),
+  ]) {
+    testWidgets('the add button opens the $page form', (tester) async {
+      await pumpView(tester, ready.copyWith(kind: kind));
+
+      await tester.tap(find.byIcon(Icons.format_list_bulleted_add));
+      await tester.pumpAndSettle();
+
+      expect(find.text(page), findsOneWidget);
+    });
+  }
 }

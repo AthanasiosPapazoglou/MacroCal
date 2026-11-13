@@ -534,4 +534,53 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get historyDayDeleteBody =>
       'Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται.';
+
+  @override
+  String get foodsPageIngredients => 'Συστατικά';
+
+  @override
+  String get foodsPageRecipes => 'Συνταγές';
+
+  @override
+  String get foodsPageNoRecipes => 'Δεν υπάρχουν ακόμα συνταγές';
+
+  @override
+  String get foodsPageNoRecipesHint => 'Φτιάξτε μία από τα συστατικά σας';
+
+  @override
+  String get recipeFormTitleAdd => 'Νέα Συνταγή';
+
+  @override
+  String get recipeFormName => 'Όνομα Συνταγής';
+
+  @override
+  String get recipeFormNameHint => 'Όνομα της συνταγής';
+
+  @override
+  String get recipeFormNameRequired => 'Εισάγετε όνομα συνταγής';
+
+  @override
+  String get recipeFormAddIngredient => 'Προσθήκη συστατικού';
+
+  @override
+  String get recipeFormIngredientsRequired =>
+      'Προσθέστε τουλάχιστον ένα συστατικό με τα γραμμάριά του';
+
+  @override
+  String get recipeFormFinalWeight => 'Τελικό Βάρος (g)';
+
+  @override
+  String get recipeFormFinalWeightHint =>
+      'Αφήστε το κενό για το σύνολο των συστατικών';
+
+  @override
+  String get recipeFormPickerTitle => 'Επιλέξτε συστατικό';
+
+  @override
+  String get recipeTotalsPer100g => 'Ανά 100 g';
+
+  @override
+  String recipeTotalsWeight(int grams) {
+    return '$grams g συνολικά';
+  }
 }

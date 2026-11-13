@@ -529,4 +529,53 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get historyDayDeleteBody =>
       'Its archived intake will be removed from the history. This cannot be undone.';
+
+  @override
+  String get foodsPageIngredients => 'Ingredients';
+
+  @override
+  String get foodsPageRecipes => 'Recipes';
+
+  @override
+  String get foodsPageNoRecipes => 'No recipes yet';
+
+  @override
+  String get foodsPageNoRecipesHint => 'Build one from your ingredients';
+
+  @override
+  String get recipeFormTitleAdd => 'New Recipe';
+
+  @override
+  String get recipeFormName => 'Recipe Name';
+
+  @override
+  String get recipeFormNameHint => 'Name of the recipe';
+
+  @override
+  String get recipeFormNameRequired => 'Enter a recipe name';
+
+  @override
+  String get recipeFormAddIngredient => 'Add ingredient';
+
+  @override
+  String get recipeFormIngredientsRequired =>
+      'Add at least one ingredient with its grams';
+
+  @override
+  String get recipeFormFinalWeight => 'Final Weight (g)';
+
+  @override
+  String get recipeFormFinalWeightHint =>
+      'Leave empty to use the ingredients\' total';
+
+  @override
+  String get recipeFormPickerTitle => 'Choose an ingredient';
+
+  @override
+  String get recipeTotalsPer100g => 'Per 100 g';
+
+  @override
+  String recipeTotalsWeight(int grams) {
+    return '$grams g in total';
+  }
 }

@@ -188,5 +188,27 @@
   },
   "historyDayDelete": "Delete day",
   "historyDayDeleteTitle": "Delete this day?",
-  "historyDayDeleteBody": "Its archived intake will be removed from the history. This cannot be undone."
+  "historyDayDeleteBody": "Its archived intake will be removed from the history. This cannot be undone.",
+  "foodsPageIngredients": "Ingredients",
+  "foodsPageRecipes": "Recipes",
+  "foodsPageNoRecipes": "No recipes yet",
+  "foodsPageNoRecipesHint": "Build one from your ingredients",
+  "recipeFormTitleAdd": "New Recipe",
+  "recipeFormName": "Recipe Name",
+  "recipeFormNameHint": "Name of the recipe",
+  "recipeFormNameRequired": "Enter a recipe name",
+  "recipeFormAddIngredient": "Add ingredient",
+  "recipeFormIngredientsRequired": "Add at least one ingredient with its grams",
+  "recipeFormFinalWeight": "Final Weight (g)",
+  "recipeFormFinalWeightHint": "Leave empty to use the ingredients' total",
+  "recipeFormPickerTitle": "Choose an ingredient",
+  "recipeTotalsPer100g": "Per 100 g",
+  "recipeTotalsWeight": "{grams} g in total",
+  "@recipeTotalsWeight": {
+    "placeholders": {
+      "grams": {
+        "type": "int"
+      }
+    }
+  }
 }

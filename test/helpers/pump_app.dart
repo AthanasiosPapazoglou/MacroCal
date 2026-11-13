@@ -41,6 +41,7 @@ Future<void> pumpApp(WidgetTester tester) async {
   final activities = MockActivityRepository();
   final foodLog = MockFoodLogRepository();
   final ingredients = MockIngredientRepository();
+  final recipes = MockRecipeRepository();
   final history = MockHistoryRepository();
 
   tester.view
@@ -61,6 +62,7 @@ Future<void> pumpApp(WidgetTester tester) async {
       }[invocation.positionalArguments.single as int],
     ),
   );
+  when(recipes.watchRecipes).thenAnswer((_) => Stream.value(const []));
   when(() => history.hasLogFor(any())).thenAnswer((_) async => false);
   when(history.watchDayLogs).thenAnswer((_) => Stream.value(const []));
   when(() => history.watchDayLog(any())).thenAnswer((_) => Stream.value(null));
@@ -72,7 +74,7 @@ Future<void> pumpApp(WidgetTester tester) async {
       activityRepository: activities,
       foodLogRepository: foodLog,
       ingredientRepository: ingredients,
-      recipeRepository: MockRecipeRepository(),
+      recipeRepository: recipes,
       productLookupRepository: MockProductLookupRepository(),
       historyRepository: history,
       archiveDay: MockArchiveDay(),

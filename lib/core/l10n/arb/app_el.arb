@@ -157,5 +157,20 @@
   "historyDayBurned": "Κάηκαν με δραστηριότητα: {kcal} kcal",
   "historyDayDelete": "Διαγραφή ημέρας",
   "historyDayDeleteTitle": "Διαγραφή αυτής της ημέρας;",
-  "historyDayDeleteBody": "Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται."
+  "historyDayDeleteBody": "Η αρχειοθετημένη πρόσληψη θα αφαιρεθεί από το ιστορικό. Η ενέργεια δεν αναιρείται.",
+  "foodsPageIngredients": "Συστατικά",
+  "foodsPageRecipes": "Συνταγές",
+  "foodsPageNoRecipes": "Δεν υπάρχουν ακόμα συνταγές",
+  "foodsPageNoRecipesHint": "Φτιάξτε μία από τα συστατικά σας",
+  "recipeFormTitleAdd": "Νέα Συνταγή",
+  "recipeFormName": "Όνομα Συνταγής",
+  "recipeFormNameHint": "Όνομα της συνταγής",
+  "recipeFormNameRequired": "Εισάγετε όνομα συνταγής",
+  "recipeFormAddIngredient": "Προσθήκη συστατικού",
+  "recipeFormIngredientsRequired": "Προσθέστε τουλάχιστον ένα συστατικό με τα γραμμάριά του",
+  "recipeFormFinalWeight": "Τελικό Βάρος (g)",
+  "recipeFormFinalWeightHint": "Αφήστε το κενό για το σύνολο των συστατικών",
+  "recipeFormPickerTitle": "Επιλέξτε συστατικό",
+  "recipeTotalsPer100g": "Ανά 100 g",
+  "recipeTotalsWeight": "{grams} g συνολικά"
 }

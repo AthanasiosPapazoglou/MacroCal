@@ -1045,6 +1045,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Its archived intake will be removed from the history. This cannot be undone.'**
   String get historyDayDeleteBody;
+
+  /// No description provided for @foodsPageIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get foodsPageIngredients;
+
+  /// No description provided for @foodsPageRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get foodsPageRecipes;
+
+  /// No description provided for @foodsPageNoRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes yet'**
+  String get foodsPageNoRecipes;
+
+  /// No description provided for @foodsPageNoRecipesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Build one from your ingredients'**
+  String get foodsPageNoRecipesHint;
+
+  /// No description provided for @recipeFormTitleAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'New Recipe'**
+  String get recipeFormTitleAdd;
+
+  /// No description provided for @recipeFormName.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe Name'**
+  String get recipeFormName;
+
+  /// No description provided for @recipeFormNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the recipe'**
+  String get recipeFormNameHint;
+
+  /// No description provided for @recipeFormNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a recipe name'**
+  String get recipeFormNameRequired;
+
+  /// No description provided for @recipeFormAddIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient'**
+  String get recipeFormAddIngredient;
+
+  /// No description provided for @recipeFormIngredientsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one ingredient with its grams'**
+  String get recipeFormIngredientsRequired;
+
+  /// No description provided for @recipeFormFinalWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Weight (g)'**
+  String get recipeFormFinalWeight;
+
+  /// No description provided for @recipeFormFinalWeightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty to use the ingredients\' total'**
+  String get recipeFormFinalWeightHint;
+
+  /// No description provided for @recipeFormPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an ingredient'**
+  String get recipeFormPickerTitle;
+
+  /// No description provided for @recipeTotalsPer100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g'**
+  String get recipeTotalsPer100g;
+
+  /// No description provided for @recipeTotalsWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'{grams} g in total'**
+  String recipeTotalsWeight(int grams);
 }
 
 class _AppLocalizationsDelegate

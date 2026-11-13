@@ -8,11 +8,12 @@ import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
 import 'package:macro_cal_public/core/widgets/search_field.dart';
-import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/food_bank_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_bank_action_bar.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_tile.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_kind_switch.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_tile.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 
 class FoodBankView extends StatefulWidget {
@@ -43,6 +44,12 @@ class _FoodBankViewState extends State<FoodBankView> {
     setState(() => _isSearching = !_isSearching);
   }
 
+  String get _newFoodRoute =>
+      switch (context.read<FoodBankCubit>().state.kind) {
+        FoodKind.ingredient => AppRoutes.newIngredient,
+        FoodKind.recipe => AppRoutes.newRecipe,
+      };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +59,16 @@ class _FoodBankViewState extends State<FoodBankView> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 56),
         child: Column(
           children: [
+            BlocBuilder<FoodBankCubit, FoodBankState>(
+              buildWhen: (previous, current) => previous.kind != current.kind,
+              builder: (context, state) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: FoodKindSwitch(
+                  kind: state.kind,
+                  onChanged: context.read<FoodBankCubit>().selectKind,
+                ),
+              ),
+            ),
             FoodBankActionBar(
               isListView: _isListView,
               isSearching: _isSearching,
@@ -74,15 +91,10 @@ class _FoodBankViewState extends State<FoodBankView> {
                   if (state.status == FoodBankStatus.loading) {
                     return const SizedBox.shrink();
                   }
-                  final ingredients = state.visibleIngredients;
-                  if (ingredients.isEmpty) {
-                    return EmptyState(
-                      title: state.isFiltering
-                          ? context.l10n.foodsPageEmptyPageTitleNoResults
-                          : context.l10n.foodsPageEmptyPageTitleNoItems,
-                    );
-                  }
-                  return _ingredientCollection(ingredients);
+                  return switch (state.kind) {
+                    FoodKind.ingredient => _ingredients(state),
+                    FoodKind.recipe => _recipes(state),
+                  };
                 },
               ),
             ),
@@ -90,7 +102,7 @@ class _FoodBankViewState extends State<FoodBankView> {
         ),
       ),
       floatingActionButton: IconButton(
-        onPressed: () => context.push(AppRoutes.newIngredient),
+        onPressed: () => context.push(_newFoodRoute),
         icon: const Icon(Icons.format_list_bulleted_add, size: 30),
         style: IconButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
@@ -100,21 +112,54 @@ class _FoodBankViewState extends State<FoodBankView> {
     );
   }
 
-  Widget _ingredientCollection(List<Ingredient> ingredients) {
-    Widget tile(int index) => IngredientTile(
-      ingredient: ingredients[index],
-      isListItem: _isListView,
-      onTap: () => context.push(AppRoutes.ingredient(ingredients[index].id)),
+  Widget _ingredients(FoodBankState state) {
+    final ingredients = state.visibleIngredients;
+    if (ingredients.isEmpty) {
+      return EmptyState(
+        title: state.isFiltering
+            ? context.l10n.foodsPageEmptyPageTitleNoResults
+            : context.l10n.foodsPageEmptyPageTitleNoItems,
+      );
+    }
+    return _collection(
+      ingredients.length,
+      (index) => FoodTile(
+        name: ingredients[index].name,
+        isListItem: _isListView,
+        onTap: () => context.push(AppRoutes.ingredient(ingredients[index].id)),
+      ),
     );
+  }
 
+  Widget _recipes(FoodBankState state) {
+    final recipes = state.visibleRecipes;
+    if (recipes.isEmpty) {
+      return state.isFiltering
+          ? EmptyState(title: context.l10n.foodsPageEmptyPageTitleNoResults)
+          : EmptyState(
+              title: context.l10n.foodsPageNoRecipes,
+              subtitle: context.l10n.foodsPageNoRecipesHint,
+            );
+    }
+    return _collection(
+      recipes.length,
+      (index) => FoodTile(
+        name: recipes[index].name,
+        isListItem: _isListView,
+        icon: Icons.menu_book_rounded,
+      ),
+    );
+  }
+
+  Widget _collection(int count, Widget Function(int index) tile) {
     if (_isListView) {
       return ListView.builder(
-        itemCount: ingredients.length,
+        itemCount: count,
         itemBuilder: (_, index) => tile(index),
       );
     }
     return GridView.builder(
-      itemCount: ingredients.length,
+      itemCount: count,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: max(1, MediaQuery.sizeOf(context).width ~/ 120),
         crossAxisSpacing: 1,

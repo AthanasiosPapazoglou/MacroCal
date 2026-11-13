@@ -9,6 +9,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/food_bank
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_form_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
@@ -59,6 +60,7 @@ GoRouter createAppRouter() {
                 builder: (_, _) => const FoodBankPage(),
                 routes: [
                   fullScreen('new', (_) => const IngredientFormPage()),
+                  fullScreen('recipes/new', (_) => const RecipeFormPage()),
                   fullScreen(
                     ':id',
                     (state) => IngredientDetailsPage(ingredientId: _id(state)!),
