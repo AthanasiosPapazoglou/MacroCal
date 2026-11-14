@@ -710,4 +710,51 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get micronutrientIodine => 'Ιώδιο';
+
+  @override
+  String get referenceFoodsFill => 'Συμπλήρωση από τρόφιμο αναφοράς';
+
+  @override
+  String get referenceFoodsTitle => 'Τρόφιμα αναφοράς';
+
+  @override
+  String get referenceFoodsSearchHint => 'Αναζήτηση, π.χ. μήλο ή apple';
+
+  @override
+  String get referenceFoodsNoResults => 'Δεν βρέθηκαν τρόφιμα';
+
+  @override
+  String get referenceFoodsLoadFailed =>
+      'Δεν ήταν δυνατή η φόρτωση των τροφίμων αναφοράς';
+
+  @override
+  String get referenceFoodsSource => 'Πηγή: ANSES-CIQUAL 2025';
+
+  @override
+  String referenceFoodsCopyTitle(String name) {
+    return 'Αντιγραφή τιμών από: $name';
+  }
+
+  @override
+  String get referenceFoodsCopyBody =>
+      'Τα μικροθρεπτικά θα αντικατασταθούν. Να αντικατασταθούν και οι θερμίδες και τα μακροθρεπτικά;';
+
+  @override
+  String get referenceFoodsCopyCancel => 'Ακύρωση';
+
+  @override
+  String get referenceFoodsCopyMicros => 'Μόνο μικροθρεπτικά';
+
+  @override
+  String get referenceFoodsCopyAll => 'Και μακροθρεπτικά';
+
+  @override
+  String get settingsPageAboutData => 'Σχετικά με τα δεδομένα';
+
+  @override
+  String get settingsPageAboutDataClose => 'Κλείσιμο';
+
+  @override
+  String get settingsPageAboutDataCiqual =>
+      'Τα τρόφιμα αναφοράς προέρχονται από τον γαλλικό πίνακα σύστασης τροφίμων ANSES-CIQUAL 2025 (Anses, ενημέρωση 19 Νοεμβρίου 2025, https://doi.org/10.57745/RDMHWY) και χρησιμοποιούνται με την άδεια Licence Ouverte / Open Licence 2.0 (Etalab). Το MacroCal χρησιμοποιεί μια επιλογή 696 τροφίμων με στρογγυλεμένες τιμές· τα ελληνικά ονόματα είναι μεταφράσεις του MacroCal.';
 }

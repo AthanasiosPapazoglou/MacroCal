@@ -4,6 +4,7 @@ import 'package:macro_cal_public/app/app.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/reference_food_repository.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
@@ -32,6 +33,9 @@ class MockRecipeRepository extends Mock implements RecipeRepository;
 class MockProductLookupRepository extends Mock
     implements ProductLookupRepository;
 
+class MockReferenceFoodRepository extends Mock
+    implements ReferenceFoodRepository;
+
 class MockHistoryRepository extends Mock implements HistoryRepository;
 
 class MockArchiveDay extends Mock implements ArchiveDay;
@@ -45,12 +49,14 @@ Future<void> pumpApp(WidgetTester tester) async {
   final recipes = MockRecipeRepository();
   final history = MockHistoryRepository();
   final settings = MockSettingsRepository();
+  final references = MockReferenceFoodRepository();
 
   tester.view
     ..physicalSize = const Size(1179, 2556)
     ..devicePixelRatio = 3;
   addTearDown(tester.view.reset);
 
+  when(references.loadAll).thenAnswer((_) async => const []);
   when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
   when(profile.watchProfile).thenAnswer((_) => Stream.value(const Profile()));
   when(activities.watchEntries).thenAnswer((_) => Stream.value(const []));
@@ -89,6 +95,7 @@ Future<void> pumpApp(WidgetTester tester) async {
       ingredientRepository: ingredients,
       recipeRepository: recipes,
       productLookupRepository: MockProductLookupRepository(),
+      referenceFoodRepository: references,
       historyRepository: history,
       archiveDay: MockArchiveDay(),
       initialLanguage: AppLanguage.english,

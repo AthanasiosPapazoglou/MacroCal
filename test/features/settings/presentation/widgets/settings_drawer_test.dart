@@ -61,6 +61,22 @@ void main() {
     expect(find.byType(LanguageSwitch), findsOneWidget);
   });
 
+  testWidgets('about the data names the food table and its licence', (
+    tester,
+  ) async {
+    await openDrawer(tester);
+
+    await tester.tap(find.text('About the data'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('ANSES-CIQUAL 2025'), findsOneWidget);
+    expect(find.textContaining('Open Licence 2.0'), findsOneWidget);
+
+    await tester.tap(find.text('Close'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('ANSES-CIQUAL 2025'), findsNothing);
+  });
+
   testWidgets('choosing the Greek flag selects Greek', (tester) async {
     await openDrawer(tester);
 

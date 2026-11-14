@@ -11,6 +11,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredien
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_form_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/reference_food_picker_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
@@ -129,6 +130,10 @@ GoRouter createAppRouter() {
         ],
       ),
       fullScreen(AppRoutes.scan, (_) => const BarcodeScannerPage()),
+      fullScreen(
+        AppRoutes.referenceFoods,
+        (_) => const ReferenceFoodPickerPage(),
+      ),
     ],
   );
 }

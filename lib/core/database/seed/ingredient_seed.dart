@@ -22,6 +22,7 @@ class IngredientSeed {
     required this.saturatedG,
     required this.fiberG,
     required this.saltMg,
+    this.micros = const {},
   });
 
   factory fromJson(Map<String, dynamic> json) => _$IngredientSeedFromJson(json);
@@ -47,6 +48,9 @@ class IngredientSeed {
   final double fiberG;
   @JsonKey(name: 'salt')
   final double saltMg;
+
+  /// Micronutrient amounts per 100 g keyed by `Micronutrient` name.
+  final Map<String, double> micros;
 
   Map<String, Expression<Object>> toColumns() => {
     'name': Variable(name),
@@ -75,12 +79,28 @@ Future<List<IngredientSeed>> loadDefaultIngredientSeeds([
   ];
 }
 
-Future<void> seedIngredients<T extends Table, D>(
+/// Inserts [seeds], and their micronutrients when [micronutrients] is given.
+Future<void> seedIngredients<T extends Table, D, MT extends Table, MD>(
   GeneratedDatabase database,
   TableInfo<T, D> ingredients,
-  List<IngredientSeed> seeds,
-) => database.batch(
-  (batch) => batch.insertAll(ingredients, [
-    for (final seed in seeds) RawValuesInsertable<D>(seed.toColumns()),
-  ]),
-);
+  List<IngredientSeed> seeds, {
+  TableInfo<MT, MD>? micronutrients,
+}) async {
+  for (final seed in seeds) {
+    final id = await database
+        .into(ingredients)
+        .insert(RawValuesInsertable<D>(seed.toColumns()));
+    if (micronutrients == null) continue;
+    for (final MapEntry(key: nutrient, value: amount) in seed.micros.entries) {
+      await database
+          .into(micronutrients)
+          .insert(
+            RawValuesInsertable<MD>({
+              'ingredient_id': Variable(id),
+              'nutrient': Variable(nutrient),
+              'amount': Variable(amount),
+            }),
+          );
+    }
+  }
+}

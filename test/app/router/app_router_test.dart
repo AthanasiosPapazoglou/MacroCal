@@ -9,6 +9,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredien
 import 'package:macro_cal_public/features/food_bank/presentation/pages/nutrient_detail_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_details_page.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/recipe_form_page.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/pages/reference_food_picker_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
@@ -52,6 +53,7 @@ void main() {
     AppRoutes.consumption: ConsumptionPage,
     AppRoutes.exercise: ExercisePage,
     AppRoutes.newIngredient: IngredientFormPage,
+    AppRoutes.referenceFoods: ReferenceFoodPickerPage,
     AppRoutes.newRecipe: RecipeFormPage,
     AppRoutes.recipe(1): RecipeDetailsPage,
     AppRoutes.editRecipe(1): RecipeFormPage,

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:macro_cal_public/app/app.dart';
@@ -7,6 +8,7 @@ import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/core/database/drift_transaction_runner.dart';
 import 'package:macro_cal_public/core/database/seed/ingredient_seed.dart';
 import 'package:macro_cal_public/features/food_bank/data/datasources/open_food_facts_client.dart';
+import 'package:macro_cal_public/features/food_bank/data/repositories/asset_reference_food_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_recipe_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/open_food_facts_product_lookup_repository.dart';
@@ -49,6 +51,7 @@ Future<App> createApp({
     productLookupRepository: OpenFoodFactsProductLookupRepository(
       OpenFoodFactsClient(httpClient),
     ),
+    referenceFoodRepository: AssetReferenceFoodRepository(rootBundle),
     historyRepository: historyRepository,
     archiveDay: ArchiveDay(
       historyRepository,

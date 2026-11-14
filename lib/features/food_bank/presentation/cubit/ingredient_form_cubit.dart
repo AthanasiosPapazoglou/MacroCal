@@ -56,9 +56,9 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
             ),
             IngredientField.name: ingredient.name,
             IngredientField.category: ingredient.category ?? '',
-            ..._nutrientValues(ingredient.per100g),
+            ...nutrientValues(ingredient.per100g),
           },
-          microValues: _microValues(ingredient.per100g.micros),
+          microValues: microValues(ingredient.per100g.micros),
           showMicros: showMicros,
         ),
       );
@@ -90,9 +90,9 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
         lookupOutcome: LookupOutcome.found,
         scannedValues: {
           IngredientField.name: product.name,
-          ..._nutrientValues(product.per100g),
+          ...nutrientValues(product.per100g),
         },
-        scannedMicroValues: _microValues(product.per100g.micros),
+        scannedMicroValues: microValues(product.per100g.micros),
       ),
     );
   }
@@ -153,7 +153,8 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
     }
   }
 
-  static Map<IngredientField, String> _nutrientValues(Nutrients per100g) => {
+  /// The form texts of [per100g]'s calories and macros, salt in grams.
+  static Map<IngredientField, String> nutrientValues(Nutrients per100g) => {
     IngredientField.kcal: IngredientField.format(per100g.kcal),
     IngredientField.fatG: IngredientField.format(per100g.fatG),
     IngredientField.saturatedG: IngredientField.format(per100g.saturatedG),
@@ -166,7 +167,8 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
     ),
   };
 
-  static Map<Micronutrient, String> _microValues(Micronutrients micros) => {
+  /// The form texts of the known micronutrients.
+  static Map<Micronutrient, String> microValues(Micronutrients micros) => {
     for (final MapEntry(key: nutrient, value: amount) in micros.amounts.entries)
       nutrient: IngredientField.format(amount),
   };

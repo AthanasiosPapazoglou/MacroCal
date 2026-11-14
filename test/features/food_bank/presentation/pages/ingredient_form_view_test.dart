@@ -13,6 +13,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/cubit_stub.dart';
 import '../../../../helpers/pump_localized.dart';
+import '../../../../helpers/sample_reference_foods.dart';
 
 class _MockIngredientFormCubit extends Mock implements IngredientFormCubit;
 
@@ -55,6 +56,13 @@ void main() {
               ),
             ),
           ],
+        ),
+        GoRoute(
+          path: AppRoutes.referenceFoods,
+          builder: (context, _) => TextButton(
+            onPressed: () => context.pop(referenceFeta),
+            child: const Text('pick feta'),
+          ),
         ),
       ],
     ),
@@ -172,6 +180,85 @@ void main() {
 
     expect(find.text('110'), findsOneWidget);
     expect(find.text('4.4'), findsNothing);
+  });
+
+  Future<Map<IngredientField, String>> pickFeta(
+    WidgetTester tester, {
+    required String choice,
+  }) async {
+    final button = find.text('Fill from a reference food');
+    await tester.ensureVisible(button);
+    await tester.tap(button);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('pick feta'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        "Copy values from Feta or Feta-type cheese, 100% from ewe's milk",
+      ),
+      findsOneWidget,
+    );
+    await tester.tap(find.text(choice));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Save'));
+    await tester.tap(find.text('Save'));
+    await tester.pump();
+    final captured = verify(
+      () => cubit.save(captureAny(), micros: captureAny(named: 'micros')),
+    ).captured;
+    expect(
+      captured.last as Map<Micronutrient, String>,
+      allOf(
+        containsPair(Micronutrient.calcium, '276.0'),
+        containsPair(Micronutrient.iron, ''),
+      ),
+    );
+    return captured.first as Map<IngredientField, String>;
+  }
+
+  testWidgets('the reference button shows only while tracking is on', (
+    tester,
+  ) async {
+    await pumpView(tester);
+    expect(find.text('Fill from a reference food'), findsNothing);
+
+    stub.emit(ready.copyWith(showMicros: true));
+    await pumpView(tester);
+    expect(find.text('Fill from a reference food'), findsOneWidget);
+  });
+
+  testWidgets('a reference food fills the name and replaces the micros', (
+    tester,
+  ) async {
+    stub.emit(
+      ready.copyWith(
+        showMicros: true,
+        microValues: {Micronutrient.iron: '4.4'},
+      ),
+    );
+    await pumpView(tester);
+
+    final input = await pickFeta(tester, choice: 'Micronutrients only');
+
+    expect(
+      input[IngredientField.name],
+      "Feta or Feta-type cheese, 100% from ewe's milk",
+    );
+    expect(input[IngredientField.kcal], '');
+  });
+
+  testWidgets('macros too copies calories and salt in grams, keeps the name', (
+    tester,
+  ) async {
+    stub.emit(ready.copyWith(showMicros: true));
+    await pumpView(tester);
+    await tester.enterText(field(IngredientField.name), 'My feta');
+
+    final input = await pickFeta(tester, choice: 'Macros too');
+
+    expect(input[IngredientField.name], 'My feta');
+    expect(input[IngredientField.kcal], '264.7');
+    expect(input[IngredientField.saltG], '2.7');
   });
 
   testWidgets('a found product fills the form and says so', (tester) async {

@@ -704,4 +704,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get micronutrientIodine => 'Iodine';
+
+  @override
+  String get referenceFoodsFill => 'Fill from a reference food';
+
+  @override
+  String get referenceFoodsTitle => 'Reference foods';
+
+  @override
+  String get referenceFoodsSearchHint => 'Search, e.g. apple or μήλο';
+
+  @override
+  String get referenceFoodsNoResults => 'No matching foods';
+
+  @override
+  String get referenceFoodsLoadFailed =>
+      'The reference foods could not be loaded';
+
+  @override
+  String get referenceFoodsSource => 'Source: ANSES-CIQUAL 2025';
+
+  @override
+  String referenceFoodsCopyTitle(String name) {
+    return 'Copy values from $name';
+  }
+
+  @override
+  String get referenceFoodsCopyBody =>
+      'The micronutrients are replaced. Replace the calories and macronutrients too?';
+
+  @override
+  String get referenceFoodsCopyCancel => 'Cancel';
+
+  @override
+  String get referenceFoodsCopyMicros => 'Micronutrients only';
+
+  @override
+  String get referenceFoodsCopyAll => 'Macros too';
+
+  @override
+  String get settingsPageAboutData => 'About the data';
+
+  @override
+  String get settingsPageAboutDataClose => 'Close';
+
+  @override
+  String get settingsPageAboutDataCiqual =>
+      'Reference foods come from the ANSES-CIQUAL 2025 French food composition table (Anses, updated 19 November 2025, https://doi.org/10.57745/RDMHWY), used under the Licence Ouverte / Open Licence 2.0 (Etalab). MacroCal uses a selection of 696 foods with rounded values; the Greek names are MacroCal\'s translations.';
 }
