@@ -32,6 +32,15 @@ void main() {
     expect(product?.nutriments?.energyKcal, 72);
     expect(product?.nutriments?.fiber, 0.5);
     expect(product?.nutriments?.salt, 0.12);
+    expect(product?.nutriments?.amountsPer100g, containsPair('calcium', 0.11));
+    expect(
+      product?.nutriments?.amountsPer100g,
+      containsPair('vitamin-d', 0.0000012),
+    );
+    expect(
+      product?.nutriments?.amountsPer100g,
+      isNot(contains('calcium_unit')),
+    );
   });
 
   test('encodes the barcode as a single path segment', () async {

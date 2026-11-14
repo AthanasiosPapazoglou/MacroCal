@@ -1213,6 +1213,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Track micronutrients'**
   String get settingsPageTrackMicronutrients;
+
+  /// No description provided for @micronutrientsPer100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients per 100 g'**
+  String get micronutrientsPer100g;
+
+  /// No description provided for @micronutrientsFormHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional; leave empty when unknown'**
+  String get micronutrientsFormHint;
+
+  /// No description provided for @micronutrientGroupVitamins.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamins'**
+  String get micronutrientGroupVitamins;
+
+  /// No description provided for @micronutrientGroupMinerals.
+  ///
+  /// In en, this message translates to:
+  /// **'Minerals'**
+  String get micronutrientGroupMinerals;
+
+  /// No description provided for @micronutrientGroupTraceElements.
+  ///
+  /// In en, this message translates to:
+  /// **'Trace elements'**
+  String get micronutrientGroupTraceElements;
+
+  /// No description provided for @micronutrientVitaminA.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin A'**
+  String get micronutrientVitaminA;
+
+  /// No description provided for @micronutrientVitaminD.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin D'**
+  String get micronutrientVitaminD;
+
+  /// No description provided for @micronutrientVitaminE.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin E'**
+  String get micronutrientVitaminE;
+
+  /// No description provided for @micronutrientVitaminK.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin K'**
+  String get micronutrientVitaminK;
+
+  /// No description provided for @micronutrientVitaminC.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin C'**
+  String get micronutrientVitaminC;
+
+  /// No description provided for @micronutrientThiamin.
+  ///
+  /// In en, this message translates to:
+  /// **'Thiamin (B1)'**
+  String get micronutrientThiamin;
+
+  /// No description provided for @micronutrientRiboflavin.
+  ///
+  /// In en, this message translates to:
+  /// **'Riboflavin (B2)'**
+  String get micronutrientRiboflavin;
+
+  /// No description provided for @micronutrientNiacin.
+  ///
+  /// In en, this message translates to:
+  /// **'Niacin (B3)'**
+  String get micronutrientNiacin;
+
+  /// No description provided for @micronutrientVitaminB6.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B6'**
+  String get micronutrientVitaminB6;
+
+  /// No description provided for @micronutrientFolate.
+  ///
+  /// In en, this message translates to:
+  /// **'Folate (B9)'**
+  String get micronutrientFolate;
+
+  /// No description provided for @micronutrientVitaminB12.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B12'**
+  String get micronutrientVitaminB12;
+
+  /// No description provided for @micronutrientCalcium.
+  ///
+  /// In en, this message translates to:
+  /// **'Calcium'**
+  String get micronutrientCalcium;
+
+  /// No description provided for @micronutrientPhosphorus.
+  ///
+  /// In en, this message translates to:
+  /// **'Phosphorus'**
+  String get micronutrientPhosphorus;
+
+  /// No description provided for @micronutrientMagnesium.
+  ///
+  /// In en, this message translates to:
+  /// **'Magnesium'**
+  String get micronutrientMagnesium;
+
+  /// No description provided for @micronutrientPotassium.
+  ///
+  /// In en, this message translates to:
+  /// **'Potassium'**
+  String get micronutrientPotassium;
+
+  /// No description provided for @micronutrientIron.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron'**
+  String get micronutrientIron;
+
+  /// No description provided for @micronutrientZinc.
+  ///
+  /// In en, this message translates to:
+  /// **'Zinc'**
+  String get micronutrientZinc;
+
+  /// No description provided for @micronutrientCopper.
+  ///
+  /// In en, this message translates to:
+  /// **'Copper'**
+  String get micronutrientCopper;
+
+  /// No description provided for @micronutrientManganese.
+  ///
+  /// In en, this message translates to:
+  /// **'Manganese'**
+  String get micronutrientManganese;
+
+  /// No description provided for @micronutrientSelenium.
+  ///
+  /// In en, this message translates to:
+  /// **'Selenium'**
+  String get micronutrientSelenium;
+
+  /// No description provided for @micronutrientIodine.
+  ///
+  /// In en, this message translates to:
+  /// **'Iodine'**
+  String get micronutrientIodine;
 }
 
 class _AppLocalizationsDelegate

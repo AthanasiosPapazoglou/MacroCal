@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/product_info.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
@@ -7,6 +9,7 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/product_
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_ingredients.dart';
@@ -16,9 +19,12 @@ class _MockIngredientRepository extends Mock implements IngredientRepository;
 class _MockProductLookupRepository extends Mock
     implements ProductLookupRepository;
 
+class _MockSettingsRepository extends Mock implements SettingsRepository;
+
 void main() {
   late IngredientRepository ingredients;
   late ProductLookupRepository lookup;
+  late SettingsRepository settings;
 
   const formInput = {
     IngredientField.referenceGrams: '40',
@@ -51,6 +57,8 @@ void main() {
   setUp(() {
     ingredients = _MockIngredientRepository();
     lookup = _MockProductLookupRepository();
+    settings = _MockSettingsRepository();
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
     when(
       () => ingredients.addIngredient(
         name: any(named: 'name'),
@@ -68,6 +76,7 @@ void main() {
     final cubit = IngredientFormCubit(
       ingredients,
       lookup,
+      settings,
       ingredientId: ingredientId,
     );
     addTearDown(cubit.close);
@@ -82,6 +91,13 @@ void main() {
       expect(IngredientField.parse('1,5'), 0);
       expect(IngredientField.parse('-3'), 0);
       expect(IngredientField.parse('.'), 0);
+    });
+
+    test('parseOptional leaves empty and invalid input unknown', () {
+      expect(IngredientField.parseOptional('0'), 0);
+      expect(IngredientField.parseOptional('2.5'), 2.5);
+      expect(IngredientField.parseOptional(''), isNull);
+      expect(IngredientField.parseOptional('1,5'), isNull);
     });
 
     test('format drops floating point noise', () {
@@ -103,6 +119,35 @@ void main() {
         values: {IngredientField.referenceGrams: '100'},
       ),
     );
+  });
+
+  test('the form shows micronutrients when tracking is on', () async {
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(true));
+    final cubit = create();
+
+    await cubit.load();
+
+    expect(cubit.state.showMicros, isTrue);
+  });
+
+  test('editing prefills the known micronutrients', () async {
+    final milk = sampleMilk.copyWith(
+      per100g: sampleMilk.per100g.copyWith(
+        micros: const Micronutrients(
+          amounts: {Micronutrient.calcium: 120, Micronutrient.iodine: 0},
+        ),
+      ),
+    );
+    when(() => ingredients.watchIngredient(milk.id))
+        .thenAnswer((_) => Stream.value(milk));
+    final cubit = create(ingredientId: milk.id);
+
+    await cubit.load();
+
+    expect(cubit.state.microValues, {
+      Micronutrient.calcium: '120.0',
+      Micronutrient.iodine: '0.0',
+    });
   });
 
   test('editing prefills every field, with salt in grams', () async {
@@ -142,6 +187,36 @@ void main() {
     ).called(1);
   });
 
+  test(
+    'saving keeps given micronutrients and leaves the rest unknown',
+    () async {
+      final cubit = create();
+      await cubit.load();
+
+      await cubit.save(
+        formInput,
+        micros: {
+          Micronutrient.iron: '4.7',
+          Micronutrient.zinc: '0',
+          Micronutrient.vitaminC: '',
+          Micronutrient.iodine: 'abc',
+        },
+      );
+
+      verify(
+        () => ingredients.addIngredient(
+          name: 'Oats',
+          per100g: oats.copyWith(
+            micros: const Micronutrients(
+              amounts: {Micronutrient.iron: 4.7, Micronutrient.zinc: 0},
+            ),
+          ),
+          referenceGrams: 40,
+        ),
+      ).called(1);
+    },
+  );
+
   test('saving an edit keeps the id and updates the ingredient', () async {
     final cubit = create(ingredientId: sampleMilk.id);
     await cubit.load();
@@ -180,7 +255,12 @@ void main() {
     when(() => lookup.lookup('123')).thenAnswer(
       (_) async => const ProductInfo(
         name: 'Sample Yogurt',
-        per100g: Nutrients(kcal: 72, proteinG: 10, saltMg: 120),
+        per100g: Nutrients(
+          kcal: 72,
+          proteinG: 10,
+          saltMg: 120,
+          micros: Micronutrients(amounts: {Micronutrient.calcium: 110}),
+        ),
       ),
     );
     final cubit = create();
@@ -197,6 +277,7 @@ void main() {
       cubit.state.scannedValues,
       isNot(contains(IngredientField.category)),
     );
+    expect(cubit.state.scannedMicroValues, {Micronutrient.calcium: '110.0'});
   });
 
   test('an unknown barcode reports notFound', () async {

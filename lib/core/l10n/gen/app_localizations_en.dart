@@ -626,4 +626,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPageTrackMicronutrients => 'Track micronutrients';
+
+  @override
+  String get micronutrientsPer100g => 'Micronutrients per 100 g';
+
+  @override
+  String get micronutrientsFormHint => 'Optional; leave empty when unknown';
+
+  @override
+  String get micronutrientGroupVitamins => 'Vitamins';
+
+  @override
+  String get micronutrientGroupMinerals => 'Minerals';
+
+  @override
+  String get micronutrientGroupTraceElements => 'Trace elements';
+
+  @override
+  String get micronutrientVitaminA => 'Vitamin A';
+
+  @override
+  String get micronutrientVitaminD => 'Vitamin D';
+
+  @override
+  String get micronutrientVitaminE => 'Vitamin E';
+
+  @override
+  String get micronutrientVitaminK => 'Vitamin K';
+
+  @override
+  String get micronutrientVitaminC => 'Vitamin C';
+
+  @override
+  String get micronutrientThiamin => 'Thiamin (B1)';
+
+  @override
+  String get micronutrientRiboflavin => 'Riboflavin (B2)';
+
+  @override
+  String get micronutrientNiacin => 'Niacin (B3)';
+
+  @override
+  String get micronutrientVitaminB6 => 'Vitamin B6';
+
+  @override
+  String get micronutrientFolate => 'Folate (B9)';
+
+  @override
+  String get micronutrientVitaminB12 => 'Vitamin B12';
+
+  @override
+  String get micronutrientCalcium => 'Calcium';
+
+  @override
+  String get micronutrientPhosphorus => 'Phosphorus';
+
+  @override
+  String get micronutrientMagnesium => 'Magnesium';
+
+  @override
+  String get micronutrientPotassium => 'Potassium';
+
+  @override
+  String get micronutrientIron => 'Iron';
+
+  @override
+  String get micronutrientZinc => 'Zinc';
+
+  @override
+  String get micronutrientCopper => 'Copper';
+
+  @override
+  String get micronutrientManganese => 'Manganese';
+
+  @override
+  String get micronutrientSelenium => 'Selenium';
+
+  @override
+  String get micronutrientIodine => 'Iodine';
 }

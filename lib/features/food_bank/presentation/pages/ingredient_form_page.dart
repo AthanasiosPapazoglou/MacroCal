@@ -6,6 +6,7 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredie
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_form_view.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 
 class IngredientFormPage extends StatelessWidget {
   const new({this.ingredientId, super.key});
@@ -19,6 +20,7 @@ class IngredientFormPage extends StatelessWidget {
         final cubit = IngredientFormCubit(
           context.read<IngredientRepository>(),
           context.read<ProductLookupRepository>(),
+          context.read<SettingsRepository>(),
           ingredientId: ingredientId,
         );
         unawaited(cubit.load());

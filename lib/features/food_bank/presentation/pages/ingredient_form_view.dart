@@ -4,11 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/micronutrient_labels.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_field_input.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/lookup_snack_bar.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/micronutrient_input.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/scan_barcode_button.dart';
 
 class IngredientFormView extends StatelessWidget {
@@ -23,6 +26,8 @@ class IngredientFormView extends StatelessWidget {
           ? const Scaffold()
           : _IngredientForm(
               initialValues: state.values,
+              initialMicroValues: state.microValues,
+              showMicros: state.showMicros,
               isEdit: context.read<IngredientFormCubit>().isEdit,
               uncategorisedLabel: context.l10n.ingredientsPageUncategorised,
             ),
@@ -33,11 +38,15 @@ class IngredientFormView extends StatelessWidget {
 class _IngredientForm extends StatefulWidget {
   const new({
     required this.initialValues,
+    required this.initialMicroValues,
+    required this.showMicros,
     required this.isEdit,
     required this.uncategorisedLabel,
   });
 
   final Map<IngredientField, String> initialValues;
+  final Map<Micronutrient, String> initialMicroValues;
+  final bool showMicros;
   final bool isEdit;
   final String uncategorisedLabel;
 
@@ -54,6 +63,15 @@ class _IngredientFormState extends State<_IngredientForm> {
     for (final field in IngredientField.values)
       field: TextEditingController(text: _initialText(field)),
   };
+  final Map<Micronutrient, FocusNode> _microFocusNodes = {
+    for (final nutrient in Micronutrient.values) nutrient: FocusNode(),
+  };
+  late final Map<Micronutrient, TextEditingController> _microControllers = {
+    for (final nutrient in Micronutrient.values)
+      nutrient: TextEditingController(
+        text: widget.initialMicroValues[nutrient] ?? '',
+      ),
+  };
 
   String _initialText(IngredientField field) {
     final value = widget.initialValues[field] ?? '';
@@ -64,10 +82,16 @@ class _IngredientFormState extends State<_IngredientForm> {
 
   @override
   void dispose() {
-    for (final focusNode in _focusNodes.values) {
+    for (final focusNode in [
+      ..._focusNodes.values,
+      ..._microFocusNodes.values,
+    ]) {
       focusNode.dispose();
     }
-    for (final controller in _controllers.values) {
+    for (final controller in [
+      ..._controllers.values,
+      ..._microControllers.values,
+    ]) {
       controller.dispose();
     }
     super.dispose();
@@ -87,6 +111,10 @@ class _IngredientFormState extends State<_IngredientForm> {
           in state.scannedValues.entries) {
         _controllers[field]!.text = text;
       }
+      for (final MapEntry(key: nutrient, value: controller)
+          in _microControllers.entries) {
+        controller.text = state.scannedMicroValues[nutrient] ?? '';
+      }
     }
     ScaffoldMessenger.of(context)
         .showSnackBar(lookupSnackBar(context, outcome));
@@ -100,18 +128,62 @@ class _IngredientFormState extends State<_IngredientForm> {
     }
   }
 
+  void _microSubmitted(Micronutrient nutrient) {
+    if (nutrient == Micronutrient.values.last) {
+      _formKey.currentState!.validate();
+    } else {
+      _microFocusNodes[Micronutrient.values[nutrient.index + 1]]!
+          .requestFocus();
+    }
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-    await context.read<IngredientFormCubit>().save({
-      for (final MapEntry(key: field, value: controller)
-          in _controllers.entries)
-        field:
-            field == IngredientField.category &&
-                controller.text == widget.uncategorisedLabel
-            ? ''
-            : controller.text,
-    });
+    await context.read<IngredientFormCubit>().save(
+      {
+        for (final MapEntry(key: field, value: controller)
+            in _controllers.entries)
+          field:
+              field == IngredientField.category &&
+                  controller.text == widget.uncategorisedLabel
+              ? ''
+              : controller.text,
+      },
+      micros: {
+        for (final MapEntry(key: nutrient, value: controller)
+            in _microControllers.entries)
+          nutrient: controller.text,
+      },
+    );
   }
+
+  Widget _microSection(AppLocalizations l10n) => ExpansionTile(
+    tilePadding: EdgeInsets.zero,
+    childrenPadding: EdgeInsets.zero,
+    title: Text(l10n.micronutrientsPer100g),
+    subtitle: Text(l10n.micronutrientsFormHint),
+    children: [
+      for (final group in MicronutrientGroup.values) ...[
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Text(
+            group.title(l10n),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        for (final nutrient in group.members)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: MicronutrientInput(
+              nutrient: nutrient,
+              controller: _microControllers[nutrient]!,
+              focusNode: _microFocusNodes[nutrient]!,
+              onSubmitted: () => _microSubmitted(nutrient),
+            ),
+          ),
+      ],
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +239,7 @@ class _IngredientFormState extends State<_IngredientForm> {
                               onSubmitted: () => _submitted(field),
                             ),
                           ),
+                        if (widget.showMicros) _microSection(l10n),
                       ],
                     ),
                   ),

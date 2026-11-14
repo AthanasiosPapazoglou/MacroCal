@@ -1,15 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 
 class IngredientFormCubit extends Cubit<IngredientFormState> {
   new(
     this._ingredientRepository,
-    this._productLookupRepository, {
+    this._productLookupRepository,
+    this._settingsRepository, {
     this.ingredientId,
   }) : super(const IngredientFormState());
 
@@ -17,6 +21,7 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
 
   final IngredientRepository _ingredientRepository;
   final ProductLookupRepository _productLookupRepository;
+  final SettingsRepository _settingsRepository;
   final int? ingredientId;
   Ingredient? _editing;
 
@@ -24,16 +29,18 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
 
   Future<void> load() async {
     final id = ingredientId;
-    if (id == null) {
-      emit(
-        const IngredientFormState(
-          status: IngredientFormStatus.ready,
-          values: {IngredientField.referenceGrams: '100'},
-        ),
-      );
-      return;
-    }
     try {
+      final showMicros = await _settingsRepository.watchMicrocalEnabled().first;
+      if (id == null) {
+        emit(
+          IngredientFormState(
+            status: IngredientFormStatus.ready,
+            values: const {IngredientField.referenceGrams: '100'},
+            showMicros: showMicros,
+          ),
+        );
+        return;
+      }
       final ingredient = await _ingredientRepository.watchIngredient(id).first;
       if (ingredient == null) {
         emit(state.copyWith(status: IngredientFormStatus.failure));
@@ -51,6 +58,8 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
             IngredientField.category: ingredient.category ?? '',
             ..._nutrientValues(ingredient.per100g),
           },
+          microValues: _microValues(ingredient.per100g.micros),
+          showMicros: showMicros,
         ),
       );
     } on Exception {
@@ -83,11 +92,16 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
           IngredientField.name: product.name,
           ..._nutrientValues(product.per100g),
         },
+        scannedMicroValues: _microValues(product.per100g.micros),
       ),
     );
   }
 
-  Future<void> save(Map<IngredientField, String> input) async {
+  /// Saves the fields; an empty or unparseable micronutrient is unknown.
+  Future<void> save(
+    Map<IngredientField, String> input, {
+    Map<Micronutrient, String> micros = const {},
+  }) async {
     final name = input[IngredientField.name] ?? '';
     if (name.trim().isEmpty) {
       emit(state.copyWith(status: IngredientFormStatus.invalid));
@@ -105,6 +119,12 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
       saturatedG: number(IngredientField.saturatedG),
       fiberG: number(IngredientField.fiberG),
       saltMg: number(IngredientField.saltG) * _milligramsPerGram,
+      micros: Micronutrients(
+        amounts: {
+          for (final MapEntry(key: nutrient, value: text) in micros.entries)
+            nutrient: ?IngredientField.parseOptional(text),
+        },
+      ),
     );
 
     emit(state.copyWith(status: IngredientFormStatus.saving));
@@ -144,5 +164,10 @@ class IngredientFormCubit extends Cubit<IngredientFormState> {
     IngredientField.saltG: IngredientField.format(
       per100g.saltMg / _milligramsPerGram,
     ),
+  };
+
+  static Map<Micronutrient, String> _microValues(Micronutrients micros) => {
+    for (final MapEntry(key: nutrient, value: amount) in micros.amounts.entries)
+      nutrient: IngredientField.format(amount),
   };
 }

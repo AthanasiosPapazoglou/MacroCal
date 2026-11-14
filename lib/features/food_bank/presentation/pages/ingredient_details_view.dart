@@ -12,6 +12,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredien
 import 'package:macro_cal_public/features/food_bank/presentation/nutrient_kind.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/delete_food_dialog.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_header.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/micronutrient_list.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/nutrient_row.dart';
 
 class IngredientDetailsView extends StatelessWidget {
@@ -51,13 +52,23 @@ class IngredientDetailsView extends StatelessWidget {
           ),
           body: ingredient == null
               ? const SizedBox.shrink()
-              : SwipeBackDetector(child: _details(context, ingredient)),
+              : SwipeBackDetector(
+                  child: _details(
+                    context,
+                    ingredient,
+                    showMicros: state.microcalEnabled,
+                  ),
+                ),
         );
       },
     );
   }
 
-  Widget _details(BuildContext context, Ingredient ingredient) {
+  Widget _details(
+    BuildContext context,
+    Ingredient ingredient, {
+    required bool showMicros,
+  }) {
     final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -77,6 +88,8 @@ class IngredientDetailsView extends StatelessWidget {
                     onTap: () =>
                         context.push(AppRoutes.nutrient(ingredient.id, kind)),
                   ),
+                if (showMicros)
+                  MicronutrientList(micros: ingredient.per100g.micros),
               ],
             ),
           ),

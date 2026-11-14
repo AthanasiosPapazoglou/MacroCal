@@ -36,6 +36,7 @@ class OpenFoodFactsNutrimentsDto {
     this.fiber,
     this.proteins,
     this.salt,
+    this.amountsPer100g = const {},
   });
 
   factory fromJson(Map<String, dynamic> json) =>
@@ -57,7 +58,19 @@ class OpenFoodFactsNutrimentsDto {
   final double? proteins;
   @JsonKey(name: 'salt_100g', fromJson: _number)
   final double? salt;
+
+  /// Every numeric `*_100g` value keyed by its name without the suffix.
+  @JsonKey(readValue: _amountsPer100g)
+  final Map<String, double> amountsPer100g;
 }
+
+const _per100gSuffix = '_100g';
+
+Map<String, double> _amountsPer100g(Map<dynamic, dynamic> json, String _) => {
+  for (final MapEntry(:key, :value) in json.entries)
+    if (key case final String name when name.endsWith(_per100gSuffix))
+      name.substring(0, name.length - _per100gSuffix.length): ?_number(value),
+};
 
 double? _number(Object? value) => switch (value) {
   final num number => number.toDouble(),

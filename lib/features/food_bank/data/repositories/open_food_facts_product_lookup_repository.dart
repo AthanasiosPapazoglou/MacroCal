@@ -1,4 +1,5 @@
 import 'package:macro_cal_public/features/food_bank/data/datasources/open_food_facts_client.dart';
+import 'package:macro_cal_public/features/food_bank/data/mappers/open_food_facts_micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/product_info.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
@@ -27,6 +28,9 @@ class OpenFoodFactsProductLookupRepository implements ProductLookupRepository {
           saturatedG: nutriments?.saturatedFat ?? 0,
           fiberG: nutriments?.fiber ?? 0,
           saltMg: (nutriments?.salt ?? 0) * _milligramsPerGram,
+          micros: micronutrientsFromOpenFoodFacts(
+            nutriments?.amountsPer100g ?? const {},
+          ),
         ),
       );
     } on Exception {

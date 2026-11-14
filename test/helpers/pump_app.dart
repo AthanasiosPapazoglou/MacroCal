@@ -44,12 +44,14 @@ Future<void> pumpApp(WidgetTester tester) async {
   final ingredients = MockIngredientRepository();
   final recipes = MockRecipeRepository();
   final history = MockHistoryRepository();
+  final settings = MockSettingsRepository();
 
   tester.view
     ..physicalSize = const Size(1179, 2556)
     ..devicePixelRatio = 3;
   addTearDown(tester.view.reset);
 
+  when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
   when(profile.watchProfile).thenAnswer((_) => Stream.value(const Profile()));
   when(activities.watchEntries).thenAnswer((_) => Stream.value(const []));
   when(foodLog.watchEntries).thenAnswer((_) => Stream.value(const []));
@@ -80,7 +82,7 @@ Future<void> pumpApp(WidgetTester tester) async {
 
   await tester.pumpWidget(
     App(
-      settingsRepository: MockSettingsRepository(),
+      settingsRepository: settings,
       profileRepository: profile,
       activityRepository: activities,
       foodLogRepository: foodLog,

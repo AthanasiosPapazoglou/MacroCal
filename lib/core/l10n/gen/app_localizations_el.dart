@@ -631,4 +631,83 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get settingsPageTrackMicronutrients => 'Παρακολούθηση μικροθρεπτικών';
+
+  @override
+  String get micronutrientsPer100g => 'Μικροθρεπτικά ανά 100 g';
+
+  @override
+  String get micronutrientsFormHint =>
+      'Προαιρετικά· αφήστε κενό όταν δεν είναι γνωστό';
+
+  @override
+  String get micronutrientGroupVitamins => 'Βιταμίνες';
+
+  @override
+  String get micronutrientGroupMinerals => 'Μέταλλα';
+
+  @override
+  String get micronutrientGroupTraceElements => 'Ιχνοστοιχεία';
+
+  @override
+  String get micronutrientVitaminA => 'Βιταμίνη A';
+
+  @override
+  String get micronutrientVitaminD => 'Βιταμίνη D';
+
+  @override
+  String get micronutrientVitaminE => 'Βιταμίνη E';
+
+  @override
+  String get micronutrientVitaminK => 'Βιταμίνη K';
+
+  @override
+  String get micronutrientVitaminC => 'Βιταμίνη C';
+
+  @override
+  String get micronutrientThiamin => 'Θειαμίνη (B1)';
+
+  @override
+  String get micronutrientRiboflavin => 'Ριβοφλαβίνη (B2)';
+
+  @override
+  String get micronutrientNiacin => 'Νιασίνη (B3)';
+
+  @override
+  String get micronutrientVitaminB6 => 'Βιταμίνη B6';
+
+  @override
+  String get micronutrientFolate => 'Φυλλικό οξύ (B9)';
+
+  @override
+  String get micronutrientVitaminB12 => 'Βιταμίνη B12';
+
+  @override
+  String get micronutrientCalcium => 'Ασβέστιο';
+
+  @override
+  String get micronutrientPhosphorus => 'Φώσφορος';
+
+  @override
+  String get micronutrientMagnesium => 'Μαγνήσιο';
+
+  @override
+  String get micronutrientPotassium => 'Κάλιο';
+
+  @override
+  String get micronutrientIron => 'Σίδηρος';
+
+  @override
+  String get micronutrientZinc => 'Ψευδάργυρος';
+
+  @override
+  String get micronutrientCopper => 'Χαλκός';
+
+  @override
+  String get micronutrientManganese => 'Μαγγάνιο';
+
+  @override
+  String get micronutrientSelenium => 'Σελήνιο';
+
+  @override
+  String get micronutrientIodine => 'Ιώδιο';
 }

@@ -5,16 +5,23 @@ import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.d
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 
 class IngredientDetailsCubit extends Cubit<IngredientDetailsState> {
-  new(this._ingredientRepository, this._recipeRepository, this.ingredientId)
-    : super(const IngredientDetailsState());
+  new(
+    this._ingredientRepository,
+    this._recipeRepository,
+    this._settingsRepository,
+    this.ingredientId,
+  ) : super(const IngredientDetailsState());
 
   final IngredientRepository _ingredientRepository;
   final RecipeRepository _recipeRepository;
+  final SettingsRepository _settingsRepository;
   final int ingredientId;
   StreamSubscription<Ingredient?>? _ingredient;
   StreamSubscription<List<String>>? _recipeNames;
+  StreamSubscription<bool>? _microcalEnabled;
 
   void watch() {
     _ingredient ??= _ingredientRepository
@@ -36,6 +43,10 @@ class IngredientDetailsCubit extends Cubit<IngredientDetailsState> {
           (names) => _emitUnlessDeleted(state.copyWith(recipeNames: names)),
           onError: _fail,
         );
+    _microcalEnabled ??= _settingsRepository.watchMicrocalEnabled().listen(
+      (enabled) => _emitUnlessDeleted(state.copyWith(microcalEnabled: enabled)),
+      onError: _fail,
+    );
   }
 
   Future<void> delete() async {
@@ -58,6 +69,7 @@ class IngredientDetailsCubit extends Cubit<IngredientDetailsState> {
   Future<void> close() async {
     await _ingredient?.cancel();
     await _recipeNames?.cancel();
+    await _microcalEnabled?.cancel();
     await super.close();
   }
 }
