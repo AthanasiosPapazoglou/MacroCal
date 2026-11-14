@@ -8,6 +8,7 @@
 
 - **Custom Profiles:** Create your biological profile to get a fully customized experience for yourself.
 - **Food Logging:** Register the food products you consume on a regular or occasional basis.
+- **Recipes:** Build your own dishes from the ingredients in your Food Bank, with the grams of each and an optional cooked weight, and log them by the grams you eat.
 - **Caloric and Nutritional Tracking:** Monitor your daily intake of calories, proteins, dietary fiber, sugars, saturated fats, and salt.
 - **Exercise Logging:** Record your exercise activities to adjust your caloric requirements and macronutrient thresholds.
 - **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives. (In Progress)
@@ -129,6 +130,8 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
   
 2. **Log Food:**
     - Add food items to your Food Bank by selecting from a database of common foods or entering custom foods.
+    - Switch the Food Bank to Recipes to build a dish from your ingredients; enter its final weight if cooking changes it.
+    - On the Consumption page, use the Ingredients | Recipes switch to log grams of either.
   
 3. **Track Exercise:**
     - Record your daily exercise activities to adjust your caloric requirements.
@@ -152,8 +155,8 @@ lib/
 └── features/
     ├── settings/        # language
     ├── profile/         # daily goals and body metrics
-    ├── food_bank/       # ingredient catalog, form, barcode lookup (Open Food Facts)
-    ├── today/           # overview, consumption, exercise, archive day
+    ├── food_bank/       # ingredients and recipes: catalog, forms, details, barcode lookup (Open Food Facts)
+    ├── today/           # overview, consumption of ingredients and recipes, exercise, archive day
     └── history/         # archived days, statistics, charts, day detail
         ├── domain/      # entities, repository interfaces, services; plain Dart only
         ├── data/        # drift and http implementations of the repositories
