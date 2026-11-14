@@ -1171,6 +1171,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'It will also be removed from these recipes: {recipes}'**
   String ingredientDetailsDeleteDialogRecipes(String recipes);
+
+  /// No description provided for @profilePageSex.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex'**
+  String get profilePageSex;
+
+  /// No description provided for @profilePageSexMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get profilePageSexMale;
+
+  /// No description provided for @profilePageSexFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get profilePageSexFemale;
+
+  /// No description provided for @profilePageBirthYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth year'**
+  String get profilePageBirthYear;
+
+  /// No description provided for @profilePageMicronutrientsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional; used only for micronutrient reference values'**
+  String get profilePageMicronutrientsHint;
+
+  /// No description provided for @profilePageInvalidBirthYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a year from 1900 to this year'**
+  String get profilePageInvalidBirthYear;
+
+  /// No description provided for @settingsPageTrackMicronutrients.
+  ///
+  /// In en, this message translates to:
+  /// **'Track micronutrients'**
+  String get settingsPageTrackMicronutrients;
 }
 
 class _AppLocalizationsDelegate

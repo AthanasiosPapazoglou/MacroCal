@@ -246,5 +246,12 @@
         "type": "String"
       }
     }
-  }
+  },
+  "profilePageSex": "Sex",
+  "profilePageSexMale": "Male",
+  "profilePageSexFemale": "Female",
+  "profilePageBirthYear": "Birth year",
+  "profilePageMicronutrientsHint": "Optional; used only for micronutrient reference values",
+  "profilePageInvalidBirthYear": "Enter a year from 1900 to this year",
+  "settingsPageTrackMicronutrients": "Track micronutrients"
 }

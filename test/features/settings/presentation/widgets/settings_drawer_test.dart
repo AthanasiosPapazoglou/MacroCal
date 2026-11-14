@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
 import 'package:macro_cal_public/features/settings/domain/entities/app_language.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:macro_cal_public/features/settings/presentation/cubit/locale_cubit.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/language_switch.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
@@ -13,8 +14,11 @@ import '../../../../helpers/pump_localized.dart';
 
 class _MockLocaleCubit extends Mock implements LocaleCubit;
 
+class _MockSettingsRepository extends Mock implements SettingsRepository;
+
 void main() {
   late LocaleCubit cubit;
+  late SettingsRepository settings;
 
   setUpAll(() => registerFallbackValue(AppLanguage.english));
 
@@ -24,16 +28,23 @@ void main() {
     when(() => cubit.stream).thenAnswer((_) => const Stream.empty());
     when(cubit.close).thenAnswer((_) async {});
     when(() => cubit.select(any())).thenAnswer((_) async {});
+    settings = _MockSettingsRepository();
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
+    when(() => settings.saveMicrocalEnabled(enabled: any(named: 'enabled')))
+        .thenAnswer((_) async {});
   });
 
   Future<void> openDrawer(WidgetTester tester) async {
     await pumpLocalized(
       tester,
-      home: BlocProvider.value(
-        value: cubit,
-        child: const Scaffold(
-          appBar: MajorPageAppBar(title: 'Title'),
-          endDrawer: SettingsDrawer(),
+      home: RepositoryProvider.value(
+        value: settings,
+        child: BlocProvider.value(
+          value: cubit,
+          child: const Scaffold(
+            appBar: MajorPageAppBar(title: 'Title'),
+            endDrawer: SettingsDrawer(),
+          ),
         ),
       ),
     );
@@ -57,5 +68,20 @@ void main() {
     await tester.pumpAndSettle();
 
     verify(() => cubit.select(AppLanguage.greek)).called(1);
+  });
+
+  testWidgets('micronutrient tracking shows the stored setting and saves it', (
+    tester,
+  ) async {
+    await openDrawer(tester);
+
+    final tile = find.widgetWithText(SwitchListTile, 'Track micronutrients');
+    expect(tester.widget<SwitchListTile>(tile).value, isFalse);
+
+    await tester.tap(tile);
+    await tester.pumpAndSettle();
+
+    expect(tester.widget<SwitchListTile>(tile).value, isTrue);
+    verify(() => settings.saveMicrocalEnabled(enabled: true)).called(1);
   });
 }

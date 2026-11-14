@@ -5,11 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_field.dart';
+import 'package:macro_cal_public/features/profile/presentation/cubit/profile_input.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_state.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_view.dart';
 import 'package:macro_cal_public/features/profile/presentation/widgets/profile_field_input.dart';
+import 'package:macro_cal_public/features/profile/presentation/widgets/sex_selector.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/pump_localized.dart';
@@ -27,7 +31,10 @@ void main() {
     states.add(state);
   }
 
-  setUpAll(() => registerFallbackValue(<ProfileField, String>{}));
+  setUpAll(() {
+    const ProfileInput fallback = (fields: {}, sex: null, birthYear: '');
+    registerFallbackValue(fallback);
+  });
 
   setUp(() {
     cubit = _MockProfileCubit();
@@ -68,7 +75,8 @@ void main() {
     setState(ready);
     await tester.pumpAndSettle();
 
-    expect(find.byType(ProfileFieldInput), findsNWidgets(8));
+    expect(find.byType(ProfileFieldInput), findsNWidgets(9));
+    expect(find.byType(SexSelector), findsOneWidget);
     expect(find.text('BMR Calories'), findsOneWidget);
     expect(find.text('2100.0'), findsOneWidget);
   });
@@ -81,11 +89,12 @@ void main() {
     await tester.pump();
 
     final input =
-        verify(() => cubit.save(captureAny())).captured.single
-            as Map<ProfileField, String>;
-    expect(input, hasLength(8));
-    expect(input[ProfileField.dailyKcal], '1800');
-    expect(input[ProfileField.heightCm], '184.0');
+        verify(() => cubit.save(captureAny())).captured.single as ProfileInput;
+    expect(input.fields, hasLength(8));
+    expect(input.fields[ProfileField.dailyKcal], '1800');
+    expect(input.fields[ProfileField.heightCm], '184.0');
+    expect(input.sex, isNull);
+    expect(input.birthYear, isEmpty);
   });
 
   testWidgets('an invalid number shows an error and is not saved', (
@@ -108,5 +117,54 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('today screen'), findsOneWidget);
+  });
+
+  testWidgets('save sends the chosen sex and the typed birth year', (
+    tester,
+  ) async {
+    await pumpView(tester);
+
+    await tester.ensureVisible(find.text('Female'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Female'));
+    await tester.enterText(find.byType(TextFormField).last, '1990');
+    await tester.tap(find.text('Save'));
+    await tester.pump();
+
+    final input =
+        verify(() => cubit.save(captureAny())).captured.single as ProfileInput;
+    expect(input.sex, Sex.female);
+    expect(input.birthYear, '1990');
+  });
+
+  testWidgets('tapping the chosen sex again clears it', (tester) async {
+    when(() => cubit.state).thenReturn(
+      ready.copyWith(profile: const Profile(sex: Sex.male, birthYear: 1985)),
+    );
+    await pumpView(tester);
+    expect(find.text('1985'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Male'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Male'));
+    await tester.tap(find.text('Save'));
+    await tester.pump();
+
+    final input =
+        verify(() => cubit.save(captureAny())).captured.single as ProfileInput;
+    expect(input.sex, isNull);
+  });
+
+  testWidgets('an invalid birth year shows an error and is not saved', (
+    tester,
+  ) async {
+    await pumpView(tester);
+
+    await tester.enterText(find.byType(TextFormField).last, '1850');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Enter a year from 1900 to this year'), findsOneWidget);
+    verifyNever(() => cubit.save(any()));
   });
 }

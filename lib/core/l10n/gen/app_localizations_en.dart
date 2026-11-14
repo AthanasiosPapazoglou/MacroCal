@@ -603,4 +603,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String ingredientDetailsDeleteDialogRecipes(String recipes) {
     return 'It will also be removed from these recipes: $recipes';
   }
+
+  @override
+  String get profilePageSex => 'Sex';
+
+  @override
+  String get profilePageSexMale => 'Male';
+
+  @override
+  String get profilePageSexFemale => 'Female';
+
+  @override
+  String get profilePageBirthYear => 'Birth year';
+
+  @override
+  String get profilePageMicronutrientsHint =>
+      'Optional; used only for micronutrient reference values';
+
+  @override
+  String get profilePageInvalidBirthYear =>
+      'Enter a year from 1900 to this year';
+
+  @override
+  String get settingsPageTrackMicronutrients => 'Track micronutrients';
 }

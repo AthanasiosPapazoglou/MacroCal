@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/language_switch.dart';
+import 'package:macro_cal_public/features/settings/presentation/widgets/microcal_tracking_switch.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const new({super.key});
@@ -26,6 +27,8 @@ class SettingsDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 const LanguageSwitch(),
+                const SizedBox(height: 32),
+                const MicrocalTrackingSwitch(),
               ],
             ),
           ),
