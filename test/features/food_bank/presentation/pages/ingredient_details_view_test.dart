@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/pages/ingredient_details_view.dart';
@@ -67,6 +69,41 @@ void main() {
 
     expect(find.text('Milk 1.5%'), findsOneWidget);
     expect(find.byType(NutrientRow), findsNWidgets(8));
+  });
+
+  testWidgets('micronutrients are hidden while tracking is off', (
+    tester,
+  ) async {
+    await pumpView(tester);
+
+    expect(find.text('Micronutrients per 100 g'), findsNothing);
+  });
+
+  testWidgets('tracking on lists micronutrients with unknown as a dash', (
+    tester,
+  ) async {
+    stub.emit(
+      ready.copyWith(
+        microcalEnabled: true,
+        ingredient: sampleMilk.copyWith(
+          per100g: sampleMilk.per100g.copyWith(
+            micros: const Micronutrients(
+              amounts: {
+                Micronutrient.calcium: 120,
+                Micronutrient.vitaminB12: 0.4,
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await pumpView(tester);
+
+    expect(find.text('Micronutrients per 100 g'), findsOneWidget);
+    expect(find.text('Calcium'), findsOneWidget);
+    expect(find.text('120.0 mg'), findsOneWidget);
+    expect(find.text('0.4 µg'), findsOneWidget);
+    expect(find.text('—'), findsNWidgets(Micronutrient.values.length - 2));
   });
 
   testWidgets('tapping a nutrient opens its description', (tester) async {

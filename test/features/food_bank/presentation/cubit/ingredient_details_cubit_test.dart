@@ -6,6 +6,7 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredie
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_details_state.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_ingredients.dart';
@@ -14,28 +15,41 @@ class _MockIngredientRepository extends Mock implements IngredientRepository;
 
 class _MockRecipeRepository extends Mock implements RecipeRepository;
 
+class _MockSettingsRepository extends Mock implements SettingsRepository;
+
 void main() {
   late StreamController<Ingredient?> ingredient;
   late StreamController<List<String>> recipeNames;
+  late StreamController<bool> microcalEnabled;
   late IngredientRepository repository;
   late IngredientDetailsCubit cubit;
 
   setUp(() {
     ingredient = StreamController<Ingredient?>.broadcast();
     recipeNames = StreamController<List<String>>.broadcast();
+    microcalEnabled = StreamController<bool>.broadcast();
     repository = _MockIngredientRepository();
     final recipes = _MockRecipeRepository();
+    final settings = _MockSettingsRepository();
     when(() => repository.watchIngredient(sampleMilk.id))
         .thenAnswer((_) => ingredient.stream);
     when(() => repository.deleteIngredient(any())).thenAnswer((_) async {});
     when(() => recipes.watchRecipeNamesUsing(sampleMilk.id))
         .thenAnswer((_) => recipeNames.stream);
-    cubit = IngredientDetailsCubit(repository, recipes, sampleMilk.id);
+    when(settings.watchMicrocalEnabled)
+        .thenAnswer((_) => microcalEnabled.stream);
+    cubit = IngredientDetailsCubit(
+      repository,
+      recipes,
+      settings,
+      sampleMilk.id,
+    );
   });
   tearDown(() async {
     await cubit.close();
     await ingredient.close();
     await recipeNames.close();
+    await microcalEnabled.close();
   });
 
   test('watch follows the recipes that use the ingredient', () async {
@@ -48,6 +62,20 @@ void main() {
 
     expect(cubit.state.ingredient, sampleMilk);
     expect(cubit.state.recipeNames, ['Milk Toast', 'Warm Milk']);
+  });
+
+  test('watch follows the micronutrient tracking switch', () async {
+    final emitted = expectLater(
+      cubit.stream.map((state) => state.microcalEnabled),
+      emitsInOrder([true, false]),
+    );
+
+    cubit.watch();
+    microcalEnabled
+      ..add(true)
+      ..add(false);
+
+    await emitted;
   });
 
   test('watch follows the ingredient', () async {

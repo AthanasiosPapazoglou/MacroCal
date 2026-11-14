@@ -51,6 +51,15 @@ OpenFoodFactsNutrimentsDto _$OpenFoodFactsNutrimentsDtoFromJson(
       fiber: $checkedConvert('fiber_100g', (v) => _number(v)),
       proteins: $checkedConvert('proteins_100g', (v) => _number(v)),
       salt: $checkedConvert('salt_100g', (v) => _number(v)),
+      amountsPer100g: $checkedConvert(
+        'amountsPer100g',
+        (v) =>
+            (v as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k, (e as num).toDouble()),
+            ) ??
+            const {},
+        readValue: _amountsPer100g,
+      ),
     );
     return val;
   },

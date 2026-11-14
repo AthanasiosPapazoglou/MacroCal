@@ -10,7 +10,12 @@
       "sugars_100g": 3.5,
       "fiber_100g": "0.5",
       "proteins_100g": 10,
-      "salt_100g": 0.12
+      "salt_100g": 0.12,
+      "calcium_100g": 0.11,
+      "calcium_unit": "mg",
+      "vitamin-d_100g": "0.0000012",
+      "vitamin-b12_100g": 0.0000003,
+      "iron_100g": -0.001
     }
   },
   "status": 1,

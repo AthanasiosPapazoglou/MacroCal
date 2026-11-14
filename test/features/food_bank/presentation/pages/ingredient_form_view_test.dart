@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
@@ -24,13 +25,17 @@ void main() {
     values: {IngredientField.referenceGrams: '100'},
   );
 
-  setUpAll(() => registerFallbackValue(<IngredientField, String>{}));
+  setUpAll(() {
+    registerFallbackValue(<IngredientField, String>{});
+    registerFallbackValue(<Micronutrient, String>{});
+  });
 
   setUp(() {
     cubit = _MockIngredientFormCubit();
     stub = CubitStub(cubit, ready);
     when(() => cubit.isEdit).thenReturn(false);
-    when(() => cubit.save(any())).thenAnswer((_) async {});
+    when(() => cubit.save(any(), micros: any(named: 'micros')))
+        .thenAnswer((_) async {});
   });
 
   Future<void> pumpView(WidgetTester tester) => pumpLocalized(
@@ -76,7 +81,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Enter a product name'), findsOneWidget);
-    verifyNever(() => cubit.save(any()));
+    verifyNever(() => cubit.save(any(), micros: any(named: 'micros')));
   });
 
   testWidgets('save sends the texts and an empty category when untouched', (
@@ -90,11 +95,83 @@ void main() {
     await tester.pump();
 
     final input =
-        verify(() => cubit.save(captureAny())).captured.single
+        verify(() => cubit.save(captureAny(), micros: any(named: 'micros')))
+                .captured
+                .single
             as Map<IngredientField, String>;
     expect(input[IngredientField.name], 'Oats');
     expect(input[IngredientField.category], '');
     expect(input[IngredientField.referenceGrams], '100');
+  });
+
+  Future<void> openMicros(WidgetTester tester) async {
+    final title = find.text('Micronutrients per 100 g');
+    await tester.ensureVisible(title);
+    await tester.tap(title);
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('micronutrients are hidden while tracking is off', (
+    tester,
+  ) async {
+    await pumpView(tester);
+
+    expect(find.text('Micronutrients per 100 g'), findsNothing);
+  });
+
+  testWidgets('the collapsed micronutrient section opens and saves', (
+    tester,
+  ) async {
+    stub.emit(
+      ready.copyWith(
+        showMicros: true,
+        microValues: {Micronutrient.calcium: '120'},
+      ),
+    );
+    await pumpView(tester);
+    expect(find.text('Vitamin C (mg)'), findsNothing);
+
+    await openMicros(tester);
+    final vitaminC = find.widgetWithText(TextFormField, 'Vitamin C (mg)');
+    await tester.ensureVisible(vitaminC);
+    await tester.enterText(vitaminC, '12');
+    await tester.enterText(field(IngredientField.name), 'Oats');
+    await tester.ensureVisible(find.text('Save'));
+    await tester.tap(find.text('Save'));
+    await tester.pump();
+
+    final micros =
+        verify(() => cubit.save(any(), micros: captureAny(named: 'micros')))
+                .captured
+                .single
+            as Map<Micronutrient, String>;
+    expect(micros[Micronutrient.calcium], '120');
+    expect(micros[Micronutrient.vitaminC], '12');
+    expect(micros[Micronutrient.iron], '');
+  });
+
+  testWidgets('a found product replaces the micronutrients', (tester) async {
+    final withMicros = ready.copyWith(
+      showMicros: true,
+      microValues: {Micronutrient.iron: '4.4'},
+    );
+    stub.emit(withMicros);
+    await pumpView(tester);
+
+    stub
+      ..emit(withMicros.copyWith(status: IngredientFormStatus.lookingUp))
+      ..emit(
+        withMicros.copyWith(
+          lookupOutcome: LookupOutcome.found,
+          scannedMicroValues: {Micronutrient.calcium: '110'},
+        ),
+      );
+    await tester.pump();
+    await tester.pump();
+    await openMicros(tester);
+
+    expect(find.text('110'), findsOneWidget);
+    expect(find.text('4.4'), findsNothing);
   });
 
   testWidgets('a found product fills the form and says so', (tester) async {

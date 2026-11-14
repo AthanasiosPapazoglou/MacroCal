@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:macro_cal_public/features/food_bank/data/datasources/open_food_facts_client.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/open_food_facts_product_lookup_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/product_info.dart';
 
@@ -14,7 +16,7 @@ OpenFoodFactsProductLookupRepository _repository(MockClientHandler handler) =>
     );
 
 void main() {
-  test('maps a found product and converts salt from g to mg', () async {
+  test('maps a found product and converts salt and micros from g', () async {
     final body = File('test/fixtures/open_food_facts/product_found.json')
         .readAsStringSync();
     final repository = _repository((_) async => http.Response(body, 200));
@@ -32,6 +34,13 @@ void main() {
           saturatedG: 1.3,
           fiberG: 0.5,
           saltMg: 120,
+          micros: Micronutrients(
+            amounts: {
+              Micronutrient.calcium: 110,
+              Micronutrient.vitaminD: 1.2,
+              Micronutrient.vitaminB12: 0.3,
+            },
+          ),
         ),
       ),
     );
