@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
 import 'package:macro_cal_public/features/today/domain/entities/activity.dart';
 import 'package:macro_cal_public/features/today/domain/entities/activity_entry.dart';
@@ -48,13 +49,30 @@ void main() {
   group('consumed', () {
     test('sums nutrients by grams eaten', () {
       final total = calculator.consumed(const [
-        FoodEntry(ingredient: milk, grams: 200),
-        FoodEntry(ingredient: chicken, grams: 50),
+        IngredientEntry(ingredient: milk, grams: 200),
+        IngredientEntry(ingredient: chicken, grams: 50),
       ]);
 
       expect(total.kcal, closeTo(140, 1e-9));
       expect(total.proteinG, closeTo(13.9, 1e-9));
       expect(total.saltMg, closeTo(1300, 1e-9));
+    });
+
+    test('counts a recipe by its nutrients per 100 g', () {
+      const toast = Recipe(
+        id: 1,
+        name: 'Toast',
+        finalWeightGrams: 100,
+        ingredients: [RecipeIngredient(ingredient: milk, grams: 200)],
+      );
+
+      final total = calculator.consumed(const [
+        RecipeEntry(recipe: toast, grams: 50),
+        IngredientEntry(ingredient: milk, grams: 100),
+      ]);
+
+      expect(total.kcal, closeTo(90, 1e-9));
+      expect(total.proteinG, closeTo(6.4, 1e-9));
     });
 
     test('is zero without entries', () {
@@ -77,7 +95,7 @@ void main() {
     test('turns sugar and saturated fat limits into whole grams', () {
       final summary = calculator.summarize(
         goals: const NutritionGoals(dailyKcal: 2000),
-        foodEntries: const [FoodEntry(ingredient: milk, grams: 100)],
+        foodEntries: const [IngredientEntry(ingredient: milk, grams: 100)],
         activityEntries: const [ActivityEntry(activity: walking, amount: 3)],
       );
 

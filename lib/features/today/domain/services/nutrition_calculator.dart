@@ -14,8 +14,7 @@ class NutritionCalculator {
 
   Nutrients consumed(Iterable<FoodEntry> entries) => entries.fold(
     const Nutrients(),
-    (total, entry) =>
-        total + entry.ingredient.per100g.scaled(entry.grams * 0.01),
+    (total, entry) => total + entry.per100g.scaled(entry.grams * 0.01),
   );
 
   double burnedKcal(Iterable<ActivityEntry> entries) => entries.fold(

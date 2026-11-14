@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/widgets/search_field.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_view.dart';
@@ -13,6 +14,7 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../helpers/cubit_stub.dart';
 import '../../../../helpers/pump_localized.dart';
 import '../../../../helpers/sample_ingredients.dart';
+import '../../../../helpers/sample_recipes.dart';
 
 class _MockConsumptionCubit extends Mock implements ConsumptionCubit;
 
@@ -23,7 +25,9 @@ void main() {
   const ready = ConsumptionState(
     status: ConsumptionStatus.ready,
     ingredients: [sampleMilk, sampleBread],
+    recipes: [sampleMilkToast, sampleWarmMilk],
     grams: {1: 200},
+    recipeGrams: {2: 120},
     consumedIds: [1],
   );
 
@@ -79,6 +83,56 @@ void main() {
     await tester.enterText(find.byType(SearchField), 'bread');
 
     verify(() => cubit.search('bread')).called(1);
+  });
+
+  testWidgets('the switch selects the recipes', (tester) async {
+    await pumpView(tester);
+
+    await tester.tap(find.text('Recipes'));
+
+    verify(() => cubit.selectKind(FoodKind.recipe)).called(1);
+  });
+
+  testWidgets('the recipes side lists every recipe with its grams', (
+    tester,
+  ) async {
+    stub.emit(ready.copyWith(kind: FoodKind.recipe));
+    await pumpView(tester);
+
+    expect(find.byType(AmountRow), findsNWidgets(2));
+    expect(find.text('Milk Toast'), findsOneWidget);
+    expect(find.text('120'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField).first, '80');
+
+    verify(() => cubit.updateRecipeGrams(1, 80)).called(1);
+  });
+
+  testWidgets('the recipes side without recipes says how to add one', (
+    tester,
+  ) async {
+    stub.emit(ready.copyWith(kind: FoodKind.recipe, recipes: const []));
+    await pumpView(tester);
+
+    expect(find.text('No recipes yet'), findsOneWidget);
+  });
+
+  testWidgets('the consumed tab lists recipes, then ingredients', (
+    tester,
+  ) async {
+    stub.emit(ready.copyWith(consumedRecipeIds: const [2]));
+    await pumpView(tester);
+
+    await tester.tap(find.text('Consumed'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AmountRow), findsNWidgets(2));
+    expect(
+      tester.getTopLeft(find.text('Warm Milk')).dy,
+      lessThan(tester.getTopLeft(find.text('Milk 1.5%')).dy),
+    );
+    expect(find.text('Recipes'), findsOneWidget);
+    expect(find.text('Ingredients'), findsOneWidget);
   });
 
   testWidgets('the consumed tab refreshes and shows the empty state', (
