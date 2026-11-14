@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Nutrients {
 
- double get kcal; double get proteinG; double get carbsG; double get sugarsG; double get fatG; double get saturatedG; double get fiberG; double get saltMg;
+ double get kcal; double get proteinG; double get carbsG; double get sugarsG; double get fatG; double get saturatedG; double get fiberG; double get saltMg; Micronutrients get micros;
 /// Create a copy of Nutrients
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $NutrientsCopyWith<Nutrients> get copyWith => _$NutrientsCopyWithImpl<Nutrients>
 @override
 bool operator ==(Object other) {
   final _this = this as Nutrients;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Nutrients&&(identical(other.kcal, _this.kcal) || other.kcal == _this.kcal)&&(identical(other.proteinG, _this.proteinG) || other.proteinG == _this.proteinG)&&(identical(other.carbsG, _this.carbsG) || other.carbsG == _this.carbsG)&&(identical(other.sugarsG, _this.sugarsG) || other.sugarsG == _this.sugarsG)&&(identical(other.fatG, _this.fatG) || other.fatG == _this.fatG)&&(identical(other.saturatedG, _this.saturatedG) || other.saturatedG == _this.saturatedG)&&(identical(other.fiberG, _this.fiberG) || other.fiberG == _this.fiberG)&&(identical(other.saltMg, _this.saltMg) || other.saltMg == _this.saltMg));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Nutrients&&(identical(other.kcal, _this.kcal) || other.kcal == _this.kcal)&&(identical(other.proteinG, _this.proteinG) || other.proteinG == _this.proteinG)&&(identical(other.carbsG, _this.carbsG) || other.carbsG == _this.carbsG)&&(identical(other.sugarsG, _this.sugarsG) || other.sugarsG == _this.sugarsG)&&(identical(other.fatG, _this.fatG) || other.fatG == _this.fatG)&&(identical(other.saturatedG, _this.saturatedG) || other.saturatedG == _this.saturatedG)&&(identical(other.fiberG, _this.fiberG) || other.fiberG == _this.fiberG)&&(identical(other.saltMg, _this.saltMg) || other.saltMg == _this.saltMg)&&(identical(other.micros, _this.micros) || other.micros == _this.micros));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Nutrients;
-  return Object.hash(runtimeType,_this.kcal,_this.proteinG,_this.carbsG,_this.sugarsG,_this.fatG,_this.saturatedG,_this.fiberG,_this.saltMg);
+  return Object.hash(runtimeType,_this.kcal,_this.proteinG,_this.carbsG,_this.sugarsG,_this.fatG,_this.saturatedG,_this.fiberG,_this.saltMg,_this.micros);
 }
 
 @override
 String toString() {
   final _this = this as Nutrients;
-  return 'Nutrients(kcal: ${_this.kcal}, proteinG: ${_this.proteinG}, carbsG: ${_this.carbsG}, sugarsG: ${_this.sugarsG}, fatG: ${_this.fatG}, saturatedG: ${_this.saturatedG}, fiberG: ${_this.fiberG}, saltMg: ${_this.saltMg})';
+  return 'Nutrients(kcal: ${_this.kcal}, proteinG: ${_this.proteinG}, carbsG: ${_this.carbsG}, sugarsG: ${_this.sugarsG}, fatG: ${_this.fatG}, saturatedG: ${_this.saturatedG}, fiberG: ${_this.fiberG}, saltMg: ${_this.saltMg}, micros: ${_this.micros})';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $NutrientsCopyWith<$Res>  {
   factory $NutrientsCopyWith(Nutrients value, $Res Function(Nutrients) _then) = _$NutrientsCopyWithImpl;
 @useResult
 $Res call({
- double kcal, double proteinG, double carbsG, double sugarsG, double fatG, double saturatedG, double fiberG, double saltMg
+ double kcal, double proteinG, double carbsG, double sugarsG, double fatG, double saturatedG, double fiberG, double saltMg, Micronutrients micros
 });
 
 
-
+$MicronutrientsCopyWith<$Res> get micros;
 
 }
 /// @nodoc
@@ -68,7 +68,7 @@ class _$NutrientsCopyWithImpl<$Res>
 
 /// Create a copy of Nutrients
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? kcal = null,Object? proteinG = null,Object? carbsG = null,Object? sugarsG = null,Object? fatG = null,Object? saturatedG = null,Object? fiberG = null,Object? saltMg = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? kcal = null,Object? proteinG = null,Object? carbsG = null,Object? sugarsG = null,Object? fatG = null,Object? saturatedG = null,Object? fiberG = null,Object? saltMg = null,Object? micros = null,}) {
   return _then(Nutrients(
 kcal: null == kcal ? _self.kcal : kcal // ignore: cast_nullable_to_non_nullable
 as double,proteinG: null == proteinG ? _self.proteinG : proteinG // ignore: cast_nullable_to_non_nullable
@@ -78,10 +78,20 @@ as double,fatG: null == fatG ? _self.fatG : fatG // ignore: cast_nullable_to_non
 as double,saturatedG: null == saturatedG ? _self.saturatedG : saturatedG // ignore: cast_nullable_to_non_nullable
 as double,fiberG: null == fiberG ? _self.fiberG : fiberG // ignore: cast_nullable_to_non_nullable
 as double,saltMg: null == saltMg ? _self.saltMg : saltMg // ignore: cast_nullable_to_non_nullable
-as double,
+as double,micros: null == micros ? _self.micros : micros // ignore: cast_nullable_to_non_nullable
+as Micronutrients,
   ));
 }
-
+/// Create a copy of Nutrients
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MicronutrientsCopyWith<$Res> get micros {
+  
+  return $MicronutrientsCopyWith<$Res>(_self.micros, (value) {
+    return _then(_self.copyWith(micros: value));
+  });
+}
 }
 
 
@@ -163,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg,  Micronutrients micros)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Nutrients() when $default != null:
-return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg);case _:
+return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg,_that.micros);case _:
   return orElse();
 
 }
@@ -184,10 +194,10 @@ return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg,  Micronutrients micros)  $default,) {final _that = this;
 switch (_that) {
 case _Nutrients():
-return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg);case _:
+return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg,_that.micros);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +214,10 @@ return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double kcal,  double proteinG,  double carbsG,  double sugarsG,  double fatG,  double saturatedG,  double fiberG,  double saltMg,  Micronutrients micros)?  $default,) {final _that = this;
 switch (_that) {
 case _Nutrients() when $default != null:
-return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg);case _:
+return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,_that.saturatedG,_that.fiberG,_that.saltMg,_that.micros);case _:
   return null;
 
 }
@@ -219,7 +229,7 @@ return $default(_that.kcal,_that.proteinG,_that.carbsG,_that.sugarsG,_that.fatG,
 
 
 class _Nutrients extends Nutrients {
-  const _Nutrients({this.kcal = 0, this.proteinG = 0, this.carbsG = 0, this.sugarsG = 0, this.fatG = 0, this.saturatedG = 0, this.fiberG = 0, this.saltMg = 0}): super._();
+  const _Nutrients({this.kcal = 0, this.proteinG = 0, this.carbsG = 0, this.sugarsG = 0, this.fatG = 0, this.saturatedG = 0, this.fiberG = 0, this.saltMg = 0, this.micros = const Micronutrients()}): super._();
   
 
 @override@JsonKey() final  double kcal;
@@ -230,6 +240,7 @@ class _Nutrients extends Nutrients {
 @override@JsonKey() final  double saturatedG;
 @override@JsonKey() final  double fiberG;
 @override@JsonKey() final  double saltMg;
+@override@JsonKey() final  Micronutrients micros;
 
 /// Create a copy of Nutrients
 /// with the given fields replaced by the non-null parameter values.
@@ -241,18 +252,18 @@ _$NutrientsCopyWith<_Nutrients> get copyWith => __$NutrientsCopyWithImpl<_Nutrie
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Nutrients&&(identical(other.kcal, kcal) || other.kcal == kcal)&&(identical(other.proteinG, proteinG) || other.proteinG == proteinG)&&(identical(other.carbsG, carbsG) || other.carbsG == carbsG)&&(identical(other.sugarsG, sugarsG) || other.sugarsG == sugarsG)&&(identical(other.fatG, fatG) || other.fatG == fatG)&&(identical(other.saturatedG, saturatedG) || other.saturatedG == saturatedG)&&(identical(other.fiberG, fiberG) || other.fiberG == fiberG)&&(identical(other.saltMg, saltMg) || other.saltMg == saltMg));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Nutrients&&(identical(other.kcal, kcal) || other.kcal == kcal)&&(identical(other.proteinG, proteinG) || other.proteinG == proteinG)&&(identical(other.carbsG, carbsG) || other.carbsG == carbsG)&&(identical(other.sugarsG, sugarsG) || other.sugarsG == sugarsG)&&(identical(other.fatG, fatG) || other.fatG == fatG)&&(identical(other.saturatedG, saturatedG) || other.saturatedG == saturatedG)&&(identical(other.fiberG, fiberG) || other.fiberG == fiberG)&&(identical(other.saltMg, saltMg) || other.saltMg == saltMg)&&(identical(other.micros, micros) || other.micros == micros));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,kcal,proteinG,carbsG,sugarsG,fatG,saturatedG,fiberG,saltMg);
+    return Object.hash(runtimeType,kcal,proteinG,carbsG,sugarsG,fatG,saturatedG,fiberG,saltMg,micros);
 }
 
 @override
 String toString() {
-    return 'Nutrients(kcal: $kcal, proteinG: $proteinG, carbsG: $carbsG, sugarsG: $sugarsG, fatG: $fatG, saturatedG: $saturatedG, fiberG: $fiberG, saltMg: $saltMg)';
+    return 'Nutrients(kcal: $kcal, proteinG: $proteinG, carbsG: $carbsG, sugarsG: $sugarsG, fatG: $fatG, saturatedG: $saturatedG, fiberG: $fiberG, saltMg: $saltMg, micros: $micros)';
 }
 
 
@@ -263,11 +274,11 @@ abstract mixin class _$NutrientsCopyWith<$Res> implements $NutrientsCopyWith<$Re
   factory _$NutrientsCopyWith(_Nutrients value, $Res Function(_Nutrients) _then) = __$NutrientsCopyWithImpl;
 @override @useResult
 $Res call({
- double kcal, double proteinG, double carbsG, double sugarsG, double fatG, double saturatedG, double fiberG, double saltMg
+ double kcal, double proteinG, double carbsG, double sugarsG, double fatG, double saturatedG, double fiberG, double saltMg, Micronutrients micros
 });
 
 
-
+@override $MicronutrientsCopyWith<$Res> get micros;
 
 }
 /// @nodoc
@@ -280,7 +291,7 @@ class __$NutrientsCopyWithImpl<$Res>
 
 /// Create a copy of Nutrients
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? kcal = null,Object? proteinG = null,Object? carbsG = null,Object? sugarsG = null,Object? fatG = null,Object? saturatedG = null,Object? fiberG = null,Object? saltMg = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? kcal = null,Object? proteinG = null,Object? carbsG = null,Object? sugarsG = null,Object? fatG = null,Object? saturatedG = null,Object? fiberG = null,Object? saltMg = null,Object? micros = null,}) {
   return _then(_Nutrients(
 kcal: null == kcal ? _self.kcal : kcal // ignore: cast_nullable_to_non_nullable
 as double,proteinG: null == proteinG ? _self.proteinG : proteinG // ignore: cast_nullable_to_non_nullable
@@ -290,11 +301,21 @@ as double,fatG: null == fatG ? _self.fatG : fatG // ignore: cast_nullable_to_non
 as double,saturatedG: null == saturatedG ? _self.saturatedG : saturatedG // ignore: cast_nullable_to_non_nullable
 as double,fiberG: null == fiberG ? _self.fiberG : fiberG // ignore: cast_nullable_to_non_nullable
 as double,saltMg: null == saltMg ? _self.saltMg : saltMg // ignore: cast_nullable_to_non_nullable
-as double,
+as double,micros: null == micros ? _self.micros : micros // ignore: cast_nullable_to_non_nullable
+as Micronutrients,
   ));
 }
 
-
+/// Create a copy of Nutrients
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MicronutrientsCopyWith<$Res> get micros {
+  
+  return $MicronutrientsCopyWith<$Res>(_self.micros, (value) {
+    return _then(_self.copyWith(micros: value));
+  });
+}
 }
 
 // dart format on
