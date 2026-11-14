@@ -1369,6 +1369,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Iodine'**
   String get micronutrientIodine;
+
+  /// No description provided for @referenceFoodsFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill from a reference food'**
+  String get referenceFoodsFill;
+
+  /// No description provided for @referenceFoodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference foods'**
+  String get referenceFoodsTitle;
+
+  /// No description provided for @referenceFoodsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search, e.g. apple or μήλο'**
+  String get referenceFoodsSearchHint;
+
+  /// No description provided for @referenceFoodsNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching foods'**
+  String get referenceFoodsNoResults;
+
+  /// No description provided for @referenceFoodsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The reference foods could not be loaded'**
+  String get referenceFoodsLoadFailed;
+
+  /// No description provided for @referenceFoodsSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: ANSES-CIQUAL 2025'**
+  String get referenceFoodsSource;
+
+  /// No description provided for @referenceFoodsCopyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy values from {name}'**
+  String referenceFoodsCopyTitle(String name);
+
+  /// No description provided for @referenceFoodsCopyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The micronutrients are replaced. Replace the calories and macronutrients too?'**
+  String get referenceFoodsCopyBody;
+
+  /// No description provided for @referenceFoodsCopyCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get referenceFoodsCopyCancel;
+
+  /// No description provided for @referenceFoodsCopyMicros.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients only'**
+  String get referenceFoodsCopyMicros;
+
+  /// No description provided for @referenceFoodsCopyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Macros too'**
+  String get referenceFoodsCopyAll;
+
+  /// No description provided for @settingsPageAboutData.
+  ///
+  /// In en, this message translates to:
+  /// **'About the data'**
+  String get settingsPageAboutData;
+
+  /// No description provided for @settingsPageAboutDataClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get settingsPageAboutDataClose;
+
+  /// No description provided for @settingsPageAboutDataCiqual.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference foods come from the ANSES-CIQUAL 2025 French food composition table (Anses, updated 19 November 2025, https://doi.org/10.57745/RDMHWY), used under the Licence Ouverte / Open Licence 2.0 (Etalab). MacroCal uses a selection of 696 foods with rounded values; the Greek names are MacroCal\'s translations.'**
+  String get settingsPageAboutDataCiqual;
 }
 
 class _AppLocalizationsDelegate

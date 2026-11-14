@@ -211,5 +211,19 @@
   "micronutrientCopper": "Χαλκός",
   "micronutrientManganese": "Μαγγάνιο",
   "micronutrientSelenium": "Σελήνιο",
-  "micronutrientIodine": "Ιώδιο"
+  "micronutrientIodine": "Ιώδιο",
+  "referenceFoodsFill": "Συμπλήρωση από τρόφιμο αναφοράς",
+  "referenceFoodsTitle": "Τρόφιμα αναφοράς",
+  "referenceFoodsSearchHint": "Αναζήτηση, π.χ. μήλο ή apple",
+  "referenceFoodsNoResults": "Δεν βρέθηκαν τρόφιμα",
+  "referenceFoodsLoadFailed": "Δεν ήταν δυνατή η φόρτωση των τροφίμων αναφοράς",
+  "referenceFoodsSource": "Πηγή: ANSES-CIQUAL 2025",
+  "referenceFoodsCopyTitle": "Αντιγραφή τιμών από: {name}",
+  "referenceFoodsCopyBody": "Τα μικροθρεπτικά θα αντικατασταθούν. Να αντικατασταθούν και οι θερμίδες και τα μακροθρεπτικά;",
+  "referenceFoodsCopyCancel": "Ακύρωση",
+  "referenceFoodsCopyMicros": "Μόνο μικροθρεπτικά",
+  "referenceFoodsCopyAll": "Και μακροθρεπτικά",
+  "settingsPageAboutData": "Σχετικά με τα δεδομένα",
+  "settingsPageAboutDataClose": "Κλείσιμο",
+  "settingsPageAboutDataCiqual": "Τα τρόφιμα αναφοράς προέρχονται από τον γαλλικό πίνακα σύστασης τροφίμων ANSES-CIQUAL 2025 (Anses, ενημέρωση 19 Νοεμβρίου 2025, https://doi.org/10.57745/RDMHWY) και χρησιμοποιούνται με την άδεια Licence Ouverte / Open Licence 2.0 (Etalab). Το MacroCal χρησιμοποιεί μια επιλογή 696 τροφίμων με στρογγυλεμένες τιμές· τα ελληνικά ονόματα είναι μεταφράσεις του MacroCal."
 }

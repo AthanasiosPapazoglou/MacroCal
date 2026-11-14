@@ -54,7 +54,10 @@ class AppDatabase extends _$AppDatabase {
     onCreate: (m) async {
       await m.createAll();
       await seedDefaultActivities(this, activitiesTable);
-      await _seedIngredients(ingredientsTable);
+      await _seedIngredients(
+        ingredientsTable,
+        micronutrients: ingredientMicronutrientsTable,
+      );
     },
     onUpgrade: stepByStep(
       from1To2: (m, schema) => m.createTable(schema.profile),
@@ -91,11 +94,17 @@ class AppDatabase extends _$AppDatabase {
   );
 
   Future<void> _seedIngredients<T extends Table, D>(
-    TableInfo<T, D> ingredients,
-  ) async {
+    TableInfo<T, D> ingredients, {
+    $IngredientMicronutrientsTableTable? micronutrients,
+  }) async {
     final loadSeeds = _loadIngredientSeeds;
     if (loadSeeds == null) return;
-    await seedIngredients(this, ingredients, await loadSeeds());
+    await seedIngredients(
+      this,
+      ingredients,
+      await loadSeeds(),
+      micronutrients: micronutrients,
+    );
   }
 
   static QueryExecutor _openConnection() => driftDatabase(

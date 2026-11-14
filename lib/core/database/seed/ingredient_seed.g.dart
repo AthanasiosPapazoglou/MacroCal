@@ -19,4 +19,9 @@ IngredientSeed _$IngredientSeedFromJson(Map<String, dynamic> json) =>
       saturatedG: (json['saturated'] as num).toDouble(),
       fiberG: (json['fiber'] as num).toDouble(),
       saltMg: (json['salt'] as num).toDouble(),
+      micros:
+          (json['micros'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, (e as num).toDouble()),
+          ) ??
+          const {},
     );

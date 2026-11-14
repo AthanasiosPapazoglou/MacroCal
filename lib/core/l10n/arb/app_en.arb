@@ -279,5 +279,20 @@
   "micronutrientCopper": "Copper",
   "micronutrientManganese": "Manganese",
   "micronutrientSelenium": "Selenium",
-  "micronutrientIodine": "Iodine"
+  "micronutrientIodine": "Iodine",
+  "referenceFoodsFill": "Fill from a reference food",
+  "referenceFoodsTitle": "Reference foods",
+  "referenceFoodsSearchHint": "Search, e.g. apple or μήλο",
+  "referenceFoodsNoResults": "No matching foods",
+  "referenceFoodsLoadFailed": "The reference foods could not be loaded",
+  "referenceFoodsSource": "Source: ANSES-CIQUAL 2025",
+  "referenceFoodsCopyTitle": "Copy values from {name}",
+  "@referenceFoodsCopyTitle": {"placeholders": {"name": {"type": "String"}}},
+  "referenceFoodsCopyBody": "The micronutrients are replaced. Replace the calories and macronutrients too?",
+  "referenceFoodsCopyCancel": "Cancel",
+  "referenceFoodsCopyMicros": "Micronutrients only",
+  "referenceFoodsCopyAll": "Macros too",
+  "settingsPageAboutData": "About the data",
+  "settingsPageAboutDataClose": "Close",
+  "settingsPageAboutDataCiqual": "Reference foods come from the ANSES-CIQUAL 2025 French food composition table (Anses, updated 19 November 2025, https://doi.org/10.57745/RDMHWY), used under the Licence Ouverte / Open Licence 2.0 (Etalab). MacroCal uses a selection of 696 foods with rounded values; the Greek names are MacroCal's translations."
 }

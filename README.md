@@ -221,6 +221,11 @@ We welcome contributions from the community! If you'd like to contribute, please
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+### Data sources
+
+- **Reference foods** (`assets/data/reference_foods.json`): a selection of 696 foods from the ANSES-CIQUAL 2025 French food composition table, Anses, updated 19 November 2025, <https://doi.org/10.57745/RDMHWY>, used under the [Licence Ouverte / Open Licence 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence/) (Etalab). Values are rounded to 4 significant digits; vitamin A is in retinol equivalents, folate in dietary folate equivalents where given, niacin as preformed niacin, vitamin K as K1 plus K2. Energy missing from the table is computed with the EU Regulation 1169/2011 factors. The Greek names are MacroCal's translations. The same values fill the micronutrients of the generic seed ingredients.
+- **Barcode lookup:** [Open Food Facts](https://world.openfoodfacts.org), Open Database License.
+
 ## Legal Disclaimer
 
 **MacroCal** is intended solely for informational and educational purposes and is not intended to be a substitute for professional medical advice, diagnosis, or treatment. The content provided by MacroCal, including but not limited to text, graphics, images, and other material, is for informational purposes only and should not be considered medical advice.

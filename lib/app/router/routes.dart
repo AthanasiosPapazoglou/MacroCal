@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   static const history = '/history';
   static const profile = '/profile';
   static const scan = '/scan';
+  static const referenceFoods = '/reference-foods';
 
   static String historyDay(DateTime date) => '/history/${date.isoDay}';
 

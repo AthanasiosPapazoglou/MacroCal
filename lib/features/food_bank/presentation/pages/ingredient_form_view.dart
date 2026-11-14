@@ -5,13 +5,16 @@ import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/app/theme/app_text_styles.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/reference_food.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_field.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_cubit.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/cubit/ingredient_form_state.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/micronutrient_labels.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/reference_food_name.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/ingredient_field_input.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/lookup_snack_bar.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/micronutrient_input.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/reference_copy_dialog.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/widgets/scan_barcode_button.dart';
 
 class IngredientFormView extends StatelessWidget {
@@ -102,6 +105,30 @@ class _IngredientFormState extends State<_IngredientForm> {
     final barcode = await context.push<String>(AppRoutes.scan);
     if (barcode == null) return;
     await cubit.lookUpBarcode(barcode);
+  }
+
+  Future<void> _fillFromReference() async {
+    final food = await context.push<ReferenceFood>(AppRoutes.referenceFoods);
+    if (food == null || !mounted) return;
+    final name = food.localName(context);
+    final includeMacros = await showDialog<bool>(
+      context: context,
+      builder: (_) => ReferenceCopyDialog(name: name),
+    );
+    if (includeMacros == null) return;
+    final nameController = _controllers[IngredientField.name]!;
+    if (nameController.text.trim().isEmpty) nameController.text = name;
+    if (includeMacros) {
+      for (final MapEntry(key: field, value: text)
+          in IngredientFormCubit.nutrientValues(food.per100g).entries) {
+        _controllers[field]!.text = text;
+      }
+    }
+    final micros = IngredientFormCubit.microValues(food.per100g.micros);
+    for (final MapEntry(key: nutrient, value: controller)
+        in _microControllers.entries) {
+      controller.text = micros[nutrient] ?? '';
+    }
   }
 
   void _onLookupFinished(IngredientFormState state) {
@@ -239,7 +266,17 @@ class _IngredientFormState extends State<_IngredientForm> {
                               onSubmitted: () => _submitted(field),
                             ),
                           ),
-                        if (widget.showMicros) _microSection(l10n),
+                        if (widget.showMicros) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: OutlinedButton.icon(
+                              onPressed: _fillFromReference,
+                              icon: const Icon(Icons.menu_book_outlined),
+                              label: Text(l10n.referenceFoodsFill),
+                            ),
+                          ),
+                          _microSection(l10n),
+                        ],
                       ],
                     ),
                   ),
