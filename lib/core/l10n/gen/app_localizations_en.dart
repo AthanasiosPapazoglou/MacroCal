@@ -751,4 +751,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsPageAboutDataCiqual =>
       'Reference foods come from the ANSES-CIQUAL 2025 French food composition table (Anses, updated 19 November 2025, https://doi.org/10.57745/RDMHWY), used under the Licence Ouverte / Open Licence 2.0 (Etalab). MacroCal uses a selection of 696 foods with rounded values; the Greek names are MacroCal\'s translations.';
+
+  @override
+  String get foodsPageSupplements => 'Supplements';
+
+  @override
+  String get foodsPageNoSupplements => 'No supplements yet';
+
+  @override
+  String get foodsPageNoSupplementsHint =>
+      'Add one with the amounts per unit from its label';
+
+  @override
+  String get supplementFormTitleAdd => 'Add Supplement';
+
+  @override
+  String get supplementFormTitleEdit => 'Edit Supplement';
+
+  @override
+  String get supplementFormName => 'Name';
+
+  @override
+  String get supplementFormUnit => 'Unit';
+
+  @override
+  String get supplementMicrosPerUnit => 'Micronutrients per unit';
+
+  @override
+  String get supplementDetailsTitle => 'Supplement Details';
+
+  @override
+  String get supplementDeleteDialogBody =>
+      'Delete this supplement? Today\'s units of it are removed too.';
+
+  @override
+  String get supplementUnitTablet => 'Tablet';
+
+  @override
+  String get supplementUnitCapsule => 'Capsule';
+
+  @override
+  String get supplementUnitDrop => 'Drop';
+
+  @override
+  String get supplementUnitMl => 'ml';
+
+  @override
+  String get supplementUnitScoop => 'Scoop';
+
+  @override
+  String get supplementUnitsTablet => 'tablets';
+
+  @override
+  String get supplementUnitsCapsule => 'capsules';
+
+  @override
+  String get supplementUnitsDrop => 'drops';
+
+  @override
+  String get supplementUnitsMl => 'ml';
+
+  @override
+  String get supplementUnitsScoop => 'scoops';
 }

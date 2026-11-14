@@ -48,6 +48,7 @@ class _FoodBankViewState extends State<FoodBankView> {
       switch (context.read<FoodBankCubit>().state.kind) {
         FoodKind.ingredient => AppRoutes.newIngredient,
         FoodKind.recipe => AppRoutes.newRecipe,
+        FoodKind.supplement => AppRoutes.newSupplement,
       };
 
   @override
@@ -60,11 +61,14 @@ class _FoodBankViewState extends State<FoodBankView> {
         child: Column(
           children: [
             BlocBuilder<FoodBankCubit, FoodBankState>(
-              buildWhen: (previous, current) => previous.kind != current.kind,
+              buildWhen: (previous, current) =>
+                  previous.kind != current.kind ||
+                  previous.showSupplements != current.showSupplements,
               builder: (context, state) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: FoodKindSwitch(
                   kind: state.kind,
+                  showSupplements: state.showSupplements,
                   onChanged: context.read<FoodBankCubit>().selectKind,
                 ),
               ),
@@ -94,6 +98,7 @@ class _FoodBankViewState extends State<FoodBankView> {
                   return switch (state.kind) {
                     FoodKind.ingredient => _ingredients(state),
                     FoodKind.recipe => _recipes(state),
+                    FoodKind.supplement => _supplements(state),
                   };
                 },
               ),
@@ -148,6 +153,27 @@ class _FoodBankViewState extends State<FoodBankView> {
         isListItem: _isListView,
         icon: Icons.menu_book_rounded,
         onTap: () => context.push(AppRoutes.recipe(recipes[index].id)),
+      ),
+    );
+  }
+
+  Widget _supplements(FoodBankState state) {
+    final supplements = state.visibleSupplements;
+    if (supplements.isEmpty) {
+      return state.isFiltering
+          ? EmptyState(title: context.l10n.foodsPageEmptyPageTitleNoResults)
+          : EmptyState(
+              title: context.l10n.foodsPageNoSupplements,
+              subtitle: context.l10n.foodsPageNoSupplementsHint,
+            );
+    }
+    return _collection(
+      supplements.length,
+      (index) => FoodTile(
+        name: supplements[index].name,
+        isListItem: _isListView,
+        icon: Icons.medication_outlined,
+        onTap: () => context.push(AppRoutes.supplement(supplements[index].id)),
       ),
     );
   }

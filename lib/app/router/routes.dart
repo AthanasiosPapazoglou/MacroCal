@@ -8,6 +8,7 @@ abstract final class AppRoutes {
   static const foods = '/foods';
   static const newIngredient = '/foods/new';
   static const newRecipe = '/foods/recipes/new';
+  static const newSupplement = '/foods/supplements/new';
   static const history = '/history';
   static const profile = '/profile';
   static const scan = '/scan';
@@ -25,6 +26,10 @@ abstract final class AppRoutes {
   static String recipe(int id) => '/foods/recipes/$id';
 
   static String editRecipe(int id) => '/foods/recipes/$id/edit';
+
+  static String supplement(int id) => '/foods/supplements/$id';
+
+  static String editSupplement(int id) => '/foods/supplements/$id/edit';
 
   static String recipeNutrient(int recipeId, NutrientKind kind) =>
       '/foods/recipes/$recipeId/nutrient/${kind.name}';

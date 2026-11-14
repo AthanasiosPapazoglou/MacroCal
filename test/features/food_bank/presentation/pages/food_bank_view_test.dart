@@ -15,6 +15,7 @@ import '../../../../helpers/cubit_stub.dart';
 import '../../../../helpers/pump_localized.dart';
 import '../../../../helpers/sample_ingredients.dart';
 import '../../../../helpers/sample_recipes.dart';
+import '../../../../helpers/sample_supplements.dart';
 
 class _MockFoodBankCubit extends Mock implements FoodBankCubit;
 
@@ -47,6 +48,15 @@ void main() {
               GoRoute(
                 path: 'recipes/new',
                 builder: (_, _) => const Text('new recipe'),
+              ),
+              GoRoute(
+                path: 'supplements/new',
+                builder: (_, _) => const Text('new supplement'),
+              ),
+              GoRoute(
+                path: 'supplements/:id',
+                builder: (_, state) =>
+                    Text('supplement ${state.pathParameters['id']}'),
               ),
               GoRoute(
                 path: 'recipes/:id',
@@ -123,6 +133,47 @@ void main() {
     verify(() => cubit.selectKind(FoodKind.recipe)).called(1);
   });
 
+  testWidgets('the supplements side appears only while tracking is on', (
+    tester,
+  ) async {
+    await pumpView(tester, ready);
+    expect(find.text('Supplements'), findsNothing);
+
+    await pumpView(tester, ready.copyWith(showSupplements: true));
+    await tester.tap(find.text('Supplements'));
+
+    verify(() => cubit.selectKind(FoodKind.supplement)).called(1);
+  });
+
+  testWidgets('the supplements side lists them and opens one', (tester) async {
+    await pumpView(
+      tester,
+      ready.copyWith(
+        kind: FoodKind.supplement,
+        showSupplements: true,
+        supplements: const [sampleVitaminD, sampleMultivitamin],
+      ),
+    );
+
+    expect(find.byIcon(Icons.medication_outlined), findsNWidgets(2));
+
+    await tester.tap(find.text('Multivitamin'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('supplement 2'), findsOneWidget);
+  });
+
+  testWidgets('without supplements the side says how to add one', (
+    tester,
+  ) async {
+    await pumpView(
+      tester,
+      ready.copyWith(kind: FoodKind.supplement, showSupplements: true),
+    );
+
+    expect(find.text('No supplements yet'), findsOneWidget);
+  });
+
   testWidgets('the recipes side shows a tile with an icon per recipe', (
     tester,
   ) async {
@@ -167,6 +218,7 @@ void main() {
   for (final (kind, page) in [
     (FoodKind.ingredient, 'new ingredient'),
     (FoodKind.recipe, 'new recipe'),
+    (FoodKind.supplement, 'new supplement'),
   ]) {
     testWidgets('the add button opens the $page form', (tester) async {
       await pumpView(tester, ready.copyWith(kind: kind));

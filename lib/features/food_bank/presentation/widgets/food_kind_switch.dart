@@ -3,10 +3,16 @@ import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 
 class FoodKindSwitch extends StatelessWidget {
-  const new({required this.kind, required this.onChanged, super.key});
+  const new({
+    required this.kind,
+    required this.onChanged,
+    this.showSupplements = false,
+    super.key,
+  });
 
   final FoodKind kind;
   final ValueChanged<FoodKind> onChanged;
+  final bool showSupplements;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +30,11 @@ class FoodKindSwitch extends StatelessWidget {
             value: FoodKind.recipe,
             label: Text(l10n.foodsPageRecipes),
           ),
+          if (showSupplements)
+            ButtonSegment(
+              value: FoodKind.supplement,
+              label: Text(l10n.foodsPageSupplements),
+            ),
         ],
         selected: {kind},
         onSelectionChanged: (selection) => onChanged(selection.single),

@@ -757,4 +757,66 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get settingsPageAboutDataCiqual =>
       'Τα τρόφιμα αναφοράς προέρχονται από τον γαλλικό πίνακα σύστασης τροφίμων ANSES-CIQUAL 2025 (Anses, ενημέρωση 19 Νοεμβρίου 2025, https://doi.org/10.57745/RDMHWY) και χρησιμοποιούνται με την άδεια Licence Ouverte / Open Licence 2.0 (Etalab). Το MacroCal χρησιμοποιεί μια επιλογή 696 τροφίμων με στρογγυλεμένες τιμές· τα ελληνικά ονόματα είναι μεταφράσεις του MacroCal.';
+
+  @override
+  String get foodsPageSupplements => 'Συμπληρώματα';
+
+  @override
+  String get foodsPageNoSupplements => 'Δεν υπάρχουν συμπληρώματα ακόμη';
+
+  @override
+  String get foodsPageNoSupplementsHint =>
+      'Προσθέστε ένα με τις ποσότητες ανά μονάδα από την ετικέτα του';
+
+  @override
+  String get supplementFormTitleAdd => 'Προσθήκη συμπληρώματος';
+
+  @override
+  String get supplementFormTitleEdit => 'Επεξεργασία συμπληρώματος';
+
+  @override
+  String get supplementFormName => 'Όνομα';
+
+  @override
+  String get supplementFormUnit => 'Μονάδα';
+
+  @override
+  String get supplementMicrosPerUnit => 'Μικροθρεπτικά ανά μονάδα';
+
+  @override
+  String get supplementDetailsTitle => 'Λεπτομέρειες συμπληρώματος';
+
+  @override
+  String get supplementDeleteDialogBody =>
+      'Διαγραφή αυτού του συμπληρώματος; Αφαιρούνται και οι σημερινές μονάδες του.';
+
+  @override
+  String get supplementUnitTablet => 'Δισκίο';
+
+  @override
+  String get supplementUnitCapsule => 'Κάψουλα';
+
+  @override
+  String get supplementUnitDrop => 'Σταγόνα';
+
+  @override
+  String get supplementUnitMl => 'ml';
+
+  @override
+  String get supplementUnitScoop => 'Μεζούρα';
+
+  @override
+  String get supplementUnitsTablet => 'δισκία';
+
+  @override
+  String get supplementUnitsCapsule => 'κάψουλες';
+
+  @override
+  String get supplementUnitsDrop => 'σταγόνες';
+
+  @override
+  String get supplementUnitsMl => 'ml';
+
+  @override
+  String get supplementUnitsScoop => 'μεζούρες';
 }

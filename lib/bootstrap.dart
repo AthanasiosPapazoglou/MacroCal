@@ -11,6 +11,7 @@ import 'package:macro_cal_public/features/food_bank/data/datasources/open_food_f
 import 'package:macro_cal_public/features/food_bank/data/repositories/asset_reference_food_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_recipe_repository.dart';
+import 'package:macro_cal_public/features/food_bank/data/repositories/drift_supplement_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/open_food_facts_product_lookup_repository.dart';
 import 'package:macro_cal_public/features/history/data/repositories/drift_history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
@@ -48,6 +49,7 @@ Future<App> createApp({
     foodLogRepository: foodLogRepository,
     ingredientRepository: DriftIngredientRepository(database),
     recipeRepository: DriftRecipeRepository(database),
+    supplementRepository: DriftSupplementRepository(database),
     productLookupRepository: OpenFoodFactsProductLookupRepository(
       OpenFoodFactsClient(httpClient),
     ),

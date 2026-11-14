@@ -11,6 +11,9 @@ import 'package:macro_cal_public/core/widgets/tab_icon.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/supplement.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/supplement_unit_labels.dart';
+import 'package:macro_cal_public/features/food_bank/presentation/widgets/food_kind_switch.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/amount_row.dart';
@@ -61,6 +64,12 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
         text: widget.initialState.recipeGramsOf(recipe.id).toString(),
       ),
   };
+  late final Map<int, TextEditingController> _supplementControllers = {
+    for (final supplement in widget.initialState.supplements)
+      supplement.id: TextEditingController(
+        text: widget.initialState.unitsOf(supplement.id).toString(),
+      ),
+  };
   bool _isSearching = false;
 
   bool get _onAllFoods => _tabController.index == 0;
@@ -72,6 +81,7 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
     for (final controller in [
       ..._controllers.values,
       ..._recipeControllers.values,
+      ..._supplementControllers.values,
     ]) {
       controller.dispose();
     }
@@ -118,6 +128,7 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
     for (final controller in [
       ..._controllers.values,
       ..._recipeControllers.values,
+      ..._supplementControllers.values,
     ]) {
       controller.text = '0';
     }
@@ -191,7 +202,8 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
                 children: [
                   _allFoods(state),
                   if (state.consumedIngredients.isEmpty &&
-                      state.consumedRecipes.isEmpty)
+                      state.consumedRecipes.isEmpty &&
+                      state.consumedSupplements.isEmpty)
                     EmptyState(
                       image: AppImages.addFood,
                       title: l10n.consumptionPageEmptyPageTitle,
@@ -222,33 +234,19 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
   }
 
   Widget _allFoods(ConsumptionState state) {
-    final l10n = context.l10n;
     final rows = switch (state.kind) {
       FoodKind.ingredient => _ingredientRows(state.visibleIngredients),
       FoodKind.recipe => _recipeRows(state.visibleRecipes),
+      FoodKind.supplement => _supplementRows(state.visibleSupplements),
     };
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: SegmentedButton<FoodKind>(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(
-                  value: FoodKind.ingredient,
-                  label: Text(l10n.foodsPageIngredients),
-                ),
-                ButtonSegment(
-                  value: FoodKind.recipe,
-                  label: Text(l10n.foodsPageRecipes),
-                ),
-              ],
-              selected: {state.kind},
-              onSelectionChanged: (selection) =>
-                  _cubit.selectKind(selection.single),
-            ),
+          child: FoodKindSwitch(
+            kind: state.kind,
+            showSupplements: state.showSupplements,
+            onChanged: _cubit.selectKind,
           ),
         ),
         Expanded(
@@ -273,6 +271,10 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
         title: l10n.foodsPageNoRecipes,
         subtitle: l10n.foodsPageNoRecipesHint,
       ),
+      FoodKind.supplement => EmptyState(
+        title: l10n.foodsPageNoSupplements,
+        subtitle: l10n.foodsPageNoSupplementsHint,
+      ),
     };
   }
 
@@ -280,6 +282,7 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
     final l10n = context.l10n;
     final recipes = state.consumedRecipes;
     final ingredients = state.consumedIngredients;
+    final supplements = state.consumedSupplements;
     return ListView(
       children: [
         if (recipes.isNotEmpty) ...[
@@ -289,6 +292,10 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
         if (ingredients.isNotEmpty) ...[
           _GroupHeader(l10n.foodsPageIngredients),
           ..._ingredientRows(ingredients),
+        ],
+        if (supplements.isNotEmpty) ...[
+          _GroupHeader(l10n.foodsPageSupplements),
+          ..._supplementRows(supplements),
         ],
       ],
     );
@@ -315,6 +322,19 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
         labelWidth: 180,
         controller: _recipeControllers[recipe.id],
         onChanged: (grams) => _cubit.updateRecipeGrams(recipe.id, grams),
+      ),
+  ];
+
+  List<Widget> _supplementRows(List<Supplement> supplements) => [
+    for (final supplement in supplements)
+      AmountRow(
+        key: ValueKey('supplement ${supplement.id}'),
+        label: supplement.name,
+        unit: supplement.unit.plural(context.l10n),
+        labelWidth: 180,
+        controller: _supplementControllers[supplement.id],
+        onChanged: (units) =>
+            _cubit.updateSupplementUnits(supplement.id, units),
       ),
   ];
 }

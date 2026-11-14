@@ -5,6 +5,7 @@ import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredie
 import 'package:macro_cal_public/features/food_bank/domain/repositories/product_lookup_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/reference_food_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/supplement_repository.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/domain/use_cases/archive_day.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
@@ -17,6 +18,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'sample_ingredients.dart';
 import 'sample_recipes.dart';
+import 'sample_supplements.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository;
 
@@ -36,6 +38,8 @@ class MockProductLookupRepository extends Mock
 class MockReferenceFoodRepository extends Mock
     implements ReferenceFoodRepository;
 
+class MockSupplementRepository extends Mock implements SupplementRepository;
+
 class MockHistoryRepository extends Mock implements HistoryRepository;
 
 class MockArchiveDay extends Mock implements ArchiveDay;
@@ -50,12 +54,18 @@ Future<void> pumpApp(WidgetTester tester) async {
   final history = MockHistoryRepository();
   final settings = MockSettingsRepository();
   final references = MockReferenceFoodRepository();
+  final supplements = MockSupplementRepository();
 
   tester.view
     ..physicalSize = const Size(1179, 2556)
     ..devicePixelRatio = 3;
   addTearDown(tester.view.reset);
 
+  when(supplements.watchSupplements).thenAnswer((_) => Stream.value(const []));
+  when(() => supplements.watchSupplement(any()))
+      .thenAnswer((_) => Stream.value(sampleVitaminD));
+  when(foodLog.watchSupplementEntries)
+      .thenAnswer((_) => Stream.value(const []));
   when(references.loadAll).thenAnswer((_) async => const []);
   when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
   when(profile.watchProfile).thenAnswer((_) => Stream.value(const Profile()));
@@ -94,6 +104,7 @@ Future<void> pumpApp(WidgetTester tester) async {
       foodLogRepository: foodLog,
       ingredientRepository: ingredients,
       recipeRepository: recipes,
+      supplementRepository: supplements,
       productLookupRepository: MockProductLookupRepository(),
       referenceFoodRepository: references,
       historyRepository: history,

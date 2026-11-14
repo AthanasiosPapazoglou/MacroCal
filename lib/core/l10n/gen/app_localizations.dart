@@ -1453,6 +1453,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reference foods come from the ANSES-CIQUAL 2025 French food composition table (Anses, updated 19 November 2025, https://doi.org/10.57745/RDMHWY), used under the Licence Ouverte / Open Licence 2.0 (Etalab). MacroCal uses a selection of 696 foods with rounded values; the Greek names are MacroCal\'s translations.'**
   String get settingsPageAboutDataCiqual;
+
+  /// No description provided for @foodsPageSupplements.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplements'**
+  String get foodsPageSupplements;
+
+  /// No description provided for @foodsPageNoSupplements.
+  ///
+  /// In en, this message translates to:
+  /// **'No supplements yet'**
+  String get foodsPageNoSupplements;
+
+  /// No description provided for @foodsPageNoSupplementsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one with the amounts per unit from its label'**
+  String get foodsPageNoSupplementsHint;
+
+  /// No description provided for @supplementFormTitleAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Supplement'**
+  String get supplementFormTitleAdd;
+
+  /// No description provided for @supplementFormTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Supplement'**
+  String get supplementFormTitleEdit;
+
+  /// No description provided for @supplementFormName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get supplementFormName;
+
+  /// No description provided for @supplementFormUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get supplementFormUnit;
+
+  /// No description provided for @supplementMicrosPerUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients per unit'**
+  String get supplementMicrosPerUnit;
+
+  /// No description provided for @supplementDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplement Details'**
+  String get supplementDetailsTitle;
+
+  /// No description provided for @supplementDeleteDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this supplement? Today\'s units of it are removed too.'**
+  String get supplementDeleteDialogBody;
+
+  /// No description provided for @supplementUnitTablet.
+  ///
+  /// In en, this message translates to:
+  /// **'Tablet'**
+  String get supplementUnitTablet;
+
+  /// No description provided for @supplementUnitCapsule.
+  ///
+  /// In en, this message translates to:
+  /// **'Capsule'**
+  String get supplementUnitCapsule;
+
+  /// No description provided for @supplementUnitDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop'**
+  String get supplementUnitDrop;
+
+  /// No description provided for @supplementUnitMl.
+  ///
+  /// In en, this message translates to:
+  /// **'ml'**
+  String get supplementUnitMl;
+
+  /// No description provided for @supplementUnitScoop.
+  ///
+  /// In en, this message translates to:
+  /// **'Scoop'**
+  String get supplementUnitScoop;
+
+  /// No description provided for @supplementUnitsTablet.
+  ///
+  /// In en, this message translates to:
+  /// **'tablets'**
+  String get supplementUnitsTablet;
+
+  /// No description provided for @supplementUnitsCapsule.
+  ///
+  /// In en, this message translates to:
+  /// **'capsules'**
+  String get supplementUnitsCapsule;
+
+  /// No description provided for @supplementUnitsDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'drops'**
+  String get supplementUnitsDrop;
+
+  /// No description provided for @supplementUnitsMl.
+  ///
+  /// In en, this message translates to:
+  /// **'ml'**
+  String get supplementUnitsMl;
+
+  /// No description provided for @supplementUnitsScoop.
+  ///
+  /// In en, this message translates to:
+  /// **'scoops'**
+  String get supplementUnitsScoop;
 }
 
 class _AppLocalizationsDelegate
