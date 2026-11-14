@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 
 part 'nutrients.freezed.dart';
 
@@ -13,6 +14,7 @@ abstract class Nutrients with _$Nutrients {
     @Default(0) double saturatedG,
     @Default(0) double fiberG,
     @Default(0) double saltMg,
+    @Default(Micronutrients()) Micronutrients micros,
   }) = _Nutrients;
 
   const new _();
@@ -26,6 +28,7 @@ abstract class Nutrients with _$Nutrients {
     saturatedG: saturatedG + other.saturatedG,
     fiberG: fiberG + other.fiberG,
     saltMg: saltMg + other.saltMg,
+    micros: micros + other.micros,
   );
 
   Nutrients scaled(double factor) => Nutrients(
@@ -37,5 +40,6 @@ abstract class Nutrients with _$Nutrients {
     saturatedG: saturatedG * factor,
     fiberG: fiberG * factor,
     saltMg: saltMg * factor,
+    micros: micros.scaled(factor),
   );
 }
