@@ -5,14 +5,19 @@ import 'package:macro_cal_public/core/database/seed/default_activities.dart';
 import 'package:macro_cal_public/core/database/seed/ingredient_seed.dart';
 import 'package:macro_cal_public/core/database/tables/activities_table.dart';
 import 'package:macro_cal_public/core/database/tables/activity_entries_table.dart';
+import 'package:macro_cal_public/core/database/tables/day_log_micronutrients_table.dart';
 import 'package:macro_cal_public/core/database/tables/day_logs_table.dart';
 import 'package:macro_cal_public/core/database/tables/food_entries_table.dart';
+import 'package:macro_cal_public/core/database/tables/ingredient_micronutrients_table.dart';
 import 'package:macro_cal_public/core/database/tables/ingredients_table.dart';
 import 'package:macro_cal_public/core/database/tables/profile_table.dart';
 import 'package:macro_cal_public/core/database/tables/recipe_entries_table.dart';
 import 'package:macro_cal_public/core/database/tables/recipe_ingredients_table.dart';
 import 'package:macro_cal_public/core/database/tables/recipes_table.dart';
 import 'package:macro_cal_public/core/database/tables/settings_table.dart';
+import 'package:macro_cal_public/core/database/tables/supplement_entries_table.dart';
+import 'package:macro_cal_public/core/database/tables/supplement_micronutrients_table.dart';
+import 'package:macro_cal_public/core/database/tables/supplements_table.dart';
 
 part 'app_database.g.dart';
 
@@ -28,6 +33,11 @@ part 'app_database.g.dart';
     RecipesTable,
     RecipeIngredientsTable,
     RecipeEntriesTable,
+    IngredientMicronutrientsTable,
+    SupplementsTable,
+    SupplementMicronutrientsTable,
+    SupplementEntriesTable,
+    DayLogMicronutrientsTable,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -37,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   final IngredientSeedLoader? _loadIngredientSeeds;
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -63,6 +73,18 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(schema.recipes);
         await m.createTable(schema.recipeIngredients);
         await m.createTable(schema.recipeEntries);
+      },
+      from6To7: (m, schema) async {
+        await m.addColumn(schema.profile, schema.profile.sex);
+        await m.addColumn(schema.profile, schema.profile.birthYear);
+        await m.addColumn(schema.settings, schema.settings.microcalEnabled);
+        await m.addColumn(schema.dayLogs, schema.dayLogs.sex);
+        await m.addColumn(schema.dayLogs, schema.dayLogs.age);
+        await m.createTable(schema.ingredientMicronutrients);
+        await m.createTable(schema.supplements);
+        await m.createTable(schema.supplementMicronutrients);
+        await m.createTable(schema.supplementEntries);
+        await m.createTable(schema.dayLogMicronutrients);
       },
     ),
     beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),

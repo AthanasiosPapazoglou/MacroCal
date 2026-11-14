@@ -38,9 +38,10 @@ Future<App> createApp({
   final activityRepository = DriftActivityRepository(database);
   final foodLogRepository = DriftFoodLogRepository(database);
   final historyRepository = DriftHistoryRepository(database);
+  final profileRepository = DriftProfileRepository(database);
   return App(
     settingsRepository: settingsRepository,
-    profileRepository: DriftProfileRepository(database),
+    profileRepository: profileRepository,
     activityRepository: activityRepository,
     foodLogRepository: foodLogRepository,
     ingredientRepository: DriftIngredientRepository(database),
@@ -53,6 +54,7 @@ Future<App> createApp({
       historyRepository,
       foodLogRepository,
       activityRepository,
+      profileRepository,
       DriftTransactionRunner(database),
     ),
     initialLanguage: await settingsRepository.readLanguage(),

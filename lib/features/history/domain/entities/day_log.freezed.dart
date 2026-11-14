@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DayLog {
 
- DateTime get date; DailySummary get summary;
+ DateTime get date; DailySummary get summary; MicroIntake? get micros; Sex? get sex; int? get age;
 /// Create a copy of DayLog
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $DayLogCopyWith<DayLog> get copyWith => _$DayLogCopyWithImpl<DayLog>(this as Day
 @override
 bool operator ==(Object other) {
   final _this = this as DayLog;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayLog&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.summary, _this.summary) || other.summary == _this.summary));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayLog&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.micros, _this.micros) || other.micros == _this.micros)&&(identical(other.sex, _this.sex) || other.sex == _this.sex)&&(identical(other.age, _this.age) || other.age == _this.age));
 }
 
 
 @override
 int get hashCode {
   final _this = this as DayLog;
-  return Object.hash(runtimeType,_this.date,_this.summary);
+  return Object.hash(runtimeType,_this.date,_this.summary,_this.micros,_this.sex,_this.age);
 }
 
 @override
 String toString() {
   final _this = this as DayLog;
-  return 'DayLog(date: ${_this.date}, summary: ${_this.summary})';
+  return 'DayLog(date: ${_this.date}, summary: ${_this.summary}, micros: ${_this.micros}, sex: ${_this.sex}, age: ${_this.age})';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $DayLogCopyWith<$Res>  {
   factory $DayLogCopyWith(DayLog value, $Res Function(DayLog) _then) = _$DayLogCopyWithImpl;
 @useResult
 $Res call({
- DateTime date, DailySummary summary
+ DateTime date, DailySummary summary, MicroIntake? micros, Sex? sex, int? age
 });
 
 
-$DailySummaryCopyWith<$Res> get summary;
+$DailySummaryCopyWith<$Res> get summary;$MicroIntakeCopyWith<$Res>? get micros;
 
 }
 /// @nodoc
@@ -68,11 +68,14 @@ class _$DayLogCopyWithImpl<$Res>
 
 /// Create a copy of DayLog
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? summary = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? summary = null,Object? micros = freezed,Object? sex = freezed,Object? age = freezed,}) {
   return _then(DayLog(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
-as DailySummary,
+as DailySummary,micros: freezed == micros ? _self.micros : micros // ignore: cast_nullable_to_non_nullable
+as MicroIntake?,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
+as Sex?,age: freezed == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 /// Create a copy of DayLog
@@ -83,6 +86,18 @@ $DailySummaryCopyWith<$Res> get summary {
   
   return $DailySummaryCopyWith<$Res>(_self.summary, (value) {
     return _then(_self.copyWith(summary: value));
+  });
+}/// Create a copy of DayLog
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MicroIntakeCopyWith<$Res>? get micros {
+    if (_self.micros == null) {
+    return null;
+  }
+
+  return $MicroIntakeCopyWith<$Res>(_self.micros!, (value) {
+    return _then(_self.copyWith(micros: value));
   });
 }
 }
@@ -166,10 +181,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  DailySummary summary)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  DailySummary summary,  MicroIntake? micros,  Sex? sex,  int? age)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DayLog() when $default != null:
-return $default(_that.date,_that.summary);case _:
+return $default(_that.date,_that.summary,_that.micros,_that.sex,_that.age);case _:
   return orElse();
 
 }
@@ -187,10 +202,10 @@ return $default(_that.date,_that.summary);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  DailySummary summary)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  DailySummary summary,  MicroIntake? micros,  Sex? sex,  int? age)  $default,) {final _that = this;
 switch (_that) {
 case _DayLog():
-return $default(_that.date,_that.summary);case _:
+return $default(_that.date,_that.summary,_that.micros,_that.sex,_that.age);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +222,10 @@ return $default(_that.date,_that.summary);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  DailySummary summary)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  DailySummary summary,  MicroIntake? micros,  Sex? sex,  int? age)?  $default,) {final _that = this;
 switch (_that) {
 case _DayLog() when $default != null:
-return $default(_that.date,_that.summary);case _:
+return $default(_that.date,_that.summary,_that.micros,_that.sex,_that.age);case _:
   return null;
 
 }
@@ -222,11 +237,14 @@ return $default(_that.date,_that.summary);case _:
 
 
 class _DayLog implements DayLog {
-  const _DayLog({required this.date, required this.summary});
+  const _DayLog({required this.date, required this.summary, this.micros, this.sex, this.age});
   
 
 @override final  DateTime date;
 @override final  DailySummary summary;
+@override final  MicroIntake? micros;
+@override final  Sex? sex;
+@override final  int? age;
 
 /// Create a copy of DayLog
 /// with the given fields replaced by the non-null parameter values.
@@ -238,18 +256,18 @@ _$DayLogCopyWith<_DayLog> get copyWith => __$DayLogCopyWithImpl<_DayLog>(this, _
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayLog&&(identical(other.date, date) || other.date == date)&&(identical(other.summary, summary) || other.summary == summary));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayLog&&(identical(other.date, date) || other.date == date)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.micros, micros) || other.micros == micros)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.age, age) || other.age == age));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,date,summary);
+    return Object.hash(runtimeType,date,summary,micros,sex,age);
 }
 
 @override
 String toString() {
-    return 'DayLog(date: $date, summary: $summary)';
+    return 'DayLog(date: $date, summary: $summary, micros: $micros, sex: $sex, age: $age)';
 }
 
 
@@ -260,11 +278,11 @@ abstract mixin class _$DayLogCopyWith<$Res> implements $DayLogCopyWith<$Res> {
   factory _$DayLogCopyWith(_DayLog value, $Res Function(_DayLog) _then) = __$DayLogCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime date, DailySummary summary
+ DateTime date, DailySummary summary, MicroIntake? micros, Sex? sex, int? age
 });
 
 
-@override $DailySummaryCopyWith<$Res> get summary;
+@override $DailySummaryCopyWith<$Res> get summary;@override $MicroIntakeCopyWith<$Res>? get micros;
 
 }
 /// @nodoc
@@ -277,11 +295,14 @@ class __$DayLogCopyWithImpl<$Res>
 
 /// Create a copy of DayLog
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? summary = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? summary = null,Object? micros = freezed,Object? sex = freezed,Object? age = freezed,}) {
   return _then(_DayLog(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
-as DailySummary,
+as DailySummary,micros: freezed == micros ? _self.micros : micros // ignore: cast_nullable_to_non_nullable
+as MicroIntake?,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
+as Sex?,age: freezed == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -293,6 +314,18 @@ $DailySummaryCopyWith<$Res> get summary {
   
   return $DailySummaryCopyWith<$Res>(_self.summary, (value) {
     return _then(_self.copyWith(summary: value));
+  });
+}/// Create a copy of DayLog
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MicroIntakeCopyWith<$Res>? get micros {
+    if (_self.micros == null) {
+    return null;
+  }
+
+  return $MicroIntakeCopyWith<$Res>(_self.micros!, (value) {
+    return _then(_self.copyWith(micros: value));
   });
 }
 }

@@ -33,4 +33,14 @@ void main() {
     expect(rows, hasLength(1));
     expect(await repository.readLanguage(), AppLanguage.english);
   });
+
+  test('MicroCal tracking is off until switched on', () async {
+    expect(await repository.watchMicrocalEnabled().first, isFalse);
+
+    await repository.saveMicrocalEnabled(enabled: true);
+    await repository.saveLanguage(AppLanguage.greek);
+
+    expect(await repository.watchMicrocalEnabled().first, isTrue);
+    expect(await repository.readLanguage(), AppLanguage.greek);
+  });
 }

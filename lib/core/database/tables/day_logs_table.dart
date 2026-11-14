@@ -25,4 +25,6 @@ class DayLogsTable extends Table {
   RealColumn get saturatedG => real()();
   RealColumn get fiberG => real()();
   RealColumn get saltMg => real()();
+  TextColumn get sex => text().nullable()();
+  IntColumn get age => integer().nullable()();
 }

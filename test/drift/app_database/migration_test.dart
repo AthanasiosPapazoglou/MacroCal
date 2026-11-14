@@ -11,6 +11,7 @@ import 'generated/schema_v3.dart' as v3;
 import 'generated/schema_v4.dart' as v4;
 import 'generated/schema_v5.dart' as v5;
 import 'generated/schema_v6.dart' as v6;
+import 'generated/schema_v7.dart' as v7;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -218,4 +219,67 @@ void main() {
       },
     );
   });
+
+  test(
+    'v6 to v7 keeps the profile and settings and adds empty micro tables',
+    () async {
+      await verifier.testWithDataIntegrity(
+        oldVersion: 6,
+        newVersion: 7,
+        createOld: v6.DatabaseAtV6.new,
+        createNew: v7.DatabaseAtV7.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, oldDb) {
+          batch
+            ..insert(
+              oldDb.settings,
+              const v6.SettingsData(id: 1, localeCode: 'el'),
+            )
+            ..insert(
+              oldDb.profile,
+              const v6.ProfileData(
+                id: 1,
+                dailyKcal: 1800,
+                proteinG: 120,
+                fiberG: 30,
+                sugarLimitPct: 5,
+                saturatedLimitPct: 6,
+                saltLimitMg: 5000,
+                weightKg: 80,
+                heightCm: 175,
+              ),
+            );
+        },
+        validateItems: (newDb) async {
+          expect(await newDb.select(newDb.settings).get(), const [
+            v7.SettingsData(id: 1, localeCode: 'el', microcalEnabled: 0),
+          ]);
+          expect(await newDb.select(newDb.profile).get(), const [
+            v7.ProfileData(
+              id: 1,
+              dailyKcal: 1800,
+              proteinG: 120,
+              fiberG: 30,
+              sugarLimitPct: 5,
+              saturatedLimitPct: 6,
+              saltLimitMg: 5000,
+              weightKg: 80,
+              heightCm: 175,
+            ),
+          ]);
+          expect(
+            await newDb.select(newDb.ingredientMicronutrients).get(),
+            isEmpty,
+          );
+          expect(await newDb.select(newDb.supplements).get(), isEmpty);
+          expect(
+            await newDb.select(newDb.supplementMicronutrients).get(),
+            isEmpty,
+          );
+          expect(await newDb.select(newDb.supplementEntries).get(), isEmpty);
+          expect(await newDb.select(newDb.dayLogMicronutrients).get(), isEmpty);
+        },
+      );
+    },
+  );
 }

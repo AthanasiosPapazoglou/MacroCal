@@ -14,4 +14,6 @@ class ProfileTable extends Table {
   RealColumn get saltLimitMg => real()();
   RealColumn get weightKg => real()();
   RealColumn get heightCm => real()();
+  TextColumn get sex => text().nullable()();
+  IntColumn get birthYear => integer().nullable()();
 }

@@ -3,6 +3,8 @@ import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_recipe_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
 
 import '../../../../helpers/ingredient_seeds.dart';
@@ -158,6 +160,28 @@ void main() {
     expect(await repository.watchRecipeNamesUsing(milk.id).first, [
       'Warm milk',
       'Milk toast',
+    ]);
+  });
+
+  test('recipe ingredients carry their micros, one item each', () async {
+    const breadMicros = Micronutrients(
+      amounts: {Micronutrient.iron: 2.5, Micronutrient.calcium: 30},
+    );
+    await ingredients.updateIngredient(
+      bread.copyWith(per100g: bread.per100g.copyWith(micros: breadMicros)),
+    );
+    final id = await repository.addRecipe(
+      name: 'Toast',
+      ingredients: [
+        RecipeIngredient(ingredient: bread, grams: 100),
+        RecipeIngredient(ingredient: milk, grams: 200),
+      ],
+    );
+
+    final recipe = (await repository.watchRecipe(id).first)!;
+    expect(recipe.ingredients.map((item) => item.ingredient.per100g.micros), [
+      breadMicros,
+      const Micronutrients(),
     ]);
   });
 }
