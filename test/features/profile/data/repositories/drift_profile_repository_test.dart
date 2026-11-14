@@ -3,6 +3,7 @@ import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/profile/data/repositories/drift_profile_repository.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 
 import '../../../../helpers/test_database.dart';
 
@@ -21,6 +22,8 @@ void main() {
     ),
     weightKg: 80.5,
     heightCm: 175,
+    sex: Sex.female,
+    birthYear: 1990,
   );
 
   setUp(() {
@@ -56,5 +59,10 @@ void main() {
 
     expect(await database.select(database.profileTable).get(), hasLength(1));
     expect(await repository.watchProfile().first, const Profile());
+  });
+
+  test('ageOn counts from the birth year alone', () {
+    expect(customProfile.ageOn(DateTime(2026)), 36);
+    expect(const Profile().ageOn(DateTime(2026)), isNull);
   });
 }

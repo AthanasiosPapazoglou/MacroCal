@@ -1,6 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/food_bank/data/mappers/ingredient_row_mapper.dart';
+import 'package:macro_cal_public/features/food_bank/data/mappers/micronutrient_rows.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
 
@@ -73,37 +76,48 @@ class DriftRecipeRepository implements RecipeRepository {
     final recipes = _database.recipesTable;
     final items = _database.recipeIngredientsTable;
     final ingredients = _database.ingredientsTable;
+    final micros = _database.ingredientMicronutrientsTable;
     final query = _database.select(recipes).join([
       leftOuterJoin(items, items.recipeId.equalsExp(recipes.id)),
       leftOuterJoin(ingredients, ingredients.id.equalsExp(items.ingredientId)),
+      leftOuterJoin(micros, micros.ingredientId.equalsExp(ingredients.id)),
     ])..orderBy([OrderingTerm.asc(recipes.id), OrderingTerm.asc(items.id)]);
     if (id != null) query.where(recipes.id.equals(id));
 
     return query.watch().map((rows) {
-      final ingredientsByRecipe = <RecipeRow, List<RecipeIngredient>>{};
+      final itemsByRecipe = <RecipeRow, Map<RecipeIngredientRow, _Item>>{};
       for (final row in rows) {
-        final recipeIngredients = ingredientsByRecipe.putIfAbsent(
+        final recipeItems = itemsByRecipe.putIfAbsent(
           row.readTable(recipes),
-          () => [],
+          () => {},
         );
         final item = row.readTableOrNull(items);
-        if (item != null) {
-          recipeIngredients.add(
-            RecipeIngredient(
-              ingredient: row.readTable(ingredients).toIngredient(),
-              grams: item.grams,
-            ),
-          );
+        if (item == null) continue;
+        final (_, amounts) = recipeItems.putIfAbsent(
+          item,
+          () => (row.readTable(ingredients), {}),
+        );
+        if (row.readTableOrNull(micros) case final micro?) {
+          amounts.addStored(micro.nutrient, micro.amount);
         }
       }
       return [
-        for (final MapEntry(key: recipe, value: recipeIngredients)
-            in ingredientsByRecipe.entries)
+        for (final MapEntry(key: recipe, value: recipeItems)
+            in itemsByRecipe.entries)
           Recipe(
             id: recipe.id,
             name: recipe.name,
             finalWeightGrams: recipe.finalWeightG,
-            ingredients: recipeIngredients,
+            ingredients: [
+              for (final MapEntry(key: item, value: (ingredient, amounts))
+                  in recipeItems.entries)
+                RecipeIngredient(
+                  ingredient: ingredient.toIngredient(
+                    Micronutrients(amounts: amounts),
+                  ),
+                  grams: item.grams,
+                ),
+            ],
           ),
       ];
     });
@@ -124,3 +138,5 @@ class DriftRecipeRepository implements RecipeRepository {
     ]),
   );
 }
+
+typedef _Item = (IngredientRow, Map<Micronutrient, double>);

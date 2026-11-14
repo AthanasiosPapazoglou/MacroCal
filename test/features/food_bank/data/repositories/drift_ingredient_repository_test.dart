@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/today/data/repositories/drift_food_log_repository.dart';
 
@@ -21,6 +23,10 @@ void main() {
     saturatedG: 1.2,
     fiberG: 10.6,
     saltMg: 5,
+  );
+
+  const oatMicros = Micronutrients(
+    amounts: {Micronutrient.iron: 4.3, Micronutrient.vitaminD: 0},
   );
 
   setUp(() {
@@ -78,5 +84,61 @@ void main() {
 
     expect(await repository.watchIngredient(milk.id).first, isNull);
     expect(await foodLog.watchEntries().first, isEmpty);
+  });
+
+  test('round-trips micros, keeping missing ones unknown', () async {
+    final id = await repository.addIngredient(
+      name: 'Oats',
+      per100g: oats.copyWith(micros: oatMicros),
+    );
+
+    final micros = (await repository.watchIngredient(id).first)!.per100g.micros;
+    expect(micros, oatMicros);
+    expect(micros[Micronutrient.zinc], isNull);
+  });
+
+  test('watchIngredients lists each ingredient once with its micros', () async {
+    await repository.addIngredient(
+      name: 'Oats',
+      per100g: oats.copyWith(micros: oatMicros),
+    );
+
+    final ingredients = await repository.watchIngredients().first;
+    expect(ingredients.map((ingredient) => ingredient.name), [
+      'Milk 1.5%',
+      'Bread',
+      'Oats',
+    ]);
+    expect(ingredients.first.per100g.micros.isEmpty, isTrue);
+    expect(ingredients.last.per100g.micros, oatMicros);
+  });
+
+  test('updateIngredient replaces its micros', () async {
+    final id = await repository.addIngredient(
+      name: 'Oats',
+      per100g: oats.copyWith(micros: oatMicros),
+    );
+    final saved = (await repository.watchIngredient(id).first)!;
+    const zinc = Micronutrients(amounts: {Micronutrient.zinc: 3.6});
+
+    await repository.updateIngredient(
+      saved.copyWith(per100g: saved.per100g.copyWith(micros: zinc)),
+    );
+
+    expect((await repository.watchIngredient(id).first)!.per100g.micros, zinc);
+  });
+
+  test('deleteIngredient removes its micros', () async {
+    final id = await repository.addIngredient(
+      name: 'Oats',
+      per100g: oats.copyWith(micros: oatMicros),
+    );
+
+    await repository.deleteIngredient(id);
+
+    expect(
+      await database.select(database.ingredientMicronutrientsTable).get(),
+      isEmpty,
+    );
   });
 }

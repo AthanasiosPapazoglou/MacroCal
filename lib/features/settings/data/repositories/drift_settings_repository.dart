@@ -12,9 +12,7 @@ class DriftSettingsRepository implements SettingsRepository {
 
   @override
   Future<AppLanguage> readLanguage() async {
-    final query = _database.select(_database.settings)
-      ..where((settings) => settings.id.equals(_rowId));
-    final row = await query.getSingleOrNull();
+    final row = await _row().getSingleOrNull();
     return AppLanguage.fromCode(row?.localeCode);
   }
 
@@ -27,4 +25,22 @@ class DriftSettingsRepository implements SettingsRepository {
           localeCode: Value(language.code),
         ),
       );
+
+  @override
+  Stream<bool> watchMicrocalEnabled() =>
+      _row().watchSingleOrNull().map((row) => row?.microcalEnabled ?? false);
+
+  @override
+  Future<void> saveMicrocalEnabled({required bool enabled}) => _database
+      .into(_database.settings)
+      .insertOnConflictUpdate(
+        SettingsCompanion(
+          id: const Value(_rowId),
+          microcalEnabled: Value(enabled),
+        ),
+      );
+
+  SimpleSelectStatement<$SettingsTable, Setting> _row() =>
+      _database.select(_database.settings)
+        ..where((settings) => settings.id.equals(_rowId));
 }

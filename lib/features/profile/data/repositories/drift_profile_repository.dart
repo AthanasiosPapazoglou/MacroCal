@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
 
 class DriftProfileRepository implements ProfileRepository {
@@ -36,6 +37,8 @@ class DriftProfileRepository implements ProfileRepository {
     ),
     weightKg: row.weightKg,
     heightCm: row.heightCm,
+    sex: Sex.values.asNameMap()[row.sex],
+    birthYear: row.birthYear,
   );
 
   ProfileTableCompanion _toCompanion(Profile profile) => ProfileTableCompanion(
@@ -48,5 +51,7 @@ class DriftProfileRepository implements ProfileRepository {
     saltLimitMg: Value(profile.goals.saltLimitMg),
     weightKg: Value(profile.weightKg),
     heightCm: Value(profile.heightCm),
+    sex: Value(profile.sex?.name),
+    birthYear: Value(profile.birthYear),
   );
 }

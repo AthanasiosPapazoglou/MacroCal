@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Profile {
 
- NutritionGoals get goals; double get weightKg; double get heightCm;
+ NutritionGoals get goals; double get weightKg; double get heightCm; Sex? get sex; int? get birthYear;
 /// Create a copy of Profile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $ProfileCopyWith<Profile> get copyWith => _$ProfileCopyWithImpl<Profile>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Profile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Profile&&(identical(other.goals, _this.goals) || other.goals == _this.goals)&&(identical(other.weightKg, _this.weightKg) || other.weightKg == _this.weightKg)&&(identical(other.heightCm, _this.heightCm) || other.heightCm == _this.heightCm));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Profile&&(identical(other.goals, _this.goals) || other.goals == _this.goals)&&(identical(other.weightKg, _this.weightKg) || other.weightKg == _this.weightKg)&&(identical(other.heightCm, _this.heightCm) || other.heightCm == _this.heightCm)&&(identical(other.sex, _this.sex) || other.sex == _this.sex)&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Profile;
-  return Object.hash(runtimeType,_this.goals,_this.weightKg,_this.heightCm);
+  return Object.hash(runtimeType,_this.goals,_this.weightKg,_this.heightCm,_this.sex,_this.birthYear);
 }
 
 @override
 String toString() {
   final _this = this as Profile;
-  return 'Profile(goals: ${_this.goals}, weightKg: ${_this.weightKg}, heightCm: ${_this.heightCm})';
+  return 'Profile(goals: ${_this.goals}, weightKg: ${_this.weightKg}, heightCm: ${_this.heightCm}, sex: ${_this.sex}, birthYear: ${_this.birthYear})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $ProfileCopyWith<$Res>  {
   factory $ProfileCopyWith(Profile value, $Res Function(Profile) _then) = _$ProfileCopyWithImpl;
 @useResult
 $Res call({
- NutritionGoals goals, double weightKg, double heightCm
+ NutritionGoals goals, double weightKg, double heightCm, Sex? sex, int? birthYear
 });
 
 
@@ -68,12 +68,14 @@ class _$ProfileCopyWithImpl<$Res>
 
 /// Create a copy of Profile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? goals = null,Object? weightKg = null,Object? heightCm = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? goals = null,Object? weightKg = null,Object? heightCm = null,Object? sex = freezed,Object? birthYear = freezed,}) {
   return _then(Profile(
 goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
 as NutritionGoals,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as double,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
-as double,
+as double,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
+as Sex?,birthYear: freezed == birthYear ? _self.birthYear : birthYear // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 /// Create a copy of Profile
@@ -167,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NutritionGoals goals,  double weightKg,  double heightCm)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NutritionGoals goals,  double weightKg,  double heightCm,  Sex? sex,  int? birthYear)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Profile() when $default != null:
-return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
+return $default(_that.goals,_that.weightKg,_that.heightCm,_that.sex,_that.birthYear);case _:
   return orElse();
 
 }
@@ -188,10 +190,10 @@ return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NutritionGoals goals,  double weightKg,  double heightCm)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NutritionGoals goals,  double weightKg,  double heightCm,  Sex? sex,  int? birthYear)  $default,) {final _that = this;
 switch (_that) {
 case _Profile():
-return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
+return $default(_that.goals,_that.weightKg,_that.heightCm,_that.sex,_that.birthYear);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +210,10 @@ return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NutritionGoals goals,  double weightKg,  double heightCm)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NutritionGoals goals,  double weightKg,  double heightCm,  Sex? sex,  int? birthYear)?  $default,) {final _that = this;
 switch (_that) {
 case _Profile() when $default != null:
-return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
+return $default(_that.goals,_that.weightKg,_that.heightCm,_that.sex,_that.birthYear);case _:
   return null;
 
 }
@@ -222,13 +224,15 @@ return $default(_that.goals,_that.weightKg,_that.heightCm);case _:
 /// @nodoc
 
 
-class _Profile implements Profile {
-  const _Profile({this.goals = const NutritionGoals(), this.weightKg = 94, this.heightCm = 184});
+class _Profile extends Profile {
+  const _Profile({this.goals = const NutritionGoals(), this.weightKg = 94, this.heightCm = 184, this.sex, this.birthYear}): super._();
   
 
 @override@JsonKey() final  NutritionGoals goals;
 @override@JsonKey() final  double weightKg;
 @override@JsonKey() final  double heightCm;
+@override final  Sex? sex;
+@override final  int? birthYear;
 
 /// Create a copy of Profile
 /// with the given fields replaced by the non-null parameter values.
@@ -240,18 +244,18 @@ _$ProfileCopyWith<_Profile> get copyWith => __$ProfileCopyWithImpl<_Profile>(thi
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Profile&&(identical(other.goals, goals) || other.goals == goals)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Profile&&(identical(other.goals, goals) || other.goals == goals)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,goals,weightKg,heightCm);
+    return Object.hash(runtimeType,goals,weightKg,heightCm,sex,birthYear);
 }
 
 @override
 String toString() {
-    return 'Profile(goals: $goals, weightKg: $weightKg, heightCm: $heightCm)';
+    return 'Profile(goals: $goals, weightKg: $weightKg, heightCm: $heightCm, sex: $sex, birthYear: $birthYear)';
 }
 
 
@@ -262,7 +266,7 @@ abstract mixin class _$ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
   factory _$ProfileCopyWith(_Profile value, $Res Function(_Profile) _then) = __$ProfileCopyWithImpl;
 @override @useResult
 $Res call({
- NutritionGoals goals, double weightKg, double heightCm
+ NutritionGoals goals, double weightKg, double heightCm, Sex? sex, int? birthYear
 });
 
 
@@ -279,12 +283,14 @@ class __$ProfileCopyWithImpl<$Res>
 
 /// Create a copy of Profile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? goals = null,Object? weightKg = null,Object? heightCm = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? goals = null,Object? weightKg = null,Object? heightCm = null,Object? sex = freezed,Object? birthYear = freezed,}) {
   return _then(_Profile(
 goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
 as NutritionGoals,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as double,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
-as double,
+as double,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
+as Sex?,birthYear: freezed == birthYear ? _self.birthYear : birthYear // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

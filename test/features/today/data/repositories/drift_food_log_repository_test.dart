@@ -2,10 +2,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/core/database/app_database.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/data/repositories/drift_recipe_repository.dart';
+import 'package:macro_cal_public/features/food_bank/data/repositories/drift_supplement_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/supplement.dart';
 import 'package:macro_cal_public/features/today/data/repositories/drift_food_log_repository.dart';
 import 'package:macro_cal_public/features/today/domain/entities/food_entry.dart';
+import 'package:macro_cal_public/features/today/domain/entities/supplement_entry.dart';
 
 import '../../../../helpers/ingredient_seeds.dart';
 import '../../../../helpers/test_database.dart';
@@ -131,5 +136,73 @@ void main() {
     await recipes.deleteRecipe(toast.id);
 
     expect(await repository.watchEntries().first, isEmpty);
+  });
+
+  group('micronutrients', () {
+    const breadMicros = Micronutrients(amounts: {Micronutrient.iron: 2.5});
+    const vitaminD = Micronutrients(amounts: {Micronutrient.vitaminD: 25});
+    late Supplement supplement;
+
+    setUp(() async {
+      await DriftIngredientRepository(database).updateIngredient(
+        bread.copyWith(per100g: bread.per100g.copyWith(micros: breadMicros)),
+      );
+      final supplements = DriftSupplementRepository(database);
+      final id = await supplements.addSupplement(
+        name: 'Vitamin D',
+        unit: SupplementUnit.drop,
+        microsPerUnit: vitaminD,
+      );
+      supplement = (await supplements.watchSupplement(id).first)!;
+    });
+
+    test('logged ingredients and recipes carry their micros', () async {
+      final toast = await addToast();
+      await repository.replaceGrams(
+        {bread.id: 50},
+        gramsByRecipeId: {toast.id: 100},
+      );
+
+      final [ingredientEntry, recipeEntry] = await repository
+          .watchEntries()
+          .first;
+      expect(ingredientEntry.per100g.micros, breadMicros);
+      expect(
+        (recipeEntry as RecipeEntry).recipe.ingredients.map(
+          (item) => item.ingredient.per100g.micros,
+        ),
+        [breadMicros, const Micronutrients()],
+      );
+    });
+
+    test('replaceSupplementUnits logs units and skips zeros', () async {
+      await repository.replaceSupplementUnits({supplement.id: 2});
+
+      expect(await repository.watchSupplementEntries().first, [
+        SupplementEntry(supplement: supplement, units: 2),
+      ]);
+
+      await repository.replaceSupplementUnits({supplement.id: 0});
+
+      expect(await repository.watchSupplementEntries().first, isEmpty);
+    });
+
+    test('replaceGrams keeps the supplements', () async {
+      await repository.replaceSupplementUnits({supplement.id: 1.5});
+
+      await repository.replaceGrams({milk.id: 200});
+
+      expect(await repository.watchSupplementEntries().first, hasLength(1));
+    });
+
+    test('clear removes the supplements too', () async {
+      await repository.replaceGrams({milk.id: 200});
+      await repository.replaceSupplementUnits({supplement.id: 1});
+
+      await repository.clear();
+
+      expect(await repository.watchEntries().first, isEmpty);
+      expect(await repository.watchSupplementEntries().first, isEmpty);
+    });
   });
 }
