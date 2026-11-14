@@ -178,5 +178,12 @@
   "recipeDetailsWhole": "Ολόκληρη η συνταγή: {grams} γρ., {kcal} kcal",
   "recipeDetailsWholeCooked": "Ολόκληρη η συνταγή: {grams} γρ. (συστατικά {ingredientsGrams} γρ.), {kcal} kcal",
   "recipeDetailsDeleteBody": "Είστε σίγουρος ότι επιθυμείτε να διαγράψετε αυτή τη συνταγή;",
-  "ingredientDetailsDeleteDialogRecipes": "Θα αφαιρεθεί επίσης από αυτές τις συνταγές: {recipes}"
+  "ingredientDetailsDeleteDialogRecipes": "Θα αφαιρεθεί επίσης από αυτές τις συνταγές: {recipes}",
+  "profilePageSex": "Φύλο",
+  "profilePageSexMale": "Άνδρας",
+  "profilePageSexFemale": "Γυναίκα",
+  "profilePageBirthYear": "Έτος γέννησης",
+  "profilePageMicronutrientsHint": "Προαιρετικό· χρησιμοποιείται μόνο για τις τιμές αναφοράς μικροθρεπτικών",
+  "profilePageInvalidBirthYear": "Εισάγετε έτος από το 1900 έως φέτος",
+  "settingsPageTrackMicronutrients": "Παρακολούθηση μικροθρεπτικών"
 }

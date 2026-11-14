@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_field.dart';
+import 'package:macro_cal_public/features/profile/presentation/cubit/profile_input.dart';
 import 'package:macro_cal_public/features/profile/presentation/cubit/profile_state.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -14,7 +16,7 @@ void main() {
   late ProfileCubit cubit;
 
   const stored = Profile(weightKg: 70);
-  const validInput = {
+  const validFields = {
     ProfileField.dailyKcal: '1800',
     ProfileField.proteinG: '120',
     ProfileField.fiberG: '30',
@@ -24,6 +26,11 @@ void main() {
     ProfileField.weightKg: '80,5',
     ProfileField.heightCm: '175',
   };
+  const ProfileInput validInput = (
+    fields: validFields,
+    sex: Sex.female,
+    birthYear: ' 1990 ',
+  );
   const saved = Profile(
     goals: NutritionGoals(
       dailyKcal: 1800,
@@ -35,6 +42,8 @@ void main() {
     ),
     weightKg: 80.5,
     heightCm: 175,
+    sex: Sex.female,
+    birthYear: 1990,
   );
 
   setUpAll(() => registerFallbackValue(const Profile()));
@@ -44,7 +53,7 @@ void main() {
     when(() => repository.watchProfile())
         .thenAnswer((_) => Stream.value(stored));
     when(() => repository.saveProfile(any())).thenAnswer((_) async {});
-    cubit = ProfileCubit(repository);
+    cubit = ProfileCubit(repository, now: () => DateTime(2026, 11, 14));
   });
   tearDown(() => cubit.close());
 
@@ -89,7 +98,11 @@ void main() {
   test('save rejects invalid input without storing it', () async {
     await cubit.load();
 
-    await cubit.save({...validInput, ProfileField.proteinG: '-5'});
+    await cubit.save((
+      fields: {...validFields, ProfileField.proteinG: '-5'},
+      sex: null,
+      birthYear: '',
+    ));
 
     expect(
       cubit.state,
@@ -105,5 +118,35 @@ void main() {
     await cubit.save(validInput);
 
     expect(cubit.state.status, ProfileStatus.failure);
+  });
+
+  for (final birthYear in ['1899', '2027', '19x0']) {
+    test('save rejects the birth year $birthYear', () async {
+      await cubit.load();
+
+      await cubit.save((
+        fields: validFields,
+        sex: Sex.male,
+        birthYear: birthYear,
+      ));
+
+      expect(cubit.state.status, ProfileStatus.invalid);
+      verifyNever(() => repository.saveProfile(any()));
+    });
+  }
+
+  test('save clears the sex and an empty birth year', () async {
+    when(() => repository.watchProfile()).thenAnswer(
+      (_) => Stream.value(const Profile(sex: Sex.male, birthYear: 1980)),
+    );
+    await cubit.load();
+
+    await cubit.save((fields: validFields, sex: null, birthYear: ' '));
+
+    final profile =
+        verify(() => repository.saveProfile(captureAny())).captured.single
+            as Profile;
+    expect(profile.sex, isNull);
+    expect(profile.birthYear, isNull);
   });
 }

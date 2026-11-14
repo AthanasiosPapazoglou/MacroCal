@@ -608,4 +608,27 @@ class AppLocalizationsEl extends AppLocalizations {
   String ingredientDetailsDeleteDialogRecipes(String recipes) {
     return 'Θα αφαιρεθεί επίσης από αυτές τις συνταγές: $recipes';
   }
+
+  @override
+  String get profilePageSex => 'Φύλο';
+
+  @override
+  String get profilePageSexMale => 'Άνδρας';
+
+  @override
+  String get profilePageSexFemale => 'Γυναίκα';
+
+  @override
+  String get profilePageBirthYear => 'Έτος γέννησης';
+
+  @override
+  String get profilePageMicronutrientsHint =>
+      'Προαιρετικό· χρησιμοποιείται μόνο για τις τιμές αναφοράς μικροθρεπτικών';
+
+  @override
+  String get profilePageInvalidBirthYear =>
+      'Εισάγετε έτος από το 1900 έως φέτος';
+
+  @override
+  String get settingsPageTrackMicronutrients => 'Παρακολούθηση μικροθρεπτικών';
 }
