@@ -98,4 +98,70 @@ void main() {
       expect(await database.select(database.dayLogsTable).get(), isEmpty);
     },
   );
+
+  testWidgets('build a recipe, log it and archive the day', (tester) async {
+    await tester.pumpWidget(
+      await createApp(database: database, httpClient: http.Client()),
+    );
+    await tester.pumpAndSettle();
+
+    await tapAndSettle(tester, find.text('Food Bank'));
+    await tapAndSettle(tester, find.byIcon(Icons.format_list_bulleted_add));
+    await enterField(tester, IngredientField.name, 'E2E Oats');
+    await enterField(tester, IngredientField.kcal, '400');
+    await enterField(tester, IngredientField.proteinG, '10');
+    await tapAndSettle(tester, find.text('Save'));
+
+    await tapAndSettle(tester, find.text('Recipes'));
+    await tapAndSettle(tester, find.byIcon(Icons.format_list_bulleted_add));
+    await tester.enterText(find.byType(TextFormField).first, 'E2E Porridge');
+    await tapAndSettle(tester, find.text('Add ingredient'));
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(BottomSheet),
+        matching: find.byType(TextField),
+      ),
+      'E2E',
+    );
+    await tester.pumpAndSettle();
+    await tapAndSettle(tester, find.text('E2E Oats').last);
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(NumericField),
+        matching: find.byType(TextField),
+      ),
+      '100',
+    );
+    await tester.enterText(find.byType(TextFormField).last, '200');
+    await tester.pumpAndSettle();
+    expect(find.text('200 gr. in total'), findsOneWidget);
+    await tapAndSettle(tester, find.text('Save'));
+    expect(find.text('E2E Porridge'), findsOneWidget);
+
+    await tapAndSettle(tester, find.text('Overview'));
+    await tapAndSettle(tester, find.byIcon(Icons.add_rounded).last);
+    await tapAndSettle(tester, find.byIcon(Icons.restaurant_rounded));
+    await tester.tap(find.text('Recipes'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(NumericField),
+        matching: find.byType(TextField),
+      ),
+      '150',
+    );
+    await tapAndSettle(tester, find.text('Save Changes'));
+
+    expect(find.text('300 / 2100'), findsOneWidget);
+    expect(find.text('7.5 / 100'), findsOneWidget);
+
+    await tapAndSettle(tester, find.byIcon(Icons.save_rounded));
+    await tapAndSettle(tester, find.text('Complete'));
+
+    expect(find.text('0 / 2100'), findsOneWidget);
+    final logs = await database.select(database.dayLogsTable).get();
+    expect(logs.single.kcal, closeTo(300, 1e-9));
+    expect(await database.select(database.recipeEntriesTable).get(), isEmpty);
+    expect(await database.select(database.recipesTable).get(), hasLength(1));
+  });
 }
