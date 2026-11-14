@@ -2,7 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/supplement_repository.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:macro_cal_public/features/today/domain/entities/food_entry.dart';
+import 'package:macro_cal_public/features/today/domain/entities/supplement_entry.dart';
 import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
@@ -10,6 +13,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_ingredients.dart';
 import '../../../../helpers/sample_recipes.dart';
+import '../../../../helpers/sample_supplements.dart';
 
 class _MockIngredientRepository extends Mock implements IngredientRepository;
 
@@ -17,8 +21,13 @@ class _MockRecipeRepository extends Mock implements RecipeRepository;
 
 class _MockFoodLogRepository extends Mock implements FoodLogRepository;
 
+class _MockSupplementRepository extends Mock implements SupplementRepository;
+
+class _MockSettingsRepository extends Mock implements SettingsRepository;
+
 void main() {
   late FoodLogRepository foodLog;
+  late SettingsRepository settings;
   late ConsumptionCubit cubit;
 
   When<Future<void>> stubReplaceGrams() => when(
@@ -28,12 +37,27 @@ void main() {
     ),
   );
 
-  setUpAll(() => registerFallbackValue(<int, int>{}));
+  setUpAll(() {
+    registerFallbackValue(<int, int>{});
+    registerFallbackValue(<int, double>{});
+  });
 
   setUp(() {
     final ingredients = _MockIngredientRepository();
     final recipes = _MockRecipeRepository();
     foodLog = _MockFoodLogRepository();
+    final supplements = _MockSupplementRepository();
+    settings = _MockSettingsRepository();
+    when(supplements.watchSupplements).thenAnswer(
+      (_) => Stream.value(const [sampleVitaminD, sampleMultivitamin]),
+    );
+    when(foodLog.watchSupplementEntries).thenAnswer(
+      (_) => Stream.value(const [
+        SupplementEntry(supplement: sampleVitaminD, units: 2),
+      ]),
+    );
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(true));
+    when(() => foodLog.replaceSupplementUnits(any())).thenAnswer((_) async {});
     when(ingredients.watchIngredients)
         .thenAnswer((_) => Stream.value(const [sampleMilk, sampleBread]));
     when(
@@ -47,7 +71,13 @@ void main() {
     );
     stubReplaceGrams().thenAnswer((_) async {});
     when(foodLog.clear).thenAnswer((_) async {});
-    cubit = ConsumptionCubit(ingredients, recipes, foodLog);
+    cubit = ConsumptionCubit(
+      ingredients,
+      recipes,
+      foodLog,
+      supplements,
+      settings,
+    );
   });
   tearDown(() => cubit.close());
 
@@ -131,6 +161,49 @@ void main() {
         gramsByRecipeId: {sampleWarmMilk.id: 120, sampleMilkToast.id: 80},
       ),
     ).called(1);
+    verify(() => foodLog.replaceSupplementUnits({sampleVitaminD.id: 2.0}))
+        .called(1);
+  });
+
+  test('load reads the logged supplement units and the switch', () async {
+    await cubit.load();
+
+    expect(cubit.state.showSupplements, isTrue);
+    expect(cubit.state.visibleSupplements, [
+      sampleVitaminD,
+      sampleMultivitamin,
+    ]);
+    expect(cubit.state.unitsOf(sampleVitaminD.id), 2);
+    expect(cubit.state.consumedSupplements, [sampleVitaminD]);
+  });
+
+  test('supplement units are saved and taken into the snapshot', () async {
+    await cubit.load();
+    cubit
+      ..updateSupplementUnits(sampleMultivitamin.id, 1)
+      ..updateSupplementUnits(sampleVitaminD.id, 0);
+
+    await cubit.save();
+
+    verify(
+      () => foodLog.replaceSupplementUnits({
+        sampleVitaminD.id: 0.0,
+        sampleMultivitamin.id: 1.0,
+      }),
+    ).called(1);
+    expect(cubit.state.consumedSupplements, [sampleMultivitamin]);
+  });
+
+  test('tracking off hides the consumed supplements but keeps them', () async {
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
+    await cubit.load();
+
+    expect(cubit.state.consumedSupplements, isEmpty);
+
+    await cubit.save();
+
+    verify(() => foodLog.replaceSupplementUnits({sampleVitaminD.id: 2.0}))
+        .called(1);
   });
 
   test('reset clears the log and the draft and stays ready', () async {
@@ -143,6 +216,8 @@ void main() {
     expect(cubit.state.recipeGramsOf(sampleWarmMilk.id), 0);
     expect(cubit.state.consumedIngredients, isEmpty);
     expect(cubit.state.consumedRecipes, isEmpty);
+    expect(cubit.state.unitsOf(sampleVitaminD.id), 0);
+    expect(cubit.state.consumedSupplements, isEmpty);
     verify(foodLog.clear).called(1);
   });
 

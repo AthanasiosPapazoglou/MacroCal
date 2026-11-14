@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/ingredient_repository.dart';
 import 'package:macro_cal_public/features/food_bank/domain/repositories/recipe_repository.dart';
+import 'package:macro_cal_public/features/food_bank/domain/repositories/supplement_repository.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_view.dart';
@@ -19,6 +21,8 @@ class ConsumptionPage extends StatelessWidget {
           context.read<IngredientRepository>(),
           context.read<RecipeRepository>(),
           context.read<FoodLogRepository>(),
+          context.read<SupplementRepository>(),
+          context.read<SettingsRepository>(),
         );
         unawaited(cubit.load());
         return cubit;

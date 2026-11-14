@@ -1,1 +1,1 @@
-enum FoodKind { ingredient, recipe }
+enum FoodKind { ingredient, recipe, supplement }

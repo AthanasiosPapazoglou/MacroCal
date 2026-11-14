@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/supplement.dart';
 
 part 'consumption_state.freezed.dart';
 
@@ -14,10 +15,14 @@ abstract class ConsumptionState with _$ConsumptionState {
     @Default(FoodKind.ingredient) FoodKind kind,
     @Default(<Ingredient>[]) List<Ingredient> ingredients,
     @Default(<Recipe>[]) List<Recipe> recipes,
+    @Default(<Supplement>[]) List<Supplement> supplements,
     @Default(<int, int>{}) Map<int, int> grams,
     @Default(<int, int>{}) Map<int, int> recipeGrams,
+    @Default(<int, int>{}) Map<int, int> supplementUnits,
     @Default(<int>[]) List<int> consumedIds,
     @Default(<int>[]) List<int> consumedRecipeIds,
+    @Default(<int>[]) List<int> consumedSupplementIds,
+    @Default(false) bool showSupplements,
     @Default('') String query,
   }) = _ConsumptionState;
 
@@ -26,6 +31,8 @@ abstract class ConsumptionState with _$ConsumptionState {
   int gramsOf(int ingredientId) => grams[ingredientId] ?? 0;
 
   int recipeGramsOf(int recipeId) => recipeGrams[recipeId] ?? 0;
+
+  int unitsOf(int supplementId) => supplementUnits[supplementId] ?? 0;
 
   bool get isFiltering => query.isNotEmpty;
 
@@ -39,6 +46,11 @@ abstract class ConsumptionState with _$ConsumptionState {
       if (_matches(recipe.name)) recipe,
   ];
 
+  List<Supplement> get visibleSupplements => [
+    for (final supplement in supplements)
+      if (_matches(supplement.name)) supplement,
+  ];
+
   /// Snapshot taken by refreshConsumed, so rows stay put while being edited.
   List<Ingredient> get consumedIngredients => [
     for (final ingredient in ingredients)
@@ -48,6 +60,13 @@ abstract class ConsumptionState with _$ConsumptionState {
   List<Recipe> get consumedRecipes => [
     for (final recipe in recipes)
       if (consumedRecipeIds.contains(recipe.id)) recipe,
+  ];
+
+  /// Empty while tracking is off, so the page looks as without supplements.
+  List<Supplement> get consumedSupplements => [
+    if (showSupplements)
+      for (final supplement in supplements)
+        if (consumedSupplementIds.contains(supplement.id)) supplement,
   ];
 
   bool _matches(String name) =>

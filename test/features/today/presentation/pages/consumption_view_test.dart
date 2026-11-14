@@ -15,6 +15,7 @@ import '../../../../helpers/cubit_stub.dart';
 import '../../../../helpers/pump_localized.dart';
 import '../../../../helpers/sample_ingredients.dart';
 import '../../../../helpers/sample_recipes.dart';
+import '../../../../helpers/sample_supplements.dart';
 
 class _MockConsumptionCubit extends Mock implements ConsumptionCubit;
 
@@ -133,6 +134,47 @@ void main() {
     );
     expect(find.text('Recipes'), findsOneWidget);
     expect(find.text('Ingredients'), findsOneWidget);
+  });
+
+  testWidgets('the supplements side logs units in each unit', (tester) async {
+    stub.emit(
+      ready.copyWith(
+        kind: FoodKind.supplement,
+        showSupplements: true,
+        supplements: const [sampleVitaminD, sampleMultivitamin],
+        supplementUnits: const {1: 2},
+      ),
+    );
+    await pumpView(tester);
+
+    expect(find.text('drops'), findsOneWidget);
+    expect(find.text('tablets'), findsOneWidget);
+    expect(find.text('2'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField).last, '1');
+
+    verify(() => cubit.updateSupplementUnits(2, 1)).called(1);
+  });
+
+  testWidgets('the consumed tab ends with the supplements', (tester) async {
+    stub.emit(
+      ready.copyWith(
+        showSupplements: true,
+        supplements: const [sampleVitaminD],
+        supplementUnits: const {1: 2},
+        consumedSupplementIds: const [1],
+      ),
+    );
+    await pumpView(tester);
+
+    await tester.tap(find.text('Consumed'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Supplements'), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.text('Vitamin D3')).dy,
+      greaterThan(tester.getTopLeft(find.text('Milk 1.5%')).dy),
+    );
   });
 
   testWidgets('the consumed tab refreshes and shows the empty state', (

@@ -6,11 +6,14 @@ import 'package:macro_cal_public/features/food_bank/presentation/micronutrient_l
 
 /// Micronutrient amounts by group, with a dash for unknown ones.
 class MicronutrientList extends StatelessWidget {
-  const new({required this.micros, super.key});
+  const new({required this.micros, this.title, super.key});
 
   static const unknown = '—';
 
   final Micronutrients micros;
+
+  /// Defaults to the per 100 g heading.
+  final String? title;
 
   static String format(double amount) =>
       double.parse(amount.toStringAsFixed(3)).toString();
@@ -25,7 +28,7 @@ class MicronutrientList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 8),
           child: Text(
-            l10n.micronutrientsPer100g,
+            title ?? l10n.micronutrientsPer100g,
             style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
