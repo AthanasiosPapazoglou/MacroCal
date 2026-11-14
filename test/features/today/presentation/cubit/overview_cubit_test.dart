@@ -14,6 +14,7 @@ import 'package:macro_cal_public/features/today/presentation/cubit/overview_stat
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_ingredients.dart';
+import '../../../../helpers/sample_recipes.dart';
 
 class _MockProfileRepository extends Mock implements ProfileRepository;
 
@@ -117,9 +118,22 @@ void main() {
     cubit.watch();
     profiles.add(const Profile());
     food.add(const [
-      FoodEntry(ingredient: sampleMilk, grams: 200),
-      FoodEntry(ingredient: sampleBread, grams: 50),
+      IngredientEntry(ingredient: sampleMilk, grams: 200),
+      IngredientEntry(ingredient: sampleBread, grams: 50),
     ]);
+
+    await emitted;
+  });
+
+  test('watch counts a logged recipe by the grams eaten', () async {
+    final emitted = expectLater(
+      cubit.stream.map((state) => state.summary.consumed.kcal),
+      emitsInOrder([0.0, closeTo(170, 1e-9)]),
+    );
+
+    cubit.watch();
+    profiles.add(const Profile());
+    food.add(const [RecipeEntry(recipe: sampleMilkToast, grams: 150)]);
 
     await emitted;
   });

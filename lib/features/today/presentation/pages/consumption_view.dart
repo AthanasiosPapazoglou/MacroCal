@@ -8,7 +8,9 @@ import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/core/widgets/search_field.dart';
 import 'package:macro_cal_public/core/widgets/tab_icon.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/food_kind.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/ingredient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/recipe.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/consumption_state.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/amount_row.dart';
@@ -53,6 +55,12 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
         text: widget.initialState.gramsOf(ingredient.id).toString(),
       ),
   };
+  late final Map<int, TextEditingController> _recipeControllers = {
+    for (final recipe in widget.initialState.recipes)
+      recipe.id: TextEditingController(
+        text: widget.initialState.recipeGramsOf(recipe.id).toString(),
+      ),
+  };
   bool _isSearching = false;
 
   bool get _onAllFoods => _tabController.index == 0;
@@ -61,7 +69,10 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
 
   @override
   void dispose() {
-    for (final controller in _controllers.values) {
+    for (final controller in [
+      ..._controllers.values,
+      ..._recipeControllers.values,
+    ]) {
       controller.dispose();
     }
     _tabController.dispose();
@@ -104,7 +115,10 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
     );
     if (!(confirmed ?? false)) return;
     await cubit.reset();
-    for (final controller in _controllers.values) {
+    for (final controller in [
+      ..._controllers.values,
+      ..._recipeControllers.values,
+    ]) {
       controller.text = '0';
     }
   }
@@ -176,14 +190,15 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
                 controller: _tabController,
                 children: [
                   _allFoods(state),
-                  if (state.consumedIngredients.isEmpty)
+                  if (state.consumedIngredients.isEmpty &&
+                      state.consumedRecipes.isEmpty)
                     EmptyState(
                       image: AppImages.addFood,
                       title: l10n.consumptionPageEmptyPageTitle,
                       subtitle: l10n.consumptionPageEmptyPageSubTitle,
                     )
                   else
-                    _ingredientList(state.consumedIngredients),
+                    _consumed(state),
                 ],
               ),
             ),
@@ -207,29 +222,116 @@ class _ConsumptionTabsState extends State<_ConsumptionTabs>
   }
 
   Widget _allFoods(ConsumptionState state) {
-    final ingredients = state.visibleIngredients;
-    if (ingredients.isNotEmpty) return _ingredientList(ingredients);
-    return EmptyState(
-      title: state.isFiltering
-          ? context.l10n.foodsPageEmptyPageTitleNoResults
-          : context.l10n.foodsPageEmptyPageTitleNoItems,
+    final l10n = context.l10n;
+    final rows = switch (state.kind) {
+      FoodKind.ingredient => _ingredientRows(state.visibleIngredients),
+      FoodKind.recipe => _recipeRows(state.visibleRecipes),
+    };
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          child: SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<FoodKind>(
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(
+                  value: FoodKind.ingredient,
+                  label: Text(l10n.foodsPageIngredients),
+                ),
+                ButtonSegment(
+                  value: FoodKind.recipe,
+                  label: Text(l10n.foodsPageRecipes),
+                ),
+              ],
+              selected: {state.kind},
+              onSelectionChanged: (selection) =>
+                  _cubit.selectKind(selection.single),
+            ),
+          ),
+        ),
+        Expanded(
+          child: rows.isNotEmpty
+              ? ListView(children: rows)
+              : _emptyAllFoods(state),
+        ),
+      ],
     );
   }
 
-  Widget _ingredientList(List<Ingredient> ingredients) {
-    final unit = context.l10n.consumptionPageMetricsGrams;
-    return ListView.builder(
-      itemCount: ingredients.length,
-      itemBuilder: (_, index) {
-        final ingredient = ingredients[index];
-        return AmountRow(
-          label: ingredient.name,
-          unit: unit,
-          labelWidth: 180,
-          controller: _controllers[ingredient.id],
-          onChanged: (grams) => _cubit.updateGrams(ingredient.id, grams),
-        );
-      },
+  Widget _emptyAllFoods(ConsumptionState state) {
+    final l10n = context.l10n;
+    if (state.isFiltering) {
+      return EmptyState(title: l10n.foodsPageEmptyPageTitleNoResults);
+    }
+    return switch (state.kind) {
+      FoodKind.ingredient => EmptyState(
+        title: l10n.foodsPageEmptyPageTitleNoItems,
+      ),
+      FoodKind.recipe => EmptyState(
+        title: l10n.foodsPageNoRecipes,
+        subtitle: l10n.foodsPageNoRecipesHint,
+      ),
+    };
+  }
+
+  Widget _consumed(ConsumptionState state) {
+    final l10n = context.l10n;
+    final recipes = state.consumedRecipes;
+    final ingredients = state.consumedIngredients;
+    return ListView(
+      children: [
+        if (recipes.isNotEmpty) ...[
+          _GroupHeader(l10n.foodsPageRecipes),
+          ..._recipeRows(recipes),
+        ],
+        if (ingredients.isNotEmpty) ...[
+          _GroupHeader(l10n.foodsPageIngredients),
+          ..._ingredientRows(ingredients),
+        ],
+      ],
+    );
+  }
+
+  List<Widget> _ingredientRows(List<Ingredient> ingredients) => [
+    for (final ingredient in ingredients)
+      AmountRow(
+        key: ValueKey('ingredient ${ingredient.id}'),
+        label: ingredient.name,
+        unit: context.l10n.consumptionPageMetricsGrams,
+        labelWidth: 180,
+        controller: _controllers[ingredient.id],
+        onChanged: (grams) => _cubit.updateGrams(ingredient.id, grams),
+      ),
+  ];
+
+  List<Widget> _recipeRows(List<Recipe> recipes) => [
+    for (final recipe in recipes)
+      AmountRow(
+        key: ValueKey('recipe ${recipe.id}'),
+        label: recipe.name,
+        unit: context.l10n.consumptionPageMetricsGrams,
+        labelWidth: 180,
+        controller: _recipeControllers[recipe.id],
+        onChanged: (grams) => _cubit.updateRecipeGrams(recipe.id, grams),
+      ),
+  ];
+}
+
+class _GroupHeader extends StatelessWidget {
+  const new(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
