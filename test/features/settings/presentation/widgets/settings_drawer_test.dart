@@ -71,6 +71,10 @@ void main() {
 
     expect(find.textContaining('ANSES-CIQUAL 2025'), findsOneWidget);
     expect(find.textContaining('Open Licence 2.0'), findsOneWidget);
+    expect(
+      find.textContaining("EFSA's Dietary Reference Values"),
+      findsOneWidget,
+    );
 
     await tester.tap(find.text('Close'));
     await tester.pumpAndSettle();

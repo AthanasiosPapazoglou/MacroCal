@@ -1035,4 +1035,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyLowCoverageShort => 'Low micronutrient coverage';
+
+  @override
+  String get settingsPageAboutDataReferences =>
+      'Micronutrient reference intakes are EFSA\'s Dietary Reference Values for adults and its 2024 summary of tolerable upper intake levels, with NASEM\'s Dietary Reference Intakes only where EFSA set no value (upper levels for vitamin C, phosphorus, iron and manganese), and the EU label nutrient reference values (Regulation (EU) No 1169/2011, Annex XIII) while sex or birth year is missing. MicroCal compares what you log with these population values; it does not assess individual needs.';
 }

@@ -12,6 +12,7 @@
 - **Caloric and Nutritional Tracking:** Monitor your daily intake of calories, proteins, dietary fiber, sugars, saturated fats, and salt.
 - **Exercise Logging:** Record your exercise activities to adjust your caloric requirements and macronutrient thresholds.
 - **Goal Setting:** Set and track your nutritional and caloric goals based on your health objectives. (In Progress)
+- **Micronutrients (MicroCal):** Switch on "Track micronutrients" in Settings to track 21 vitamins, minerals and trace elements from food and supplements. Ingredients take their values from Open Food Facts or a built-in reference food table, supplements are logged in units, and the MicroCal page compares today and the last 7 days with EFSA reference intakes for your sex and age (EU label values until both are set), showing how much of the food eaten has data. Archived days keep their micronutrients for the History. It is a log compared with published population reference values, for information only.
 - **History and Insights:** Archive a day from the Overview, then review your last 7 days, 30 days or all time: averages, goal adherence, a daily calories chart, your macro split, a logging streak and each archived day in detail.
 
 ## Getting Started
@@ -136,11 +137,16 @@ If you are developing on macOS, you need to set up additional tools for iOS deve
 3. **Track Exercise:**
     - Record your daily exercise activities to adjust your caloric requirements.
 
-4. **Archive the Day:**
+4. **Track Micronutrients (optional):**
+    - Turn on "Track micronutrients" in Settings and add your sex and birth year in the profile for EFSA reference values; MicroCal is for adults only.
+    - On an ingredient form, open the Micronutrients section or use "Fill from a reference food"; add supplements on the Food Bank's Supplements side with their amounts per unit.
+    - Log supplements in units on the Consumption page, then open the MicroCal card on the Overview for today and the 7-day average; tap a nutrient for its description and today's top contributors.
+
+5. **Archive the Day:**
     - Tap the save button on the Overview to store the day's intake in your history. Archiving is manual: a day you don't archive does not appear in the history.
 
-5. **View Insights:**
-    - Open the History tab to see your statistics and charts for a range, tap a day for its details, or delete it from there.
+6. **View Insights:**
+    - Open the History tab to see your statistics and charts for a range, tap a day for its details, or delete it from there. With micronutrient tracking on, the range shows each nutrient's average share of the reference and each day shows its own values.
 
 ## Architecture
 
@@ -153,11 +159,12 @@ lib/
 ├── app/                 # App widget, router (go_router), theme, tab shell
 ├── core/                # database, l10n, shared widgets, asset paths, plain-Dart helpers
 └── features/
-    ├── settings/        # language
+    ├── settings/        # language, micronutrient tracking switch
     ├── profile/         # daily goals and body metrics
-    ├── food_bank/       # ingredients and recipes: catalog, forms, details, barcode lookup (Open Food Facts)
-    ├── today/           # overview, consumption of ingredients and recipes, exercise, archive day
-    └── history/         # archived days, statistics, charts, day detail
+    ├── food_bank/       # ingredients, recipes and supplements: catalog, forms, details, barcode lookup (Open Food Facts), reference foods
+    ├── today/           # overview, consumption of ingredients, recipes and supplements, exercise, archive day
+    ├── microcal/        # micronutrient intake, reference intakes, MicroCal page and overview card
+    └── history/         # archived days, statistics, charts, day detail, micronutrient averages
         ├── domain/      # entities, repository interfaces, services; plain Dart only
         ├── data/        # drift and http implementations of the repositories
         └── presentation/# cubits, pages, widgets
@@ -195,7 +202,7 @@ flutter gen-l10n
 ```
 
 - `flutter test` runs the unit, widget and drift migration tests in `test/`.
-- The `integration_test/` end-to-end test drives the real app on an in-memory database; run it on an iOS simulator or macOS (`flutter devices` lists the ids).
+- The `integration_test/` end-to-end tests drive the real app on an in-memory database (logging, recipes, archiving, and the micronutrient flow); run them on an iOS simulator or macOS (`flutter devices` lists the ids).
 - Run `build_runner` after changing a drift table, a freezed class or a `json_serializable` DTO, and commit the output.
 - Run `gen-l10n` after editing `lib/core/l10n/arb/app_en.arb` or `app_el.arb`. Every new string goes in both files.
 
@@ -224,6 +231,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Data sources
 
 - **Reference foods** (`assets/data/reference_foods.json`): a selection of 696 foods from the ANSES-CIQUAL 2025 French food composition table, Anses, updated 19 November 2025, <https://doi.org/10.57745/RDMHWY>, used under the [Licence Ouverte / Open Licence 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence/) (Etalab). Values are rounded to 4 significant digits; vitamin A is in retinol equivalents, folate in dietary folate equivalents where given, niacin as preformed niacin, vitamin K as K1 plus K2. Energy missing from the table is computed with the EU Regulation 1169/2011 factors. The Greek names are MacroCal's translations. The same values fill the micronutrients of the generic seed ingredients.
+- **Reference intakes:** EFSA Dietary Reference Values for adults, and EFSA's 2024 summary of tolerable upper intake levels; NASEM Dietary Reference Intakes only where EFSA set no value (upper levels for vitamin C, phosphorus, iron and manganese); the EU label nutrient reference values (Regulation (EU) No 1169/2011, Annex XIII) while sex or birth year is missing. Pregnancy and lactation are not covered.
 - **Barcode lookup:** [Open Food Facts](https://world.openfoodfacts.org), Open Database License.
 
 ## Legal Disclaimer

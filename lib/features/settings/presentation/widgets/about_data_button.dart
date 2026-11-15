@@ -14,7 +14,14 @@ class AboutDataButton extends StatelessWidget {
         builder: (context) => AlertDialog(
           title: Text(l10n.settingsPageAboutData),
           content: SingleChildScrollView(
-            child: Text(l10n.settingsPageAboutDataCiqual),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.settingsPageAboutDataCiqual),
+                const SizedBox(height: 12),
+                Text(l10n.settingsPageAboutDataReferences),
+              ],
+            ),
           ),
           actions: [
             TextButton(

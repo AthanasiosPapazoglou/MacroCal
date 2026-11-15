@@ -485,5 +485,6 @@
   "historyNoMicroDataRange": "No micronutrient data in this range",
   "historyNoMicroDataShort": "No micronutrient data",
   "historyLowCoverage": "Low coverage: less than half of the food eaten has micronutrient data",
-  "historyLowCoverageShort": "Low micronutrient coverage"
+  "historyLowCoverageShort": "Low micronutrient coverage",
+  "settingsPageAboutDataReferences": "Micronutrient reference intakes are EFSA's Dietary Reference Values for adults and its 2024 summary of tolerable upper intake levels, with NASEM's Dietary Reference Intakes only where EFSA set no value (upper levels for vitamin C, phosphorus, iron and manganese), and the EU label nutrient reference values (Regulation (EU) No 1169/2011, Annex XIII) while sex or birth year is missing. MicroCal compares what you log with these population values; it does not assess individual needs."
 }
