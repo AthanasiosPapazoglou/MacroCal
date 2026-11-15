@@ -7,6 +7,8 @@ part 'food_entry.freezed.dart';
 
 /// Grams of an ingredient or a recipe eaten today.
 sealed class FoodEntry {
+  String get name;
+
   int get grams;
 
   Nutrients get per100g;
@@ -20,6 +22,9 @@ abstract class IngredientEntry with _$IngredientEntry implements FoodEntry {
   const new _();
 
   @override
+  String get name => ingredient.name;
+
+  @override
   Nutrients get per100g => ingredient.per100g;
 }
 
@@ -28,6 +33,9 @@ abstract class RecipeEntry with _$RecipeEntry implements FoodEntry {
   const factory({required Recipe recipe, required int grams}) = _RecipeEntry;
 
   const new _();
+
+  @override
+  String get name => recipe.name;
 
   @override
   Nutrients get per100g => recipe.per100g;

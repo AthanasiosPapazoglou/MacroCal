@@ -813,4 +813,193 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supplementUnitsScoop => 'scoops';
+
+  @override
+  String get microcalTitle => 'MicroCal';
+
+  @override
+  String get microcalToday => 'Today';
+
+  @override
+  String get microcalWeek => '7 days';
+
+  @override
+  String microcalReferenceEfsaMen(int age) {
+    return 'Reference intakes: EFSA, men aged $age';
+  }
+
+  @override
+  String microcalReferenceEfsaWomen(int age) {
+    return 'Reference intakes: EFSA, women aged $age';
+  }
+
+  @override
+  String get microcalReferenceNrv =>
+      'Reference intakes: EU label values. Add your sex and birth year in the profile for EFSA values.';
+
+  @override
+  String get microcalUnderAge =>
+      'MicroCal compares intake with adult reference values, so it isn\'t available under 18.';
+
+  @override
+  String microcalDaysWithData(int count) {
+    return 'Based on $count of 7 days';
+  }
+
+  @override
+  String get microcalNoWeekData => 'No micronutrient data in the last 7 days';
+
+  @override
+  String get microcalLegendFood => 'Food';
+
+  @override
+  String get microcalLegendSupplements => 'Supplements';
+
+  @override
+  String get microcalLegendCoverage => 'Share of food with data';
+
+  @override
+  String get microcalAdequateIntakeNote =>
+      '* Adequate intake: used where the evidence is too limited for a recommended intake';
+
+  @override
+  String microcalCoverage(int percent) {
+    return 'Food with data: $percent%';
+  }
+
+  @override
+  String microcalAboveUpperLimit(String source) {
+    return 'Above the tolerable upper intake level set by $source';
+  }
+
+  @override
+  String microcalSupplementsAboveUpperLimit(String source) {
+    return 'Supplements are above the tolerable upper intake level set by $source';
+  }
+
+  @override
+  String get microcalDisclaimer =>
+      'For information only. Not medical or dietary advice.';
+
+  @override
+  String microcalReferenceLine(String amount, String source) {
+    return 'Reference intake: $amount ($source)';
+  }
+
+  @override
+  String microcalAdequateIntakeLine(String amount, String source) {
+    return 'Adequate intake: $amount ($source)';
+  }
+
+  @override
+  String microcalUpperLimitLine(String amount, String source) {
+    return 'Tolerable upper intake level: $amount ($source)';
+  }
+
+  @override
+  String microcalUpperLimitSupplementsLine(String amount, String source) {
+    return 'Tolerable upper intake level from supplements: $amount ($source)';
+  }
+
+  @override
+  String get microcalTopContributors => 'Today\'s top contributors';
+
+  @override
+  String get microcalNoContributors =>
+      'Nothing logged today has a value for this nutrient';
+
+  @override
+  String microcalCardAtReference(int count, int total) {
+    return '$count of $total at reference (7-day)';
+  }
+
+  @override
+  String get microcalLoadFailed => 'Micronutrients could not be loaded';
+
+  @override
+  String get microcalSourceEuNrv => 'EU label value';
+
+  @override
+  String get microcalAboutVitaminA =>
+      'A fat-soluble vitamin, counted in µg retinol equivalents: retinol from animal foods, and beta-carotene from plants at a sixth of its weight. Found in liver, eggs, butter, cheese, carrots, sweet potatoes and dark leafy greens. Beta-carotene is absorbed better with some fat in the same meal.';
+
+  @override
+  String get microcalAboutVitaminD =>
+      'A fat-soluble vitamin, in µg (1 µg is 40 IU). Few foods contain it: oily fish such as salmon, sardines and mackerel, egg yolks and fortified foods. The skin also makes it in sunlight, which this log does not count.';
+
+  @override
+  String get microcalAboutVitaminE =>
+      'A fat-soluble vitamin, counted in mg alpha-tocopherol. Found in vegetable oils such as sunflower and olive oil, nuts, seeds and avocado.';
+
+  @override
+  String get microcalAboutVitaminK =>
+      'A fat-soluble vitamin, in µg: K1 from plants and K2 from fermented and animal foods. Found in dark leafy greens such as spinach and kale, broccoli, vegetable oils and cheese. Absorbed better with some fat in the same meal.';
+
+  @override
+  String get microcalAboutVitaminC =>
+      'A water-soluble vitamin, also called ascorbic acid, in mg. Found in peppers, citrus fruit, kiwi, strawberries, broccoli and tomatoes. Heat and long storage reduce it, and boiling moves part of it into the water. Vitamin C in the same meal raises the absorption of iron from plant foods.';
+
+  @override
+  String get microcalAboutThiamin =>
+      'Vitamin B1, water-soluble, in mg. Found in whole grains, pork, legumes, nuts and seeds. Part of it is lost in cooking water. EFSA sets the reference per unit of energy, so it follows your daily calorie goal.';
+
+  @override
+  String get microcalAboutRiboflavin =>
+      'Vitamin B2, water-soluble, in mg. Found in milk and dairy, eggs, meat, almonds and mushrooms. Light breaks it down.';
+
+  @override
+  String get microcalAboutNiacin =>
+      'Vitamin B3, water-soluble, in mg. Found in meat, poultry, fish, peanuts and whole grains. The body also makes some from tryptophan, an amino acid in protein, which food tables do not include. EFSA sets the reference per unit of energy, so it follows your daily calorie goal.';
+
+  @override
+  String get microcalAboutVitaminB6 =>
+      'A water-soluble vitamin, in mg. Found in poultry, fish, potatoes, chickpeas, bananas and whole grains.';
+
+  @override
+  String get microcalAboutFolate =>
+      'Vitamin B9, water-soluble, counted in µg dietary folate equivalents: folic acid from supplements and fortified foods counts 1.7 times, as it is absorbed better than the folate in food. Found in leafy greens, legumes, asparagus, liver and oranges. Boiling loses a large part of it.';
+
+  @override
+  String get microcalAboutVitaminB12 =>
+      'A water-soluble vitamin, in µg. Found almost only in animal foods (meat, fish, eggs, milk and dairy) and in fortified foods. Only a small amount is absorbed from any single meal.';
+
+  @override
+  String get microcalAboutCalcium =>
+      'A mineral, in mg. Found in milk, yogurt, cheese, sardines with their bones, almonds, tahini and some leafy greens. Oxalates in spinach and phytates in bran and legumes lower its absorption from those foods.';
+
+  @override
+  String get microcalAboutPhosphorus =>
+      'A mineral, in mg. Found in most protein foods (dairy, meat, fish, eggs, legumes, nuts and whole grains) and in phosphate additives in processed foods.';
+
+  @override
+  String get microcalAboutMagnesium =>
+      'A mineral, in mg. Found in whole grains, nuts, seeds, legumes, cocoa and leafy greens. Its upper level applies to supplements only.';
+
+  @override
+  String get microcalAboutPotassium =>
+      'A mineral, in mg. Found in vegetables, fruit such as bananas and apricots, potatoes, legumes, milk and coffee.';
+
+  @override
+  String get microcalAboutIron =>
+      'A trace element, in mg. Heme iron in meat and fish is absorbed far better than non-heme iron in legumes, grains and greens. Vitamin C in the same meal raises non-heme iron absorption; tea, coffee and calcium in the same meal lower it.';
+
+  @override
+  String get microcalAboutZinc =>
+      'A trace element, in mg. Found in meat, shellfish, cheese, legumes, nuts, seeds and whole grains. Phytates in whole grains and legumes lower its absorption; the EFSA reference here assumes a moderate phytate intake.';
+
+  @override
+  String get microcalAboutCopper =>
+      'A trace element, in mg. Found in liver, shellfish, nuts, seeds, cocoa, legumes and whole grains.';
+
+  @override
+  String get microcalAboutManganese =>
+      'A trace element, in mg. Found in whole grains, nuts, legumes, leafy greens and tea.';
+
+  @override
+  String get microcalAboutSelenium =>
+      'A trace element, in µg. Found in Brazil nuts, fish, seafood, meat, eggs and grains; the amount in plant foods depends on the soil they grew in.';
+
+  @override
+  String get microcalAboutIodine =>
+      'A trace element, in µg. Found in fish, seafood, seaweed, milk, eggs and iodised salt; the amount in milk and vegetables depends on farming and soil. Iodised salt added at home is not counted.';
 }

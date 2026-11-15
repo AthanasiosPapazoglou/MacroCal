@@ -14,6 +14,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/supplemen
 import 'package:macro_cal_public/features/food_bank/presentation/pages/supplement_form_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
+import 'package:macro_cal_public/features/microcal/presentation/pages/microcal_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
@@ -67,6 +68,7 @@ void main() {
     AppRoutes.editIngredient(1): IngredientFormPage,
     AppRoutes.nutrient(1, NutrientKind.salt): NutrientDetailPage,
     AppRoutes.history: HistoryPage,
+    AppRoutes.microcal: MicroCalPage,
     AppRoutes.historyDay(DateTime(2026, 11, 10)): DayDetailPage,
   };
   for (final MapEntry(key: location, value: page) in pages.entries) {

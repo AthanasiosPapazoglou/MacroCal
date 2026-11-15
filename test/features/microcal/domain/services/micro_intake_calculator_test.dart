@@ -105,4 +105,54 @@ void main() {
 
     expect(intake, const MicroIntake());
   });
+
+  group('average', () {
+    test('averages amounts and coverage over the days', () {
+      final average = calculator.average(const [
+        MicroIntake(
+          food: Micronutrients(amounts: {Micronutrient.iron: 10}),
+          coverage: {Micronutrient.iron: 1},
+        ),
+        MicroIntake(
+          supplements: Micronutrients(amounts: {Micronutrient.zinc: 6}),
+        ),
+      ]);
+
+      expect(average.food[Micronutrient.iron], 5);
+      expect(average.supplements[Micronutrient.zinc], 3);
+      expect(average.coverageOf(Micronutrient.iron), 0.5);
+      expect(average.total(Micronutrient.calcium), isNull);
+    });
+
+    test('no days gives an empty intake', () {
+      expect(calculator.average(const []), const MicroIntake());
+    });
+  });
+
+  test('contributors lists entries with a value, largest first', () {
+    final contributors = calculator.contributors(
+      Micronutrient.iron,
+      foodEntries: const [
+        IngredientEntry(ingredient: milk, grams: 200),
+        IngredientEntry(ingredient: oats, grams: 50),
+        IngredientEntry(ingredient: honey, grams: 20),
+      ],
+      supplementEntries: const [
+        SupplementEntry(
+          supplement: Supplement(
+            id: 1,
+            name: 'Iron',
+            unit: SupplementUnit.tablet,
+            microsPerUnit: Micronutrients(amounts: {Micronutrient.iron: 14}),
+          ),
+          units: 1,
+        ),
+      ],
+    );
+
+    expect(contributors, [
+      (name: 'Iron', amount: 14.0, isSupplement: true),
+      (name: 'Oats', amount: 2.0, isSupplement: false),
+    ]);
+  });
 }

@@ -819,4 +819,194 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get supplementUnitsScoop => 'μεζούρες';
+
+  @override
+  String get microcalTitle => 'MicroCal';
+
+  @override
+  String get microcalToday => 'Σήμερα';
+
+  @override
+  String get microcalWeek => '7 ημέρες';
+
+  @override
+  String microcalReferenceEfsaMen(int age) {
+    return 'Τιμές αναφοράς: EFSA, άνδρες $age ετών';
+  }
+
+  @override
+  String microcalReferenceEfsaWomen(int age) {
+    return 'Τιμές αναφοράς: EFSA, γυναίκες $age ετών';
+  }
+
+  @override
+  String get microcalReferenceNrv =>
+      'Τιμές αναφοράς: τιμές ετικέτας ΕΕ. Συμπληρώστε φύλο και έτος γέννησης στο προφίλ για τις τιμές της EFSA.';
+
+  @override
+  String get microcalUnderAge =>
+      'Το MicroCal συγκρίνει την πρόσληψη με τιμές αναφοράς ενηλίκων, γι\' αυτό δεν είναι διαθέσιμο κάτω των 18.';
+
+  @override
+  String microcalDaysWithData(int count) {
+    return 'Με βάση $count από 7 ημέρες';
+  }
+
+  @override
+  String get microcalNoWeekData =>
+      'Δεν υπάρχουν δεδομένα μικροθρεπτικών τις τελευταίες 7 ημέρες';
+
+  @override
+  String get microcalLegendFood => 'Τροφή';
+
+  @override
+  String get microcalLegendSupplements => 'Συμπληρώματα';
+
+  @override
+  String get microcalLegendCoverage => 'Μερίδιο τροφής με δεδομένα';
+
+  @override
+  String get microcalAdequateIntakeNote =>
+      '* Επαρκής πρόσληψη: χρησιμοποιείται όταν τα στοιχεία δεν αρκούν για συνιστώμενη πρόσληψη';
+
+  @override
+  String microcalCoverage(int percent) {
+    return 'Τροφή με δεδομένα: $percent%';
+  }
+
+  @override
+  String microcalAboveUpperLimit(String source) {
+    return 'Πάνω από το ανεκτό ανώτατο επίπεδο πρόσληψης ($source)';
+  }
+
+  @override
+  String microcalSupplementsAboveUpperLimit(String source) {
+    return 'Τα συμπληρώματα είναι πάνω από το ανεκτό ανώτατο επίπεδο πρόσληψης ($source)';
+  }
+
+  @override
+  String get microcalDisclaimer =>
+      'Μόνο για ενημέρωση. Δεν αποτελεί ιατρική ή διατροφική συμβουλή.';
+
+  @override
+  String microcalReferenceLine(String amount, String source) {
+    return 'Πρόσληψη αναφοράς: $amount ($source)';
+  }
+
+  @override
+  String microcalAdequateIntakeLine(String amount, String source) {
+    return 'Επαρκής πρόσληψη: $amount ($source)';
+  }
+
+  @override
+  String microcalUpperLimitLine(String amount, String source) {
+    return 'Ανεκτό ανώτατο επίπεδο πρόσληψης: $amount ($source)';
+  }
+
+  @override
+  String microcalUpperLimitSupplementsLine(String amount, String source) {
+    return 'Ανεκτό ανώτατο επίπεδο από συμπληρώματα: $amount ($source)';
+  }
+
+  @override
+  String get microcalTopContributors => 'Κύριες πηγές σήμερα';
+
+  @override
+  String get microcalNoContributors =>
+      'Τίποτα από όσα καταγράφηκαν σήμερα δεν έχει τιμή γι\' αυτό το συστατικό';
+
+  @override
+  String microcalCardAtReference(int count, int total) {
+    return '$count από $total στην τιμή αναφοράς (7 ημέρες)';
+  }
+
+  @override
+  String get microcalLoadFailed => 'Τα μικροθρεπτικά συστατικά δεν φορτώθηκαν';
+
+  @override
+  String get microcalSourceEuNrv => 'τιμή ετικέτας ΕΕ';
+
+  @override
+  String get microcalAboutVitaminA =>
+      'Λιποδιαλυτή βιταμίνη, σε µg ισοδύναμα ρετινόλης: ρετινόλη από ζωικές τροφές και β-καροτένιο από φυτά στο ένα έκτο του βάρους του. Υπάρχει σε συκώτι, αυγά, βούτυρο, τυρί, καρότα, γλυκοπατάτες και σκουροπράσινα φυλλώδη λαχανικά. Το β-καροτένιο απορροφάται καλύτερα με λίγο λίπος στο ίδιο γεύμα.';
+
+  @override
+  String get microcalAboutVitaminD =>
+      'Λιποδιαλυτή βιταμίνη, σε µg (1 µg είναι 40 IU). Λίγες τροφές την περιέχουν: λιπαρά ψάρια όπως σολομός, σαρδέλα και σκουμπρί, κρόκος αυγού και εμπλουτισμένες τροφές. Το δέρμα τη φτιάχνει επίσης στον ήλιο, κάτι που αυτή η καταγραφή δεν μετρά.';
+
+  @override
+  String get microcalAboutVitaminE =>
+      'Λιποδιαλυτή βιταμίνη, σε mg άλφα-τοκοφερόλης. Υπάρχει σε φυτικά έλαια όπως ηλιέλαιο και ελαιόλαδο, ξηρούς καρπούς, σπόρους και αβοκάντο.';
+
+  @override
+  String get microcalAboutVitaminK =>
+      'Λιποδιαλυτή βιταμίνη, σε µg: K1 από φυτά και K2 από ζυμωμένες και ζωικές τροφές. Υπάρχει σε σκουροπράσινα φυλλώδη λαχανικά όπως σπανάκι και λάχανο κέιλ, μπρόκολο, φυτικά έλαια και τυρί. Απορροφάται καλύτερα με λίγο λίπος στο ίδιο γεύμα.';
+
+  @override
+  String get microcalAboutVitaminC =>
+      'Υδατοδιαλυτή βιταμίνη, γνωστή και ως ασκορβικό οξύ, σε mg. Υπάρχει σε πιπεριές, εσπεριδοειδή, ακτινίδια, φράουλες, μπρόκολο και ντομάτες. Η θερμότητα και η μακρά αποθήκευση τη μειώνουν, και με το βράσιμο μέρος της περνά στο νερό. Η βιταμίνη C στο ίδιο γεύμα αυξάνει την απορρόφηση του σιδήρου από φυτικές τροφές.';
+
+  @override
+  String get microcalAboutThiamin =>
+      'Βιταμίνη B1, υδατοδιαλυτή, σε mg. Υπάρχει σε δημητριακά ολικής άλεσης, χοιρινό, όσπρια, ξηρούς καρπούς και σπόρους. Μέρος της χάνεται στο νερό του μαγειρέματος. Η EFSA ορίζει την τιμή αναφοράς ανά μονάδα ενέργειας, οπότε ακολουθεί τον ημερήσιο στόχο θερμίδων σας.';
+
+  @override
+  String get microcalAboutRiboflavin =>
+      'Βιταμίνη B2, υδατοδιαλυτή, σε mg. Υπάρχει σε γάλα και γαλακτοκομικά, αυγά, κρέας, αμύγδαλα και μανιτάρια. Το φως τη διασπά.';
+
+  @override
+  String get microcalAboutNiacin =>
+      'Βιταμίνη B3, υδατοδιαλυτή, σε mg. Υπάρχει σε κρέας, πουλερικά, ψάρια, φιστίκια και δημητριακά ολικής άλεσης. Ο οργανισμός φτιάχνει επίσης λίγη από την τρυπτοφάνη, ένα αμινοξύ των πρωτεϊνών, που οι πίνακες τροφίμων δεν περιλαμβάνουν. Η EFSA ορίζει την τιμή αναφοράς ανά μονάδα ενέργειας, οπότε ακολουθεί τον ημερήσιο στόχο θερμίδων σας.';
+
+  @override
+  String get microcalAboutVitaminB6 =>
+      'Υδατοδιαλυτή βιταμίνη, σε mg. Υπάρχει σε πουλερικά, ψάρια, πατάτες, ρεβίθια, μπανάνες και δημητριακά ολικής άλεσης.';
+
+  @override
+  String get microcalAboutFolate =>
+      'Βιταμίνη B9, υδατοδιαλυτή, σε µg διαιτητικά ισοδύναμα φυλλικού: το φολικό οξύ από συμπληρώματα και εμπλουτισμένες τροφές μετρά 1,7 φορές, γιατί απορροφάται καλύτερα από το φυλλικό των τροφών. Υπάρχει σε φυλλώδη λαχανικά, όσπρια, σπαράγγια, συκώτι και πορτοκάλια. Με το βράσιμο χάνεται μεγάλο μέρος του.';
+
+  @override
+  String get microcalAboutVitaminB12 =>
+      'Υδατοδιαλυτή βιταμίνη, σε µg. Υπάρχει σχεδόν μόνο σε ζωικές τροφές (κρέας, ψάρια, αυγά, γάλα και γαλακτοκομικά) και σε εμπλουτισμένες τροφές. Από κάθε γεύμα απορροφάται μόνο μικρή ποσότητα.';
+
+  @override
+  String get microcalAboutCalcium =>
+      'Μέταλλο, σε mg. Υπάρχει σε γάλα, γιαούρτι, τυρί, σαρδέλες με τα κόκαλα, αμύγδαλα, ταχίνι και κάποια φυλλώδη λαχανικά. Τα οξαλικά του σπανακιού και τα φυτικά του πίτουρου και των οσπρίων μειώνουν την απορρόφησή του από αυτές τις τροφές.';
+
+  @override
+  String get microcalAboutPhosphorus =>
+      'Μέταλλο, σε mg. Υπάρχει στις περισσότερες πρωτεϊνούχες τροφές (γαλακτοκομικά, κρέας, ψάρια, αυγά, όσπρια, ξηρούς καρπούς και δημητριακά ολικής άλεσης) και στα πρόσθετα φωσφορικών των επεξεργασμένων τροφών.';
+
+  @override
+  String get microcalAboutMagnesium =>
+      'Μέταλλο, σε mg. Υπάρχει σε δημητριακά ολικής άλεσης, ξηρούς καρπούς, σπόρους, όσπρια, κακάο και φυλλώδη λαχανικά. Το ανώτατο επίπεδό του αφορά μόνο τα συμπληρώματα.';
+
+  @override
+  String get microcalAboutPotassium =>
+      'Μέταλλο, σε mg. Υπάρχει σε λαχανικά, φρούτα όπως μπανάνες και βερίκοκα, πατάτες, όσπρια, γάλα και καφέ.';
+
+  @override
+  String get microcalAboutIron =>
+      'Ιχνοστοιχείο, σε mg. Ο αιμικός σίδηρος του κρέατος και των ψαριών απορροφάται πολύ καλύτερα από τον μη αιμικό των οσπρίων, των δημητριακών και των λαχανικών. Η βιταμίνη C στο ίδιο γεύμα αυξάνει την απορρόφηση του μη αιμικού σιδήρου· το τσάι, ο καφές και το ασβέστιο στο ίδιο γεύμα τη μειώνουν.';
+
+  @override
+  String get microcalAboutZinc =>
+      'Ιχνοστοιχείο, σε mg. Υπάρχει σε κρέας, οστρακοειδή, τυρί, όσπρια, ξηρούς καρπούς, σπόρους και δημητριακά ολικής άλεσης. Τα φυτικά των δημητριακών ολικής άλεσης και των οσπρίων μειώνουν την απορρόφησή του· η τιμή αναφοράς της EFSA εδώ υποθέτει μέτρια πρόσληψη φυτικών.';
+
+  @override
+  String get microcalAboutCopper =>
+      'Ιχνοστοιχείο, σε mg. Υπάρχει σε συκώτι, οστρακοειδή, ξηρούς καρπούς, σπόρους, κακάο, όσπρια και δημητριακά ολικής άλεσης.';
+
+  @override
+  String get microcalAboutManganese =>
+      'Ιχνοστοιχείο, σε mg. Υπάρχει σε δημητριακά ολικής άλεσης, ξηρούς καρπούς, όσπρια, φυλλώδη λαχανικά και τσάι.';
+
+  @override
+  String get microcalAboutSelenium =>
+      'Ιχνοστοιχείο, σε µg. Υπάρχει σε καρύδια Βραζιλίας, ψάρια, θαλασσινά, κρέας, αυγά και δημητριακά· η ποσότητα στις φυτικές τροφές εξαρτάται από το έδαφος όπου καλλιεργήθηκαν.';
+
+  @override
+  String get microcalAboutIodine =>
+      'Ιχνοστοιχείο, σε µg. Υπάρχει σε ψάρια, θαλασσινά, φύκια, γάλα, αυγά και ιωδιούχο αλάτι· η ποσότητα στο γάλα και στα λαχανικά εξαρτάται από την εκτροφή και το έδαφος. Το ιωδιούχο αλάτι που προστίθεται στο σπίτι δεν μετριέται.';
 }
