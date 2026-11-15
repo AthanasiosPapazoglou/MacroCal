@@ -27,6 +27,18 @@ abstract class MicroIntake with _$MicroIntake {
 
   double coverageOf(Micronutrient nutrient) => coverage[nutrient] ?? 0;
 
+  static const lowCoverage = 0.5;
+
+  /// The mean food coverage over every tracked nutrient.
+  double get averageCoverage =>
+      Micronutrient.values.fold<double>(
+        0,
+        (total, nutrient) => total + coverageOf(nutrient),
+      ) /
+      Micronutrient.values.length;
+
+  bool get isLowCoverage => averageCoverage < lowCoverage;
+
   bool get hasData => !food.isEmpty || !supplements.isEmpty;
 
   /// Whether the intake the upper level applies to is above it.

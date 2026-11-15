@@ -1,11 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_stats.dart';
 import 'package:macro_cal_public/features/history/domain/entities/tracked_goal.dart';
 import 'package:macro_cal_public/features/history/domain/services/history_stats_calculator.dart';
+import 'package:macro_cal_public/features/microcal/domain/entities/micro_intake.dart';
+import 'package:macro_cal_public/features/microcal/domain/entities/reference_intake.dart';
 import 'package:macro_cal_public/features/profile/domain/entities/nutrition_goals.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 import 'package:macro_cal_public/features/today/domain/entities/daily_summary.dart';
 
 DayLog _log(DateTime date, {required double kcal, double proteinG = 0}) =>
@@ -137,6 +142,75 @@ void main() {
       expect(TrackedGoal.saturated.targetIn(summary), 20);
       expect(TrackedGoal.salt.targetIn(summary), 5800);
       expect(TrackedGoal.salt.consumedIn(summary), 1000);
+    });
+  });
+
+  group('micronutrients', () {
+    DayLog microLog(
+      DateTime date, {
+      double? iron,
+      double coverage = 1,
+      Sex? sex = Sex.female,
+      int? age = 30,
+    }) => _log(date, kcal: 1800).copyWith(
+      sex: sex,
+      age: age,
+      micros: iron == null
+          ? null
+          : MicroIntake(
+              food: Micronutrients(amounts: {Micronutrient.iron: iron}),
+              coverage: {Micronutrient.iron: coverage},
+            ),
+    );
+
+    final logs = [
+      microLog(DateTime(2026, 11, 11), iron: 8),
+      microLog(
+        DateTime(2026, 11, 10),
+        iron: 11,
+        coverage: 0.5,
+        sex: Sex.male,
+        age: 40,
+      ),
+      microLog(DateTime(2026, 11, 9)),
+      microLog(DateTime(2026, 11, 8), iron: 50, age: 17),
+    ];
+
+    test("averages each day's share of that day's reference", () {
+      final averages = calculator.microAverages(logs);
+
+      expect(averages[Micronutrient.iron], (
+        percentOfReference: 75.0,
+        coverage: 0.75,
+      ));
+      expect(averages[Micronutrient.calcium], (
+        percentOfReference: 0.0,
+        coverage: 0.0,
+      ));
+    });
+
+    test('counts only days with data and references', () {
+      final stats = calculator.calculate(
+        logs,
+        range: HistoryRange.week,
+        today: today,
+      );
+
+      expect(stats.daysLogged, 4);
+      expect(stats.microDays, 2);
+    });
+
+    test('no days with data gives no averages', () {
+      expect(calculator.microAverages([logs[2], logs[3]]), isEmpty);
+    });
+
+    test("a day's references follow its sex, age and calorie goal", () {
+      expect(logs.first.references?[Micronutrient.iron]?.target, 16);
+      expect(
+        logs.first.copyWith(sex: null).references?[Micronutrient.iron]?.source,
+        ReferenceSource.euNrv,
+      );
+      expect(logs[3].references, isNull);
     });
   });
 }

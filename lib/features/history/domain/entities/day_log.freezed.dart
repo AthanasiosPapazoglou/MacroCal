@@ -236,8 +236,8 @@ return $default(_that.date,_that.summary,_that.micros,_that.sex,_that.age);case 
 /// @nodoc
 
 
-class _DayLog implements DayLog {
-  const _DayLog({required this.date, required this.summary, this.micros, this.sex, this.age});
+class _DayLog extends DayLog {
+  const _DayLog({required this.date, required this.summary, this.micros, this.sex, this.age}): super._();
   
 
 @override final  DateTime date;

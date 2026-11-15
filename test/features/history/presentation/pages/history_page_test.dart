@@ -6,11 +6,14 @@ import 'package:macro_cal_public/features/history/presentation/cubit/history_cub
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_view.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/pump_localized.dart';
 
 class _MockHistoryRepository extends Mock implements HistoryRepository;
+
+class _MockSettingsRepository extends Mock implements SettingsRepository;
 
 void main() {
   testWidgets('provides a history cubit that watches the day logs', (
@@ -19,11 +22,16 @@ void main() {
     final repository = _MockHistoryRepository();
     when(repository.watchDayLogs)
         .thenAnswer((_) => Stream.value(const <DayLog>[]));
+    final settings = _MockSettingsRepository();
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(true));
 
     await pumpLocalized(
       tester,
-      home: RepositoryProvider<HistoryRepository>.value(
-        value: repository,
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<HistoryRepository>.value(value: repository),
+          RepositoryProvider<SettingsRepository>.value(value: settings),
+        ],
         child: const HistoryPage(),
       ),
     );
@@ -33,6 +41,7 @@ void main() {
     await tester.pump();
 
     expect(cubit.state.status, HistoryStatus.ready);
+    expect(cubit.state.microcalEnabled, isTrue);
     verify(repository.watchDayLogs).called(1);
   });
 }

@@ -6,14 +6,18 @@ import 'package:macro_cal_public/features/history/domain/entities/history_range.
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_state.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/sample_summary.dart';
 
 class _MockHistoryRepository extends Mock implements HistoryRepository;
 
+class _MockSettingsRepository extends Mock implements SettingsRepository;
+
 void main() {
   late StreamController<List<DayLog>> logs;
+  late StreamController<bool> enabled;
   late HistoryRepository repository;
   late HistoryCubit cubit;
 
@@ -26,13 +30,21 @@ void main() {
 
   setUp(() {
     logs = StreamController<List<DayLog>>.broadcast();
+    enabled = StreamController<bool>.broadcast();
     repository = _MockHistoryRepository();
+    final settings = _MockSettingsRepository();
     when(() => repository.watchDayLogs()).thenAnswer((_) => logs.stream);
-    cubit = HistoryCubit(repository, now: () => DateTime(2026, 11, 11, 20));
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => enabled.stream);
+    cubit = HistoryCubit(
+      repository,
+      settings,
+      now: () => DateTime(2026, 11, 11, 20),
+    );
   });
   tearDown(() async {
     await cubit.close();
     await logs.close();
+    await enabled.close();
   });
 
   test('starts loading on the week range', () {
@@ -107,6 +119,26 @@ void main() {
 
     cubit.watch();
     logs.addError(Exception('db'));
+
+    await emitted;
+  });
+
+  test('watch keeps the tracking switch across new logs', () async {
+    final emitted = expectLater(
+      cubit.stream.map((state) => (state.status, state.microcalEnabled)),
+      emitsInOrder([
+        (HistoryStatus.loading, true),
+        (HistoryStatus.ready, true),
+        (HistoryStatus.ready, false),
+      ]),
+    );
+
+    cubit.watch();
+    enabled.add(true);
+    await pumpEventQueue();
+    logs.add([today]);
+    await pumpEventQueue();
+    enabled.add(false);
 
     await emitted;
   });

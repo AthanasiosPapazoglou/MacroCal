@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HistoryStats {
 
- int get daysLogged; Nutrients get averageConsumed; double get averageAdjustedKcal; double get averageBurnedKcal; Map<TrackedGoal, int> get daysMet; int get currentStreak;
+ int get daysLogged; Nutrients get averageConsumed; double get averageAdjustedKcal; double get averageBurnedKcal; Map<TrackedGoal, int> get daysMet; int get currentStreak;/// Days in the range with micronutrient data and reference intakes.
+ int get microDays; Map<Micronutrient, MicroAverage> get microAverages;
 /// Create a copy of HistoryStats
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +28,20 @@ $HistoryStatsCopyWith<HistoryStats> get copyWith => _$HistoryStatsCopyWithImpl<H
 @override
 bool operator ==(Object other) {
   final _this = this as HistoryStats;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryStats&&(identical(other.daysLogged, _this.daysLogged) || other.daysLogged == _this.daysLogged)&&(identical(other.averageConsumed, _this.averageConsumed) || other.averageConsumed == _this.averageConsumed)&&(identical(other.averageAdjustedKcal, _this.averageAdjustedKcal) || other.averageAdjustedKcal == _this.averageAdjustedKcal)&&(identical(other.averageBurnedKcal, _this.averageBurnedKcal) || other.averageBurnedKcal == _this.averageBurnedKcal)&&const DeepCollectionEquality().equals(other.daysMet, _this.daysMet)&&(identical(other.currentStreak, _this.currentStreak) || other.currentStreak == _this.currentStreak));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryStats&&(identical(other.daysLogged, _this.daysLogged) || other.daysLogged == _this.daysLogged)&&(identical(other.averageConsumed, _this.averageConsumed) || other.averageConsumed == _this.averageConsumed)&&(identical(other.averageAdjustedKcal, _this.averageAdjustedKcal) || other.averageAdjustedKcal == _this.averageAdjustedKcal)&&(identical(other.averageBurnedKcal, _this.averageBurnedKcal) || other.averageBurnedKcal == _this.averageBurnedKcal)&&const DeepCollectionEquality().equals(other.daysMet, _this.daysMet)&&(identical(other.currentStreak, _this.currentStreak) || other.currentStreak == _this.currentStreak)&&(identical(other.microDays, _this.microDays) || other.microDays == _this.microDays)&&const DeepCollectionEquality().equals(other.microAverages, _this.microAverages));
 }
 
 
 @override
 int get hashCode {
   final _this = this as HistoryStats;
-  return Object.hash(runtimeType,_this.daysLogged,_this.averageConsumed,_this.averageAdjustedKcal,_this.averageBurnedKcal,const DeepCollectionEquality().hash(_this.daysMet),_this.currentStreak);
+  return Object.hash(runtimeType,_this.daysLogged,_this.averageConsumed,_this.averageAdjustedKcal,_this.averageBurnedKcal,const DeepCollectionEquality().hash(_this.daysMet),_this.currentStreak,_this.microDays,const DeepCollectionEquality().hash(_this.microAverages));
 }
 
 @override
 String toString() {
   final _this = this as HistoryStats;
-  return 'HistoryStats(daysLogged: ${_this.daysLogged}, averageConsumed: ${_this.averageConsumed}, averageAdjustedKcal: ${_this.averageAdjustedKcal}, averageBurnedKcal: ${_this.averageBurnedKcal}, daysMet: ${_this.daysMet}, currentStreak: ${_this.currentStreak})';
+  return 'HistoryStats(daysLogged: ${_this.daysLogged}, averageConsumed: ${_this.averageConsumed}, averageAdjustedKcal: ${_this.averageAdjustedKcal}, averageBurnedKcal: ${_this.averageBurnedKcal}, daysMet: ${_this.daysMet}, currentStreak: ${_this.currentStreak}, microDays: ${_this.microDays}, microAverages: ${_this.microAverages})';
 }
 
 
@@ -51,7 +52,7 @@ abstract mixin class $HistoryStatsCopyWith<$Res>  {
   factory $HistoryStatsCopyWith(HistoryStats value, $Res Function(HistoryStats) _then) = _$HistoryStatsCopyWithImpl;
 @useResult
 $Res call({
- int daysLogged, Nutrients averageConsumed, double averageAdjustedKcal, double averageBurnedKcal, Map<TrackedGoal, int> daysMet, int currentStreak
+ int daysLogged, Nutrients averageConsumed, double averageAdjustedKcal, double averageBurnedKcal, Map<TrackedGoal, int> daysMet, int currentStreak, int microDays, Map<Micronutrient, MicroAverage> microAverages
 });
 
 
@@ -68,7 +69,7 @@ class _$HistoryStatsCopyWithImpl<$Res>
 
 /// Create a copy of HistoryStats
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? daysLogged = null,Object? averageConsumed = null,Object? averageAdjustedKcal = null,Object? averageBurnedKcal = null,Object? daysMet = null,Object? currentStreak = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? daysLogged = null,Object? averageConsumed = null,Object? averageAdjustedKcal = null,Object? averageBurnedKcal = null,Object? daysMet = null,Object? currentStreak = null,Object? microDays = null,Object? microAverages = null,}) {
   return _then(HistoryStats(
 daysLogged: null == daysLogged ? _self.daysLogged : daysLogged // ignore: cast_nullable_to_non_nullable
 as int,averageConsumed: null == averageConsumed ? _self.averageConsumed : averageConsumed // ignore: cast_nullable_to_non_nullable
@@ -76,7 +77,9 @@ as Nutrients,averageAdjustedKcal: null == averageAdjustedKcal ? _self.averageAdj
 as double,averageBurnedKcal: null == averageBurnedKcal ? _self.averageBurnedKcal : averageBurnedKcal // ignore: cast_nullable_to_non_nullable
 as double,daysMet: null == daysMet ? _self.daysMet : daysMet // ignore: cast_nullable_to_non_nullable
 as Map<TrackedGoal, int>,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,
+as int,microDays: null == microDays ? _self.microDays : microDays // ignore: cast_nullable_to_non_nullable
+as int,microAverages: null == microAverages ? _self.microAverages : microAverages // ignore: cast_nullable_to_non_nullable
+as Map<Micronutrient, MicroAverage>,
   ));
 }
 /// Create a copy of HistoryStats
@@ -170,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak,  int microDays,  Map<Micronutrient, MicroAverage> microAverages)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HistoryStats() when $default != null:
-return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak);case _:
+return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak,_that.microDays,_that.microAverages);case _:
   return orElse();
 
 }
@@ -191,10 +194,10 @@ return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak,  int microDays,  Map<Micronutrient, MicroAverage> microAverages)  $default,) {final _that = this;
 switch (_that) {
 case _HistoryStats():
-return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak);case _:
+return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak,_that.microDays,_that.microAverages);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +214,10 @@ return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int daysLogged,  Nutrients averageConsumed,  double averageAdjustedKcal,  double averageBurnedKcal,  Map<TrackedGoal, int> daysMet,  int currentStreak,  int microDays,  Map<Micronutrient, MicroAverage> microAverages)?  $default,) {final _that = this;
 switch (_that) {
 case _HistoryStats() when $default != null:
-return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak);case _:
+return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal,_that.averageBurnedKcal,_that.daysMet,_that.currentStreak,_that.microDays,_that.microAverages);case _:
   return null;
 
 }
@@ -226,7 +229,7 @@ return $default(_that.daysLogged,_that.averageConsumed,_that.averageAdjustedKcal
 
 
 class _HistoryStats extends HistoryStats {
-  const _HistoryStats({this.daysLogged = 0, this.averageConsumed = const Nutrients(), this.averageAdjustedKcal = 0, this.averageBurnedKcal = 0,  Map<TrackedGoal, int> daysMet = const {}, this.currentStreak = 0}): _daysMet = daysMet,super._();
+  const _HistoryStats({this.daysLogged = 0, this.averageConsumed = const Nutrients(), this.averageAdjustedKcal = 0, this.averageBurnedKcal = 0,  Map<TrackedGoal, int> daysMet = const {}, this.currentStreak = 0, this.microDays = 0,  Map<Micronutrient, MicroAverage> microAverages = const <Micronutrient, MicroAverage>{}}): _daysMet = daysMet,_microAverages = microAverages,super._();
   
 
 @override@JsonKey() final  int daysLogged;
@@ -241,6 +244,15 @@ class _HistoryStats extends HistoryStats {
 }
 
 @override@JsonKey() final  int currentStreak;
+/// Days in the range with micronutrient data and reference intakes.
+@override@JsonKey() final  int microDays;
+ final  Map<Micronutrient, MicroAverage> _microAverages;
+@override@JsonKey() Map<Micronutrient, MicroAverage> get microAverages {
+  if (_microAverages is EqualUnmodifiableMapView) return _microAverages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_microAverages);
+}
+
 
 /// Create a copy of HistoryStats
 /// with the given fields replaced by the non-null parameter values.
@@ -252,18 +264,18 @@ _$HistoryStatsCopyWith<_HistoryStats> get copyWith => __$HistoryStatsCopyWithImp
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryStats&&(identical(other.daysLogged, daysLogged) || other.daysLogged == daysLogged)&&(identical(other.averageConsumed, averageConsumed) || other.averageConsumed == averageConsumed)&&(identical(other.averageAdjustedKcal, averageAdjustedKcal) || other.averageAdjustedKcal == averageAdjustedKcal)&&(identical(other.averageBurnedKcal, averageBurnedKcal) || other.averageBurnedKcal == averageBurnedKcal)&&const DeepCollectionEquality().equals(other.daysMet, _daysMet)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryStats&&(identical(other.daysLogged, daysLogged) || other.daysLogged == daysLogged)&&(identical(other.averageConsumed, averageConsumed) || other.averageConsumed == averageConsumed)&&(identical(other.averageAdjustedKcal, averageAdjustedKcal) || other.averageAdjustedKcal == averageAdjustedKcal)&&(identical(other.averageBurnedKcal, averageBurnedKcal) || other.averageBurnedKcal == averageBurnedKcal)&&const DeepCollectionEquality().equals(other.daysMet, _daysMet)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak)&&(identical(other.microDays, microDays) || other.microDays == microDays)&&const DeepCollectionEquality().equals(other.microAverages, _microAverages));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,daysLogged,averageConsumed,averageAdjustedKcal,averageBurnedKcal,const DeepCollectionEquality().hash(_daysMet),currentStreak);
+    return Object.hash(runtimeType,daysLogged,averageConsumed,averageAdjustedKcal,averageBurnedKcal,const DeepCollectionEquality().hash(_daysMet),currentStreak,microDays,const DeepCollectionEquality().hash(_microAverages));
 }
 
 @override
 String toString() {
-    return 'HistoryStats(daysLogged: $daysLogged, averageConsumed: $averageConsumed, averageAdjustedKcal: $averageAdjustedKcal, averageBurnedKcal: $averageBurnedKcal, daysMet: $daysMet, currentStreak: $currentStreak)';
+    return 'HistoryStats(daysLogged: $daysLogged, averageConsumed: $averageConsumed, averageAdjustedKcal: $averageAdjustedKcal, averageBurnedKcal: $averageBurnedKcal, daysMet: $daysMet, currentStreak: $currentStreak, microDays: $microDays, microAverages: $microAverages)';
 }
 
 
@@ -274,7 +286,7 @@ abstract mixin class _$HistoryStatsCopyWith<$Res> implements $HistoryStatsCopyWi
   factory _$HistoryStatsCopyWith(_HistoryStats value, $Res Function(_HistoryStats) _then) = __$HistoryStatsCopyWithImpl;
 @override @useResult
 $Res call({
- int daysLogged, Nutrients averageConsumed, double averageAdjustedKcal, double averageBurnedKcal, Map<TrackedGoal, int> daysMet, int currentStreak
+ int daysLogged, Nutrients averageConsumed, double averageAdjustedKcal, double averageBurnedKcal, Map<TrackedGoal, int> daysMet, int currentStreak, int microDays, Map<Micronutrient, MicroAverage> microAverages
 });
 
 
@@ -291,7 +303,7 @@ class __$HistoryStatsCopyWithImpl<$Res>
 
 /// Create a copy of HistoryStats
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? daysLogged = null,Object? averageConsumed = null,Object? averageAdjustedKcal = null,Object? averageBurnedKcal = null,Object? daysMet = null,Object? currentStreak = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? daysLogged = null,Object? averageConsumed = null,Object? averageAdjustedKcal = null,Object? averageBurnedKcal = null,Object? daysMet = null,Object? currentStreak = null,Object? microDays = null,Object? microAverages = null,}) {
   return _then(_HistoryStats(
 daysLogged: null == daysLogged ? _self.daysLogged : daysLogged // ignore: cast_nullable_to_non_nullable
 as int,averageConsumed: null == averageConsumed ? _self.averageConsumed : averageConsumed // ignore: cast_nullable_to_non_nullable
@@ -299,7 +311,9 @@ as Nutrients,averageAdjustedKcal: null == averageAdjustedKcal ? _self.averageAdj
 as double,averageBurnedKcal: null == averageBurnedKcal ? _self.averageBurnedKcal : averageBurnedKcal // ignore: cast_nullable_to_non_nullable
 as double,daysMet: null == daysMet ? _self._daysMet : daysMet // ignore: cast_nullable_to_non_nullable
 as Map<TrackedGoal, int>,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,
+as int,microDays: null == microDays ? _self.microDays : microDays // ignore: cast_nullable_to_non_nullable
+as int,microAverages: null == microAverages ? _self._microAverages : microAverages // ignore: cast_nullable_to_non_nullable
+as Map<Micronutrient, MicroAverage>,
   ));
 }
 

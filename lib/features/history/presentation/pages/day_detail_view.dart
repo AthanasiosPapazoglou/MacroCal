@@ -10,7 +10,9 @@ import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/core/widgets/swipe_back_detector.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_state.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/day_micronutrients.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/delete_day_dialog.dart';
+import 'package:macro_cal_public/features/today/presentation/widgets/section_header.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/summary_breakdown.dart';
 
 class DayDetailView extends StatelessWidget {
@@ -73,6 +75,10 @@ class DayDetailView extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
+                if (state.microcalEnabled) ...[
+                  SectionHeader(l10n.historyMicronutrients),
+                  DayMicronutrients(log: log),
+                ],
               ],
             ),
           },

@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/day_detail_state.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_view.dart';
+import 'package:macro_cal_public/features/microcal/domain/entities/micro_intake.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/summary_breakdown.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -111,5 +115,65 @@ void main() {
     expect(find.text('This day is not archived'), findsOneWidget);
     expect(find.byType(SummaryBreakdown), findsNothing);
     expect(find.byTooltip('Delete day'), findsNothing);
+  });
+
+  group('micronutrients', () {
+    final microLog = DayLog(
+      date: date,
+      summary: sampleSummary,
+      sex: Sex.female,
+      age: 30,
+      micros: const MicroIntake(
+        food: Micronutrients(amounts: {Micronutrient.iron: 8}),
+        coverage: {Micronutrient.iron: 1},
+      ),
+    );
+
+    testWidgets('are hidden while tracking is off', (tester) async {
+      await pumpView(
+        tester,
+        DayDetailState(status: DayDetailStatus.ready, log: microLog),
+      );
+
+      expect(find.text('Micronutrients', skipOffstage: false), findsNothing);
+    });
+
+    testWidgets("show the day's bars against that day's references", (
+      tester,
+    ) async {
+      await pumpView(
+        tester,
+        DayDetailState(
+          status: DayDetailStatus.ready,
+          log: microLog,
+          microcalEnabled: true,
+        ),
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('Reference intakes: EFSA, women aged 30'),
+        200,
+      );
+      expect(find.textContaining('Low coverage'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('8 mg / 16 mg  50%'), 200);
+      expect(find.text('8 mg / 16 mg  50%'), findsOneWidget);
+    });
+
+    testWidgets('say when the day has no data', (tester) async {
+      await pumpView(
+        tester,
+        DayDetailState(
+          status: DayDetailStatus.ready,
+          log: DayLog(date: date, summary: sampleSummary),
+          microcalEnabled: true,
+        ),
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('No micronutrient data for this day'),
+        200,
+      );
+      expect(find.text('No micronutrient data for this day'), findsOneWidget);
+    });
   });
 }

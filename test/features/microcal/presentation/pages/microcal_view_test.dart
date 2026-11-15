@@ -125,7 +125,8 @@ void main() {
   ) async {
     await pumpView(tester);
 
-    await tester.scrollUntilVisible(find.text('Iron'), 200);
+    await tester.ensureVisible(find.text('Iron'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Iron'));
     await tester.pumpAndSettle();
 

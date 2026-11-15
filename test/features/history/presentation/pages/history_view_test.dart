@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:macro_cal_public/core/widgets/loader.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
@@ -130,5 +131,55 @@ void main() {
     await tester.tap(find.text('30 days'));
 
     verify(() => cubit.selectRange(HistoryRange.month)).called(1);
+  });
+
+  group('micronutrients', () {
+    testWidgets('are hidden while tracking is off', (tester) async {
+      await pumpView(tester, ready);
+
+      expect(find.text('Micronutrients', skipOffstage: false), findsNothing);
+      expect(
+        find.text('No micronutrient data', skipOffstage: false),
+        findsNothing,
+      );
+    });
+
+    testWidgets('show the range averages and mark days without data', (
+      tester,
+    ) async {
+      await pumpView(
+        tester,
+        ready.copyWith(
+          microcalEnabled: true,
+          stats: ready.stats.copyWith(
+            microDays: 1,
+            microAverages: {
+              for (final nutrient in Micronutrient.values)
+                nutrient: (percentOfReference: 0.0, coverage: 0.0),
+              Micronutrient.iron: (percentOfReference: 75.0, coverage: 0.5),
+            },
+          ),
+        ),
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('Based on 1 of 2 archived days'),
+        200,
+      );
+      await tester.scrollUntilVisible(find.text('75% of reference'), 200);
+      expect(find.text('Food with data: 50%'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Tue 10/11/2026'), 200);
+      expect(find.text('No micronutrient data'), findsNWidgets(2));
+    });
+
+    testWidgets('say when the range has no data', (tester) async {
+      await pumpView(tester, ready.copyWith(microcalEnabled: true));
+
+      await tester.scrollUntilVisible(
+        find.text('No micronutrient data in this range'),
+        200,
+      );
+      expect(find.text('No micronutrient data in this range'), findsOneWidget);
+    });
   });
 }

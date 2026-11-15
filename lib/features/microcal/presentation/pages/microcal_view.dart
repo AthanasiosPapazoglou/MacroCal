@@ -4,13 +4,12 @@ import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/empty_state.dart';
 import 'package:macro_cal_public/core/widgets/loader.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
-import 'package:macro_cal_public/features/food_bank/presentation/micronutrient_labels.dart';
 import 'package:macro_cal_public/features/microcal/domain/entities/reference_intake.dart';
 import 'package:macro_cal_public/features/microcal/presentation/cubit/microcal_cubit.dart';
 import 'package:macro_cal_public/features/microcal/presentation/cubit/microcal_state.dart';
-import 'package:macro_cal_public/features/microcal/presentation/widgets/micro_nutrient_bar.dart';
+import 'package:macro_cal_public/features/microcal/presentation/microcal_labels.dart';
+import 'package:macro_cal_public/features/microcal/presentation/widgets/micro_nutrient_groups.dart';
 import 'package:macro_cal_public/features/microcal/presentation/widgets/micro_nutrient_sheet.dart';
-import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
 
 class MicroCalView extends StatelessWidget {
   const new({super.key});
@@ -42,13 +41,6 @@ class _Report extends StatelessWidget {
 
   final MicroCalState state;
   final Map<Micronutrient, ReferenceIntake> references;
-
-  String _referenceLine(AppLocalizations l10n) =>
-      switch ((state.sex, state.age)) {
-        (Sex.male, final age?) => l10n.microcalReferenceEfsaMen(age),
-        (Sex.female, final age?) => l10n.microcalReferenceEfsaWomen(age),
-        _ => l10n.microcalReferenceNrv,
-      };
 
   Future<void> _openNutrient(BuildContext context, Micronutrient nutrient) =>
       showModalBottomSheet<void>(
@@ -87,7 +79,10 @@ class _Report extends StatelessWidget {
               context.read<MicroCalCubit>().selectPeriod(selection.single),
         ),
         const SizedBox(height: 12),
-        Text(_referenceLine(l10n), style: small),
+        Text(
+          referenceIntakesLine(l10n, sex: state.sex, age: state.age),
+          style: small,
+        ),
         if (state.period == MicroCalPeriod.week)
           Text(
             state.weekDays == 0
@@ -111,18 +106,11 @@ class _Report extends StatelessWidget {
             ),
           ],
         ),
-        for (final group in MicronutrientGroup.values) ...[
-          const SizedBox(height: 16),
-          Text(group.title(l10n), style: theme.textTheme.titleMedium),
-          for (final nutrient in group.members)
-            if (references[nutrient] case final reference?)
-              MicroNutrientBar(
-                nutrient: nutrient,
-                intake: state.intake,
-                reference: reference,
-                onTap: () => _openNutrient(context, nutrient),
-              ),
-        ],
+        MicroNutrientGroups(
+          intake: state.intake,
+          references: references,
+          onTap: (nutrient) => _openNutrient(context, nutrient),
+        ),
         const SizedBox(height: 16),
         Text(l10n.microcalAdequateIntakeNote, style: small),
         const SizedBox(height: 8),

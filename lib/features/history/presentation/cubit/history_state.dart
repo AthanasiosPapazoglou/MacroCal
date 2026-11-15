@@ -14,5 +14,6 @@ abstract class HistoryState with _$HistoryState {
     @Default(HistoryRange.week) HistoryRange range,
     @Default(<DayLog>[]) List<DayLog> logs,
     @Default(HistoryStats()) HistoryStats stats,
+    @Default(false) bool microcalEnabled,
   }) = _HistoryState;
 }

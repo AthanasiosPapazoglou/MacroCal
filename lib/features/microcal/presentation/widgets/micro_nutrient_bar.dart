@@ -13,14 +13,14 @@ class MicroNutrientBar extends StatelessWidget {
     required this.nutrient,
     required this.intake,
     required this.reference,
-    required this.onTap,
+    this.onTap,
     super.key,
   });
 
   final Micronutrient nutrient;
   final MicroIntake intake;
   final ReferenceIntake reference;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:macro_cal_public/core/domain/date_only.dart';
+import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/nutrients.dart';
 import 'package:macro_cal_public/features/history/domain/entities/day_log.dart';
 import 'package:macro_cal_public/features/history/domain/entities/history_range.dart';
@@ -46,6 +47,42 @@ class HistoryStatsCalculator {
     return streak;
   }
 
+  /// Averages over the days that have micronutrient data and references;
+  /// a nutrient without a value on such a day counts as 0 there.
+  Map<Micronutrient, MicroAverage> microAverages(Iterable<DayLog> days) {
+    final comparable = [
+      for (final log in days)
+        if ((log.micros, log.references) case (
+          final micros?,
+          final references?,
+        ))
+          (micros: micros, references: references),
+    ];
+    if (comparable.isEmpty) return const {};
+    final factor = 1 / comparable.length;
+    return {
+      for (final nutrient in Micronutrient.values)
+        nutrient: (
+          percentOfReference:
+              comparable.fold<double>(
+                0,
+                (total, day) =>
+                    total +
+                    (day.micros.total(nutrient) ?? 0) /
+                        day.references[nutrient]!.target *
+                        100,
+              ) *
+              factor,
+          coverage:
+              comparable.fold<double>(
+                0,
+                (total, day) => total + day.micros.coverageOf(nutrient),
+              ) *
+              factor,
+        ),
+    };
+  }
+
   HistoryStats calculate(
     Iterable<DayLog> logs, {
     required HistoryRange range,
@@ -79,6 +116,10 @@ class HistoryStatsCalculator {
           goal: summaries.where((summary) => isMet(goal, summary)).length,
       },
       currentStreak: streak,
+      microDays: days
+          .where((log) => log.micros != null && log.references != null)
+          .length,
+      microAverages: microAverages(days),
     );
   }
 }

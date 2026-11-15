@@ -9,16 +9,27 @@ import 'package:macro_cal_public/features/today/domain/entities/goal_kind.dart';
 import 'package:macro_cal_public/features/today/domain/services/nutrition_calculator.dart';
 
 class DayLogTile extends StatelessWidget {
-  const new({required this.log, super.key});
+  const new({required this.log, this.showMicros = false, super.key});
 
   static const _calculator = NutritionCalculator();
 
   final DayLog log;
 
+  /// Marks days without micronutrient data or with low coverage.
+  final bool showMicros;
+
   @override
   Widget build(BuildContext context) {
     final summary = log.summary;
     final locale = Localizations.localeOf(context).toLanguageTag();
+    final micros = log.micros;
+    final microNote = !showMicros
+        ? null
+        : micros == null
+        ? context.l10n.historyNoMicroDataShort
+        : micros.isLowCoverage
+        ? context.l10n.historyLowCoverageShort
+        : null;
     final color = context.intakeColors.of(
       _calculator.status(
         goal: summary.adjustedKcal,
@@ -31,6 +42,7 @@ class DayLogTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       leading: Icon(Icons.circle, color: color, size: 16),
       title: Text(DateFormat('EEE dd/MM/yyyy', locale).format(log.date)),
+      subtitle: microNote == null ? null : Text(microNote),
       trailing: Text(
         '${summary.consumed.kcal.round()} / ${summary.adjustedKcal.round()} '
         '${context.l10n.overviewPageIntakeInfoKcal}',

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DayDetailState {
 
- DayDetailStatus get status; DayLog? get log;
+ DayDetailStatus get status; DayLog? get log; bool get microcalEnabled;
 /// Create a copy of DayDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $DayDetailStateCopyWith<DayDetailState> get copyWith => _$DayDetailStateCopyWith
 @override
 bool operator ==(Object other) {
   final _this = this as DayDetailState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayDetailState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.log, _this.log) || other.log == _this.log));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayDetailState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.log, _this.log) || other.log == _this.log)&&(identical(other.microcalEnabled, _this.microcalEnabled) || other.microcalEnabled == _this.microcalEnabled));
 }
 
 
 @override
 int get hashCode {
   final _this = this as DayDetailState;
-  return Object.hash(runtimeType,_this.status,_this.log);
+  return Object.hash(runtimeType,_this.status,_this.log,_this.microcalEnabled);
 }
 
 @override
 String toString() {
   final _this = this as DayDetailState;
-  return 'DayDetailState(status: ${_this.status}, log: ${_this.log})';
+  return 'DayDetailState(status: ${_this.status}, log: ${_this.log}, microcalEnabled: ${_this.microcalEnabled})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $DayDetailStateCopyWith<$Res>  {
   factory $DayDetailStateCopyWith(DayDetailState value, $Res Function(DayDetailState) _then) = _$DayDetailStateCopyWithImpl;
 @useResult
 $Res call({
- DayDetailStatus status, DayLog? log
+ DayDetailStatus status, DayLog? log, bool microcalEnabled
 });
 
 
@@ -68,11 +68,12 @@ class _$DayDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of DayDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? log = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? log = freezed,Object? microcalEnabled = null,}) {
   return _then(DayDetailState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DayDetailStatus,log: freezed == log ? _self.log : log // ignore: cast_nullable_to_non_nullable
-as DayLog?,
+as DayLog?,microcalEnabled: null == microcalEnabled ? _self.microcalEnabled : microcalEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of DayDetailState
@@ -169,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DayDetailStatus status,  DayLog? log)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DayDetailStatus status,  DayLog? log,  bool microcalEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DayDetailState() when $default != null:
-return $default(_that.status,_that.log);case _:
+return $default(_that.status,_that.log,_that.microcalEnabled);case _:
   return orElse();
 
 }
@@ -190,10 +191,10 @@ return $default(_that.status,_that.log);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DayDetailStatus status,  DayLog? log)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DayDetailStatus status,  DayLog? log,  bool microcalEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _DayDetailState():
-return $default(_that.status,_that.log);case _:
+return $default(_that.status,_that.log,_that.microcalEnabled);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +211,10 @@ return $default(_that.status,_that.log);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DayDetailStatus status,  DayLog? log)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DayDetailStatus status,  DayLog? log,  bool microcalEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _DayDetailState() when $default != null:
-return $default(_that.status,_that.log);case _:
+return $default(_that.status,_that.log,_that.microcalEnabled);case _:
   return null;
 
 }
@@ -225,11 +226,12 @@ return $default(_that.status,_that.log);case _:
 
 
 class _DayDetailState implements DayDetailState {
-  const _DayDetailState({this.status = DayDetailStatus.loading, this.log});
+  const _DayDetailState({this.status = DayDetailStatus.loading, this.log, this.microcalEnabled = false});
   
 
 @override@JsonKey() final  DayDetailStatus status;
 @override final  DayLog? log;
+@override@JsonKey() final  bool microcalEnabled;
 
 /// Create a copy of DayDetailState
 /// with the given fields replaced by the non-null parameter values.
@@ -241,18 +243,18 @@ _$DayDetailStateCopyWith<_DayDetailState> get copyWith => __$DayDetailStateCopyW
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayDetailState&&(identical(other.status, status) || other.status == status)&&(identical(other.log, log) || other.log == log));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayDetailState&&(identical(other.status, status) || other.status == status)&&(identical(other.log, log) || other.log == log)&&(identical(other.microcalEnabled, microcalEnabled) || other.microcalEnabled == microcalEnabled));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,log);
+    return Object.hash(runtimeType,status,log,microcalEnabled);
 }
 
 @override
 String toString() {
-    return 'DayDetailState(status: $status, log: $log)';
+    return 'DayDetailState(status: $status, log: $log, microcalEnabled: $microcalEnabled)';
 }
 
 
@@ -263,7 +265,7 @@ abstract mixin class _$DayDetailStateCopyWith<$Res> implements $DayDetailStateCo
   factory _$DayDetailStateCopyWith(_DayDetailState value, $Res Function(_DayDetailState) _then) = __$DayDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- DayDetailStatus status, DayLog? log
+ DayDetailStatus status, DayLog? log, bool microcalEnabled
 });
 
 
@@ -280,11 +282,12 @@ class __$DayDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of DayDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? log = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? log = freezed,Object? microcalEnabled = null,}) {
   return _then(_DayDetailState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DayDetailStatus,log: freezed == log ? _self.log : log // ignore: cast_nullable_to_non_nullable
-as DayLog?,
+as DayLog?,microcalEnabled: null == microcalEnabled ? _self.microcalEnabled : microcalEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

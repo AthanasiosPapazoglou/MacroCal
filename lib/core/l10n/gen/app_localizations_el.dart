@@ -1009,4 +1009,39 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get microcalAboutIodine =>
       'Ιχνοστοιχείο, σε µg. Υπάρχει σε ψάρια, θαλασσινά, φύκια, γάλα, αυγά και ιωδιούχο αλάτι· η ποσότητα στο γάλα και στα λαχανικά εξαρτάται από την εκτροφή και το έδαφος. Το ιωδιούχο αλάτι που προστίθεται στο σπίτι δεν μετριέται.';
+
+  @override
+  String get historyMicronutrients => 'Μικροθρεπτικά συστατικά';
+
+  @override
+  String historyMicroDays(int count, int total) {
+    return 'Με βάση $count από $total αρχειοθετημένες ημέρες';
+  }
+
+  @override
+  String get historyMicroAverageNote =>
+      'Μέσο ποσοστό της τιμής αναφοράς κάθε ημέρας';
+
+  @override
+  String historyMicroAverage(int percent) {
+    return '$percent% της τιμής αναφοράς';
+  }
+
+  @override
+  String get historyNoMicroData =>
+      'Δεν υπάρχουν δεδομένα μικροθρεπτικών γι\' αυτή την ημέρα';
+
+  @override
+  String get historyNoMicroDataRange =>
+      'Δεν υπάρχουν δεδομένα μικροθρεπτικών σε αυτό το διάστημα';
+
+  @override
+  String get historyNoMicroDataShort => 'Χωρίς δεδομένα μικροθρεπτικών';
+
+  @override
+  String get historyLowCoverage =>
+      'Χαμηλή κάλυψη: λιγότερο από το μισό της τροφής έχει δεδομένα μικροθρεπτικών';
+
+  @override
+  String get historyLowCoverageShort => 'Χαμηλή κάλυψη μικροθρεπτικών';
 }

@@ -1002,4 +1002,37 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get microcalAboutIodine =>
       'A trace element, in µg. Found in fish, seafood, seaweed, milk, eggs and iodised salt; the amount in milk and vegetables depends on farming and soil. Iodised salt added at home is not counted.';
+
+  @override
+  String get historyMicronutrients => 'Micronutrients';
+
+  @override
+  String historyMicroDays(int count, int total) {
+    return 'Based on $count of $total archived days';
+  }
+
+  @override
+  String get historyMicroAverageNote =>
+      'Average share of each day\'s reference intake';
+
+  @override
+  String historyMicroAverage(int percent) {
+    return '$percent% of reference';
+  }
+
+  @override
+  String get historyNoMicroData => 'No micronutrient data for this day';
+
+  @override
+  String get historyNoMicroDataRange => 'No micronutrient data in this range';
+
+  @override
+  String get historyNoMicroDataShort => 'No micronutrient data';
+
+  @override
+  String get historyLowCoverage =>
+      'Low coverage: less than half of the food eaten has micronutrient data';
+
+  @override
+  String get historyLowCoverageShort => 'Low micronutrient coverage';
 }

@@ -95,4 +95,19 @@ void main() {
       1,
     );
   });
+
+  test('coverage below half of the nutrients on average is low', () {
+    final full = MicroIntake(
+      coverage: {for (final nutrient in Micronutrient.values) nutrient: 1},
+    );
+    final half = MicroIntake(
+      coverage: {
+        for (final nutrient in Micronutrient.values.take(10)) nutrient: 1,
+      },
+    );
+
+    expect(full.averageCoverage, 1);
+    expect(full.isLowCoverage, isFalse);
+    expect(half.isLowCoverage, isTrue);
+  });
 }
