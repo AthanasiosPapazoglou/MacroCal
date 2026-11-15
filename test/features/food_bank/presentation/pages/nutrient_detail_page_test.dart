@@ -19,7 +19,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Total Fat'), findsOneWidget);
-    final description = find.textContaining('Fats, also known as lipids');
+    final description = find.textContaining(
+      'Fat is a macronutrient made mostly',
+    );
     await tester.scrollUntilVisible(description, 200);
 
     expect(description, findsOneWidget);

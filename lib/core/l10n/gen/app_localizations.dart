@@ -155,13 +155,13 @@ abstract class AppLocalizations {
   /// No description provided for @overviewPageHealthy.
   ///
   /// In en, this message translates to:
-  /// **'Healthy Nutrients'**
+  /// **'Daily Targets'**
   String get overviewPageHealthy;
 
   /// No description provided for @overviewPageUnhealthy.
   ///
   /// In en, this message translates to:
-  /// **'Unhealthy Nutrients'**
+  /// **'Daily Limits'**
   String get overviewPageUnhealthy;
 
   /// No description provided for @overviewPageNutrientsProtein.
@@ -581,49 +581,49 @@ abstract class AppLocalizations {
   /// No description provided for @ingredientDetailsNutrientDescriptionsCalories.
   ///
   /// In en, this message translates to:
-  /// **'Calories are a unit of measurement used to quantify the amount of energy that a particular food source provides when consumed and metabolized by the body. They represent the energy content of a food source and are used to estimate the potential impact of that food on an individual\'s energy balance and overall nutritional intake. In simple terms, consuming less, exact or more calories than the threshold required to sustain one\'s metabolic activity, will result in weight loss, sustain or increase respectively (primarily in the form of fat mass being stored or consumed in the body)'**
+  /// **'Calories (kcal) measure the energy a food provides when it is digested. The Overview compares what you eat with your daily calorie goal, adjusted for the activity you log.'**
   String get ingredientDetailsNutrientDescriptionsCalories;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsProtein.
   ///
   /// In en, this message translates to:
-  /// **'Proteins are essential macromolecules composed of amino acids. They play a crucial role in the structure, function, and regulation of cells and tissues in the body. Proteins are involved in various biological processes, including building and repairing tissues, supporting the immune system, acting as enzymes to facilitate chemical reactions, and serving as transporters for molecules within the body. Dietary sources of protein include meat, poultry, fish, dairy products, legumes, nuts, and certain grains.'**
+  /// **'Protein is a macronutrient made of amino acids, counted in grams; 1 g provides about 4 kcal. Found in meat, poultry, fish, eggs, dairy products, legumes, nuts and some grains.'**
   String get ingredientDetailsNutrientDescriptionsProtein;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsCarbs.
   ///
   /// In en, this message translates to:
-  /// **'Carbohydrates, often referred to as carbs, are one of the three primary macronutrients found in food, along with proteins and fats. Carbohydrates are organic compounds composed of carbon, hydrogen, and oxygen atoms. They serve as a primary source of energy for the body, particularly for the brain and muscles. '**
+  /// **'Carbohydrates are a macronutrient made of carbon, hydrogen and oxygen: sugars, starches and fibre. Counted in grams; 1 g of sugar or starch provides about 4 kcal. Found in grains, bread, pasta, rice, potatoes, legumes, fruit and dairy products.'**
   String get ingredientDetailsNutrientDescriptionsCarbs;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsSugars.
   ///
   /// In en, this message translates to:
-  /// **'Sugars are simple carbohydrates that are naturally occurring or added to foods and beverages. They are composed of small molecules, such as glucose, fructose, and sucrose. Sugars are a source of quick energy for the body and are often naturally present in fruits, vegetables, and dairy products. However, when consumed in excessive amounts, added sugars from sources like sugary drinks, sweets, and processed foods can contribute to excess calorie intake and potentially negative health effects. It\'s important to limit sugar consumption (especially from products that contain added sugar) According to W.H.O sugar consumption should be limited to 10% of our daily calory intake.'**
+  /// **'Sugars are the simplest carbohydrates, such as glucose, fructose, sucrose and lactose, counted in grams. They occur naturally in fruit, vegetables and milk, and are added to drinks, sweets and many processed foods. The sugar limit on the Overview is the share of your daily calorie goal set in your profile.'**
   String get ingredientDetailsNutrientDescriptionsSugars;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsFat.
   ///
   /// In en, this message translates to:
-  /// **'Fats, also known as lipids, are essential macronutrients that serve as a concentrated source of energy for the body. They play a crucial role in various physiological functions, including providing insulation, cushioning organs, and aiding in the absorption of fat-soluble vitamins (A, D, E, and K). Fats can be categorized into different types: saturated fats, unsaturated fats (monounsaturated and polyunsaturated), and trans fats. Unsaturated fats, found in foods like nuts, seeds, avocados, and certain oils, are generally considered healthier options compared to saturated fats and especially trans fats. While fats are necessary for a balanced diet, moderation is key, as excessive consumption of unhealthy fats can contribute to weight gain and various health issues.'**
+  /// **'Fat is a macronutrient made mostly of fatty acids, counted in grams; 1 g provides about 9 kcal. It is grouped into saturated, monounsaturated, polyunsaturated and trans fat. Found in oils, butter, nuts, seeds, avocado, meat, fish and dairy products. Fat in a meal raises the absorption of the fat-soluble vitamins A, D, E and K.'**
   String get ingredientDetailsNutrientDescriptionsFat;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsSaturated.
   ///
   /// In en, this message translates to:
-  /// **'Saturated fats are a type of dietary fat that are typically solid at room temperature. They are found primarily in animal-based foods and certain plant oils. Saturated fats and especially Trans fats have been associated with raising levels of LDL (low-density lipoprotein) cholesterol in the blood, which is often referred to as \'bad\' cholesterol. Elevated levels of LDL cholesterol are a risk factor for cardiovascular diseases. According to W.H.O. it is recommended to minimize saturated/trans fat consumption to no more than 6% of your total daily calory intake'**
+  /// **'Saturated fat is fat whose fatty acids have no double bonds, so it is mostly solid at room temperature; counted in grams. Found mainly in butter, cheese, fatty meat, and coconut and palm oil. The saturated fat limit on the Overview is the share of your daily calorie goal set in your profile.'**
   String get ingredientDetailsNutrientDescriptionsSaturated;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsFiber.
   ///
   /// In en, this message translates to:
-  /// **'Dietary fiber is a type of carbohydrate that the body cannot fully digest or absorb. It\'s found in plant-based foods such as whole grains, fruits, vegetables, legumes, nuts, and seeds. It helps lower cholesterol levels and stabilize blood sugar levels by slowing down the digestion and absorption of carbohydrates. It promotes regular bowel movements and contributes in maintaining gut health. It also potentially reduces the risk of various chronic deceases. It\'s important to include a variety of fiber-rich foods in your diet to support the health benefits it provides'**
+  /// **'Dietary fibre is the part of plant carbohydrates that the small intestine does not digest, counted in grams. Found in whole grains, legumes, vegetables, fruit, nuts and seeds. Food labels count it at about 2 kcal per gram.'**
   String get ingredientDetailsNutrientDescriptionsFiber;
 
   /// No description provided for @ingredientDetailsNutrientDescriptionsSalt.
   ///
   /// In en, this message translates to:
-  /// **'Salt, chemically known as sodium chloride, is a mineral that is commonly used as a seasoning to enhance the flavor of food. While salt adds taste to dishes, excessive consumption of sodium, a component of salt, can have negative effects on health. It\'s recommended to limit sodium intake by reducing the consumption of high-sodium processed foods (like packaged snacks, canned soups, and fast food) and using salt in moderation while cooking and at the table. Opting for herbs, spices, and other flavoring alternatives can help reduce reliance on salt for flavor enhancement.'**
+  /// **'Salt is sodium chloride, counted here in milligrams; 1 g of salt contains about 0.4 g of sodium. It comes from processed foods such as bread, cheese, cured meats, snacks and ready meals, and from salt added in cooking and at the table. The salt limit on the Overview is set in your profile.'**
   String get ingredientDetailsNutrientDescriptionsSalt;
 
   /// No description provided for @ingredientDetailsButtonSideActionsDeleteButton.
