@@ -3,6 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
+import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/profile.dart';
+import 'package:macro_cal_public/features/profile/domain/repositories/profile_repository.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
+import 'package:macro_cal_public/features/today/domain/repositories/food_log_repository.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_state.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/overview_page.dart';
@@ -10,6 +15,7 @@ import 'package:macro_cal_public/features/today/presentation/widgets/nutrient_pr
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/cubit_stub.dart';
+import '../../../../helpers/pump_app.dart';
 import '../../../../helpers/pump_localized.dart';
 import '../../../../helpers/sample_summary.dart';
 
@@ -17,8 +23,22 @@ class _MockOverviewCubit extends Mock implements OverviewCubit;
 
 void main() {
   late OverviewCubit cubit;
+  late ProfileRepository profile;
+  late FoodLogRepository foodLog;
+  late HistoryRepository history;
+  late SettingsRepository settings;
 
   setUp(() {
+    profile = MockProfileRepository();
+    foodLog = MockFoodLogRepository();
+    history = MockHistoryRepository();
+    settings = MockSettingsRepository();
+    when(profile.watchProfile).thenAnswer((_) => Stream.value(const Profile()));
+    when(foodLog.watchEntries).thenAnswer((_) => Stream.value(const []));
+    when(foodLog.watchSupplementEntries)
+        .thenAnswer((_) => Stream.value(const []));
+    when(history.watchDayLogs).thenAnswer((_) => Stream.value(const []));
+    when(settings.watchMicrocalEnabled).thenAnswer((_) => Stream.value(false));
     cubit = _MockOverviewCubit();
     CubitStub(
       cubit,
@@ -33,8 +53,18 @@ void main() {
       routes: [
         GoRoute(
           path: AppRoutes.today,
-          builder: (_, _) =>
-              BlocProvider.value(value: cubit, child: const OverviewPage()),
+          builder: (_, _) => MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider<ProfileRepository>.value(value: profile),
+              RepositoryProvider<FoodLogRepository>.value(value: foodLog),
+              RepositoryProvider<HistoryRepository>.value(value: history),
+              RepositoryProvider<SettingsRepository>.value(value: settings),
+            ],
+            child: BlocProvider.value(
+              value: cubit,
+              child: const OverviewPage(),
+            ),
+          ),
           routes: [
             GoRoute(
               path: 'consumption',

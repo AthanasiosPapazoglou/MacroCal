@@ -1573,6 +1573,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'scoops'**
   String get supplementUnitsScoop;
+
+  /// No description provided for @microcalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MicroCal'**
+  String get microcalTitle;
+
+  /// No description provided for @microcalToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get microcalToday;
+
+  /// No description provided for @microcalWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get microcalWeek;
+
+  /// No description provided for @microcalReferenceEfsaMen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference intakes: EFSA, men aged {age}'**
+  String microcalReferenceEfsaMen(int age);
+
+  /// No description provided for @microcalReferenceEfsaWomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference intakes: EFSA, women aged {age}'**
+  String microcalReferenceEfsaWomen(int age);
+
+  /// No description provided for @microcalReferenceNrv.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference intakes: EU label values. Add your sex and birth year in the profile for EFSA values.'**
+  String get microcalReferenceNrv;
+
+  /// No description provided for @microcalUnderAge.
+  ///
+  /// In en, this message translates to:
+  /// **'MicroCal compares intake with adult reference values, so it isn\'t available under 18.'**
+  String get microcalUnderAge;
+
+  /// No description provided for @microcalDaysWithData.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {count} of 7 days'**
+  String microcalDaysWithData(int count);
+
+  /// No description provided for @microcalNoWeekData.
+  ///
+  /// In en, this message translates to:
+  /// **'No micronutrient data in the last 7 days'**
+  String get microcalNoWeekData;
+
+  /// No description provided for @microcalLegendFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get microcalLegendFood;
+
+  /// No description provided for @microcalLegendSupplements.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplements'**
+  String get microcalLegendSupplements;
+
+  /// No description provided for @microcalLegendCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of food with data'**
+  String get microcalLegendCoverage;
+
+  /// No description provided for @microcalAdequateIntakeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'* Adequate intake: used where the evidence is too limited for a recommended intake'**
+  String get microcalAdequateIntakeNote;
+
+  /// No description provided for @microcalCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Food with data: {percent}%'**
+  String microcalCoverage(int percent);
+
+  /// No description provided for @microcalAboveUpperLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Above the tolerable upper intake level set by {source}'**
+  String microcalAboveUpperLimit(String source);
+
+  /// No description provided for @microcalSupplementsAboveUpperLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplements are above the tolerable upper intake level set by {source}'**
+  String microcalSupplementsAboveUpperLimit(String source);
+
+  /// No description provided for @microcalDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'For information only. Not medical or dietary advice.'**
+  String get microcalDisclaimer;
+
+  /// No description provided for @microcalReferenceLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference intake: {amount} ({source})'**
+  String microcalReferenceLine(String amount, String source);
+
+  /// No description provided for @microcalAdequateIntakeLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Adequate intake: {amount} ({source})'**
+  String microcalAdequateIntakeLine(String amount, String source);
+
+  /// No description provided for @microcalUpperLimitLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Tolerable upper intake level: {amount} ({source})'**
+  String microcalUpperLimitLine(String amount, String source);
+
+  /// No description provided for @microcalUpperLimitSupplementsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Tolerable upper intake level from supplements: {amount} ({source})'**
+  String microcalUpperLimitSupplementsLine(String amount, String source);
+
+  /// No description provided for @microcalTopContributors.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s top contributors'**
+  String get microcalTopContributors;
+
+  /// No description provided for @microcalNoContributors.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged today has a value for this nutrient'**
+  String get microcalNoContributors;
+
+  /// No description provided for @microcalCardAtReference.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {total} at reference (7-day)'**
+  String microcalCardAtReference(int count, int total);
+
+  /// No description provided for @microcalLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients could not be loaded'**
+  String get microcalLoadFailed;
+
+  /// No description provided for @microcalSourceEuNrv.
+  ///
+  /// In en, this message translates to:
+  /// **'EU label value'**
+  String get microcalSourceEuNrv;
+
+  /// No description provided for @microcalAboutVitaminA.
+  ///
+  /// In en, this message translates to:
+  /// **'A fat-soluble vitamin, counted in µg retinol equivalents: retinol from animal foods, and beta-carotene from plants at a sixth of its weight. Found in liver, eggs, butter, cheese, carrots, sweet potatoes and dark leafy greens. Beta-carotene is absorbed better with some fat in the same meal.'**
+  String get microcalAboutVitaminA;
+
+  /// No description provided for @microcalAboutVitaminD.
+  ///
+  /// In en, this message translates to:
+  /// **'A fat-soluble vitamin, in µg (1 µg is 40 IU). Few foods contain it: oily fish such as salmon, sardines and mackerel, egg yolks and fortified foods. The skin also makes it in sunlight, which this log does not count.'**
+  String get microcalAboutVitaminD;
+
+  /// No description provided for @microcalAboutVitaminE.
+  ///
+  /// In en, this message translates to:
+  /// **'A fat-soluble vitamin, counted in mg alpha-tocopherol. Found in vegetable oils such as sunflower and olive oil, nuts, seeds and avocado.'**
+  String get microcalAboutVitaminE;
+
+  /// No description provided for @microcalAboutVitaminK.
+  ///
+  /// In en, this message translates to:
+  /// **'A fat-soluble vitamin, in µg: K1 from plants and K2 from fermented and animal foods. Found in dark leafy greens such as spinach and kale, broccoli, vegetable oils and cheese. Absorbed better with some fat in the same meal.'**
+  String get microcalAboutVitaminK;
+
+  /// No description provided for @microcalAboutVitaminC.
+  ///
+  /// In en, this message translates to:
+  /// **'A water-soluble vitamin, also called ascorbic acid, in mg. Found in peppers, citrus fruit, kiwi, strawberries, broccoli and tomatoes. Heat and long storage reduce it, and boiling moves part of it into the water. Vitamin C in the same meal raises the absorption of iron from plant foods.'**
+  String get microcalAboutVitaminC;
+
+  /// No description provided for @microcalAboutThiamin.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B1, water-soluble, in mg. Found in whole grains, pork, legumes, nuts and seeds. Part of it is lost in cooking water. EFSA sets the reference per unit of energy, so it follows your daily calorie goal.'**
+  String get microcalAboutThiamin;
+
+  /// No description provided for @microcalAboutRiboflavin.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B2, water-soluble, in mg. Found in milk and dairy, eggs, meat, almonds and mushrooms. Light breaks it down.'**
+  String get microcalAboutRiboflavin;
+
+  /// No description provided for @microcalAboutNiacin.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B3, water-soluble, in mg. Found in meat, poultry, fish, peanuts and whole grains. The body also makes some from tryptophan, an amino acid in protein, which food tables do not include. EFSA sets the reference per unit of energy, so it follows your daily calorie goal.'**
+  String get microcalAboutNiacin;
+
+  /// No description provided for @microcalAboutVitaminB6.
+  ///
+  /// In en, this message translates to:
+  /// **'A water-soluble vitamin, in mg. Found in poultry, fish, potatoes, chickpeas, bananas and whole grains.'**
+  String get microcalAboutVitaminB6;
+
+  /// No description provided for @microcalAboutFolate.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin B9, water-soluble, counted in µg dietary folate equivalents: folic acid from supplements and fortified foods counts 1.7 times, as it is absorbed better than the folate in food. Found in leafy greens, legumes, asparagus, liver and oranges. Boiling loses a large part of it.'**
+  String get microcalAboutFolate;
+
+  /// No description provided for @microcalAboutVitaminB12.
+  ///
+  /// In en, this message translates to:
+  /// **'A water-soluble vitamin, in µg. Found almost only in animal foods (meat, fish, eggs, milk and dairy) and in fortified foods. Only a small amount is absorbed from any single meal.'**
+  String get microcalAboutVitaminB12;
+
+  /// No description provided for @microcalAboutCalcium.
+  ///
+  /// In en, this message translates to:
+  /// **'A mineral, in mg. Found in milk, yogurt, cheese, sardines with their bones, almonds, tahini and some leafy greens. Oxalates in spinach and phytates in bran and legumes lower its absorption from those foods.'**
+  String get microcalAboutCalcium;
+
+  /// No description provided for @microcalAboutPhosphorus.
+  ///
+  /// In en, this message translates to:
+  /// **'A mineral, in mg. Found in most protein foods (dairy, meat, fish, eggs, legumes, nuts and whole grains) and in phosphate additives in processed foods.'**
+  String get microcalAboutPhosphorus;
+
+  /// No description provided for @microcalAboutMagnesium.
+  ///
+  /// In en, this message translates to:
+  /// **'A mineral, in mg. Found in whole grains, nuts, seeds, legumes, cocoa and leafy greens. Its upper level applies to supplements only.'**
+  String get microcalAboutMagnesium;
+
+  /// No description provided for @microcalAboutPotassium.
+  ///
+  /// In en, this message translates to:
+  /// **'A mineral, in mg. Found in vegetables, fruit such as bananas and apricots, potatoes, legumes, milk and coffee.'**
+  String get microcalAboutPotassium;
+
+  /// No description provided for @microcalAboutIron.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in mg. Heme iron in meat and fish is absorbed far better than non-heme iron in legumes, grains and greens. Vitamin C in the same meal raises non-heme iron absorption; tea, coffee and calcium in the same meal lower it.'**
+  String get microcalAboutIron;
+
+  /// No description provided for @microcalAboutZinc.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in mg. Found in meat, shellfish, cheese, legumes, nuts, seeds and whole grains. Phytates in whole grains and legumes lower its absorption; the EFSA reference here assumes a moderate phytate intake.'**
+  String get microcalAboutZinc;
+
+  /// No description provided for @microcalAboutCopper.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in mg. Found in liver, shellfish, nuts, seeds, cocoa, legumes and whole grains.'**
+  String get microcalAboutCopper;
+
+  /// No description provided for @microcalAboutManganese.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in mg. Found in whole grains, nuts, legumes, leafy greens and tea.'**
+  String get microcalAboutManganese;
+
+  /// No description provided for @microcalAboutSelenium.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in µg. Found in Brazil nuts, fish, seafood, meat, eggs and grains; the amount in plant foods depends on the soil they grew in.'**
+  String get microcalAboutSelenium;
+
+  /// No description provided for @microcalAboutIodine.
+  ///
+  /// In en, this message translates to:
+  /// **'A trace element, in µg. Found in fish, seafood, seaweed, milk, eggs and iodised salt; the amount in milk and vegetables depends on farming and soil. Iodised salt added at home is not counted.'**
+  String get microcalAboutIodine;
 }
 
 class _AppLocalizationsDelegate

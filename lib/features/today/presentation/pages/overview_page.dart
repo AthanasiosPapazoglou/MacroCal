@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:macro_cal_public/app/router/routes.dart';
 import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/core/widgets/major_page_app_bar.dart';
+import 'package:macro_cal_public/features/microcal/presentation/widgets/microcal_card.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 import 'package:macro_cal_public/features/today/presentation/cubit/overview_cubit.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/archive_day_dialog.dart';
@@ -50,8 +51,11 @@ class _OverviewPageState extends State<OverviewPage>
       body: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 48),
-            children: [SummaryBreakdown(summary: summary)],
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+            children: [
+              SummaryBreakdown(summary: summary),
+              const MicroCalCard(),
+            ],
           ),
           Positioned(
             left: 16,

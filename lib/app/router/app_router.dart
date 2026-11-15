@@ -16,6 +16,7 @@ import 'package:macro_cal_public/features/food_bank/presentation/pages/supplemen
 import 'package:macro_cal_public/features/food_bank/presentation/pages/supplement_form_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/day_detail_page.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_page.dart';
+import 'package:macro_cal_public/features/microcal/presentation/pages/microcal_page.dart';
 import 'package:macro_cal_public/features/profile/presentation/pages/profile_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/consumption_page.dart';
 import 'package:macro_cal_public/features/today/presentation/pages/exercise_page.dart';
@@ -152,6 +153,7 @@ GoRouter createAppRouter() {
         AppRoutes.referenceFoods,
         (_) => const ReferenceFoodPickerPage(),
       ),
+      fullScreen(AppRoutes.microcal, (_) => const MicroCalPage()),
     ],
   );
 }

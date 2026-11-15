@@ -13,6 +13,7 @@ abstract final class AppRoutes {
   static const profile = '/profile';
   static const scan = '/scan';
   static const referenceFoods = '/reference-foods';
+  static const microcal = '/microcal';
 
   static String historyDay(DateTime date) => '/history/${date.isoDay}';
 
