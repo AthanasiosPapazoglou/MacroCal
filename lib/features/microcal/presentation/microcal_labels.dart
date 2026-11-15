@@ -3,6 +3,15 @@ import 'package:macro_cal_public/core/l10n/l10n.dart';
 import 'package:macro_cal_public/features/food_bank/domain/entities/micronutrient.dart';
 import 'package:macro_cal_public/features/food_bank/presentation/micronutrient_labels.dart';
 import 'package:macro_cal_public/features/microcal/domain/entities/reference_intake.dart';
+import 'package:macro_cal_public/features/profile/domain/entities/sex.dart';
+
+/// Which reference intakes apply: EFSA for a known sex and age, else EU NRVs.
+String referenceIntakesLine(AppLocalizations l10n, {Sex? sex, int? age}) =>
+    switch ((sex, age)) {
+      (Sex.male, final age?) => l10n.microcalReferenceEfsaMen(age),
+      (Sex.female, final age?) => l10n.microcalReferenceEfsaWomen(age),
+      _ => l10n.microcalReferenceNrv,
+    };
 
 extension MicronutrientDescriptions on Micronutrient {
   String about(AppLocalizations l10n) => switch (this) {

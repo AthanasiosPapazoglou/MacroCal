@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:macro_cal_public/features/history/domain/repositories/history_repository.dart';
 import 'package:macro_cal_public/features/history/presentation/cubit/history_cubit.dart';
 import 'package:macro_cal_public/features/history/presentation/pages/history_view.dart';
+import 'package:macro_cal_public/features/settings/domain/repositories/settings_repository.dart';
 
 class HistoryPage extends StatelessWidget {
   const new({super.key});
@@ -10,8 +11,10 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          HistoryCubit(context.read<HistoryRepository>())..watch(),
+      create: (context) => HistoryCubit(
+        context.read<HistoryRepository>(),
+        context.read<SettingsRepository>(),
+      )..watch(),
       child: const HistoryView(),
     );
   }

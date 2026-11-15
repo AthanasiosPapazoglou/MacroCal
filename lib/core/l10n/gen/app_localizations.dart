@@ -1855,6 +1855,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A trace element, in µg. Found in fish, seafood, seaweed, milk, eggs and iodised salt; the amount in milk and vegetables depends on farming and soil. Iodised salt added at home is not counted.'**
   String get microcalAboutIodine;
+
+  /// No description provided for @historyMicronutrients.
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients'**
+  String get historyMicronutrients;
+
+  /// No description provided for @historyMicroDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {count} of {total} archived days'**
+  String historyMicroDays(int count, int total);
+
+  /// No description provided for @historyMicroAverageNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Average share of each day\'s reference intake'**
+  String get historyMicroAverageNote;
+
+  /// No description provided for @historyMicroAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of reference'**
+  String historyMicroAverage(int percent);
+
+  /// No description provided for @historyNoMicroData.
+  ///
+  /// In en, this message translates to:
+  /// **'No micronutrient data for this day'**
+  String get historyNoMicroData;
+
+  /// No description provided for @historyNoMicroDataRange.
+  ///
+  /// In en, this message translates to:
+  /// **'No micronutrient data in this range'**
+  String get historyNoMicroDataRange;
+
+  /// No description provided for @historyNoMicroDataShort.
+  ///
+  /// In en, this message translates to:
+  /// **'No micronutrient data'**
+  String get historyNoMicroDataShort;
+
+  /// No description provided for @historyLowCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Low coverage: less than half of the food eaten has micronutrient data'**
+  String get historyLowCoverage;
+
+  /// No description provided for @historyLowCoverageShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Low micronutrient coverage'**
+  String get historyLowCoverageShort;
 }
 
 class _AppLocalizationsDelegate

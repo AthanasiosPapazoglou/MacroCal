@@ -14,6 +14,7 @@ import 'package:macro_cal_public/features/history/presentation/widgets/goal_adhe
 import 'package:macro_cal_public/features/history/presentation/widgets/history_range_selector.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/history_summary.dart';
 import 'package:macro_cal_public/features/history/presentation/widgets/macro_split_chart.dart';
+import 'package:macro_cal_public/features/history/presentation/widgets/micro_average_list.dart';
 import 'package:macro_cal_public/features/settings/presentation/widgets/settings_drawer.dart';
 import 'package:macro_cal_public/features/today/presentation/widgets/section_header.dart';
 
@@ -61,8 +62,13 @@ class HistoryView extends StatelessWidget {
                 SectionHeader(l10n.historyPageAdherence),
                 for (final goal in TrackedGoal.values)
                   GoalAdherenceBar(goal: goal, stats: state.stats),
+                if (state.microcalEnabled) ...[
+                  SectionHeader(l10n.historyMicronutrients),
+                  MicroAverageList(stats: state.stats),
+                ],
                 SectionHeader(l10n.historyPageDays),
-                for (final log in state.logs) DayLogTile(log: log),
+                for (final log in state.logs)
+                  DayLogTile(log: log, showMicros: state.microcalEnabled),
               ],
             ],
           ),

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HistoryState {
 
- HistoryStatus get status; HistoryRange get range; List<DayLog> get logs; HistoryStats get stats;
+ HistoryStatus get status; HistoryRange get range; List<DayLog> get logs; HistoryStats get stats; bool get microcalEnabled;
 /// Create a copy of HistoryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $HistoryStateCopyWith<HistoryState> get copyWith => _$HistoryStateCopyWithImpl<H
 @override
 bool operator ==(Object other) {
   final _this = this as HistoryState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.range, _this.range) || other.range == _this.range)&&const DeepCollectionEquality().equals(other.logs, _this.logs)&&(identical(other.stats, _this.stats) || other.stats == _this.stats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryState&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.range, _this.range) || other.range == _this.range)&&const DeepCollectionEquality().equals(other.logs, _this.logs)&&(identical(other.stats, _this.stats) || other.stats == _this.stats)&&(identical(other.microcalEnabled, _this.microcalEnabled) || other.microcalEnabled == _this.microcalEnabled));
 }
 
 
 @override
 int get hashCode {
   final _this = this as HistoryState;
-  return Object.hash(runtimeType,_this.status,_this.range,const DeepCollectionEquality().hash(_this.logs),_this.stats);
+  return Object.hash(runtimeType,_this.status,_this.range,const DeepCollectionEquality().hash(_this.logs),_this.stats,_this.microcalEnabled);
 }
 
 @override
 String toString() {
   final _this = this as HistoryState;
-  return 'HistoryState(status: ${_this.status}, range: ${_this.range}, logs: ${_this.logs}, stats: ${_this.stats})';
+  return 'HistoryState(status: ${_this.status}, range: ${_this.range}, logs: ${_this.logs}, stats: ${_this.stats}, microcalEnabled: ${_this.microcalEnabled})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $HistoryStateCopyWith<$Res>  {
   factory $HistoryStateCopyWith(HistoryState value, $Res Function(HistoryState) _then) = _$HistoryStateCopyWithImpl;
 @useResult
 $Res call({
- HistoryStatus status, HistoryRange range, List<DayLog> logs, HistoryStats stats
+ HistoryStatus status, HistoryRange range, List<DayLog> logs, HistoryStats stats, bool microcalEnabled
 });
 
 
@@ -68,13 +68,14 @@ class _$HistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of HistoryState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? range = null,Object? logs = null,Object? stats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? range = null,Object? logs = null,Object? stats = null,Object? microcalEnabled = null,}) {
   return _then(HistoryState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as HistoryStatus,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
 as HistoryRange,logs: null == logs ? _self.logs : logs // ignore: cast_nullable_to_non_nullable
 as List<DayLog>,stats: null == stats ? _self.stats : stats // ignore: cast_nullable_to_non_nullable
-as HistoryStats,
+as HistoryStats,microcalEnabled: null == microcalEnabled ? _self.microcalEnabled : microcalEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of HistoryState
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats,  bool microcalEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HistoryState() when $default != null:
-return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
+return $default(_that.status,_that.range,_that.logs,_that.stats,_that.microcalEnabled);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats,  bool microcalEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _HistoryState():
-return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
+return $default(_that.status,_that.range,_that.logs,_that.stats,_that.microcalEnabled);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +210,10 @@ return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( HistoryStatus status,  HistoryRange range,  List<DayLog> logs,  HistoryStats stats,  bool microcalEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _HistoryState() when $default != null:
-return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
+return $default(_that.status,_that.range,_that.logs,_that.stats,_that.microcalEnabled);case _:
   return null;
 
 }
@@ -224,7 +225,7 @@ return $default(_that.status,_that.range,_that.logs,_that.stats);case _:
 
 
 class _HistoryState implements HistoryState {
-  const _HistoryState({this.status = HistoryStatus.loading, this.range = HistoryRange.week,  List<DayLog> logs = const <DayLog>[], this.stats = const HistoryStats()}): _logs = logs;
+  const _HistoryState({this.status = HistoryStatus.loading, this.range = HistoryRange.week,  List<DayLog> logs = const <DayLog>[], this.stats = const HistoryStats(), this.microcalEnabled = false}): _logs = logs;
   
 
 @override@JsonKey() final  HistoryStatus status;
@@ -237,6 +238,7 @@ class _HistoryState implements HistoryState {
 }
 
 @override@JsonKey() final  HistoryStats stats;
+@override@JsonKey() final  bool microcalEnabled;
 
 /// Create a copy of HistoryState
 /// with the given fields replaced by the non-null parameter values.
@@ -248,18 +250,18 @@ _$HistoryStateCopyWith<_HistoryState> get copyWith => __$HistoryStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryState&&(identical(other.status, status) || other.status == status)&&(identical(other.range, range) || other.range == range)&&const DeepCollectionEquality().equals(other.logs, _logs)&&(identical(other.stats, stats) || other.stats == stats));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryState&&(identical(other.status, status) || other.status == status)&&(identical(other.range, range) || other.range == range)&&const DeepCollectionEquality().equals(other.logs, _logs)&&(identical(other.stats, stats) || other.stats == stats)&&(identical(other.microcalEnabled, microcalEnabled) || other.microcalEnabled == microcalEnabled));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,status,range,const DeepCollectionEquality().hash(_logs),stats);
+    return Object.hash(runtimeType,status,range,const DeepCollectionEquality().hash(_logs),stats,microcalEnabled);
 }
 
 @override
 String toString() {
-    return 'HistoryState(status: $status, range: $range, logs: $logs, stats: $stats)';
+    return 'HistoryState(status: $status, range: $range, logs: $logs, stats: $stats, microcalEnabled: $microcalEnabled)';
 }
 
 
@@ -270,7 +272,7 @@ abstract mixin class _$HistoryStateCopyWith<$Res> implements $HistoryStateCopyWi
   factory _$HistoryStateCopyWith(_HistoryState value, $Res Function(_HistoryState) _then) = __$HistoryStateCopyWithImpl;
 @override @useResult
 $Res call({
- HistoryStatus status, HistoryRange range, List<DayLog> logs, HistoryStats stats
+ HistoryStatus status, HistoryRange range, List<DayLog> logs, HistoryStats stats, bool microcalEnabled
 });
 
 
@@ -287,13 +289,14 @@ class __$HistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of HistoryState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? range = null,Object? logs = null,Object? stats = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? range = null,Object? logs = null,Object? stats = null,Object? microcalEnabled = null,}) {
   return _then(_HistoryState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as HistoryStatus,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
 as HistoryRange,logs: null == logs ? _self._logs : logs // ignore: cast_nullable_to_non_nullable
 as List<DayLog>,stats: null == stats ? _self.stats : stats // ignore: cast_nullable_to_non_nullable
-as HistoryStats,
+as HistoryStats,microcalEnabled: null == microcalEnabled ? _self.microcalEnabled : microcalEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

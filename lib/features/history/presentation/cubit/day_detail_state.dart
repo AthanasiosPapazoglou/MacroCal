@@ -10,5 +10,6 @@ abstract class DayDetailState with _$DayDetailState {
   const factory({
     @Default(DayDetailStatus.loading) DayDetailStatus status,
     DayLog? log,
+    @Default(false) bool microcalEnabled,
   }) = _DayDetailState;
 }
